@@ -62,7 +62,6 @@ class UserController extends Controller
 
         try {
             $this->userManager->createUser($input);
-
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();

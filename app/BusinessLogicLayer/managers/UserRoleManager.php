@@ -26,7 +26,6 @@ class UserRoleManager {
     }
 
     public function assignRolesToUser(User $user, array $userRoles) {
-        throwException(new \Exception("Something went wrong. Please try again."));
         foreach ($userRoles as $userRole) {
             $this->createNewRoleForUser($user, $userRole['id']);
         }

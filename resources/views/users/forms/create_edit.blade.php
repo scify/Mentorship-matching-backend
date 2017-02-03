@@ -76,10 +76,10 @@
                                 <span class="help-block">{{ $errors->first('passwordconfirm') }}</span>
                             @endif
                         </div>
-                        <div class="row margin-top-40">
+                        <div class="row margin-top-60">
                             <div class="col-md-3">Select user roles</div><!--.col-md-3-->
                             <div class="col-md-9">
-                                <select data-placeholder="Choose roles" name="user_roles[]" class="chosen-select" multiple>
+                                <select data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
                                     @foreach($userRoles as $userRole)
                                         <option value="{{$userRole->id}}" {{in_array($userRole->id, $userRoleIds)?'selected':''}}>{{$userRole->title}}</option>
                                     @endforeach

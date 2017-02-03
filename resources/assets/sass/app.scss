@@ -163,6 +163,10 @@ body {
   float: none !important;
 }
 
+.alert-dismissable {
+  max-width: 800px;
+}
+
 .padding-30 {
   padding: 30px !important;
 }
@@ -177,6 +181,10 @@ body {
 
 .noStyleLink {
   cursor: pointer;
+}
+
+.margin-top-60 {
+  margin-top: 60px;
 }
 
 .noStyleLink:hover {
