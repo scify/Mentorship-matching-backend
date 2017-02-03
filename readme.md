@@ -1,18 +1,5 @@
-# Job Pairs backend
+# Mentorship matching backend platform
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/scify/Job-Pairs-backend/master/public/assets/img/jobpairs_logo.png" width="400">
-</p>
-
-Job-Pairs was designed to help university graduates to successfully (re-)enter 
-the labor market. How do we accomplish that? We "connect" those individuals (mentees) 
-with professionals (mentors) working in the industry where the mentee wants to be employed. 
-The Mentor possessing the necessary working experience 
-agrees to participate in 4 meetings with the Mentee, in order to “transfer” 
-their experience and offer guidance that will allow the mentee to successfully 
-(re-)enter the job market. Job-Pairs is a voluntary initiative, without any cost for 
-anyone involved. You can find more information 
-[here](http://www.job-pairs.gr/wp-content/uploads/2014/10/JOB-PAIRS-PROMO-english.pdf).
 
 ###Installing dependencies (assuming apache as web server and mysql as db):
 

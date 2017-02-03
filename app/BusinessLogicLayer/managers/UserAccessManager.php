@@ -35,7 +35,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDUser(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
+        $userRoles = $user->userRoles;
         //only user with admin role
         return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
     }

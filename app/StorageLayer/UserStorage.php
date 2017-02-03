@@ -16,4 +16,12 @@ class UserStorage {
         $newUser->save();
         return $newUser;
     }
+
+    public function getAllUsers() {
+        return User::all();
+    }
+
+    public function getUserById($id) {
+        return User::findOrFail($id);
+    }
 }

@@ -31,5 +31,9 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('users/all', 'UserController@showAllUsers')->name('showAllUsers');
     Route::get('user/create', 'UserController@showCreateForm')->name('showCreateUserForm');
     Route::post('user/create', 'UserController@create')->name('createUser');
-    Route::post('user/edit', 'UserController@edit')->name('editUser');
+    Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showUserEditForm');
+    Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
+    Route::post('user/delete', 'UserController@delete')->name('deleteUser');
+    Route::get('user/activate', 'UserController@activate')->name('activateUser');
+    Route::get('user/deactivate', 'UserController@deactivate')->name('deactivateUser');
 });

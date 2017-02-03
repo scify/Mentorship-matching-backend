@@ -37,4 +37,40 @@ class UserRoleManager {
         $newUserRole->role_id = $roleId;
         $this->userRoleStorage->saveUserRole($newUserRole);
     }
+
+    public function getUserRoleIds(User $user) {
+        $userRoleIdsArray = array();
+        foreach ($user->userRoles as $userRole) {
+            array_push($userRoleIdsArray, $userRole->role_id);
+        }
+        return $userRoleIdsArray;
+    }
+
+    public function deleteRoleFromUser(User $user, $roleId) {
+        $userRole = $this->userRoleStorage->getRoleForUser($user->id, $roleId);
+        $userRole->delete();
+    }
+
+    public function editUserRoles(User $user, array $newUserRoles) {
+        //we get an array of this user's roles
+        $userRolesIds = $this->getUserRoleIds($user);
+        $newRolesIds = array();
+        //every new role as a role id not included
+        // in the existing roles of the user
+        foreach ($newUserRoles as $newRole) {
+            if(!in_array($newRole['id'], $userRolesIds)) {
+                //create new role
+                $this->createNewRoleForUser($user, $newRole['id']);
+            }
+            array_push($newRolesIds, $newRole['id']);
+        }
+        //every role that was deleted i a role id in the existing roles
+        // not included in the new roles
+        foreach ($userRolesIds as $userRoleId) {
+            if(!in_array($userRoleId, $newRolesIds)) {
+                //delete role that was removed
+                $this->deleteRoleFromUser($user, $userRoleId);
+            }
+        }
+    }
 }

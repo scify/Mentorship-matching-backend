@@ -63,7 +63,6 @@
                                     <span class="help-block">{{ $errors->first('password') }}</span>
                                 @endif
                         </div>
-
                         <!-- Password confirmation -->
                         <div class="{{ $errors->first('passwordconfirm')?'has-error has-feedback':'' }}">
                             <div class="inputer floating-label">
@@ -77,7 +76,7 @@
                             @endif
                         </div>
                         <div class="row margin-top-60">
-                            <div class="col-md-3">Select user roles</div><!--.col-md-3-->
+                            <div class="col-md-3 margin-top-10">Select user roles</div><!--.col-md-3-->
                             <div class="col-md-9">
                                 <select data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
                                     @foreach($userRoles as $userRole)

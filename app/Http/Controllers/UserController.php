@@ -24,7 +24,9 @@ class UserController extends Controller
      */
     public function showAllUsers()
     {
-        //
+        $users = $this->userManager->getAllUsers();
+        $userRoles = $this->userRoleManager->getAllUserRoles();
+        return view('users.list_all', ['users' => $users, 'userRoles' => $userRoles]);
     }
 
     /**
@@ -67,7 +69,7 @@ class UserController extends Controller
             return back()->withInput();
         }
 
-        session()->flash('flash_message_success', 'Game card edited');
+        session()->flash('flash_message_success', 'User created');
         return back();
 
     }
@@ -80,7 +82,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -91,7 +93,11 @@ class UserController extends Controller
      */
     public function showEditForm($id)
     {
-        //
+        $user = $this->userManager->getUser($id);
+        $userRoleIds = $this->userRoleManager->getUserRoleIds($user);
+        $formTitle = 'Edit user';
+        $userRoles = $this->userRoleManager->getAllUserRoles();
+        return view('users.forms.create_edit', ['user' => $user, 'formTitle' => $formTitle, 'userRoles' => $userRoles, 'userRoleIds' => $userRoleIds]);
     }
 
     /**
@@ -99,11 +105,28 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function edit(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|max:255|email',
+            'user_roles' => 'required',
+            'password'        => 'min:4|max:12',
+            'passwordconfirm' => 'same:password'
+        ]);
+        $input = $request->all();
+        try {
+            $this->userManager->editUser($input, $id);
+        }  catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            return back()->withInput();
+        }
+
+        session()->flash('flash_message_success', 'User edited');
+        return back();
     }
 
     /**

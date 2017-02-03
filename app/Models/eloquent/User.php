@@ -4,13 +4,14 @@ namespace App\Models\eloquent;
 
 use App\BusinessLogicLayer\managers\UserAccessManager;
 use app\BusinessLogicLayer\managers\UserManager;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable;
-
+    use SoftDeletes;
     /**
      * The table associated with the model.
      *
@@ -43,12 +44,12 @@ class User extends Authenticatable
     /**
      * Get game versions this user has created
      */
-    public function roles()
+    public function userRoles()
     {
         return $this->hasMany('App\Models\eloquent\UserRole', 'user_id');
     }
 
-    public function hasAccessToCreateUsers() {
+    public function userHasAccessToCRUDUser() {
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userHasAccessToCRUDUser($this);
     }

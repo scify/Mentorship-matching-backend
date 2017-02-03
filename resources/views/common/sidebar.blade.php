@@ -1,7 +1,7 @@
 <div class="layer-container">
     <div class="menu-layer">
         <ul>
-            @if($user->hasAccessToCreateUsers())
+            @if($user->userHasAccessToCRUDUser())
                 <li class="{{ (Route::current()->getName() == 'showCreateUserForm') ? 'open' : '' }}">
                     <a href="{{ route('showCreateUserForm') }}"><i class="fa fa-plus-square" aria-hidden="true"></i> Create new user </a>
                 </li>

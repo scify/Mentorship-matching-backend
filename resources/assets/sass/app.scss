@@ -191,3 +191,33 @@ body {
   cursor: pointer;
   text-decoration: none;
 }
+
+.card .clickable-button .btn-floating {
+  font-size: 24px;
+  border-radius: 50%;
+}
+
+.layered-content .overflow-content {
+  height:100%;
+}
+
+.bg-orange {
+  background: $secondary-color;
+}
+.bg-orange a {
+  color: $text-color;
+}
+.bg-green .header-tabs {
+  background: $brand-primary;
+}
+
+.bg-orange a:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
+.bg-orange .v-text {
+  color: $text-color;
+}
+
+.modal.in .modal-dialog {
+  transform: translate3d(-50%, -49.9%, 0);
+}
