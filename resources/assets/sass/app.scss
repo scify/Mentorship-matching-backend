@@ -1,0 +1,185 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.nav-user .user img {
+  border-radius: 0px;
+}
+
+body {
+  margin: 0 81px 0 81px;
+}
+
+.panel .panel-heading {
+  padding: 10px;
+  border-color: $secondary-color;
+}
+
+.layer-container .menu-layer.active {
+  background: $brand-dark;
+}
+
+.overlay .starting-point span {
+  background-color: $brand-primary;
+}
+
+.layer-container .menu-layer li.open > a, .layer-container .menu-layer li:hover > a {
+  color: $text-color;
+}
+
+.nav-menu .hamburger .patty {
+  background: $text-color;
+}
+
+.overlay .logo {
+  color: $text-color;
+}
+
+.form-control {
+  box-shadow: none;
+}
+
+.inputer.floating-label .form-control:focus ~ label {
+  color: $brand-primary;
+}
+
+
+
+.inputer.floating-label .form-control:focus ~ label, .inputer.floating-label .form-control.valid ~ label {
+  top: -25px;
+  font-size: 14px;
+}
+
+.inputer .input-wrapper:after {
+  background: $brand-primary;
+}
+
+.panel:before {
+  background: $secondary-color;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  background-color: $secondary-color;
+}
+
+.bg-login .panel-login .panel-heading {
+  max-height: 200px;
+}
+
+.chosen-choices {
+  border-radius: 3px;
+}
+
+.chosen-container-active .chosen-choices {
+  border-color: $brand-primary;
+}
+
+.centeredVertically {
+  margin-left: auto;
+  margin-right: auto ;
+  float: none;
+}
+
+.bg-login .login-screen {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 700px;
+  height: 490px;
+}
+
+.navbar {
+  border-top: 0px;
+}
+
+.mainLogo {
+  width: 100px;
+  margin: 30px auto;
+}
+
+.mainLogo img {
+  width: 100%;
+}
+
+.content .alert {
+  float: right;
+  min-width: 500px;
+  right: 100px;
+  position: absolute;
+  width: auto;
+  z-index: 1;
+}
+
+.navbar{
+  margin-bottom: 0px;
+}
+
+.noInputStyles .form-control:focus {
+  border: none;
+  box-shadow: none;
+}
+
+.breadcrumb {
+  //float: left;
+  max-width: 35%;
+}
+
+.noFloatAlert {
+  float: none !important;
+  position: initial !important;
+}
+
+.height100x100 {
+  height: 100%;
+}
+
+.width-percent-80 {
+  width: 80% !important;
+}
+
+
+.width-percent-60 {
+  width: 60% !important;
+}
+
+
+.accordion .panel-heading.active a:after {
+  content: '\f123';
+}
+
+.accordion .panel-heading a:after {
+  content: '\f124';
+}
+
+.centeredVertically {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  float: none !important;
+}
+
+.padding-30 {
+  padding: 30px !important;
+}
+
+.inputer.floating-label {
+  margin-top: 60px;
+}
+
+.has-error .form-control {
+  border: none;
+}
+
+.noStyleLink {
+  cursor: pointer;
+}
+
+.noStyleLink:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
