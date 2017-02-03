@@ -81,7 +81,7 @@
                             <div class="col-md-9">
                                 <select data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
                                     @foreach($userRoles as $userRole)
-                                        <option value="{{$userRole->id}}" {{in_array($userRole->id, $userRoleIds)?'selected':''}}>{{$userRole->title}}</option>
+                                        <option value="{{$userRole->id}}" {{in_array($userRole->id, $userRoleIds)? 'selected':''}}>{{$userRole->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
