@@ -1,5 +1,9 @@
 # Job Pairs backend
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/scify/Job-Pairs-backend/master/public/assets/img/jobpairs_logo.png" width="400">
+</p>
+
 Job-Pairs was designed to help university graduates to successfully (re-)enter 
 the labor market. How do we accomplish that? We "connect" those individuals (mentees) 
 with professionals (mentors) working in the industry where the mentee wants to be employed. 
