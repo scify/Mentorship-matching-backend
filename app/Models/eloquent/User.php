@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     public function state() {
-        return $this->hasOne('App\Models\UserState', 'id', 'state_id');
+        return $this->hasOne(UserState::class, 'id', 'state_id');
     }
 
     /**
@@ -46,7 +46,23 @@ class User extends Authenticatable
      */
     public function userRoles()
     {
-        return $this->hasMany('App\Models\eloquent\UserRole', 'user_id');
+        return $this->hasMany(UserRole::class, 'user_id');
+    }
+
+    /**
+     * Checks if the user has one of the admin roles.
+     *
+     * @return bool
+     */
+    public function isActivated()
+    {
+
+        if ( $this->has('state') and ($this->state->id == 1))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public function userHasAccessToCRUDUser() {

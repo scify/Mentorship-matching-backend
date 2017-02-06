@@ -7,15 +7,32 @@ window.UsersListController.prototype = function () {
             $(".deleteUserBtn").on("click", function (e) {
                 e.stopPropagation();
                 var userId = $(this).attr("data-userId");
-                console.log(userId);
                 $('#deleteUserModal').modal('toggle');
-                $('#deleteUserModal .submitLink').attr("href", "user/delete?id=" + userId);
+                $('#deleteUserModal').find('input[name="user_id"]').val(userId);
+            });
+        },
+        activateUserBtnHandler = function () {
+            console.log("here");
+            $(".activateUserBtn").on("click", function (e) {
+                e.stopPropagation();
+                var userId = $(this).attr("data-userId");
+                $('#activateUserModal').modal('toggle');
+                $('#activateUserModal').find('input[name="user_id"]').val(userId);
+            });
+        },
+        deactivateUserBtnHandler = function () {
+            console.log("here");
+            $(".deactivateUserBtn").on("click", function (e) {
+                e.stopPropagation();
+                var userId = $(this).attr("data-userId");
+                $('#deactivateUserModal').modal('toggle');
+                $('#deactivateUserModal').find('input[name="user_id"]').val(userId);
             });
         },
         init = function () {
-            var instance = this;
-
             deleteUserBtnHandler();
+            activateUserBtnHandler();
+            deactivateUserBtnHandler();
         };
     return {
         init: init

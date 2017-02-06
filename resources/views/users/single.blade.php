@@ -1,6 +1,12 @@
-<div class="card card-user card-clickable card-clickable-over-content gameFlavorItem">
+<div class="card card-user card-clickable card-clickable-over-content">
     <div class="card-body">
-        <h4 class="userDetail">{{$user->first_name}} {{$user->last_name}}</h4>
+        <h4 class="userDetail">{{$user->first_name}} {{$user->last_name}}
+            @if($user->isActivated())
+                <i class="ion-checkmark-circled green" aria-hidden="true" title="Active user"></i>
+            @else
+                <i class="fa fa-ban red" aria-hidden="true" title="Deactivated user"></i>
+            @endif
+        </h4>
         <p class="userDetail">{{$user->email}}</p>
         @if(\Illuminate\Support\Facades\Auth::user() != null)
             @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDUser())
@@ -11,7 +17,7 @@
 
                 <div class="layered-content bg-orange">
                     <div class="overflow-content">
-                        <ul class="borderless">
+                        <ul class="borderless float-left">
 
                             <li><a href="{{route('showUserEditForm', $user->id)}}" class="btn btn-flat btn-ripple"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
                             <li>
@@ -21,6 +27,25 @@
                                     <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
                                 </a>
                             </li>
+                        </ul>
+                        <ul class="borderless float-right">
+                            @if(!$user->isActivated())
+                                <li>
+                                    <a data-toggle="modal"
+                                       data-userName="{{$user->first_name . $user->last_name}}"
+                                       data-userId="{{$user->id}}" class="btn btn-flat btn-ripple activateUserBtn">
+                                        <i class="fa fa-check" aria-hidden="true"></i> Activate
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a data-toggle="modal"
+                                       data-userName="{{$user->first_name . $user->last_name}}"
+                                       data-userId="{{$user->id}}" class="btn btn-flat btn-ripple deactivateUserBtn">
+                                        <i class="fa fa-ban" aria-hidden="true"></i> Deactivate
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </div><!--.overflow-content-->
                     <div class="clickable-close-button">

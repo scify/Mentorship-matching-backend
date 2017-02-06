@@ -34,6 +34,6 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showUserEditForm');
     Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
     Route::post('user/delete', 'UserController@delete')->name('deleteUser');
-    Route::get('user/activate', 'UserController@activate')->name('activateUser');
-    Route::get('user/deactivate', 'UserController@deactivate')->name('deactivateUser');
+    Route::post('user/activate', 'UserController@activate')->name('activateUser');
+    Route::post('user/deactivate', 'UserController@deactivate')->name('deactivateUser');
 });

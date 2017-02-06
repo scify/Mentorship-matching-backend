@@ -132,11 +132,72 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function delete(Request $request)
     {
-        //
+        $input = $request->all();
+        $userId = $input['user_id'];
+        if($userId == null || $userId == "") {
+            session()->flash('flash_message_failure', 'Something went wrong. Please try again.');
+            return back();
+        }
+        try {
+            $this->userManager->deleteUser($userId);
+        }  catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            return back();
+        }
+        session()->flash('flash_message_success', 'User deleted');
+        return back();
+    }
+
+    /**
+     * Activates a given user.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function activate(Request $request)
+    {
+        $input = $request->all();
+        $userId = $input['user_id'];
+        if($userId == null || $userId == "") {
+            session()->flash('flash_message_failure', 'Something went wrong. Please try again.');
+            return back();
+        }
+        try {
+            $this->userManager->activateUser($userId);
+        }  catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            return back();
+        }
+        session()->flash('flash_message_success', 'User activated');
+        return back();
+    }
+
+    /**
+     * Deactivates a given user.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deactivate(Request $request)
+    {
+        $input = $request->all();
+        $userId = $input['user_id'];
+        if($userId == null || $userId == "") {
+            session()->flash('flash_message_failure', 'Something went wrong. Please try again.');
+            return back();
+        }
+        try {
+            $this->userManager->deactivateUser($userId);
+        }  catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            return back();
+        }
+        session()->flash('flash_message_success', 'User deactivated');
+        return back();
     }
 }

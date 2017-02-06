@@ -20,6 +20,9 @@ class UserManager {
     private $userStorage;
     private $roleStorage;
 
+    private $USER_ACTIVATED_STATE_ID = 1;
+    private $USER_DEACTIVATED_STATE_ID = 2;
+
     public function __construct() {
         $this->userRoleManager = new UserRoleManager();
         $this->userStorage = new UserStorage();
@@ -71,6 +74,23 @@ class UserManager {
             $user = $this->userStorage->saveUser($user);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
         });
+    }
+
+    public function deleteUser($userId) {
+        $user = $this->getUser($userId);
+        $user->delete();
+    }
+
+    public function activateUser($userId) {
+        $user = $this->getUser($userId);
+        $user->state_id = $this->USER_ACTIVATED_STATE_ID;
+        $this->userStorage->saveUser($user);
+    }
+
+    public function deactivateUser($userId) {
+        $user = $this->getUser($userId);
+        $user->state_id = $this->USER_DEACTIVATED_STATE_ID;
+        $this->userStorage->saveUser($user);
     }
 
 }

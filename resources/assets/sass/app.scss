@@ -16,6 +16,35 @@ body {
   margin: 0 81px 0 81px;
 }
 
+.float-left {
+  float: left;
+}
+
+.userDetail i {
+  font-size: medium;
+  margin-left: 5px;
+}
+
+.green {
+  color: $brand-success;
+}
+
+.red {
+  color: $brand-danger;
+}
+
+.float-right {
+  float: right;
+}
+
+.modal .btn-danger {
+  color: $body-bg;
+}
+
+.modal .btn-success {
+  color: $body-bg;
+}
+
 .panel .panel-heading {
   padding: 10px;
   border-color: $secondary-color;
