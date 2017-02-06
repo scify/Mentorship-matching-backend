@@ -52,7 +52,6 @@ window.UsersListController.prototype = function () {
                 },
                 success: function (response) {
                     var responseObj = JSON.parse(response);
-                    console.log(response);
                     console.log(responseObj);
                     //if operation was unsuccessful
                     if(responseObj.status == 2) {
@@ -64,6 +63,7 @@ window.UsersListController.prototype = function () {
                         $("#errorMsg").addClass('hidden');
                         $(".loader").addClass('hidden');
                         $("#usersList").html(responseObj.data);
+                        Pleasure.listenClickableCards();
                     }
                 },
                 error: function (xhr, status, errorThrown) {

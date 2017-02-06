@@ -8,8 +8,8 @@
             @endif
         </h4>
         <p class="userDetail">{{$user->email}}</p>
-        @if(\Illuminate\Support\Facades\Auth::user() != null)
-            @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDUser())
+        @if($loggedInUser != null)
+            @if($loggedInUser->userHasAccessToCRUDUser())
                 <div class="clickable-button">
                     <div class="layer bg-orange"></div>
                     <a class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog" aria-hidden="true"></i></a>

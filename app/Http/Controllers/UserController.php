@@ -7,6 +7,7 @@ use App\BusinessLogicLayer\managers\UserRoleManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -28,7 +29,8 @@ class UserController extends Controller
     {
         $users = $this->userManager->getAllUsers();
         $userRoles = $this->userRoleManager->getAllUserRoles();
-        return view('users.list_all', ['users' => $users, 'userRoles' => $userRoles]);
+        $loggedInUser = Auth::user();
+        return view('users.list_all', ['users' => $users, 'userRoles' => $userRoles, 'loggedInUser' => $loggedInUser]);
     }
 
     /**
@@ -220,7 +222,8 @@ class UserController extends Controller
             $errorMessage = "No users found";
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('users.list', compact('users'))));
+            $loggedInUser = Auth::user();
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('users.list', compact('users', 'loggedInUser'))));
         }
     }
 }
