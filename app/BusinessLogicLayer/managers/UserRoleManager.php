@@ -12,6 +12,7 @@ namespace App\BusinessLogicLayer\managers;
 use App\Models\eloquent\User;
 use App\Models\eloquent\UserRole;
 use App\StorageLayer\UserRoleStorage;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserRoleManager {
 
@@ -72,5 +73,17 @@ class UserRoleManager {
                 $this->deleteRoleFromUser($user, $userRoleId);
             }
         }
+    }
+
+    public function getUsersByRoleId($roleId) {
+        $userManager = new UserManager();
+        $users = new Collection();
+        $userRoles = $this->userRoleStorage->getUserRolesWithRole($roleId);
+        foreach ($userRoles as $userRole) {
+            $user = $userManager->getUser($userRole->user_id);
+            if($user != null)
+                $users->add($user);
+        }
+        return $users;
     }
 }

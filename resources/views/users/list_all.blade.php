@@ -9,6 +9,7 @@
                 <div class="col-md-3">Role</div><!--.col-md-3-->
                 <div class="col-md-6">
                     <select data-placeholder="Choose role" name="user_role" class="chosen-select">
+                        <option><!-- Empty option allows the placeholder to take effect. --><option>
                         @foreach($userRoles as $userRole)
                             <option value="{{$userRole->id}}">{{$userRole->title}}</option>
                         @endforeach
@@ -18,7 +19,11 @@
         </div>
     </div><!--.row-->
     <div class="col-md-12 centeredVertically">
-        <div class="usersList">
+        <div class="loading-bar indeterminate margin-top-10 hidden loader"></div>
+
+        <div id="errorMsg" class="alert alert-danger stickyAlert margin-top-20 margin-bottom-20 margin-left-100 hidden" role="alert"></div>
+
+        <div id="usersList">
             @include('users.list')
         </div>
     </div>
@@ -27,9 +32,6 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            $('.chosen-select').chosen({
-                width: '100%'
-            });
             var controller = new window.UsersListController();
             controller.init();
         });

@@ -250,3 +250,12 @@ body {
 .modal.in .modal-dialog {
   transform: translate3d(-50%, -49.9%, 0);
 }
+
+.stickyAlert {
+  float: none !important;
+  position: relative !important;
+}
+
+.margin-left-100 {
+  margin-left: 100px;
+}

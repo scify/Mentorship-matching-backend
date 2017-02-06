@@ -41,15 +41,19 @@ class UserManager {
 
     public function getAllUsers() {
         $users = $this->userStorage->getAllUsers();
-        $rolesForExistingUser = new Collection();
         foreach ($users as $user) {
-            foreach ($user->userRoles as $userRole)
-                $rolesForExistingUser->add($this->roleStorage->getRoleById($userRole->role_id));
-            $user->rolesForUser = $rolesForExistingUser;
-            $rolesForExistingUser = new Collection();
+            $user->rolesForUser = $this->getRolesForUser($user);
         }
         return $users;
     }
+
+    private function getRolesForUser(User $user) {
+        $rolesForExistingUser = new Collection();
+        foreach ($user->userRoles as $userRole)
+            $rolesForExistingUser->add($this->roleStorage->getRoleById($userRole->role_id));
+        return $rolesForExistingUser;
+    }
+
 
     private function assignInputFieldsToUser(User $user, array $inputFields) {
         $user->first_name = $inputFields['first_name'];
@@ -63,7 +67,11 @@ class UserManager {
     }
 
     public function getUser($id) {
-        return $this->userStorage->getUserById($id);
+        $user = $this->userStorage->getUserById($id);
+        if($user != null) {
+            $user->rolesForUser = $this->getRolesForUser($user);
+        }
+        return $user;
     }
 
     public function editUser(array $inputFields, $id) {

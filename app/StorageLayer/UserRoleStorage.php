@@ -26,4 +26,8 @@ class UserRoleStorage {
     public function getRoleForUser($userId, $roleId) {
         return UserRole::where(['user_id' => $userId, 'role_id' => $roleId])->firstOrFail();
     }
+
+    public function getUserRolesWithRole($roleId) {
+        return UserRole::where(['role_id' => $roleId])->get();
+    }
 }

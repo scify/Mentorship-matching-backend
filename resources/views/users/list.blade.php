@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-12">
-@foreach($users as $user)
+        @foreach($users as $user)
             <div class="col-md-3">
-    @include('users.single', ['user' => $user])
+                @include('users.single', ['user' => $user])
             </div>
-@endforeach
+        @endforeach
     </div>
 </div>
 @include('users.modals')

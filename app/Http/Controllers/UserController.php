@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
+use App\Http\OperationResponse;
 use App\Models\eloquent\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -199,5 +201,26 @@ class UserController extends Controller
         }
         session()->flash('flash_message_success', 'User deactivated');
         return back();
+    }
+
+    public function getUsersByRole (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            $errorMessage = "Please select a role";
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+        $input = $request->all();
+        $roleId = (int) $input['role_id'];
+        //dd($roleId);
+        $users = $this->userRoleManager->getUsersByRoleId($roleId);
+        //dd($users);
+        if($users->count() == 0) {
+            $errorMessage = "No users found";
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        } else {
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('users.list', compact('users'))));
+        }
     }
 }

@@ -2,6 +2,12 @@
 
 return [
 
+    /**
+     * Operation codes used in AJAX responses
+     */
+    'OPERATION_SUCCESS' => 1,
+    'OPERATION_FAIL' => 2,
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
