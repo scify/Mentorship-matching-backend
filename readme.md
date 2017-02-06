@@ -80,8 +80,10 @@ composer update
 
 After all Laravel dependencies have been downloaded, it's time to download all Javascript libraries and dependencies. 
 We achieve that by using [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm).
-Read [this](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-an-ubuntu-14-04-server) link in order to understand how npm should be installed
-If you prefer installing npm through [homebrew](http://brew.sh/) or [linuxbrew](http://linuxbrew.sh/), read [this](http://blog.teamtreehouse.com/install-node-js-npm-linux)
+Read [this](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-an-ubuntu-14-04-server) link in order to understand how npm should be installed.
+
+If you prefer installing npm through [homebrew](http://brew.sh/) or [linuxbrew](http://linuxbrew.sh/), read [this](http://blog.teamtreehouse.com/install-node-js-npm-linux).
+
 So, when in project root directory, and after npm has been installed correctly, run
 ```
 npm install
