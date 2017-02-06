@@ -12,9 +12,9 @@ use App\Models\eloquent\User;
  */
 class UserStorage {
 
-    public function saveUser(User $newUser) {
-        $newUser->save();
-        return $newUser;
+    public function saveUser(User $user) {
+        $user->save();
+        return $user;
     }
 
     public function getAllUsers() {

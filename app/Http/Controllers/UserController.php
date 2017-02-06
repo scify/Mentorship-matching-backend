@@ -97,7 +97,7 @@ class UserController extends Controller
      */
     public function showEditForm($id)
     {
-        $user = $this->userManager->getUser($id);
+        $user = $this->userManager->getUser($id, true);
         $userRoleIds = $this->userRoleManager->getUserRoleIds($user);
         $formTitle = 'Edit user';
         $userRoles = $this->userRoleManager->getAllUserRoles();

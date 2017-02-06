@@ -10,7 +10,7 @@
             $(".alert-dismissable").fadeTo(4000, 500).slideUp(500, function(){
                 $(".alert-dismissable").alert('close');
             });
-        }, 3000);
+        }, 3000000);
     });
 </script>
 
