@@ -95,6 +95,13 @@ To download and install all libraries and dependencies.
 This project uses [Elixir](https://laravel.com/docs/5.3/elixir) which is a tool built on [Gulp](http://gulpjs.com/),
 a popular toolkit for automating painful or time-consuming tasks, like SASS compiling and js/css concatenation and minification.
 
+To install gulp and gulp-cli (command line interface), please read [this](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md).
+
+Then, when in project root directory, run 
+```gulp --local```
+In order for the assets to compile. Also, by running
+```gulp watch --local```
+A watcher is set for when a file is changed to be compiled automatically.
 
 ## Deploying
 You can run either  ```php artisan serve``` or set up a symbolic link to ```/path/to/project/public``` directory and navigate to http://localhost/{yourLinkName}
