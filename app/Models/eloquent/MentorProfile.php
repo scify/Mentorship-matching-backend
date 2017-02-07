@@ -44,8 +44,8 @@ class MentorProfile extends Model
     /**
      * Get the mentor's additional specialties
      */
-    public function additionalSpecialties()
+    public function industries()
     {
-        return $this->belongsToMany(AdditionalSpecialty::class, 'mentor_additional_specialty')->wherePivot('deleted_at', null);
+        return $this->belongsToMany(Industry::class, 'mentor_industry')->wherePivot('deleted_at', null);
     }
 }

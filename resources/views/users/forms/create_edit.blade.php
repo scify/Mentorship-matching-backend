@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <!-- First name-->
                         <div class="{{ $errors->first('first_name')?'has-error has-feedback':'' }}">
-                            <div class="inputer floating-label">
+                            <div class="inputer floating-label margin-top-60">
                                 <div class="input-wrapper">
                                     <input type="text" class="form-control" name="first_name" value="{{ old('first_name') != '' ? old('first_name') : $user['first_name']}}">
                                     <label for="first_name">First Name</label>
@@ -25,7 +25,7 @@
                         </div>
                         <!-- Last name-->
                         <div class="{{ $errors->first('last_name')?'has-error has-feedback':'' }}">
-                            <div class="inputer floating-label">
+                            <div class="inputer floating-label margin-top-60">
                                 <div class="input-wrapper">
                                     <input type="text" class="form-control" name="last_name" value="{{ old('last_name') != '' ? old('last_name') : $user['last_name']}}">
                                     <label for="last_name">Last Name</label>
@@ -37,7 +37,7 @@
                         </div>
                         <!-- E-mail -->
                         <div class="{{ $errors->first('email')?'has-error has-feedback':'' }}">
-                            <div class="inputer floating-label">
+                            <div class="inputer floating-label margin-top-60">
                                 <div class="input-wrapper">
                                     <input type="email" class="form-control" name="email"
                                            value="{{ old('email') != '' ? old('email') : $user['email']}}">
@@ -51,7 +51,7 @@
                         <!-- Password -->
                         <div class="{{ $errors->first('password')?'has-error has-feedback':'' }}">
 
-                                <div class="inputer floating-label">
+                                <div class="inputer floating-label margin-top-60">
                                     <div class="input-wrapper">
 
                                 <input name="password" type="password" class="form-control"
@@ -65,7 +65,7 @@
                         </div>
                         <!-- Password confirmation -->
                         <div class="{{ $errors->first('passwordconfirm')?'has-error has-feedback':'' }}">
-                            <div class="inputer floating-label">
+                            <div class="inputer floating-label margin-top-60">
                                 <div class="input-wrapper">
                                     <input name="passwordconfirm" type="password" class="form-control">
                                     <label for="passwordconfirm" class="control-label">Repeat Password</label>

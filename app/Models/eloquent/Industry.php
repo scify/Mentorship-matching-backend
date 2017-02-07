@@ -4,14 +4,14 @@ namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AdditionalSpecialty extends Model
+class Industry extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'additional_specialty';
+    protected $table = 'industry';
     /**
      * The attributes that are mass assignable.
      *

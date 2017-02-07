@@ -5,11 +5,11 @@
                 <li>
                     <a href="javascript:;"><i class="fa fa-list-alt"></i> Mentors </a>
                     <ul class="child-menu">
-                        <li data-open-after="{{Route::current()->getName() == 'showAllUsers' ? 'true' : ''}}">
-                            <a href="{{ route('showAllUsers') }}"><i class="fa fa-th-list" aria-hidden="true"></i> All Mentors </a>
+                        <li data-open-after="{{Route::current()->getName() == 'showAllMentors' ? 'true' : ''}}">
+                            <a href="{{ route('showAllMentors') }}"><i class="fa fa-th-list" aria-hidden="true"></i> All Mentors </a>
                         </li>
-                        <li data-open-after="{{Route::current()->getName() == 'showCreateUserForm' ? 'true' : ''}}">
-                            <a href="{{ route('showCreateUserForm') }}"><i class="fa fa-plus-square" aria-hidden="true"></i> Create new Mentor </a>
+                        <li data-open-after="{{Route::current()->getName() == 'showCreateMentorForm' ? 'true' : ''}}">
+                            <a href="{{ route('showCreateMentorForm') }}"><i class="fa fa-plus-square" aria-hidden="true"></i> Create new Mentor </a>
                         </li>
                     </ul>
                 </li>

@@ -3,8 +3,9 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MentorAdditionalSpecialty extends Model
+class MentorIndustry extends Model
 {
     use SoftDeletes;
     /**
@@ -12,19 +13,19 @@ class MentorAdditionalSpecialty extends Model
      *
      * @var string
      */
-    protected $table = 'mentor_additional_specialty';
+    protected $table = 'mentor_industry';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['mentor_profile_id', 'additional_specialty_id'];
+    protected $fillable = ['mentor_profile_id', 'industry_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function mentors()
     {
-        return $this->belongsToMany(MentorProfile::class, 'mentor_additional_specialty')->wherePivot('deleted_at', null);
+        return $this->belongsToMany(MentorProfile::class, 'mentor_industry')->wherePivot('deleted_at', null);
     }
 }
