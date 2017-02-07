@@ -65,8 +65,13 @@ class User extends Authenticatable
         return false;
     }
 
-    public function userHasAccessToCRUDUser() {
+    public function userHasAccessToCRUDSystemUser() {
         $userAccessManager = new UserAccessManager();
-        return $userAccessManager->userHasAccessToCRUDUser($this);
+        return $userAccessManager->userHasAccessToCRUDSystemUser($this);
+    }
+
+    public function userHasAccessToCRUDMentorsAndMentees() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userHasAccessToCRUDMentorsAndMentees($this);
     }
 }

@@ -27,12 +27,27 @@ class UserAccessManager {
     }
 
     /**
-     * Checks if a given @see User has acces to create users
+     * Checks if a given @see User has acces to create system users
      *
      * @param User $user the @see User instance
      * @return bool
      */
-    public function userHasAccessToCRUDUser(User $user) {
+    public function userHasAccessToCRUDSystemUser(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        //only user with admin role
+        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+    }
+
+
+    /**
+     * Checks if a given @see User has acces to create Mentors and Mentees
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userHasAccessToCRUDMentorsAndMentees(User $user) {
         if($user == null)
             return false;
         $userRoles = $user->roles;
@@ -54,4 +69,6 @@ class UserAccessManager {
         }
         return false;
     }
+
+
 }
