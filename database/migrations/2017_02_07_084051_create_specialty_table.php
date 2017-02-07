@@ -16,6 +16,7 @@ class CreateSpecialtyTable extends Migration
         Schema::create('specialty', function ($table) {
             $table->increments('id');
             $table->string('name', 300);
+            $table->timestamps();
         });
     }
 

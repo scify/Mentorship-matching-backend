@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdditionalSpecialtyTable extends Migration
+class RenameTableAdditionalSpecialtyToSector extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,7 @@ class CreateAdditionalSpecialtyTable extends Migration
      */
     public function up()
     {
-        Schema::create('additional_specialty', function ($table) {
-            $table->increments('id');
-            $table->string('name', 300);
-            $table->timestamps();
-        });
+        Schema::rename('additional_specialty', 'industry');
     }
 
     /**
@@ -27,6 +23,6 @@ class CreateAdditionalSpecialtyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('additional_specialty');
+        Schema::rename('industry', 'additional_specialty');
     }
 }

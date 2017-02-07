@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class AdditionalSpecialtyTableSeeder extends Seeder
+class IndustryTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,8 +12,8 @@ class AdditionalSpecialtyTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('additional_specialty')->delete();
-        DB::table('additional_specialty')->insert(array(
+        DB::table('industry')->delete();
+        DB::table('industry')->insert(array(
             array('id'=> 1, 'name'=>'Ενέργεια'),
             array('id'=> 2, 'name'=>'Επιχειρηματικότητα / Start-ups'),
             array('id'=> 3, 'name'=>'Καταναλωτικά'),

@@ -16,6 +16,7 @@ class CreateResidenceTable extends Migration
         Schema::create('residence', function ($table) {
             $table->increments('id');
             $table->string('name', 300);
+            $table->timestamps();
         });
     }
 
