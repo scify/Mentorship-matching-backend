@@ -20,10 +20,10 @@ class Role extends Model
     protected $fillable = ['id', 'title', 'description'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
-        return $this->belongsTo('App\Models\eloquent\UserRole', 'role_id', 'id');
+        return $this->belongsToMany(User::class, 'user_role')->wherePivot('deleted_at', null);
     }
 }

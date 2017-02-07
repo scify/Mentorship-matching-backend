@@ -44,8 +44,8 @@ class UserRoleManager {
 
     public function getUserRoleIds(User $user) {
         $userRoleIdsArray = array();
-        foreach ($user->userRoles as $userRole) {
-            array_push($userRoleIdsArray, $userRole->role_id);
+        foreach ($user->roles as $role) {
+            array_push($userRoleIdsArray, $role->id);
         }
         return $userRoleIdsArray;
     }
@@ -79,21 +79,8 @@ class UserRoleManager {
     }
 
     public function getUsersByRoleId($roleId) {
-        $userManager = new UserManager();
-        $users = new Collection();
-        $userRoles = $this->userRoleStorage->getUserRolesWithRole($roleId);
-        foreach ($userRoles as $userRole) {
-            $user = $userManager->getUser($userRole->user_id);
-            if($user != null)
-                $user->rolesForUser = $this->getRolesForUser($user);
-        }
-        return $users;
+        $role = $this->roleStorage->getRoleById($roleId);
+        return $role->users;
     }
 
-    public function getRolesForUser(User $user) {
-        $rolesForExistingUser = new Collection();
-        foreach ($user->userRoles as $userRole)
-            $rolesForExistingUser->add($this->roleStorage->getRoleById($userRole->role_id));
-        return $rolesForExistingUser;
-    }
 }

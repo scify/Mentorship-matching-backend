@@ -44,9 +44,9 @@ class User extends Authenticatable
     /**
      * Get game versions this user has created
      */
-    public function userRoles()
+    public function roles()
     {
-        return $this->hasMany(UserRole::class, 'user_id');
+        return $this->belongsToMany(Role::class, 'user_role')->wherePivot('deleted_at', null);
     }
 
     /**

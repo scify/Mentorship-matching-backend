@@ -41,9 +41,6 @@ class UserManager {
 
     public function getAllUsers() {
         $users = $this->userStorage->getAllUsers();
-        foreach ($users as $user) {
-            $user->rolesForUser = $this->userRoleManager->getRolesForUser($user);
-        }
         return $users;
     }
 

@@ -35,7 +35,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDUser(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->userRoles;
+        $userRoles = $user->roles;
         //only user with admin role
         return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
     }
@@ -49,7 +49,7 @@ class UserAccessManager {
      */
     public function userHasRole(Collection $userRoles, array $roleIds) {
         foreach ($userRoles as $userRole) {
-            if(in_array($userRole->role_id, $roleIds))
+            if(in_array($userRole->id, $roleIds))
                 return true;
         }
         return false;

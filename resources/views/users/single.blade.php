@@ -58,9 +58,9 @@
 
     <div class="card-footer">
         {{--<a href="#"><button class="btn btn-xs btn-flat pull-left" style="color: #337ab7"><i class="fa fa-download" aria-hidden="true"></i> Show matches</button></a>--}}
-        @if($user->rolesForUser != null)
+        @if($user->roles != null)
             <div class="roles">Roles:
-                @foreach($user->rolesForUser as $role)
+                @foreach($user->roles as $role)
                     <b>{{$role->title}}</b>
                     @if(!$loop->last)
                      ,
