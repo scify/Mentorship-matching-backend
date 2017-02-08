@@ -31,7 +31,7 @@ class MentorManager {
 
     public function createMentor(array $inputFields) {
         $mentorProfile = new MentorProfile();
-        $mentorProfile = $this->assignInputFieldsToMentor($mentorProfile, $inputFields);
+        $mentorProfile = $this->assignInputFieldsToMentorProfile($mentorProfile, $inputFields);
 
         DB::transaction(function() use($mentorProfile, $inputFields) {
             $newMentor = $this->mentorStorage->saveMentor($mentorProfile);
@@ -45,33 +45,47 @@ class MentorManager {
      * @param array $inputFields the array of input fields
      * @return MentorProfile the instance with the fields assigned
      */
-    private function assignInputFieldsToMentor(MentorProfile $mentorProfile, array $inputFields) {
+    private function assignInputFieldsToMentorProfile(MentorProfile $mentorProfile, array $inputFields) {
         $mentorProfile->first_name = $inputFields['first_name'];
         $mentorProfile->last_name = $inputFields['last_name'];
         $mentorProfile->age = $inputFields['age'];
         $mentorProfile->address = $inputFields['address'];
         $mentorProfile->email = $inputFields['email'];
-
-        if(isset($inputFields['linkedin_url']))
-            $mentorProfile->linkedin_url = $inputFields['linkedin_url'];
-        if(isset($inputFields['phone']))
-            $mentorProfile->phone = $inputFields['phone'];
-        if(isset($inputFields['cell_phone']))
-            $mentorProfile->phone = $inputFields['cell_phone'];
-
+        $mentorProfile->skills = $inputFields['skills'];
         $mentorProfile->company = $inputFields['company'];
         $mentorProfile->company_sector = $inputFields['company_sector'];
         $mentorProfile->job_position = $inputFields['job_position'];
         $mentorProfile->job_experience_years = $inputFields['job_experience_years'];
+        $mentorProfile->residence_id = $inputFields['residence_id'];
 
         if(isset($inputFields['university_name']))
             $mentorProfile->university_name = $inputFields['university_name'];
         if(isset($inputFields['university_department_name']))
             $mentorProfile->university_department_name = $inputFields['university_department_name'];
-
-        $mentorProfile->skills = $inputFields['skills'];
+        if(isset($inputFields['linkedin_url']))
+            $mentorProfile->linkedin_url = $inputFields['linkedin_url'];
+        if(isset($inputFields['phone']))
+            $mentorProfile->phone = $inputFields['phone'];
+        if(isset($inputFields['cell_phone']))
+            $mentorProfile->cell_phone = $inputFields['cell_phone'];
         if(isset($inputFields['reference']))
             $mentorProfile->reference = $inputFields['reference'];
+
         return $mentorProfile;
+    }
+
+    public function getMentor($id) {
+        return $this->mentorStorage->getMentorProfileById($id);
+    }
+
+    public function editMentor(array $inputFields, $id) {
+        $mentor = $this->getMentor($id);
+        $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);
+
+        DB::transaction(function() use($mentor, $inputFields) {
+            $mentor = $this->mentorStorage->saveMentor($mentor);
+            $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
+            $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
+        });
     }
 }

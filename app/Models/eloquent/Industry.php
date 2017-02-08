@@ -18,4 +18,12 @@ class Industry extends Model
      * @var array
      */
     protected $fillable = ['name'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function mentors()
+    {
+        return $this->belongsToMany(MentorProfile::class, 'mentor_industry')->wherePivot('deleted_at', null);
+    }
 }

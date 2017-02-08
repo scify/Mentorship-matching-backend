@@ -12,18 +12,22 @@ namespace App\StorageLayer;
 use App\Models\eloquent\Industry;
 use App\Models\eloquent\MentorIndustry;
 
-class AdditionalSpecialtyStorage {
+class IndustryStorage {
 
-    public function getAllAdditionalSpecialties() {
+    public function getAllIndustries() {
         return Industry::all();
     }
 
-    public function getAdditionalSpecialtyById($id) {
+    public function getIndustryById($id) {
         return Industry::find($id);
     }
 
     public function saveAdditionalSpecialty(MentorIndustry $newMentorSpecialty) {
         $newMentorSpecialty->save();
         return $newMentorSpecialty;
+    }
+
+    public function getIndustryForMentor($mentorProfileId, $industryId) {
+        return MentorIndustry::where(['mentor_profile_id' => $mentorProfileId, 'industry_id' => $industryId])->firstOrFail();
     }
 }

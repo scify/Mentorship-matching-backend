@@ -18,8 +18,8 @@ class CreateMentorAdditionalspecialtyTable extends Migration
             $table->integer('mentor_profile_id')->unsigned();
             $table->foreign('mentor_profile_id')->references('id')->on('mentor_profile');
 
-            $table->integer('additional_specialty_id')->unsigned();
-            $table->foreign('additional_specialty_id')->references('id')->on('additional_specialty');
+            $table->integer('industry_id')->unsigned();
+            $table->foreign('industry_id')->references('id')->on('additional_specialty');
             $table->timestamps();
             $table->softDeletes();
         });

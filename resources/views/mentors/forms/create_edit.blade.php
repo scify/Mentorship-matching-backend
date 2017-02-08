@@ -67,7 +67,7 @@
                         <select data-placeholder="Choose residence area" name="residence_id" class="chosen-select">
                             <option><!-- Empty option allows the placeholder to take effect. --><option>
                             @foreach($residences as $residence)
-                                <option value="{{$residence->id}}">{{$residence->name}}</option>
+                                <option value="{{$residence->id}}" {{$mentor['residence_id'] == $residence->id ? 'selected' : ''}}>{{$residence->name}}</option>
                             @endforeach
                         </select>
                         <!-- Address -->

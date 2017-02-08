@@ -19,7 +19,7 @@
                     <div class="overflow-content">
                         <ul class="borderless float-left">
 
-                            <li><a href="{{route('showEditUserForm', $mentor->id)}}" class="btn btn-flat btn-ripple"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
+                            <li><a href="{{route('showEditMentorForm', $mentor->id)}}" class="btn btn-flat btn-ripple"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
                             <li>
                                 <a data-toggle="modal"
                                    data-userName="{{$mentor->first_name . $mentor->last_name}}"

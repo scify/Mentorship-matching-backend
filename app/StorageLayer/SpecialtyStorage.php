@@ -26,4 +26,8 @@ class SpecialtyStorage {
         $newMentorSpecialty->save();
         return $newMentorSpecialty;
     }
+
+    public function getSpecialtyForMentor($mentorProfileId, $specialtyId) {
+        return MentorSpecialty::where(['mentor_profile_id' => $mentorProfileId, 'specialty_id' => $specialtyId])->firstOrFail();
+    }
 }

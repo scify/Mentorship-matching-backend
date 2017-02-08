@@ -61,6 +61,31 @@ class MentorController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showEditForm($id)
+    {
+        $mentor = $this->mentorManager->getMentor($id);
+
+        $specialties = $this->specialtyManager->getAllSpecialties();
+        $industries = $this->industryManager->getAllIndustries();
+        $residences = $this->residenceManager->getAllResidences();
+        $mentorSpecialtiesIds = $this->specialtyManager->getMentorSpecialtiesIds($mentor);
+        $mentorIndustriesIds = $this->industryManager->getMentorIndustriesIds($mentor);
+
+        $formTitle = 'Edit mentor';
+        return view('mentors.forms.create_edit', ['mentor' => $mentor,
+            'formTitle' => $formTitle, 'residences' => $residences,
+            'specialties' => $specialties, 'industries' => $industries,
+            'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
+            'mentorIndustriesIds' => $mentorIndustriesIds
+        ]);
+    }
+
+    /**
      * Store a newly created mentor in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -96,5 +121,42 @@ class MentorController extends Controller
         session()->flash('flash_message_success', 'Mentor created');
         return back();
 
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function edit(Request $request, $id)
+    {
+        $this->validate($request, [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|max:255|email',
+            'age' => 'required|numeric',
+            'residence_id' => 'required',
+            'address'        => 'required',
+            'company' => 'required',
+            'company_sector' => 'required',
+            'job_position' => 'required',
+            'job_experience_years' => 'required',
+            'skills' => 'required',
+            'specialties' => 'required',
+            'industries' => 'required'
+        ]);
+
+        $input = $request->all();
+        try {
+            $this->mentorManager->editMentor($input, $id);
+        }  catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            return back()->withInput();
+        }
+
+        session()->flash('flash_message_success', 'Mentor edited');
+        return back();
     }
 }
