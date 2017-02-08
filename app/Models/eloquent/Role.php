@@ -20,6 +20,7 @@ class Role extends Model
     protected $fillable = ['id', 'title', 'description'];
 
     /**
+     * Get the @see User instances for this role
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()

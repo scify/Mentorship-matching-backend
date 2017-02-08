@@ -32,8 +32,8 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-//            var controller = new window.UsersListController();
-//            controller.init();
+            var controller = new window.MentorsListController();
+            controller.init();
         });
     </script>
 @endsection

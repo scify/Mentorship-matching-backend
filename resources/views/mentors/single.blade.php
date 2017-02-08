@@ -23,7 +23,7 @@
                             <li>
                                 <a data-toggle="modal"
                                    data-userName="{{$mentor->first_name . $mentor->last_name}}"
-                                   data-userId="{{$mentor->id}}" class="btn btn-flat btn-ripple deleteUserBtn">
+                                   data-mentorId="{{$mentor->id}}" class="btn btn-flat btn-ripple deleteMentorBtn">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
                                 </a>
                             </li>

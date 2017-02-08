@@ -88,4 +88,9 @@ class MentorManager {
             $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
         });
     }
+
+    public function deleteMentor($mentorId) {
+        $mentor = $this->getMentor($mentorId);
+        $mentor->delete();
+    }
 }

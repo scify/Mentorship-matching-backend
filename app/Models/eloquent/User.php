@@ -42,7 +42,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get game versions this user has created
+     * Get @see Role instances this user has
      */
     public function roles()
     {

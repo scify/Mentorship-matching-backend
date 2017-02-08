@@ -159,4 +159,28 @@ class MentorController extends Controller
         session()->flash('flash_message_success', 'Mentor edited');
         return back();
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $input = $request->all();
+        $mentorId = $input['mentor_id'];
+        if($mentorId == null || $mentorId == "") {
+            session()->flash('flash_message_failure', 'Something went wrong. Please try again.');
+            return back();
+        }
+        try {
+            $this->mentorManager->deleteMentor($mentorId);
+        }  catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            return back();
+        }
+        session()->flash('flash_message_success', 'Mentor deleted');
+        return back();
+    }
 }
