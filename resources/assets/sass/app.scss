@@ -269,6 +269,8 @@ body {
 .profileCard {
   .card {
     min-height: 200px;
+    height: 250px;
+    overflow-y: auto;
   }
   .nav-tabs {
     background-color: $navbar-default-bg;
@@ -278,5 +280,24 @@ body {
   }
   .profileDetailsList li{
     margin-top: 5px;
+  }
+  .linkedInIcon {
+    font-size: 20px;
+  }
+  .accordion .panel{
+    box-shadow: none;
+    .panel-heading {
+      padding: 0;
+    }
+    .panel-title {
+      font-size: 14px;
+      padding-top: 5px;
+    }
+    .panel-body {
+      padding-top: 0;
+    }
+  }
+  .panel:before{
+    height:2px;
   }
 }

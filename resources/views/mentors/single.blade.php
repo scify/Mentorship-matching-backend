@@ -10,7 +10,11 @@
                 <div class="tab-pane active" id="tab_1_{{$mentor->id}}">
                     <h4 class="userDetail">{{$mentor->first_name}} {{$mentor->last_name}},
                         <small>{{$mentor->job_position}}</small>
+
                     </h4>
+                    @if($mentor->linkedin_url != null)
+                        <a href="{{$mentor->linkedin_url}}" target="_blank"><i class="fa fa-linkedin-square linkedInIcon" aria-hidden="true"></i></a>
+                    @endif
                     <p class="userDetail">{{$mentor->email}}</p>
                     <div class="userDetail">
                         Age: {{$mentor->age}}
