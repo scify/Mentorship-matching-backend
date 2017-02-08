@@ -265,3 +265,18 @@ body {
     color: $form-placeholder-color;
   }
 }
+
+.profileCard {
+  .card {
+    min-height: 200px;
+  }
+  .nav-tabs {
+    background-color: $navbar-default-bg;
+  }
+  .nav-tabs > li.active a:after, .nav-tabs > li.active a:hover:after, .nav-tabs > li.active a:active:after, .nav-tabs > li.active a:focus:after {
+    border-bottom: 2px solid $secondary-color;
+  }
+  .profileDetailsList li{
+    margin-top: 5px;
+  }
+}

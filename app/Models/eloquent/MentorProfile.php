@@ -30,7 +30,7 @@ class MentorProfile extends Model
      */
     public function residence()
     {
-        return $this->hasOne(Residence::class, 'residence_id', 'id');
+        return $this->hasOne(Residence::class, 'id', 'residence_id');
     }
 
     /**

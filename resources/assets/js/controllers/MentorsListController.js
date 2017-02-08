@@ -13,6 +13,15 @@ window.MentorsListController.prototype = function () {
 
         init = function () {
             deleteMentorBtnHandler();
+            $('a[data-toggle="tab"]').click(function (e) {
+                e.preventDefault();
+                console.log($(this).attr('data-id'));
+                $(".card_" + $(this).attr('data-id')).find('.tab-pane.active').removeClass('active');
+
+                $(".card_" + $(this).attr('data-id')).find('.tab-content.active').removeClass('active');
+
+                $(".card_" + $(this).attr('data-id')).find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
+            });
         };
     return {
         init: init
