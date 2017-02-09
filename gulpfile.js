@@ -50,6 +50,7 @@ elixir(function(mix) {
     mix.scripts([
             'node_modules/npm-modernizr/modernizr.js',
             'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery-validation/dist/jquery.validate.min.js',
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
             'node_modules/chosen-js/chosen.jquery.js',
             'node_modules/bootstrap/dist/js/bootstrap.min.js',

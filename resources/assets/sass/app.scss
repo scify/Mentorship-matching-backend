@@ -264,7 +264,30 @@ body {
   h5 {
     color: $form-placeholder-color;
   }
+
+  .form-control {
+    color: $text-color;
+
+  }
+
+  ::-webkit-input-placeholder { /* Chrome */
+    color: $form-placeholder-color;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: $form-placeholder-color;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: $form-placeholder-color;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: $form-placeholder-color;
+    opacity: 1;
+  }
 }
+
+
+
 
 .profileCard {
   .card {
@@ -298,6 +321,13 @@ body {
     }
   }
   .panel:before{
-    height:2px;
+    height:1px;
+  }
+
+}
+
+.jobPairsForm {
+  .error {
+    color: $brand-danger;
   }
 }

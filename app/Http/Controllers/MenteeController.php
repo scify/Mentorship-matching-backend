@@ -2,61 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessLogicLayer\managers\IndustryManager;
-use App\BusinessLogicLayer\managers\MentorManager;
+use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
-use App\Models\eloquent\MentorProfile;
+use App\Models\eloquent\MenteeProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MentorController extends Controller
+class MenteeController extends Controller
 {
-
-    private $mentorManager;
+    private $menteeManager;
     private $specialtyManager;
-    private $industryManager;
     private $residenceManager;
 
     public function __construct() {
         $this->specialtyManager = new SpecialtyManager();
-        $this->industryManager = new IndustryManager();
-        $this->mentorManager = new MentorManager();
+        $this->menteeManager = new MenteeManager();
         $this->residenceManager = new ResidenceManager();
     }
 
     /**
-     * Display all mentors.
+     * Display all mentees.
      *
      * @return \Illuminate\Http\Response
      */
-    public function showAllMentors()
+    public function showAllMentees()
     {
-        $mentors = $this->mentorManager->getAllMentors();
+        $mentees = $this->menteeManager->getAllMentees();
         $loggedInUser = Auth::user();
-        return view('mentors.list_all', ['mentors' => $mentors, 'loggedInUser' => $loggedInUser]);
+        return view('mentees.list_all', ['mentees' => $mentees, 'loggedInUser' => $loggedInUser]);
     }
 
     /**
-     * Show the form for creating a new mentor.
+     * Show the form for creating a new mentee.
      *
      * @return \Illuminate\Http\Response
      */
     public function showCreateForm()
     {
-        $mentor = new MentorProfile();
-        $mentorSpecialtiesIds = array();
-        $mentorIndustriesIds = array();
-        $formTitle = 'Mentor registration';
+        $mentee = new MenteeProfile();
+        $menteeSpecialtiesIds = array();
+        $formTitle = 'Mentee registration';
         $specialties = $this->specialtyManager->getAllSpecialties();
-        $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
 
-        return view('mentors.forms.create_edit', ['mentor' => $mentor,
+        return view('mentees.forms.create_edit', ['mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
-            'specialties' => $specialties, 'industries' => $industries,
-            'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds
+            'specialties' => $specialties,
+            'menteeSpecialtiesIds' => $menteeSpecialtiesIds,
         ]);
     }
 
@@ -68,25 +61,25 @@ class MentorController extends Controller
      */
     public function showEditForm($id)
     {
-        $mentor = $this->mentorManager->getMentor($id);
+        $mentee = $this->menteeManager->getMentee($id);
 
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
-        $mentorSpecialtiesIds = $this->specialtyManager->getMentorSpecialtiesIds($mentor);
-        $mentorIndustriesIds = $this->industryManager->getMentorIndustriesIds($mentor);
+        $menteeSpecialtiesIds = $this->specialtyManager->getMenteeSpecialtiesIds($mentee);
+        $menteeIndustriesIds = $this->industryManager->getMenteeIndustriesIds($mentee);
 
-        $formTitle = 'Edit mentor';
-        return view('mentors.forms.create_edit', ['mentor' => $mentor,
+        $formTitle = 'Edit mentee';
+        return view('mentees.forms.create_edit', ['mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
-            'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds
+            'menteeSpecialtiesIds' => $menteeSpecialtiesIds,
+            'menteeIndustriesIds' => $menteeIndustriesIds
         ]);
     }
 
     /**
-     * Store a newly created mentor in storage.
+     * Store a newly created mentee in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -100,25 +93,25 @@ class MentorController extends Controller
             'age' => 'required|numeric',
             'residence_id' => 'required',
             'address'        => 'required',
-            'company' => 'required',
-            'company_sector' => 'required',
-            'job_position' => 'required',
-            'job_experience_years' => 'required',
-            'skills' => 'required',
-            'specialties' => 'required',
-            'industries' => 'required'
+            'university_name' => 'required',
+            'university_department_name' => 'required',
+            'university_graduation_year' => 'required',
+            'specialty_experience' => 'required',
+            'specialty_id' => 'required',
+            'expectations' => 'required',
+            'career_goals' => 'required'
         ]);
 
         $input = $request->all();
 
         try {
-            $this->mentorManager->createMentor($input);
+            $this->menteeManager->createMentee($input);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();
         }
 
-        session()->flash('flash_message_success', 'Mentor created');
+        session()->flash('flash_message_success', 'Mentee created');
         return back();
 
     }
@@ -139,24 +132,25 @@ class MentorController extends Controller
             'age' => 'required|numeric',
             'residence_id' => 'required',
             'address'        => 'required',
-            'company' => 'required',
-            'company_sector' => 'required',
-            'job_position' => 'required',
-            'job_experience_years' => 'required',
-            'skills' => 'required',
-            'specialties' => 'required',
-            'industries' => 'required'
+            'university_name' => 'required',
+            'university_department_name' => 'required',
+            'university_graduation_year' => 'required',
+            'is_employed' => 'required',
+            'specialty_experience' => 'required',
+            'specialty_id' => 'required',
+            'expectations' => 'required',
+            'career_goals' => 'required'
         ]);
 
         $input = $request->all();
         try {
-            $this->mentorManager->editMentor($input, $id);
+            $this->menteeManager->editMentee($input, $id);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();
         }
 
-        session()->flash('flash_message_success', 'Mentor edited');
+        session()->flash('flash_message_success', 'Mentee edited');
         return back();
     }
 
@@ -169,18 +163,18 @@ class MentorController extends Controller
     public function delete(Request $request)
     {
         $input = $request->all();
-        $mentorId = $input['mentor_id'];
-        if($mentorId == null || $mentorId == "") {
+        $menteeId = $input['mentee_id'];
+        if($menteeId == null || $menteeId == "") {
             session()->flash('flash_message_failure', 'Something went wrong. Please try again.');
             return back();
         }
         try {
-            $this->mentorManager->deleteMentor($mentorId);
+            $this->menteeManager->deleteMentee($menteeId);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back();
         }
-        session()->flash('flash_message_success', 'Mentor deleted');
+        session()->flash('flash_message_success', 'Mentee deleted');
         return back();
     }
 }

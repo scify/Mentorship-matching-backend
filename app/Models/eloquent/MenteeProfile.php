@@ -22,7 +22,7 @@ class MenteeProfile extends Model
     protected $fillable = ['first_name', 'last_name', 'age', 'address',
         'residence_id', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'university_name', 'university_department_name', 'university_graduation_year',
-        'is_employed', 'job_description', 'specialty_id', 'job_experience',
+        'is_employed', 'job_description', 'specialty_id', 'specialty_experience',
         'expectations', 'career_goals', 'reference'
     ];
 

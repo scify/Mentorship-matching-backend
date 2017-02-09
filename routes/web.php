@@ -44,5 +44,11 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
     Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');
     Route::post('mentor/delete', 'MentorController@delete')->name('deleteMentor');
-//    Route::get('users/byRole', ['as' => 'getUsersByRole','uses' => 'UserController@getUsersByRole']);
+
+    Route::get('mentees/all', 'MenteeController@showAllMentees')->name('showAllMentees');
+    Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
+    Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
+    Route::get('mentee/{id}/edit', 'MenteeController@showEditForm')->name('showEditMenteeForm');
+    Route::post('mentee/{id}/edit', 'MenteeController@edit')->name('editMentee');
+    Route::post('mentee/delete', 'MenteeController@delete')->name('deleteMentee');
 });
