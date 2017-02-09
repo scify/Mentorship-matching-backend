@@ -44,6 +44,8 @@ class CompanyManager {
             $company->description = $inputFields['description'];
         if(isset($inputFields['website']))
             $company->website = $inputFields['website'];
+        if(isset($inputFields['account_manager_id']))
+            $company->account_manager_id = $inputFields['account_manager_id'];
 
         return $company;
     }

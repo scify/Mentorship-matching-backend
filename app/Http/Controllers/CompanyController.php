@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\MentorManager;
+use App\BusinessLogicLayer\managers\UserManager;
 use App\Models\eloquent\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,10 +13,12 @@ class CompanyController extends Controller
 {
     private $companyManager;
     private $mentorManager;
+    private $userManager;
 
     public function __construct() {
         $this->companyManager = new CompanyManager();
         $this->mentorManager = new MentorManager();
+        $this->userManager = new UserManager();
     }
 
     /**
@@ -41,8 +44,10 @@ class CompanyController extends Controller
         $formTitle = 'Company registration';
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssigned();
         $companyMentorsIds = array();
+        $accountManagers = $this->userManager->getAllAccountManagers();
         return view('companies.forms.create_edit', ['company' => $company,
-            'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds
+            'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
+            'accountManagers' => $accountManagers
         ]);
     }
 
@@ -57,9 +62,11 @@ class CompanyController extends Controller
         $company = $this->companyManager->getCompany($id);
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssignedExceptCompany($company);
         $companyMentorsIds = $this->companyManager->getCompanyMentorsIds($company);
+        $accountManagers = $this->userManager->getAllAccountManagers();
         $formTitle = 'Edit company';
         return view('companies.forms.create_edit', ['company' => $company,
-            'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds
+            'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
+            'accountManagers' => $accountManagers
         ]);
     }
 

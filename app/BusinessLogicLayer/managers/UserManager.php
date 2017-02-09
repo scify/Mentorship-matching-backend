@@ -86,4 +86,10 @@ class UserManager {
         $this->userStorage->saveUser($user);
     }
 
+    public function getAllAccountManagers() {
+        $userAccessManager = new UserAccessManager();
+        $accountManagerRole = $this->userRoleManager->getRoleById($userAccessManager->ACCOUNT_MANAGER_ROLE_ID);
+        return $accountManagerRole->users;
+    }
+
 }

@@ -83,4 +83,8 @@ class UserRoleManager {
         return $role->users;
     }
 
+    public function getRoleById($roleId) {
+        return $this->roleStorage->getRoleById($roleId);
+    }
+
 }

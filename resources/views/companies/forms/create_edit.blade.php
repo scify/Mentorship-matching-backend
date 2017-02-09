@@ -71,6 +71,18 @@
                                     <small class="help-block">Mentors not showing here are assigned to another company</small>
                                 </div>
                             </div>
+
+                        <div class="formRow row">
+                            <div class="col-md-3 formElementName">Select Company Account manager</div><!--.col-md-3-->
+                            <div class="col-md-9">
+                                <select data-placeholder="Choose Account manager" name="account_manager_id" class="chosen-select">
+                                    <option></option>
+                                    @foreach($accountManagers as $accountManager)
+                                        <option value="{{$accountManager->id}}" {{$accountManager->id == $company['account_manager_id']? 'selected':''}}>{{$accountManager->first_name . ' ' . $accountManager->last_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         </div>
                     </div>
                     <div class="submitBtnContainer margin-top-100">
