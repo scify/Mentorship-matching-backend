@@ -297,6 +297,12 @@ body {
   .formElementName.focused {
     color: $secondary-color;
   }
+  .chosen-container-multi .chosen-choices li.search-field {
+    width: 70%;
+  }
+  .form-control {
+    padding-left: 0px;
+  }
 }
 
 

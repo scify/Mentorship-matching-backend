@@ -1,8 +1,8 @@
 <div class="profileCard card_{{$mentor->id}}">
     <ul class="nav nav-tabs nav-justified" role="tablist">
-        <li class="active"><a data-href="tab_1_{{$mentor->id}}" data-toggle="tab" data-id="{{$mentor->id}}" >Info</a></li>
-        <li><a data-href="tab_2_{{$mentor->id}}" data-toggle="tab" data-id="{{$mentor->id}}" >Profile</a></li>
-        <li><a data-href="tab_3_{{$mentor->id}}" data-toggle="tab" data-id="{{$mentor->id}}" >Details</a></li>
+        <li class="active"><a data-href="tab_1_{{$mentor->id}}" data-toggle="tab" data-id="{{$mentor->id}}" >{{trans('messages.info')}}</a></li>
+        <li><a data-href="tab_2_{{$mentor->id}}" data-toggle="tab" data-id="{{$mentor->id}}" >{{trans('messages.profile')}}</a></li>
+        <li><a data-href="tab_3_{{$mentor->id}}" data-toggle="tab" data-id="{{$mentor->id}}" >{{trans('messages.details')}}</a></li>
     </ul>
     <div class="card card-user card-clickable card-clickable-over-content">
         <div class="profileCardBody">

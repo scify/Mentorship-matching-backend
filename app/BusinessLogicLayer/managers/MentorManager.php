@@ -9,6 +9,7 @@
 namespace App\BusinessLogicLayer\managers;
 
 
+use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
 use App\StorageLayer\MentorStorage;
 use Illuminate\Support\Facades\DB;
@@ -97,5 +98,22 @@ class MentorManager {
     public function deleteMentor($mentorId) {
         $mentor = $this->getMentor($mentorId);
         $mentor->delete();
+    }
+
+    public function getMentorsWithNoCompanyAssigned() {
+        $mentors = $this->mentorStorage->getMentorsByCompanyId(null);
+        return $mentors;
+    }
+
+    public function assignCompanyToMentor(Company $company, $mentorId) {
+        $mentor = $this->getMentor($mentorId);
+        $mentor->company_id = $company->id;
+        $this->mentorStorage->saveMentor($mentor);
+    }
+
+    public function getMentorsWithNoCompanyAssignedExceptCompany(Company $company) {
+        $mentorsWithNoCompany = $this->mentorStorage->getMentorsByCompanyId(null);
+        $mentorsOfThisCompany = $this->mentorStorage->getMentorsByCompanyId($company->id);
+        return $mentorsOfThisCompany->merge($mentorsWithNoCompany);
     }
 }

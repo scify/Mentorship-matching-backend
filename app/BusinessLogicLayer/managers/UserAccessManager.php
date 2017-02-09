@@ -27,7 +27,7 @@ class UserAccessManager {
     }
 
     /**
-     * Checks if a given @see User has acces to create system users
+     * Checks if a given @see User has acces to create, edit and delete system users
      *
      * @param User $user the @see User instance
      * @return bool
@@ -42,12 +42,40 @@ class UserAccessManager {
 
 
     /**
-     * Checks if a given @see User has acces to create Mentors and Mentees
+     * Checks if a given @see User has acces to create, edit and delete Mentors and Mentees
      *
      * @param User $user the @see User instance
      * @return bool
      */
     public function userHasAccessToCRUDMentorsAndMentees(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        //only user with admin role
+        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+    }
+
+    /**
+     * Checks if a given @see User has acces to create, edit and delete @see Company instances
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userHasAccessToCRUDCompanies(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        //only user with admin role
+        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+    }
+
+    /**
+     * Checks if a given @see User has the admin role
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userIsAdmin(User $user) {
         if($user == null)
             return false;
         $userRoles = $user->roles;
@@ -69,6 +97,4 @@ class UserAccessManager {
         }
         return false;
     }
-
-
 }

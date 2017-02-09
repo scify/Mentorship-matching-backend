@@ -24,4 +24,8 @@ class MentorStorage {
     public function getMentorProfileById($id) {
         return MentorProfile::find($id);
     }
+
+    public function getMentorsByCompanyId($companyId) {
+        return MentorProfile::where(['company_id' => $companyId])->get();
+    }
 }
