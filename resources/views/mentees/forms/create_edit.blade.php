@@ -73,7 +73,7 @@
                             </div>
                             <div class="formRow row">
                                 <!-- Residence area -->
-                                <div class="col-md-3">Residence area</div><!--.col-md-3-->
+                                <div class="col-md-3 formElementName">Residence area</div><!--.col-md-3-->
                                 <div class="col-md-9">
                                     <select required data-placeholder="Choose residence area" name="residence_id" class="chosen-select">
                                         <option></option>
@@ -217,7 +217,7 @@
                                 </div>
                             </div>
                             <div class="formRow row">
-                                <div class="col-md-3 margin-top-5">Select mentee specialties</div><!--.col-md-3-->
+                                <div class="col-md-3 formElementName">Select mentee specialty</div><!--.col-md-3-->
                                 <div class="col-md-9">
                                     <select data-placeholder="Choose specialties" name="specialty_id" class="chosen-select" required>
                                         <option></option>

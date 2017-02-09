@@ -294,6 +294,9 @@ body {
     margin-top: 5px;
     color: $form-placeholder-color;
   }
+  .formElementName.focused {
+    color: $secondary-color;
+  }
 }
 
 

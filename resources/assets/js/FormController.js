@@ -33,6 +33,16 @@ window.FormController.prototype = function () {
                 }
             }
         });
+
+        var inputFields = $( ".form-control" );
+        inputFields.focus(function() {
+            var inputName = $(this).closest(".formRow").find(".formElementName");
+            inputName.addClass("focused");
+        });
+        inputFields.focusout(function() {
+            var inputName = $(this).closest(".formRow").find(".formElementName");
+            inputName.removeClass("focused");
+        });
     };
     return {
         init: init
