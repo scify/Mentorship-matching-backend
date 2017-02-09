@@ -65,6 +65,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isAdmin() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userIsAdmin($this);
+    }
+
     public function userHasAccessToCRUDSystemUser() {
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userHasAccessToCRUDSystemUser($this);
@@ -73,5 +78,10 @@ class User extends Authenticatable
     public function userHasAccessToCRUDMentorsAndMentees() {
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userHasAccessToCRUDMentorsAndMentees($this);
+    }
+
+    public function userHasAccessToCRUDCompanies() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userHasAccessToCRUDCompanies($this);
     }
 }
