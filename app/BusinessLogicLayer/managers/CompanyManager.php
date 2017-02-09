@@ -58,6 +58,7 @@ class CompanyManager {
 
         DB::transaction(function() use($company, $inputFields) {
             $company = $this->companyStorage->saveCompany($company);
+            $this->editCompanyMentors($company, $inputFields['mentors']);
         });
     }
 
@@ -78,5 +79,28 @@ class CompanyManager {
             array_push($companyMentorsIds, $mentor->id);
         }
         return $companyMentorsIds;
+    }
+
+    private function editCompanyMentors(Company $company, array $newCompanyMentors) {
+        //we get an array of this company's mentors
+        $companyMentorsIds = $this->getCompanyMentorsIds($company);
+        $newCompanyMentorsIds = array();
+        //every new mentor as an mentor id not included
+        // in the existing mentors of the company
+        foreach ($newCompanyMentors as $newCompanyMentor) {
+            if(!in_array($newCompanyMentor['id'], $companyMentorsIds)) {
+                //assign the company to the new mentor
+                $this->mentorManager->assignCompanyToMentor($company, $newCompanyMentor['id']);
+            }
+            array_push($newCompanyMentorsIds, $newCompanyMentor['id']);
+        }
+        //every mentor that was removed is a mentor id in the existing mentors
+        // not included in the new mentors
+        foreach ($companyMentorsIds as $companyMentorId) {
+            if(!in_array($companyMentorId, $newCompanyMentorsIds)) {
+                //delete company from this mentor
+                $this->mentorManager->unassignCompanyFromMentor($companyMentorId);
+            }
+        }
     }
 }

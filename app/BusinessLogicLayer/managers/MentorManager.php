@@ -116,4 +116,10 @@ class MentorManager {
         $mentorsOfThisCompany = $this->mentorStorage->getMentorsByCompanyId($company->id);
         return $mentorsOfThisCompany->merge($mentorsWithNoCompany);
     }
+
+    public function unassignCompanyFromMentor($mentorId) {
+        $mentor = $this->getMentor($mentorId);
+        $mentor->company_id = null;
+        $this->mentorStorage->saveMentor($mentor);
+    }
 }
