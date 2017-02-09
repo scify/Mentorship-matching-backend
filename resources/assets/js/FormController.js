@@ -1,7 +1,7 @@
-window.FormValidator = function () {
+window.FormController = function () {
 };
 
-window.FormValidator.prototype = function () {
+window.FormController.prototype = function () {
     var init = function () {
         $('.chosen-select').chosen({
             width: '100%'

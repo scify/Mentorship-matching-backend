@@ -68,7 +68,7 @@ elixir(function(mix) {
             'resources/assets/pleasure-admin-panel/js/sliders.js',
             'resources/assets/pleasure-admin-panel/js/layout.js',
             'resources/assets/pleasure-admin-panel/js/pleasure.js',
-            'resources/assets/js/FormValidator.js'
+            'resources/assets/js/FormController.js'
         ],
         'public/js/app.js' , './')
         .scripts([

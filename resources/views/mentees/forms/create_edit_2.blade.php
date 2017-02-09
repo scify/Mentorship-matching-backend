@@ -245,8 +245,8 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var validator = new FormValidator();
-            validator.init();
+            var controller = new FormController();
+            controller.init();
         });
     </script>
 @endsection
