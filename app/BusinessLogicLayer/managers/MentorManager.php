@@ -105,16 +105,16 @@ class MentorManager {
         return $mentors;
     }
 
-    public function assignCompanyToMentor(Company $company, $mentorId) {
-        $mentor = $this->getMentor($mentorId);
-        $mentor->company_id = $company->id;
-        $this->mentorStorage->saveMentor($mentor);
-    }
-
     public function getMentorsWithNoCompanyAssignedExceptCompany(Company $company) {
         $mentorsWithNoCompany = $this->mentorStorage->getMentorsByCompanyId(null);
         $mentorsOfThisCompany = $this->mentorStorage->getMentorsByCompanyId($company->id);
         return $mentorsOfThisCompany->merge($mentorsWithNoCompany);
+    }
+
+    public function assignCompanyToMentor(Company $company, $mentorId) {
+        $mentor = $this->getMentor($mentorId);
+        $mentor->company_id = $company->id;
+        $this->mentorStorage->saveMentor($mentor);
     }
 
     public function unassignCompanyFromMentor($mentorId) {

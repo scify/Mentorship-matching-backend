@@ -75,8 +75,8 @@
                                 <span class="help-block">{{ $errors->first('passwordconfirm') }}</span>
                             @endif
                         </div>
-                        <div class="row margin-top-60">
-                            <div class="col-md-3 margin-top-10">Select user roles</div><!--.col-md-3-->
+                        <div class="formRow row">
+                            <div class="col-md-3 formElementName">Select user roles</div><!--.col-md-3-->
                             <div class="col-md-9">
                                 <select data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
                                     @foreach($userRoles as $userRole)
@@ -85,6 +85,19 @@
                                 </select>
                             </div>
                         </div>
+                        @if($user->isAccountManager())
+                            <div class="formRow row">
+                                <div class="col-md-3 formElementName">Select Company </div><!--.col-md-3-->
+                                <div class="col-md-9">
+                                    <select data-placeholder="Choose Company" name="company_id" class="chosen-select">
+                                        <option value="">No Company</option>
+                                        @foreach($companies as $company)
+                                            <option value="{{$company->id}}" {{$company->id == $user['company_id']? 'selected':''}}>{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
                         <div class="submitBtnContainer margin-top-50">
                             <button type="button" class="btn btn-flat-primary">
                                 <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('home') }}">Cancel</a>

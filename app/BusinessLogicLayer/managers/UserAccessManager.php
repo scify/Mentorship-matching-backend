@@ -84,6 +84,20 @@ class UserAccessManager {
     }
 
     /**
+     * Checks if a given @see User has the account manager role
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userIsAccountManager(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        //only user with admin role
+        return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
+    }
+
+    /**
      * Checks if a role (identified by role id) exists in a given collection of @see UserRole
      *
      * @param Collection $userRoles the user roles collection

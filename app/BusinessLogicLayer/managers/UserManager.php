@@ -62,10 +62,17 @@ class UserManager {
     public function editUser(array $inputFields, $id) {
         $user = $this->getUser($id);
         $user = $this->assignInputFieldsToUser($user, $inputFields);
+        $companyManager = new CompanyManager();
 
-        DB::transaction(function() use($user, $inputFields) {
+        DB::transaction(function() use($user, $inputFields, $companyManager) {
             $user = $this->userStorage->saveUser($user);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
+            //TODO: fix
+            if($inputFields['company_id'] == "") {
+                    $companyManager->removeAccountManagerFromCompany($user);
+            } else {
+                $companyManager->setAccountManagerToCompany($user, $inputFields['company_id']);
+            }
         });
     }
 

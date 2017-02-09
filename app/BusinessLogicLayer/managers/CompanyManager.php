@@ -4,6 +4,7 @@ namespace App\BusinessLogicLayer\managers;
 
 
 use App\Models\eloquent\Company;
+use App\Models\eloquent\User;
 use App\StorageLayer\CompanyStorage;
 use Illuminate\Support\Facades\DB;
 
@@ -104,5 +105,30 @@ class CompanyManager {
                 $this->mentorManager->unassignCompanyFromMentor($companyMentorId);
             }
         }
+    }
+
+
+    public function getAllUnassignedCompanies() {
+        $mentors = $this->companyStorage->getCompaniesByAccountManagerId(null);
+        return $mentors;
+    }
+
+    public function getCompaniesWithNoAccountManagerAssignedExceptAccountManager(User $accountManager) {
+        $companiesWithNoAccountManager = $this->companyStorage->getCompaniesByAccountManagerId(null);
+        if($accountManager->company != null)
+            $companiesWithNoAccountManager->add($accountManager->company);
+        return $companiesWithNoAccountManager;
+    }
+
+    public function setAccountManagerToCompany(User $accountManager, $companyId) {
+        $company = $this->getCompany($companyId);
+        $company->account_manager_id = $accountManager->id;
+        $this->companyStorage->saveCompany($company);
+    }
+
+    public function removeAccountManagerFromCompany(User $user) {
+        $company = $this->companyStorage->getCompaniesByAccountManagerId($user->id)->first();
+        $company->account_manager_id = null;
+        $this->companyStorage->saveCompany($company);
     }
 }

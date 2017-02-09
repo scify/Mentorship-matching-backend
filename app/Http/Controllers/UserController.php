@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
 use App\Http\OperationResponse;
@@ -40,11 +41,16 @@ class UserController extends Controller
      */
     public function showCreateForm()
     {
+        $companyManager = new CompanyManager();
         $user = new User();
         $userRoleIds = array();
         $formTitle = 'Create a new user';
         $userRoles = $this->userRoleManager->getAllUserRoles();
-        return view('users.forms.create_edit', ['user' => $user, 'formTitle' => $formTitle, 'userRoles' => $userRoles, 'userRoleIds' => $userRoleIds]);
+        $companies = $companyManager->getAllUnassignedCompanies();
+        return view('users.forms.create_edit', ['user' => $user,
+            'formTitle' => $formTitle, 'userRoles' => $userRoles,
+            'userRoleIds' => $userRoleIds, 'companies' => $companies
+        ]);
     }
 
     /**
@@ -97,11 +103,22 @@ class UserController extends Controller
      */
     public function showEditForm($id)
     {
+        $companyManager = new CompanyManager();
         $user = $this->userManager->getUser($id);
         $userRoleIds = $this->userRoleManager->getUserRoleIds($user);
         $formTitle = 'Edit user';
         $userRoles = $this->userRoleManager->getAllUserRoles();
-        return view('users.forms.create_edit', ['user' => $user, 'formTitle' => $formTitle, 'userRoles' => $userRoles, 'userRoleIds' => $userRoleIds]);
+        $companies = $companyManager->getCompaniesWithNoAccountManagerAssignedExceptAccountManager($user);
+
+        if($user->company != null)
+            $user['company_id'] = $user->company->id;
+        else
+            $user['company_id'] = null;
+
+        return view('users.forms.create_edit', ['user' => $user,
+            'formTitle' => $formTitle, 'userRoles' => $userRoles,
+            'userRoleIds' => $userRoleIds, 'companies' => $companies
+        ]);
     }
 
     /**

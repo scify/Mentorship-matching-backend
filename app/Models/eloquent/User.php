@@ -41,6 +41,10 @@ class User extends Authenticatable
         return $this->hasOne(UserState::class, 'id', 'state_id');
     }
 
+    public function company() {
+        return $this->belongsTo(Company::class, 'id', 'account_manager_id');
+    }
+
     /**
      * Get @see Role instances this user has
      */
@@ -68,6 +72,11 @@ class User extends Authenticatable
     public function isAdmin() {
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userIsAdmin($this);
+    }
+
+    public function isAccountManager() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userIsAccountManager($this);
     }
 
     public function userHasAccessToCRUDSystemUser() {
