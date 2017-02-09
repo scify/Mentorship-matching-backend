@@ -17,7 +17,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'website'];
+    protected $fillable = ['name', 'description', 'website', 'account_manager_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -25,5 +25,13 @@ class Company extends Model
     public function mentors()
     {
         return $this->hasMany(MentorProfile::class, 'company_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function accountManager()
+    {
+        return $this->hasOne(User::class, 'id', 'account_manager_id');
     }
 }
