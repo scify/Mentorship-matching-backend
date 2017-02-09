@@ -27,13 +27,6 @@
             @include('mentees.list')
         </div>
     </div>
-    @include('mentees.modals')
+
 @endsection
-@section('additionalFooter')
-    <script>
-        $( document ).ready(function() {
-            var controller = new window.MentorsListController();
-            controller.init();
-        });
-    </script>
-@endsection
+

@@ -3,6 +3,7 @@
         <li class="active"><a data-href="tab_1_{{$mentee->id}}" data-toggle="tab" data-id="{{$mentee->id}}" >Info</a></li>
         <li><a data-href="tab_2_{{$mentee->id}}" data-toggle="tab" data-id="{{$mentee->id}}" >Profile</a></li>
         <li><a data-href="tab_3_{{$mentee->id}}" data-toggle="tab" data-id="{{$mentee->id}}" >Details</a></li>
+        <li><a data-href="tab_4_{{$mentee->id}}" data-toggle="tab" data-id="{{$mentee->id}}" >Goals</a></li>
     </ul>
     <div class="card card-user card-clickable card-clickable-over-content">
         <div class="profileCardBody">
@@ -57,29 +58,13 @@
 
                 </div>
                 <div class="tab-pane" id="tab_2_{{$mentee->id}}">
-                    @if($mentee->specialties != null)
-                        <div class="menteeAttrsList"><b>Specialties:</b>
-                            @foreach($mentee->specialties as $specialty)
-                                {{$specialty->name}}
-                                @if(!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
+                    @if($mentee->specialty != null)
+                        <div class="menteeAttrsList"><b>Requested specialty:</b>
+                            {{$mentee->specialty->name}}
                         </div>
                     @endif
                     <hr>
-                    @if($mentee->industries != null)
-                            <div class="menteeAttrsList"><b>Industries:</b>
-                            @foreach($mentee->industries as $industry)
-                                {{$industry->name}}
-                                @if(!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
-                        </div>
-                    @endif
-                    <hr>
-                        <b>Skills:</b> {{$mentee->skills}}
+                    <b>Specialty Experience:</b> {{$mentee->specialty_experience}}
                 </div>
                 <div class="tab-pane" id="tab_3_{{$mentee->id}}">
                         <div class="panel-group accordion" id="accordion_{{$mentee->id}}">
@@ -116,27 +101,14 @@
                                 <div class="panel-heading">
                                     <a class="panel-title" data-toggle="collapse" data-parent="#accordion_{{$mentee->id}}" href="#collapse_2_{{$mentee->id}}">Job details</a>
                                 </div>
+
                                 <div id="collapse_2_{{$mentee->id}}" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <ul class="borderless profileDetailsList">
-                                            @if($mentee->job_position != null)
+                                            <li><b>Employed:</b> {{$mentee->is_employed ? 'Yes' : 'No'}}</li>
+                                            @if($mentee->is_employed && $mentee->job_description != null)
                                                 <li>
-                                                    <b>Job position:</b> {{$mentee->job_position}}
-                                                </li>
-                                            @endif
-                                                @if($mentee->job_experience_years != null)
-                                                    <li>
-                                                        <b>Experience years:</b> {{$mentee->job_experience_years}}
-                                                    </li>
-                                                @endif
-                                            @if($mentee->company != null)
-                                                <li>
-                                                    <b>Company:</b> {{$mentee->company}}
-                                                </li>
-                                            @endif
-                                            @if($mentee->company_sector != null)
-                                                <li>
-                                                    <b>Company sector:</b> {{$mentee->company_sector}}
+                                                    <b>Job description:</b> {{$mentee->job_description}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -160,9 +132,9 @@
                                                     <b>Department:</b> {{$mentee->university_department_name}}
                                                 </li>
                                             @endif
-                                            @if($mentee->company_sector != null)
+                                            @if($mentee->university_graduation_year != null)
                                                 <li>
-                                                    <b>Company sector:</b> {{$mentee->company_sector}}
+                                                    <b>University graduation year:</b> {{$mentee->university_graduation_year}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -170,6 +142,25 @@
                                 </div>
                             </div>
                         </div>
+                </div>
+                <div class="tab-pane" id="tab_4_{{$mentee->id}}">
+                    @if($mentee->expectations != null)
+                        <div class="menteeAttrsList"><b>Expectations:</b>
+                            {{$mentee->expectations}}
+                        </div>
+                    @endif
+                    <hr>
+                    @if($mentee->career_goals != null)
+                        <div class="menteeAttrsList"><b>Career goals:</b>
+                            {{$mentee->career_goals}}
+                        </div>
+                    @endif
+                    <hr>
+                    @if($mentee->reference != null)
+                        <div class="menteeAttrsList"><b>Heard about JobPairs by:</b>
+                            {{$mentee->reference}}
+                        </div>
+                    @endif
                 </div>
 
             </div>

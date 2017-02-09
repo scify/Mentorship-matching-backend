@@ -8,3 +8,11 @@
     </div>
 </div>
 @include('mentees.modals')
+@section('additionalFooter')
+    <script>
+        $( document ).ready(function() {
+            var controller = new window.MenteesListController();
+            controller.init();
+        });
+    </script>
+@endsection

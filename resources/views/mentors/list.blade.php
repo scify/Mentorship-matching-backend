@@ -8,3 +8,11 @@
     </div>
 </div>
 @include('mentors.modals')
+@section('additionalFooter')
+    <script>
+        $( document ).ready(function() {
+            var controller = new window.MentorsListController();
+            controller.init();
+        });
+    </script>
+@endsection

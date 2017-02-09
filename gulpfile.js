@@ -67,7 +67,8 @@ elixir(function(mix) {
             'node_modules/icheck/icheck.min.js',
             'resources/assets/pleasure-admin-panel/js/sliders.js',
             'resources/assets/pleasure-admin-panel/js/layout.js',
-            'resources/assets/pleasure-admin-panel/js/pleasure.js'
+            'resources/assets/pleasure-admin-panel/js/pleasure.js',
+            'resources/assets/js/FormValidator.js'
         ],
         'public/js/app.js' , './')
         .scripts([

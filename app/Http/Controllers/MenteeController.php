@@ -41,15 +41,13 @@ class MenteeController extends Controller
     public function showCreateForm()
     {
         $mentee = new MenteeProfile();
-        $menteeSpecialtiesIds = array();
         $formTitle = 'Mentee registration';
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
 
         return view('mentees.forms.create_edit', ['mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
-            'specialties' => $specialties,
-            'menteeSpecialtiesIds' => $menteeSpecialtiesIds,
+            'specialties' => $specialties
         ]);
     }
 
@@ -64,17 +62,12 @@ class MenteeController extends Controller
         $mentee = $this->menteeManager->getMentee($id);
 
         $specialties = $this->specialtyManager->getAllSpecialties();
-        $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
-        $menteeSpecialtiesIds = $this->specialtyManager->getMenteeSpecialtiesIds($mentee);
-        $menteeIndustriesIds = $this->industryManager->getMenteeIndustriesIds($mentee);
 
         $formTitle = 'Edit mentee';
         return view('mentees.forms.create_edit', ['mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
-            'specialties' => $specialties, 'industries' => $industries,
-            'menteeSpecialtiesIds' => $menteeSpecialtiesIds,
-            'menteeIndustriesIds' => $menteeIndustriesIds
+            'specialties' => $specialties
         ]);
     }
 
@@ -135,7 +128,6 @@ class MenteeController extends Controller
             'university_name' => 'required',
             'university_department_name' => 'required',
             'university_graduation_year' => 'required',
-            'is_employed' => 'required',
             'specialty_experience' => 'required',
             'specialty_id' => 'required',
             'expectations' => 'required',
