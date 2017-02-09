@@ -10,6 +10,7 @@
                 <div class="tab-pane active" id="tab_1_{{$mentor->id}}">
                     <h4 class="userDetail">{{$mentor->first_name}} {{$mentor->last_name}},
                         <small>{{$mentor->job_position}}</small>
+                        <small><i title="{{$mentor->is_available ? 'Available' : 'Not available'}}" class="fa fa-user {{$mentor->is_available ? 'green' : 'red'}}" aria-hidden="true"></i></small>
 
                     </h4>
                     @if($mentor->linkedin_url != null)

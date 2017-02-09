@@ -56,7 +56,7 @@ class MentorController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds
+            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -81,7 +81,7 @@ class MentorController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds
+            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user()
         ]);
     }
 

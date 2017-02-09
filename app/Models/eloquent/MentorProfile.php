@@ -22,7 +22,8 @@ class MentorProfile extends Model
     protected $fillable = ['first_name', 'last_name', 'age', 'address',
         'residence_id', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'company', 'company_sector', 'job_position', 'job_experience_years',
-        'university_name', 'university_department_name', 'skills', 'reference'
+        'university_name', 'university_department_name', 'skills', 'reference',
+        'is_available'
     ];
 
     /**

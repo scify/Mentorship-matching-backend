@@ -58,6 +58,11 @@ class MentorManager {
         $mentorProfile->job_experience_years = $inputFields['job_experience_years'];
         $mentorProfile->residence_id = $inputFields['residence_id'];
 
+        if(isset($inputFields['is_available']))
+            $mentorProfile->is_available = true;
+        else
+            $mentorProfile->is_available = false;
+
         if(isset($inputFields['university_name']))
             $mentorProfile->university_name = $inputFields['university_name'];
         if(isset($inputFields['university_department_name']))

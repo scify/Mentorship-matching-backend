@@ -137,6 +137,20 @@
                                 <span class="help-block">{{ $errors->first('linkedin_url') }}</span>
 
                             </div>
+                            @if($loggedInUser != null)
+                                @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                                    <!-- Is available -->
+                                        <div class="formRow row">
+                                            <div class="col-md-3 formElementName">Availability</div><!--.col-md-3-->
+                                            <div class="col-md-9">
+                                                <div class="switcher">
+                                                    <input id="switcher1" type="checkbox" hidden="hidden" name="is_available" {{$mentor['is_available'] == true ? 'checked' : ''}}>
+                                                    <label for="switcher1"></label>
+                                                </div><!--.switcher-->
+                                            </div><!--.col-md-9-->
+                                        </div><!--.row-->
+                                @endif
+                            @endif
                             <!-- Company -->
                             <div class="{{ $errors->first('company')?'has-error has-feedback':'' }}">
                                 <div class="inputer floating-label">
