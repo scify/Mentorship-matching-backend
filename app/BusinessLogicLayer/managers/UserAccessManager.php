@@ -93,7 +93,6 @@ class UserAccessManager {
         if($user == null)
             return false;
         $userRoles = $user->roles;
-        //only user with admin role
         return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
     }
 

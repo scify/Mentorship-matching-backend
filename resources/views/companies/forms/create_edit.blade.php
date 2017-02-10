@@ -76,11 +76,12 @@
                             <div class="col-md-3 formElementName">Select Company Account manager</div><!--.col-md-3-->
                             <div class="col-md-9">
                                 <select data-placeholder="Choose Account manager" name="account_manager_id" class="chosen-select">
-                                    <option></option>
+                                    <option value="">No Account manager</option>
                                     @foreach($accountManagers as $accountManager)
                                         <option value="{{$accountManager->id}}" {{$accountManager->id == $company['account_manager_id']? 'selected':''}}>{{$accountManager->first_name . ' ' . $accountManager->last_name}}</option>
                                     @endforeach
                                 </select>
+                                <small class="help-block">Account managers not showing here are assigned to another company</small>
                             </div>
                         </div>
                         </div>

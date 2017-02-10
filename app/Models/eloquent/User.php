@@ -74,6 +74,15 @@ class User extends Authenticatable
         return $userAccessManager->userIsAdmin($this);
     }
 
+    public function hasCompany(){
+
+        return (bool) $this->company()->first();
+    }
+
+    public function isCompanyAccountManager() {
+        return $this->isAccountManager() && $this->hasCompany();
+    }
+
     public function isAccountManager() {
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userIsAccountManager($this);

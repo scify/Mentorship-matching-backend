@@ -6,6 +6,9 @@
             @else
                 <i class="fa fa-ban red" aria-hidden="true" title="Deactivated user"></i>
             @endif
+            @if($user->isCompanyAccountManager())
+                <i class="fa fa-building-o bg-orange" title="Company Account manager" aria-hidden="true"></i>
+            @endif
         </h4>
         <p class="userDetail">{{$user->email}}</p>
         @if($loggedInUser != null)

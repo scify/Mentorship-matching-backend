@@ -102,8 +102,8 @@
                                 <span class="help-block">{{ $errors->first('cell_phone') }}</span>
 
                             </div>
-                            <div class="row margin-top-60">
-                                <div class="col-md-3 margin-top-5">Select mentor specialties</div><!--.col-md-3-->
+                            <div class="formRow row">
+                                <div class="col-md-3 formElementName">Select mentor specialties</div><!--.col-md-3-->
                                 <div class="col-md-9">
                                     <select data-placeholder="Choose specialties" name="specialties[][id]" class="chosen-select" multiple>
                                         @foreach($specialties as $specialty)
@@ -112,8 +112,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row margin-top-60">
-                                <div class="col-md-3 margin-top-5">Specific Industries</div><!--.col-md-3-->
+                            <div class="formRow row">
+                                <div class="col-md-3 formElementName">Specific Industries</div><!--.col-md-3-->
                                 <div class="col-md-9">
                                     <select data-placeholder="Choose specialties" name="industries[][id]" class="chosen-select" multiple>
                                         @foreach($industries as $industry)
@@ -122,7 +122,21 @@
                                     </select>
                                 </div>
                             </div>
-
+                            @if($loggedInUser != null)
+                                @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                                    <div class="formRow row">
+                                        <div class="col-md-3 formElementName">Select Company</div><!--.col-md-3-->
+                                        <div class="col-md-9">
+                                            <select data-placeholder="Choose the company the mentor works at" name="company_id" class="chosen-select">
+                                                <option value="">No Company</option>
+                                                @foreach($companies as $company)
+                                                    <option value="{{$company->id}}" {{$company->id == $mentor['company_id']? 'selected':''}}>{{$company->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
                         </div>
                         <div class="col-md-6">
                             <!-- Linkedin -->
@@ -137,21 +151,21 @@
                                 <span class="help-block">{{ $errors->first('linkedin_url') }}</span>
 
                             </div>
-                            @if($loggedInUser != null)
-                                @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-                                    <!-- Is available -->
-                                        <div class="formRow row">
-                                            <div class="col-md-3 formElementName">Availability</div><!--.col-md-3-->
-                                            <div class="col-md-9">
-                                                <div class="switcher">
-                                                    <input id="switcher1" type="checkbox" hidden="hidden" name="is_available" {{$mentor['is_available'] == true ? 'checked' : ''}}>
-                                                    <label for="switcher1"></label>
-                                                </div><!--.switcher-->
-                                            </div><!--.col-md-9-->
-                                        </div><!--.row-->
-                                @endif
+                        @if($loggedInUser != null)
+                            @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                                <!-- Is available -->
+                                    <div class="formRow row">
+                                        <div class="col-md-3 formElementName">Availability</div><!--.col-md-3-->
+                                        <div class="col-md-9">
+                                            <div class="switcher">
+                                                <input id="switcher1" type="checkbox" hidden="hidden" name="is_available" {{$mentor['is_available'] == true ? 'checked' : ''}}>
+                                                <label for="switcher1"></label>
+                                            </div><!--.switcher-->
+                                        </div><!--.col-md-9-->
+                                    </div><!--.row-->
                             @endif
-                            <!-- Company -->
+                        @endif
+                        <!-- Company -->
                             <div class="{{ $errors->first('company')?'has-error has-feedback':'' }}">
                                 <div class="inputer floating-label">
                                     <div class="input-wrapper">

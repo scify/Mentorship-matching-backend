@@ -44,7 +44,7 @@ class CompanyController extends Controller
         $formTitle = 'Company registration';
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssigned();
         $companyMentorsIds = array();
-        $accountManagers = $this->userManager->getAllAccountManagers();
+        $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssigned();
         return view('companies.forms.create_edit', ['company' => $company,
             'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
             'accountManagers' => $accountManagers
@@ -62,7 +62,7 @@ class CompanyController extends Controller
         $company = $this->companyManager->getCompany($id);
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssignedExceptCompany($company);
         $companyMentorsIds = $this->companyManager->getCompanyMentorsIds($company);
-        $accountManagers = $this->userManager->getAllAccountManagers();
+        $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssignedExceptCurrent($company);
         $formTitle = 'Edit company';
         return view('companies.forms.create_edit', ['company' => $company,
             'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,

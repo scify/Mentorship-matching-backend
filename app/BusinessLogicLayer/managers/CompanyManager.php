@@ -31,6 +31,7 @@ class CompanyManager {
         DB::transaction(function() use($company, $inputFields) {
             $newCompany = $this->companyStorage->saveCompany($company);
             $this->assignCompanyToMentors($newCompany, $inputFields['mentors']);
+            $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
         });
     }
 
@@ -45,8 +46,8 @@ class CompanyManager {
             $company->description = $inputFields['description'];
         if(isset($inputFields['website']))
             $company->website = $inputFields['website'];
-        if(isset($inputFields['account_manager_id']))
-            $company->account_manager_id = $inputFields['account_manager_id'];
+//        if(isset($inputFields['account_manager_id']))
+//            $company->account_manager_id = $inputFields['account_manager_id'];
 
         return $company;
     }
@@ -62,7 +63,31 @@ class CompanyManager {
         DB::transaction(function() use($company, $inputFields) {
             $company = $this->companyStorage->saveCompany($company);
             $this->editCompanyMentors($company, $inputFields['mentors']);
+            $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
         });
+    }
+
+    /**
+     * Given an account manager id, decides if the company account manager should be updated, deleted, or created
+     *
+     * @param Company $company
+     * @param $accountManagerId
+     */
+    private function handleCompanyAccountManager(Company $company, $accountManagerId) {
+        if(isset($accountManagerId)) {
+            //null account manager id, remove account manager from company if exists
+            if ($accountManagerId == "") {
+                $this->removeAccountManagerFromCompany($company);
+            } else {
+                //if given account manager id is different from the existing account manager id, update
+                //or create, if the existing account manager id was null.
+                if($accountManagerId != $company->account_manager_id) {
+                    $userManager = new UserManager();
+                    $user = $userManager->getUser($accountManagerId);
+                    $this->setAccountManagerToCompany($user, $accountManagerId);
+                }
+            }
+        }
     }
 
     public function deleteCompany($companyId) {
@@ -121,14 +146,30 @@ class CompanyManager {
     }
 
     public function setAccountManagerToCompany(User $accountManager, $companyId) {
+
         $company = $this->getCompany($companyId);
-        $company->account_manager_id = $accountManager->id;
+        if($accountManager->id != $company->account_manager_id) {
+            //check if the user has already a company assigned
+            if ($accountManager->hasCompany()) {
+                throw new \Exception("The user " . $accountManager->first_name . " " . $accountManager->last_name . " has already a company assigned.");
+            }
+
+            // remove old account manager from company
+            $this->removeAccountManagerFromCompany($company);
+            $company->account_manager_id = $accountManager->id;
+            $this->companyStorage->saveCompany($company);
+        }
+    }
+
+    public function removeAccountManagerFromCompany (Company $company) {
+        $company->account_manager_id = null;
         $this->companyStorage->saveCompany($company);
     }
 
-    public function removeAccountManagerFromCompany(User $user) {
+    public function removeCompanyFromAccountManager(User $user) {
         $company = $this->companyStorage->getCompaniesByAccountManagerId($user->id)->first();
-        $company->account_manager_id = null;
-        $this->companyStorage->saveCompany($company);
+        if($company != null) {
+            $this->removeAccountManagerFromCompany($company);
+        }
     }
 }

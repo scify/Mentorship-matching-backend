@@ -85,20 +85,17 @@
                                 </select>
                             </div>
                         </div>
-                        @if($user->isAccountManager())
-                            <div class="formRow row">
-                                <div class="col-md-3 formElementName">Select Company </div><!--.col-md-3-->
-                                <div class="col-md-9">
-                                    <select data-placeholder="Choose Company" name="company_id" class="chosen-select">
-                                        <option value="">No Company</option>
-                                        @foreach($companies as $company)
-                                            <option value="{{$company->id}}" {{$company->id == $user['company_id']? 'selected':''}}>{{$company->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    <small class="help-block">Companies not showing here are assigned to another user</small>
-                                </div>
+                        <div class="formRow row {{!$user->isAccountManager() ? 'hidden' : ''}}">
+                            <div class="col-md-3 formElementName">Select Company </div><!--.col-md-3-->
+                            <div class="col-md-9">
+                                <select data-placeholder="Choose Company" name="company_id" class="chosen-select">
+                                    <option value="">No Company</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{$company->id}}" {{$company->id == $user['company_id']? 'selected':''}}>{{$company->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        @endif
+                        </div>
                         <div class="submitBtnContainer margin-top-50">
                             <button type="button" class="btn btn-flat-primary">
                                 <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('home') }}">Cancel</a>

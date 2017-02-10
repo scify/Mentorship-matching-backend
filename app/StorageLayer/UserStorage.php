@@ -24,4 +24,5 @@ class UserStorage {
     public function getUserById($id) {
         return User::find($id);
     }
+
 }

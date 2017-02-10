@@ -2,6 +2,8 @@
 
 namespace App\BusinessLogicLayer\managers;
 
+use App\Models\eloquent\Company;
+use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\User;
 use App\StorageLayer\RoleStorage;
 use App\StorageLayer\UserStorage;
@@ -36,6 +38,7 @@ class UserManager {
         DB::transaction(function() use($newUser, $inputFields) {
             $newUser = $this->userStorage->saveUser($newUser);
             $this->userRoleManager->assignRolesToUser($newUser, $inputFields['user_roles']);
+            $this->handleCompanyAccountManager($newUser, $inputFields['company_id']);
         });
     }
 
@@ -62,19 +65,22 @@ class UserManager {
     public function editUser(array $inputFields, $id) {
         $user = $this->getUser($id);
         $user = $this->assignInputFieldsToUser($user, $inputFields);
-        $companyManager = new CompanyManager();
 
-        DB::transaction(function() use($user, $inputFields, $companyManager) {
+
+        DB::transaction(function() use($user, $inputFields) {
             $user = $this->userStorage->saveUser($user);
+            $this->handleCompanyAccountManager($user, $inputFields['company_id']);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
-            if(isset($inputFields['company_id'])) {
-                if ($inputFields['company_id'] == "") {
-                    $companyManager->removeAccountManagerFromCompany($user);
-                } else {
-                    $companyManager->setAccountManagerToCompany($user, $inputFields['company_id']);
-                }
-            }
         });
+    }
+
+    private function handleCompanyAccountManager(User $user, $companyId) {
+        $companyManager = new CompanyManager();
+        if ($companyId == "") {
+            $companyManager->removeCompanyFromAccountManager($user);
+        } else {
+            $companyManager->setAccountManagerToCompany($user, $companyId);
+        }
     }
 
     public function deleteUser($userId) {
@@ -94,10 +100,44 @@ class UserManager {
         $this->userStorage->saveUser($user);
     }
 
+    /**
+     * Gets all account managers (users with account manager role)
+     *
+     * @return Collection a collection of @see User
+     */
     public function getAllAccountManagers() {
         $userAccessManager = new UserAccessManager();
         $accountManagerRole = $this->userRoleManager->getRoleById($userAccessManager->ACCOUNT_MANAGER_ROLE_ID);
         return $accountManagerRole->users;
+    }
+
+    /**
+     * Gets all account managers with no company assigned
+     *
+     * @return Collection a collection of @see User
+     */
+    public function getAccountManagersWithNoCompanyAssigned() {
+        $accountManagersWithNoCompany = new Collection();
+        $allAccountManagers = $this->getAllAccountManagers();
+        foreach ($allAccountManagers as $accountManager) {
+            if(!$accountManager->hasCompany()) {
+                $accountManagersWithNoCompany->add($accountManager);
+            }
+        }
+        return $accountManagersWithNoCompany;
+    }
+
+    /**
+     * Gets all account managers with no company assigned and add the account manager of the current company
+     *
+     * @param Company $company the company instance
+     * @return Collection a collection of @see User
+     */
+    public function getAccountManagersWithNoCompanyAssignedExceptCurrent(Company $company) {
+        //get all account managers with no company assigned and add the account manager of the current company
+        $accountManagersWithNoCompany = $this->getAccountManagersWithNoCompanyAssigned();
+        $company->accountManager != null ? $accountManagersWithNoCompany->add($company->accountManager) : '';
+        return $accountManagersWithNoCompany;
     }
 
 }

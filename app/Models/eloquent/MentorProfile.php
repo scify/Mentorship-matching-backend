@@ -57,4 +57,9 @@ class MentorProfile extends Model
     {
         return $this->belongsToMany(Industry::class, 'mentor_industry')->wherePivot('deleted_at', null);
     }
+
+    public function hasCompany(){
+
+        return (bool) $this->company()->first();
+    }
 }

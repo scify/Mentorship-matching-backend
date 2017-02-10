@@ -38,7 +38,31 @@ class MentorManager {
             $newMentor = $this->mentorStorage->saveMentor($mentorProfile);
             $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
             $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
+            $this->handleMentorCompany($newMentor, $inputFields['company_id']);
         });
+    }
+
+    public function editMentor(array $inputFields, $id) {
+        $mentor = $this->getMentor($id);
+        $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);
+
+        DB::transaction(function() use($mentor, $inputFields) {
+            $mentor = $this->mentorStorage->saveMentor($mentor);
+            $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
+            $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
+            $this->handleMentorCompany($mentor, $inputFields['company_id']);
+        });
+    }
+
+    private function handleMentorCompany(MentorProfile $mentorProfile, $companyId) {
+        if(isset($companyId)) {
+            if ($companyId == "") {
+                $mentorProfile->company_id = null;
+            } else {
+                $mentorProfile->company_id = $companyId;
+            }
+        }
+        $this->mentorStorage->saveMentor($mentorProfile);
     }
 
     /**
@@ -84,17 +108,6 @@ class MentorManager {
         return $this->mentorStorage->getMentorProfileById($id);
     }
 
-    public function editMentor(array $inputFields, $id) {
-        $mentor = $this->getMentor($id);
-        $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);
-
-        DB::transaction(function() use($mentor, $inputFields) {
-            $mentor = $this->mentorStorage->saveMentor($mentor);
-            $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
-            $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
-        });
-    }
-
     public function deleteMentor($mentorId) {
         $mentor = $this->getMentor($mentorId);
         $mentor->delete();
@@ -113,6 +126,9 @@ class MentorManager {
 
     public function assignCompanyToMentor(Company $company, $mentorId) {
         $mentor = $this->getMentor($mentorId);
+        if($mentor->hasCompany()) {
+            throw new \Exception("The mentor " . $mentor->first_name . " " . $mentor->last_name . " has already a company assigned.");
+        }
         $mentor->company_id = $company->id;
         $this->mentorStorage->saveMentor($mentor);
     }

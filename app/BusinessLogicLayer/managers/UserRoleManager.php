@@ -57,12 +57,12 @@ class UserRoleManager {
 
     public function editUserRoles(User $user, array $newUserRoles) {
         //we get an array of this user's roles
-        $userRolesIds = $this->getUserRoleIds($user);
+        $existingUserRolesIds = $this->getUserRoleIds($user);
         $newRolesIds = array();
         //every new role as a role id not included
         // in the existing roles of the user
         foreach ($newUserRoles as $newRole) {
-            if(!in_array($newRole['id'], $userRolesIds)) {
+            if(!in_array($newRole['id'], $existingUserRolesIds)) {
                 //create new role
                 $this->createNewRoleForUser($user, $newRole['id']);
             }
@@ -70,8 +70,15 @@ class UserRoleManager {
         }
         //every role that was deleted i a role id in the existing roles
         // not included in the new roles
-        foreach ($userRolesIds as $userRoleId) {
+        foreach ($existingUserRolesIds as $userRoleId) {
             if(!in_array($userRoleId, $newRolesIds)) {
+                $userAccessManager = new UserAccessManager();
+                //if the role that was removed is the Account manager role
+                if($userRoleId == $userAccessManager->ACCOUNT_MANAGER_ROLE_ID) {
+                    $companyManager = new CompanyManager();
+                    $companyManager->removeCompanyFromAccountManager($user);
+                }
+                //we should delete the company if the user was Company account manager
                 //delete role that was removed
                 $this->deleteRoleFromUser($user, $userRoleId);
             }

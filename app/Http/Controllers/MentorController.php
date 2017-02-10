@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
@@ -44,6 +45,7 @@ class MentorController extends Controller
      */
     public function showCreateForm()
     {
+        $companyManager = new CompanyManager();
         $mentor = new MentorProfile();
         $mentorSpecialtiesIds = array();
         $mentorIndustriesIds = array();
@@ -51,12 +53,14 @@ class MentorController extends Controller
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
+        $companies = $companyManager->getAllCompanies();
 
         return view('mentors.forms.create_edit', ['mentor' => $mentor,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user()
+            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
+            'companies' => $companies
         ]);
     }
 
@@ -68,20 +72,21 @@ class MentorController extends Controller
      */
     public function showEditForm($id)
     {
+        $companyManager = new CompanyManager();
         $mentor = $this->mentorManager->getMentor($id);
-
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
         $mentorSpecialtiesIds = $this->specialtyManager->getMentorSpecialtiesIds($mentor);
         $mentorIndustriesIds = $this->industryManager->getMentorIndustriesIds($mentor);
-
+        $companies = $companyManager->getAllCompanies();
         $formTitle = 'Edit mentor';
         return view('mentors.forms.create_edit', ['mentor' => $mentor,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user()
+            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
+            'companies' => $companies
         ]);
     }
 
