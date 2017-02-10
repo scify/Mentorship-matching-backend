@@ -68,11 +68,12 @@ class UserManager {
             $user = $this->userStorage->saveUser($user);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
             //TODO: fix
-            if($inputFields['company_id'] == "") {
-                    $companyManager->removeAccountManagerFromCompany($user);
-            } else {
-                $companyManager->setAccountManagerToCompany($user, $inputFields['company_id']);
-            }
+            if(isset($inputFields['company_id']))
+                if($inputFields['company_id'] == "") {
+                        $companyManager->removeAccountManagerFromCompany($user);
+                } else {
+                    $companyManager->setAccountManagerToCompany($user, $inputFields['company_id']);
+                }
         });
     }
 

@@ -95,6 +95,7 @@
                                             <option value="{{$company->id}}" {{$company->id == $user['company_id']? 'selected':''}}>{{$company->name}}</option>
                                         @endforeach
                                     </select>
+                                    <small class="help-block">Companies not showing here are assigned to another user</small>
                                 </div>
                             </div>
                         @endif
