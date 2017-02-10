@@ -305,6 +305,13 @@ body {
   }
 }
 
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  background-color: transparent;
+}
+
+.nav-tabs > li > a {
+  background-color: $body-bg;
+}
 
 .profileCard {
   .card {
@@ -341,6 +348,13 @@ body {
     height:1px;
   }
 
+}
+
+.companyCard {
+  .card {
+    height: 200px;
+    overflow-y: auto;
+  }
 }
 
 .jobPairsForm {

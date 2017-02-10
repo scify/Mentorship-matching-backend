@@ -34,4 +34,14 @@ class Company extends Model
     {
         return $this->hasOne(User::class, 'id', 'account_manager_id');
     }
+
+    public function hasAccountManager(){
+
+        return (bool) $this->accountManager()->first();
+    }
+
+    public function hasMentors(){
+
+        return (bool) $this->mentors()->first();
+    }
 }

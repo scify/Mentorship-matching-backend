@@ -1,17 +1,17 @@
 <div class="row">
     <div class="col-md-12">
-        @foreach($mentees as $mentee)
+        @foreach($companies as $company)
             <div class="col-md-3">
-                @include('mentees.single', ['mentee' => $mentee])
+                @include('companies.single', ['company' => $company])
             </div>
         @endforeach
     </div>
 </div>
-@include('mentees.modals')
+@include('companies.modals')
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var controller = new window.MenteesListController();
+            var controller = new window.CompaniesListController();
             controller.init();
         });
     </script>

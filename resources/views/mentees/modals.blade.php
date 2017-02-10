@@ -3,7 +3,7 @@
         <div class="modal-content">
             <form method="POST" action="{{route('deleteMentee')}}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="mentor_id" value="">
+                <input type="hidden" name="mentee_id" value="">
             <div class="modal-header">
                 <h4 class="modal-title"></h4>
             </div>
