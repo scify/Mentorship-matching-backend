@@ -1,0 +1,29 @@
+// Variables
+@import "variables";
+
+.profilePage {
+  .page-header .profile-info .profile-text, .header .profile-info .profile-text {
+    margin-left: 0px;
+  }
+
+  .breadCrumpContainer {
+    float: right;
+  }
+  .breadcrumb {
+    max-width: 100%;
+  }
+  .page-header .breadcrumb a {
+    text-transform: none;
+  }
+  .page-header {
+    margin-top: 0;
+  }
+
+  .formRow {
+    margin-bottom: 20px;
+  }
+
+  .formElementName {
+    color: $form-placeholder-color;
+  }
+}

@@ -39,6 +39,18 @@ class MentorController extends Controller
     }
 
     /**
+     * Display a mentor profile page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showProfile($id)
+    {
+        $mentor = $this->mentorManager->getMentor($id);
+        $loggedInUser = Auth::user();
+        return view('mentors.profile', ['mentor' => $mentor, 'loggedInUser' => $loggedInUser]);
+    }
+
+    /**
      * Show the form for creating a new mentor.
      *
      * @return \Illuminate\Http\Response

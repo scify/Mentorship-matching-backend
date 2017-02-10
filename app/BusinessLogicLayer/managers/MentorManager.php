@@ -77,7 +77,7 @@ class MentorManager {
         $mentorProfile->address = $inputFields['address'];
         $mentorProfile->email = $inputFields['email'];
         $mentorProfile->skills = $inputFields['skills'];
-        $mentorProfile->company = $inputFields['company'];
+        $mentorProfile->company_name = $inputFields['company_name'];
         $mentorProfile->company_sector = $inputFields['company_sector'];
         $mentorProfile->job_position = $inputFields['job_position'];
         $mentorProfile->job_experience_years = $inputFields['job_experience_years'];

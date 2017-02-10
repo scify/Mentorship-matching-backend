@@ -166,15 +166,15 @@
                             @endif
                         @endif
                         <!-- Company -->
-                            <div class="{{ $errors->first('company')?'has-error has-feedback':'' }}">
+                            <div class="{{ $errors->first('company_name')?'has-error has-feedback':'' }}">
                                 <div class="inputer floating-label">
                                     <div class="input-wrapper">
-                                        <input type="text" class="form-control" name="company"
-                                               value="{{ old('company') != '' ? old('company') : $mentor['company']}}">
+                                        <input type="text" class="form-control" name="company_name"
+                                               value="{{ old('company_name') != '' ? old('company_name') : $mentor['company_name']}}">
                                         <label for="email">Company</label>
                                     </div>
                                 </div>
-                                <span class="help-block">{{ $errors->first('company') }}</span>
+                                <span class="help-block">{{ $errors->first('company_name') }}</span>
 
                             </div>
                             <!-- Company Sector -->

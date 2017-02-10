@@ -11,7 +11,7 @@ var gulp = require('gulp');
 
 elixir(function(mix) {
 
-    mix.sass('app.scss',  'public/css/app.css');
+    mix.sass(['app.scss', 'profile_page.scss'],  'public/css/app.css');
 
     mix.styles([
 

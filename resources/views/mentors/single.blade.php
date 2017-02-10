@@ -132,7 +132,7 @@
                                                 @endif
                                             @if($mentor->company != null)
                                                 <li>
-                                                    <b>Company:</b> {{$mentor->company}}
+                                                    <b>Company:</b> {{$mentor->company->name}}
                                                 </li>
                                             @endif
                                             @if($mentor->company_sector != null)
