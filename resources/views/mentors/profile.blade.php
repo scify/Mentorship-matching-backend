@@ -6,7 +6,7 @@
 
                 <div class="profile-text light">
                     {{$mentor->first_name}}  {{$mentor->last_name}}, <span class="caption userRole">{{trans('messages.mentor')}}</span>
-                    <span class="caption">profile page</span>
+                    <span class="caption">{{trans('messages.profile_page')}}</span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
@@ -24,7 +24,7 @@
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
                     <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.info')}}</a></li>
                     <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.skills')}}</a></li>
-                    <li><a data-href="#photos" data-toggle="tab" class="btn-ripple">Matches</a></li>
+                    <li><a data-href="#photos" data-toggle="tab" class="btn-ripple">{{trans('messages.matches')}}</a></li>
                 </ul>
             </div>
 

@@ -26,5 +26,7 @@ return [
     'job_experience_years' => 'Job Experience years',
     'university' => 'University',
     'university_department' => 'University department',
-    'skills' => 'Skills'
+    'skills' => 'Skills',
+    'matches' => 'Matches',
+    'profile_page' => 'profile page'
 ];
