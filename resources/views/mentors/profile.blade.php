@@ -5,7 +5,7 @@
             <div class="profile-info">
 
                 <div class="profile-text light">
-                    {{$mentor->first_name}}  {{$mentor->last_name}}
+                    {{$mentor->first_name}}  {{$mentor->last_name}}, <span class="caption userRole">{{trans('messages.mentor')}}</span>
                     <span class="caption">profile page</span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
