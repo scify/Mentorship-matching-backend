@@ -67,13 +67,13 @@ class UserManager {
         DB::transaction(function() use($user, $inputFields, $companyManager) {
             $user = $this->userStorage->saveUser($user);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
-            //TODO: fix
-            if(isset($inputFields['company_id']))
-                if($inputFields['company_id'] == "") {
-                        $companyManager->removeAccountManagerFromCompany($user);
+            if(isset($inputFields['company_id'])) {
+                if ($inputFields['company_id'] == "") {
+                    $companyManager->removeAccountManagerFromCompany($user);
                 } else {
                     $companyManager->setAccountManagerToCompany($user, $inputFields['company_id']);
                 }
+            }
         });
     }
 
