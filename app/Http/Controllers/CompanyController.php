@@ -74,7 +74,7 @@ class CompanyController extends Controller
      * Store a newly created company in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function create(Request $request)
     {
@@ -92,7 +92,7 @@ class CompanyController extends Controller
         }
 
         session()->flash('flash_message_success', 'Company created');
-        return back();
+        return $this->showAllCompanies();
 
     }
 

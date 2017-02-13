@@ -76,7 +76,7 @@ class MenteeController extends Controller
      * Store a newly created mentee in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function create(Request $request)
     {
@@ -106,7 +106,7 @@ class MenteeController extends Controller
         }
 
         session()->flash('flash_message_success', 'Mentee created');
-        return back();
+        return $this->showAllMentees();
 
     }
 

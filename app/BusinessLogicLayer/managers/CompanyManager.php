@@ -30,8 +30,23 @@ class CompanyManager {
 
         DB::transaction(function() use($company, $inputFields) {
             $newCompany = $this->companyStorage->saveCompany($company);
-            $this->assignCompanyToMentors($newCompany, $inputFields['mentors']);
-            $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
+            if(isset($inputFields['mentors']))
+                $this->assignCompanyToMentors($newCompany, $inputFields['mentors']);
+            if(isset($inputFields['account_manager_id']))
+                $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
+        });
+    }
+
+    public function editCompany(array $inputFields, $id) {
+        $company = $this->getCompany($id);
+        $company = $this->assignInputFieldsToCompany($company, $inputFields);
+
+        DB::transaction(function() use($company, $inputFields) {
+            $company = $this->companyStorage->saveCompany($company);
+            if(isset($inputFields['mentors']))
+                $this->editCompanyMentors($company, $inputFields['mentors']);
+            if(isset($inputFields['account_manager_id']))
+                $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
         });
     }
 
@@ -46,25 +61,12 @@ class CompanyManager {
             $company->description = $inputFields['description'];
         if(isset($inputFields['website']))
             $company->website = $inputFields['website'];
-//        if(isset($inputFields['account_manager_id']))
-//            $company->account_manager_id = $inputFields['account_manager_id'];
 
         return $company;
     }
 
     public function getCompany($id) {
         return $this->companyStorage->getCompanyById($id);
-    }
-
-    public function editCompany(array $inputFields, $id) {
-        $company = $this->getCompany($id);
-        $company = $this->assignInputFieldsToCompany($company, $inputFields);
-
-        DB::transaction(function() use($company, $inputFields) {
-            $company = $this->companyStorage->saveCompany($company);
-            $this->editCompanyMentors($company, $inputFields['mentors']);
-            $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
-        });
     }
 
     /**

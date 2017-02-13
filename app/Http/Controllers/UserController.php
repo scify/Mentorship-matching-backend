@@ -58,7 +58,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function create(Request $request)
     {
@@ -81,7 +81,7 @@ class UserController extends Controller
         }
 
         session()->flash('flash_message_success', 'User created');
-        return back();
+        return $this->showAllUsers();
 
     }
 

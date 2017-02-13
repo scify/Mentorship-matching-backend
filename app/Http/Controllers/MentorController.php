@@ -130,7 +130,7 @@ class MentorController extends Controller
      * Store a newly created mentor in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function create(Request $request)
     {
@@ -160,7 +160,7 @@ class MentorController extends Controller
         }
 
         session()->flash('flash_message_success', 'Mentor created');
-        return back();
+        return $this->showAllMentors();
 
     }
 

@@ -21,6 +21,10 @@ body {
   padding-left: 30px;
 }
 
+.content .alert {
+  z-index: 100000;
+}
+
 .page-header {
   background: linear-gradient(to right, #4457bf, #2d3a81); /* Standard syntax */
 }
