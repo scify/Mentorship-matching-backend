@@ -22,11 +22,12 @@ window.UsersListController.prototype = function () {
             $(".deactivateUserBtn").on("click", function (e) {
                 e.stopPropagation();
                 var userId = $(this).attr("data-userId");
+                console.log(userId);
                 $('#deactivateUserModal').modal('toggle');
                 $('#deactivateUserModal').find('input[name="user_id"]').val(userId);
             });
         },
-        initializeRoleSelect = function() {
+        initializeRoleSelect = function(instance) {
             var roleSelect = $('.chosen-select').chosen({
                 width: '100%'
             });
@@ -34,10 +35,10 @@ window.UsersListController.prototype = function () {
             roleSelect.change(function(){
                 var roleId = $(this).val();
                 if(roleId != undefined || roleId != "")
-                    getUsersByRole(roleId);
+                    getUsersByRole(roleId, instance);
             });
         },
-        getUsersByRole = function (roleId) {
+        getUsersByRole = function (roleId, instance) {
             var data = {
                 'role_id': roleId
             };
@@ -64,6 +65,9 @@ window.UsersListController.prototype = function () {
                         $(".loader").addClass('hidden');
                         $("#usersList").html(responseObj.data);
                         Pleasure.listenClickableCards();
+                        //run the handlers initialization function again
+                        instance.initializeHandlers();
+
                     }
                 },
                 error: function (xhr, status, errorThrown) {
@@ -75,13 +79,19 @@ window.UsersListController.prototype = function () {
                 }
             });
         },
-        init = function () {
+        initializeHandlers = function() {
             deleteUserBtnHandler();
             activateUserBtnHandler();
             deactivateUserBtnHandler();
-            initializeRoleSelect();
+        },
+        init = function () {
+            console.log("on init");
+            var instance = this;
+            initializeHandlers();
+            initializeRoleSelect(instance);
         };
     return {
-        init: init
+        init: init,
+        initializeHandlers: initializeHandlers
     }
 }();

@@ -9,3 +9,11 @@
     </div>
 </div>
 @include('users.modals')
+@section('additionalFooter')
+    <script>
+        $( document ).ready(function() {
+            var controller = new window.UsersListController();
+            controller.init();
+        });
+    </script>
+@endsection

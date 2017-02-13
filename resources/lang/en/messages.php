@@ -29,5 +29,6 @@ return [
     'university_department' => 'University department',
     'skills' => 'Skills',
     'matches' => 'Matches',
-    'profile_page' => 'profile page'
+    'profile_page' => 'profile page',
+    'mentorship_sessions' => 'Mentorship sessions'
 ];

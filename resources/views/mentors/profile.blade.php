@@ -6,7 +6,11 @@
 
                 <div class="profile-text light">
                     {{$mentor->first_name}}  {{$mentor->last_name}},
-                    <span class="caption userRole">{{trans('messages.mentor')}} <a href="{{route('showEditMentorForm', $mentor->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> </span>
+                    <span class="caption userRole">{{trans('messages.mentor')}}
+                        @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                            <a class="margin-left-10" href="{{route('showEditMentorForm', $mentor->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                        @endif
+                    </span>
                     <span class="caption">{{trans('messages.profile_page')}} </span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
@@ -25,7 +29,7 @@
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
                     <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.info')}}</a></li>
                     <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.skills')}}</a></li>
-                    <li><a data-href="#photos" data-toggle="tab" class="btn-ripple">{{trans('messages.matches')}}</a></li>
+                    <li><a data-href="#photos" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
                 </ul>
             </div>
 

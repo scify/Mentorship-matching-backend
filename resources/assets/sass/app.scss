@@ -21,6 +21,14 @@ body {
   padding-left: 30px;
 }
 
+.page-header {
+  background: linear-gradient(to right, #4457bf, #2d3a81); /* Standard syntax */
+}
+
+.header-tabs {
+  background: linear-gradient(to right, #4457bf, #2d3a81); /* Standard syntax */
+}
+
 .resultsTitle {
   font-style: italic;
   color: $brand-primary;
