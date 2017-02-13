@@ -36,7 +36,7 @@
                         </button>
                     </div>
                     <div class="row">
-                        <button id="clearFiltersBtn" class="searchBtn btn btn-flat-primary btn-ripple margin-right-10">
+                        <button id="clearSearchBtn" class="searchBtn btn btn-flat-primary btn-ripple margin-right-10">
                             {{trans('messages.clear_filters')}}
                         </button>
                     </div>

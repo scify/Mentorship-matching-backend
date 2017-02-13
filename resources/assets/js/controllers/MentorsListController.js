@@ -15,6 +15,7 @@ window.MentorsListController.prototype = function () {
             deleteMentorBtnHandler();
             cardTabClickHandler();
             searchBtnHandler(instance);
+            clearSearchBtnHandler(instance);
         },
         searchBtnHandler = function (instance) {
             $("#searchBtn").on("click", function (e) {
@@ -22,6 +23,14 @@ window.MentorsListController.prototype = function () {
                 var mentorName = $('input[name=mentorName]').val();
                 console.log("search triggered for specialty: " + specialtyId + " and name: " + mentorName);
                 getMentorsByFilter(specialtyId, mentorName, instance);
+            });
+        },
+        clearSearchBtnHandler = function (instance) {
+            $("#clearSearchBtn").on("click", function (e) {
+                getMentorsByFilter(null, null, instance);
+                $('select[name=specialty]').val(0);
+                $('select[name=specialty]').trigger("chosen:updated");
+                $('input[name=mentorName]').val(null);
             });
         },
         getMentorsByFilter = function (specialtyId, mentorName, instance) {
@@ -57,6 +66,7 @@ window.MentorsListController.prototype = function () {
                 $(".loader").addClass('hidden');
                 $("#errorMsg").removeClass('hidden');
                 $("#errorMsg").html(responseObj.data);
+                $("#usersList").html("");
             } else {
                 $("#usersList").html("");
                 $("#errorMsg").addClass('hidden');
