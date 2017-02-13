@@ -5,6 +5,7 @@ return [
     'info' => 'Info',
     'profile' => 'Profile',
     'mentors' => 'Mentors',
+    'details' => 'Details',
     'mentor' => 'Mentor',
     'account_manager' => 'Account Manager',
     'company_account_manager' => 'Company Account Manager',

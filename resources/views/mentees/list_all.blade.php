@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    <div class="col-md-6 centeredVertically">
+    <div class="col-md-12 centeredVertically margin-top-10">
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="col-md-12">Filter by role</h3>
+                <h4 class="col-md-12">Filters</h4>
             </div><!--.panel-heading-->
             <div class="panel-body">
                 <div class="col-md-3">Role</div><!--.col-md-3-->

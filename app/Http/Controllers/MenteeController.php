@@ -30,7 +30,8 @@ class MenteeController extends Controller
     {
         $mentees = $this->menteeManager->getAllMentees();
         $loggedInUser = Auth::user();
-        return view('mentees.list_all', ['mentees' => $mentees, 'loggedInUser' => $loggedInUser]);
+        $page_title = 'All mentees';
+        return view('mentees.list_all', ['mentees' => $mentees, 'loggedInUser' => $loggedInUser, 'page_title' => $page_title]);
     }
 
     /**

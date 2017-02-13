@@ -5,8 +5,9 @@
             <div class="profile-info">
 
                 <div class="profile-text light">
-                    {{$mentor->first_name}}  {{$mentor->last_name}}, <span class="caption userRole">{{trans('messages.mentor')}}</span>
-                    <span class="caption">{{trans('messages.profile_page')}}</span>
+                    {{$mentor->first_name}}  {{$mentor->last_name}},
+                    <span class="caption userRole">{{trans('messages.mentor')}} <a href="{{route('showEditMentorForm', $mentor->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a> </span>
+                    <span class="caption">{{trans('messages.profile_page')}} </span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 

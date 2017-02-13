@@ -9,10 +9,10 @@
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
 <div class="content-wrapper">
     <section class="content-header">
-        <h3 style="float: left;"> {{isset($page_title) ? $page_title:''}} <span id="feedback-header"></span></h3>
-        <div class="row example-row">
+        <h3 class="pageTitle margin-bottom-20"> {{isset($page_title) ? $page_title:''}} <span id="feedback-header"></span></h3>
+        <div class="row">
             <div class="col-md-9" style="float: right; padding-top: 10px;">
-                <div class="loading-bar indeterminate margin-top-10" id="globalLoader" hidden></div>
+                <div class="loading-bar indeterminate margin-top-10 margin-bottom-10 hidden" id="globalLoader" hidden></div>
             </div><!--.col-->
         </div><!--.row-->
     </section>

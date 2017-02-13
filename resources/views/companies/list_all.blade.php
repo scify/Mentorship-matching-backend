@@ -3,7 +3,7 @@
     <div class="col-md-6 centeredVertically">
         {{--<div class="panel">--}}
             {{--<div class="panel-heading">--}}
-                {{--<h3 class="col-md-12">Filter by role</h3>--}}
+                {{--<h3 class="col-md-12">Filters</h3>--}}
             {{--</div><!--.panel-heading-->--}}
             {{--<div class="panel-body">--}}
                 {{--<div class="col-md-3">Role</div><!--.col-md-3-->--}}

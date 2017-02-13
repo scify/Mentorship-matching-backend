@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
-    <div class="col-md-6 centeredVertically">
+    <div class="col-md-12 centeredVertically">
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="col-md-12">Filter by role</h3>
+                <h4 class="col-md-12">Filters</h4>
             </div><!--.panel-heading-->
             <div class="panel-body">
-                <div class="col-md-3">Role</div><!--.col-md-3-->
+                <div class="col-md-3">Specialty</div><!--.col-md-3-->
                 <div class="col-md-6">
                     <select data-placeholder="Choose role" name="user_role" class="chosen-select">
                         <option><!-- Empty option allows the placeholder to take effect. --><option>

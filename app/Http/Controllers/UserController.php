@@ -30,8 +30,9 @@ class UserController extends Controller
     {
         $users = $this->userManager->getAllUsers();
         $userRoles = $this->userRoleManager->getAllUserRoles();
+        $pageTitle = 'All users';
         $loggedInUser = Auth::user();
-        return view('users.list_all', ['users' => $users, 'userRoles' => $userRoles, 'loggedInUser' => $loggedInUser]);
+        return view('users.list_all', ['users' => $users, 'userRoles' => $userRoles, 'loggedInUser' => $loggedInUser, 'page_title' => $pageTitle]);
     }
 
     /**

@@ -16,6 +16,17 @@ body {
   margin: 0 81px 0 81px;
 }
 
+.pageTitle {
+  float: left;
+  padding-left: 30px;
+}
+
+.resultsTitle {
+  font-style: italic;
+  color: $brand-primary;
+  padding-left: 15px;
+}
+
 .float-left {
   float: left;
 }

@@ -1,5 +1,6 @@
 <div class="row">
-    <div class="col-md-12">
+    <h4 class="resultsTitle margin-bottom-20">{{$mentees->count()}} mentees found</h4>
+    <div class="col-md-12 padding-0">
         @foreach($mentees as $mentee)
             <div class="col-md-3">
                 @include('mentees.single', ['mentee' => $mentee])
