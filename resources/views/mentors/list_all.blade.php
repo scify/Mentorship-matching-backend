@@ -30,9 +30,16 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">
-                        {{trans('messages.search')}}
-                    </button>
+                    <div class="row">
+                        <button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">
+                            {{trans('messages.search')}}
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button id="clearFiltersBtn" class="searchBtn btn btn-flat-primary btn-ripple margin-right-10">
+                            {{trans('messages.clear_filters')}}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

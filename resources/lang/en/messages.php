@@ -31,5 +31,6 @@ return [
     'matches' => 'Matches',
     'profile_page' => 'profile page',
     'mentorship_sessions' => 'Mentorship sessions',
-    'search' => 'Search'
+    'search' => 'Search',
+    'clear_filters' => 'Clear filters'
 ];

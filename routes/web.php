@@ -23,8 +23,7 @@ Route::get('contact', 'HomeController@showContactForm')->name('showContactForm')
 Route::post('contact', 'HomeController@sendContactEmail')->name('sendContactEmail');
 
 Route::group([ 'middleware' => 'auth' ], function () {
-    //TODO: wrap in middleware for admin
-    Route::get('mentor/{id}', 'MentorController@showProfile')->name('showMentorProfile');
+    Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
 });
 

@@ -8,7 +8,7 @@
         <div class="profileCardBody">
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1_{{$mentor->id}}">
-                    <h4 class="userDetail"><a href="{{route('showMentorProfile', $mentor->id)}}" target="_blank"> {{$mentor->first_name}} {{$mentor->last_name}}</a>,
+                    <h4 class="userDetail"><a href="{{route('showMentorProfilePage', $mentor->id)}}" target="_blank"> {{$mentor->first_name}} {{$mentor->last_name}}</a>,
                         <small>{{$mentor->job_position}}</small>
                         <small><i title="{{$mentor->is_available ? 'Available' : 'Not available'}}" class="fa fa-user {{$mentor->is_available ? 'green' : 'red'}}" aria-hidden="true"></i></small>
 
