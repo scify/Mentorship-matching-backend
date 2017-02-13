@@ -275,6 +275,15 @@ body {
   margin-left: 100px;
 }
 
+.filtersContainer {
+  .row {
+    margin-bottom: 10px;
+  }
+  .filterName {
+    margin-top: 10px;
+  }
+}
+
 .margin-top-100 {
   margin-top: 100px;
 }
@@ -282,6 +291,14 @@ body {
 .jobPairsForm {
   h5 {
     color: $form-placeholder-color;
+  }
+
+  .error {
+    color: $brand-danger;
+  }
+
+  .btn {
+    font-size: medium;
   }
 
   .form-control {
@@ -375,8 +392,12 @@ body {
   }
 }
 
-.jobPairsForm {
-  .error {
-    color: $brand-danger;
-  }
+
+.searchBtn {
+  float: right;
+  font-size: medium;
+}
+
+#errorMsg {
+  width: 100%;
 }

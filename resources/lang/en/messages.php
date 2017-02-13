@@ -30,5 +30,6 @@ return [
     'skills' => 'Skills',
     'matches' => 'Matches',
     'profile_page' => 'profile page',
-    'mentorship_sessions' => 'Mentorship sessions'
+    'mentorship_sessions' => 'Mentorship sessions',
+    'search' => 'Search'
 ];

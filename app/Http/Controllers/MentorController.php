@@ -7,6 +7,7 @@ use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
+use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,12 +32,34 @@ class MentorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showAllMentors()
-    {
+    public function showAllMentors() {
         $mentors = $this->mentorManager->getAllMentors();
         $page_title = 'All mentors';
         $loggedInUser = Auth::user();
-        return view('mentors.list_all', ['mentors' => $mentors, 'loggedInUser' => $loggedInUser, 'page_title' => $page_title]);
+        $specialties = $this->specialtyManager->getAllSpecialties();
+        return view('mentors.list_all', ['mentors' => $mentors,
+            'loggedInUser' => $loggedInUser, 'page_title' => $page_title,
+            'specialties' => $specialties
+        ]);
+    }
+
+    public function showMentorsByCriteria(Request $request) {
+        $input = $request->all();
+
+        try {
+            $mentors = $this->mentorManager->getMentorsByCriteria($input);
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+
+        if($mentors->count() == 0) {
+            $errorMessage = "No mentors found";
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        } else {
+            $loggedInUser = Auth::user();
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentors', 'loggedInUser'))));
+        }
     }
 
     /**

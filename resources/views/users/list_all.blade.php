@@ -6,15 +6,22 @@
                 <h4 class="col-md-12">Filters</h4>
             </div><!--.panel-heading-->
             <div class="panel-body">
-                <div class="col-md-3">Role</div><!--.col-md-3-->
-                <div class="col-md-6">
-                    <select data-placeholder="Choose role" name="user_role" class="chosen-select">
-                        <option><!-- Empty option allows the placeholder to take effect. --><option>
-                        @foreach($userRoles as $userRole)
-                            <option value="{{$userRole->id}}">{{$userRole->title}}</option>
-                        @endforeach
-                    </select>
-                </div><!--.col-md-9-->
+                <div class="col-md-9">
+                    <div class="col-md-2">Role</div><!--.col-md-3-->
+                    <div class="col-md-6">
+                        <select data-placeholder="Choose role" name="user_role" class="chosen-select">
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
+                            @foreach($userRoles as $userRole)
+                                <option value="{{$userRole->id}}">{{$userRole->title}}</option>
+                            @endforeach
+                        </select>
+                    </div><!--.col-md-6-->
+                </div>
+                <div class="col-md-3">
+                    <button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">
+                        {{trans('messages.search')}}
+                    </button>
+                </div>
             </div>
         </div>
     </div><!--.row-->

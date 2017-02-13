@@ -25,6 +25,7 @@ Route::post('contact', 'HomeController@sendContactEmail')->name('sendContactEmai
 Route::group([ 'middleware' => 'auth' ], function () {
     //TODO: wrap in middleware for admin
     Route::get('mentor/{id}', 'MentorController@showProfile')->name('showMentorProfile');
+    Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
