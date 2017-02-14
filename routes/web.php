@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('user/deactivate', 'UserController@deactivate')->name('deactivateUser');
     Route::get('users/byRole', ['as' => 'getUsersByRole','uses' => 'UserController@getUsersByRole']);
 
+    Route::get('reports/all', 'ReportController@showAllReports')->name('showAllReports');
 
     Route::get('mentors/all', 'MentorController@showAllMentors')->name('showAllMentors');
     Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');

@@ -50,3 +50,6 @@
         </ul>
     </li>
 @endif
+<li class="{{ (Route::current()->getName() == 'showAllReports') ? 'open' : '' }}">
+    <a href="{{ route('showAllReports') }}"><i class="fa fa-line-chart" aria-hidden="true"></i> Reports </a>
+</li>
