@@ -17,11 +17,11 @@
                         </select>
                     </div><!--.col-md-6-->
                 </div>
-                <div class="col-md-3">
-                    <button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">
-                        {{trans('messages.search')}}
-                    </button>
-                </div>
+                {{--<div class="col-md-3">--}}
+                    {{--<button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">--}}
+                        {{--{{trans('messages.search')}}--}}
+                    {{--</button>--}}
+                {{--</div>--}}
             </div>
         </div>
     </div><!--.row-->

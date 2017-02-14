@@ -60,7 +60,6 @@ window.MentorsListController.prototype = function () {
         },
         parseSuccessData = function(response, instance) {
             var responseObj = JSON.parse(response);
-            console.log(responseObj);
             //if operation was unsuccessful
             if (responseObj.status == 2) {
                 $(".loader").addClass('hidden');
@@ -74,7 +73,7 @@ window.MentorsListController.prototype = function () {
                 $("#usersList").html(responseObj.data);
                 Pleasure.listenClickableCards();
                 //run the handlers initialization function again
-                instance.initializeHandlers();
+                instance.initializeHandlers(instance);
 
             }
         },
