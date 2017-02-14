@@ -24,6 +24,7 @@ Route::post('contact', 'HomeController@sendContactEmail')->name('sendContactEmai
 
 Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
+    Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
     Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
 });
 

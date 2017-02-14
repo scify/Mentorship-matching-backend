@@ -32,5 +32,17 @@ return [
     'profile_page' => 'profile page',
     'mentorship_sessions' => 'Mentorship sessions',
     'search' => 'Search',
-    'clear_filters' => 'Clear filters'
+    'clear_filters' => 'Clear filters',
+    'mentee' => 'Mentee',
+    'university_graduation_year' => 'University graduation year',
+    'employed' => 'Employed',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'job_description' => 'Job description',
+    'specialty' => 'Specialty',
+    'expectations' => 'Expectations',
+    'goals' => 'Goals',
+    'specialty_experience' => 'Specialty experience',
+    'career_goals' => 'Career goals',
+    'heard_about' => 'Heard about platform'
 ];

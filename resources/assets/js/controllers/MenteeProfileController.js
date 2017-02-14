@@ -1,7 +1,7 @@
-window.MenteeProfileController = function () {
+window.MentorProfileController = function () {
 };
 
-window.MenteeProfileController.prototype = function () {
+window.MentorProfileController.prototype = function () {
     var
 
         init = function () {

@@ -111,6 +111,18 @@ class MenteeController extends Controller
     }
 
     /**
+     * Display a mentee profile page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showProfile($id)
+    {
+        $mentee = $this->menteeManager->getMentee($id);
+        $loggedInUser = Auth::user();
+        return view('mentees.profile', ['mentee' => $mentee, 'loggedInUser' => $loggedInUser]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

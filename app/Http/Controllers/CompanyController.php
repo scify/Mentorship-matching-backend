@@ -30,7 +30,10 @@ class CompanyController extends Controller
     {
         $companies = $this->companyManager->getAllCompanies();
         $loggedInUser = Auth::user();
-        return view('companies.list_all', ['companies' => $companies, 'loggedInUser' => $loggedInUser]);
+        $page_title = 'All companies';
+        return view('companies.list_all', ['companies' => $companies,
+            'loggedInUser' => $loggedInUser, 'page_title' => $page_title
+        ]);
     }
 
     /**
