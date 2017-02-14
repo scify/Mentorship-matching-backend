@@ -47,15 +47,15 @@
 
                             </div>
                             <!-- Age -->
-                            <div class="{{ $errors->first('age')?'has-error has-feedback':'' }}">
+                            <div class="{{ $errors->first('')?'has-error has-feedback':'' }}">
                                 <div class="inputer floating-label">
                                     <div class="input-wrapper">
-                                        <input type="number" class="form-control" name="age"
-                                               value="{{ old('age') != '' ? old('age') : $mentor['age']}}">
+                                        <input type="number" class="form-control" name="year_of_birth"
+                                               value="{{ old('year_of_birth') != '' ? old('year_of_birth') : $mentor['year_of_birth']}}">
                                         <label for="email">Age</label>
                                     </div>
                                 </div>
-                                <span class="help-block">{{ $errors->first('age') }}</span>
+                                <span class="help-block">{{ $errors->first('year_of_birth') }}</span>
 
                             </div>
                             <!-- Residence Area -->

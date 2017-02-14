@@ -49,5 +49,7 @@ return [
     'industries' => 'Industries',
     'unemployed' => 'Unemployed',
     'joined' => ['capitalF' => 'Joined', 'lowerF' => 'Joined'],
-    'roles' => ['capitalF' => 'Roles', 'lowerF' => 'Role']
+    'roles' => ['capitalF' => 'Roles', 'lowerF' => 'Role'],
+    'year_of_birth' => 'Year of birth',
+    'years_old' => 'years old'
 ];

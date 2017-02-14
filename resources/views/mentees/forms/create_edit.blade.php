@@ -60,14 +60,14 @@
                                 <!-- Age -->
                                 <div class="col-md-3 formElementName">Age</div>
                                 <div class="col-md-9">
-                                    <div class="{{ $errors->first('age')?'has-error has-feedback':'' }}">
+                                    <div class="{{ $errors->first('year_of_birth')?'has-error has-feedback':'' }}">
                                         <div class="inputer">
                                             <div class="input-wrapper">
-                                                <input required type="number" class="form-control" name="age"
-                                                       value="{{ old('age') != '' ? old('age') : $mentee['age']}}">
+                                                <input required type="number" class="form-control" name="year_of_birth"
+                                                       value="{{ old('year_of_birth') != '' ? old('year_of_birth') : $mentee['year_of_birth']}}">
                                             </div>
                                         </div>
-                                        <span class="help-block">{{ $errors->first('age') }}</span>
+                                        <span class="help-block">{{ $errors->first('year_of_birth') }}</span>
                                     </div>
                                 </div>
                             </div>

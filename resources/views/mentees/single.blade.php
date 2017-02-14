@@ -21,7 +21,7 @@
                     @endif
                     <p class="userDetail">{{$mentee->email}}</p>
                     <div class="userDetail">
-                        Age: {{$mentee->age}}
+                        Age: {{$mentee->year_of_birth}}
                     </div>
                     <div class="userDetail">{{$mentee->residence->name}}</div>
                     @if($loggedInUser != null)

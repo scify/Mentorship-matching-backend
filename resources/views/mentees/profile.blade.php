@@ -47,8 +47,8 @@
                                 <div class="panel-body">
                                     <div class="col-md-12">
                                         <div class="formRow row">
-                                            <div class="col-md-3 formElementName">{{trans('messages.age')}}</div>
-                                            <div class="col-md-9">{{$mentee->age}}</div>
+                                            <div class="col-md-3 formElementName">{{trans('messages.year_of_birth')}}</div>
+                                            <div class="col-md-9">{{$mentee->year_of_birth}}  <span class="margin-left-5"> ({{$mentee->age}} {{trans('messages.years_old')}})</span></div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.email')}}</div>

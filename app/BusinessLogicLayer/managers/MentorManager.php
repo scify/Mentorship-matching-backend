@@ -97,7 +97,7 @@ class MentorManager {
     private function assignInputFieldsToMentorProfile(MentorProfile $mentorProfile, array $inputFields) {
         $mentorProfile->first_name = $inputFields['first_name'];
         $mentorProfile->last_name = $inputFields['last_name'];
-        $mentorProfile->age = $inputFields['age'];
+        $mentorProfile->year_of_birth = $inputFields['year_of_birth'];
         $mentorProfile->address = $inputFields['address'];
         $mentorProfile->email = $inputFields['email'];
         $mentorProfile->skills = $inputFields['skills'];
@@ -135,7 +135,9 @@ class MentorManager {
      * @return MentorProfile
      */
     public function getMentor($id) {
-        return $this->mentorStorage->getMentorProfileById($id);
+        $mentor = $this->mentorStorage->getMentorProfileById($id);
+        $mentor->age = intval(date("Y")) - intval($mentor->year_of_birth);
+        return $mentor;
     }
 
     /**

@@ -45,7 +45,7 @@ class MenteeManager {
     private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields) {
         $menteeProfile->first_name = $inputFields['first_name'];
         $menteeProfile->last_name = $inputFields['last_name'];
-        $menteeProfile->age = $inputFields['age'];
+        $menteeProfile->year_of_birth = $inputFields['year_of_birth'];
         $menteeProfile->address = $inputFields['address'];
         $menteeProfile->email = $inputFields['email'];
         $menteeProfile->specialty_id = $inputFields['specialty_id'];
@@ -82,7 +82,9 @@ class MenteeManager {
     }
 
     public function getMentee($id) {
-        return $this->menteeStorage->getMenteeProfileById($id);
+        $mentee = $this->menteeStorage->getMenteeProfileById($id);
+        $mentee->age = intval(date("Y")) - intval($mentee->year_of_birth);
+        return $mentee;
     }
 
     public function editMentee(array $inputFields, $id) {
