@@ -32,7 +32,7 @@
                 <div class="col-md-3">
                     <div class="row">
                         <button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">
-                            {{trans('messages.search')}}
+                            {{trans('messages.search')}} <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div class="row">
