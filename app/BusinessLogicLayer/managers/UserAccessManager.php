@@ -32,7 +32,7 @@ class UserAccessManager {
      * @param User $user the @see User instance
      * @return bool
      */
-    public function userHasAccessToCRUDSystemUser(User $user) {
+    public function userHasAccessToCRUDSystemUsers(User $user) {
         if($user == null)
             return false;
         $userRoles = $user->roles;

@@ -36,6 +36,18 @@ class UserController extends Controller
     }
 
     /**
+     * Display a user profile page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showProfile($id)
+    {
+        $user = $this->userManager->getUser($id);
+        $loggedInUser = Auth::user();
+        return view('users.profile', ['user' => $user, 'loggedInUser' => $loggedInUser]);
+    }
+
+    /**
      * Show the form for creating a new user.
      *
      * @return \Illuminate\Http\Response

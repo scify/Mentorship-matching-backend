@@ -37,7 +37,7 @@
         </ul>
     </li>
 @endif
-@if($user->userHasAccessToCRUDSystemUser())
+@if($user->userHasAccessToCRUDSystemUsers())
     <li>
         <a href="javascript:;"><i class="ion-android-list"></i> System users </a>
         <ul class="child-menu">

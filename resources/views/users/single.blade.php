@@ -1,6 +1,6 @@
 <div class="card card-user card-clickable card-clickable-over-content">
     <div class="card-body">
-        <h4 class="userDetail">{{$user->first_name}} {{$user->last_name}}
+        <h4 class="userDetail"><a href="{{route('showUserProfile', $user->id)}}" target="_blank"> {{$user->first_name}} {{$user->last_name}}</a>
             @if($user->isActivated())
                 <i class="ion-checkmark-circled green" aria-hidden="true" title="Active user"></i>
             @else
@@ -12,7 +12,7 @@
         </h4>
         <p class="userDetail">{{$user->email}}</p>
         @if($loggedInUser != null)
-            @if($loggedInUser->userHasAccessToCRUDSystemUser())
+            @if($loggedInUser->userHasAccessToCRUDSystemUsers())
                 <div class="clickable-button">
                     <div class="layer bg-orange"></div>
                     <a class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog" aria-hidden="true"></i></a>

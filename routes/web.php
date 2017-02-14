@@ -26,14 +26,15 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
     Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
+    Route::get('user/{id}/profile', 'UserController@showProfile')->name('showUserProfile');
+    Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showEditUserForm');
+    Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('users/all', 'UserController@showAllUsers')->name('showAllUsers');
     Route::get('user/create', 'UserController@showCreateForm')->name('showCreateUserForm');
     Route::post('user/create', 'UserController@create')->name('createUser');
-    Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showEditUserForm');
-    Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
     Route::post('user/delete', 'UserController@delete')->name('deleteUser');
     Route::post('user/activate', 'UserController@activate')->name('activateUser');
     Route::post('user/deactivate', 'UserController@deactivate')->name('deactivateUser');

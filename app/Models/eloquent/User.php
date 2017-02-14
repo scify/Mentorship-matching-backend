@@ -88,9 +88,9 @@ class User extends Authenticatable
         return $userAccessManager->userIsAccountManager($this);
     }
 
-    public function userHasAccessToCRUDSystemUser() {
+    public function userHasAccessToCRUDSystemUsers() {
         $userAccessManager = new UserAccessManager();
-        return $userAccessManager->userHasAccessToCRUDSystemUser($this);
+        return $userAccessManager->userHasAccessToCRUDSystemUsers($this);
     }
 
     public function userHasAccessToCRUDMentorsAndMentees() {

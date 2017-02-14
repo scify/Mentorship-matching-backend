@@ -78,7 +78,12 @@
                                                 <a href="{{$mentor->linkedin_url}}"><div class="col-md-9">{{$mentor->linkedin_url}}</div></a>
                                             @endif
                                         </div><!--.row-->
-
+                                        @if($mentor->created_at != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.joined.capitalF')}}</div>
+                                                <div class="col-md-9">{{$mentor->created_at->format('d / m / Y')}}</div>
+                                            </div><!--.row-->
+                                        @endif
                                     </div>
 
                                 </div><!--.panel-->
@@ -196,7 +201,7 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var controller = new window.MentorProfileController();
+            var controller = new window.ProfileController();
             controller.init();
         });
     </script>

@@ -25,7 +25,7 @@
                     </div>
                     <div class="userDetail">{{$mentee->residence->name}}</div>
                     @if($loggedInUser != null)
-                        @if($loggedInUser->userHasAccessToCRUDSystemUser())
+                        @if($loggedInUser->userHasAccessToCRUDSystemUsers())
                             <div class="clickable-button">
                                 <div class="layer bg-orange"></div>
                                 <a class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog"

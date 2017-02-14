@@ -25,7 +25,7 @@ class IsAdmin
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        if($this->userAccessManager->userHasAccessToCRUDSystemUser($user))
+        if($this->userAccessManager->userHasAccessToCRUDSystemUsers($user))
             return $next($request);
         return back()->withErrors(['You have no access to this page']);
     }

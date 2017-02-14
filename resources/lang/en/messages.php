@@ -47,5 +47,7 @@ return [
     'heard_about' => 'Heard about platform',
     'specialties' => 'Specialties',
     'industries' => 'Industries',
-    'unemployed' => 'Unemployed'
+    'unemployed' => 'Unemployed',
+    'joined' => ['capitalF' => 'Joined', 'lowerF' => 'Joined'],
+    'roles' => ['capitalF' => 'Roles', 'lowerF' => 'Role']
 ];
