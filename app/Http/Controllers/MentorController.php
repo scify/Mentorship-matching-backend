@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MentorManager;
@@ -77,15 +78,23 @@ class MentorController extends Controller
     /**
      * Show the form for creating a new mentor.
      *
+     * @param Request $request object containing request parameters
      * @return \Illuminate\Http\Response
      */
-    public function showCreateForm()
+    public function showCreateForm(Request $request)
     {
+        $input = $request->all();
+        if(isset($input['lang'])) {
+            $language = $request['lang'];
+            App::setLocale($language);
+        }
+
         $companyManager = new CompanyManager();
         $mentor = new MentorProfile();
         $mentorSpecialtiesIds = array();
         $mentorIndustriesIds = array();
-        $formTitle = 'Mentor registration';
+        $formTitle = trans('messages.mentor_registration');
+
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
@@ -99,6 +108,8 @@ class MentorController extends Controller
             'companies' => $companies
         ]);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

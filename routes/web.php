@@ -22,6 +22,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('contact', 'HomeController@showContactForm')->name('showContactForm');
 Route::post('contact', 'HomeController@sendContactEmail')->name('sendContactEmail');
 
+
+Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
+Route::post('mentor/create', 'MentorController@create')->name('createMentor');
+
+Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
+Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
+
 Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
@@ -43,16 +50,11 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('reports/all', 'ReportController@showAllReports')->name('showAllReports');
 
     Route::get('mentors/all', 'MentorController@showAllMentors')->name('showAllMentors');
-    Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
-    Route::post('mentor/create', 'MentorController@create')->name('createMentor');
-
     Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
     Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');
     Route::post('mentor/delete', 'MentorController@delete')->name('deleteMentor');
 
     Route::get('mentees/all', 'MenteeController@showAllMentees')->name('showAllMentees');
-    Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
-    Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
     Route::get('mentee/{id}/edit', 'MenteeController@showEditForm')->name('showEditMenteeForm');
     Route::post('mentee/{id}/edit', 'MenteeController@edit')->name('editMentee');
     Route::post('mentee/delete', 'MenteeController@delete')->name('deleteMentee');

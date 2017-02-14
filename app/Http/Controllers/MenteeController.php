@@ -7,6 +7,7 @@ use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\Models\eloquent\MenteeProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class MenteeController extends Controller
@@ -37,12 +38,19 @@ class MenteeController extends Controller
     /**
      * Show the form for creating a new mentee.
      *
+     * @param Request $request object containing request parameters
      * @return \Illuminate\Http\Response
      */
-    public function showCreateForm()
+    public function showCreateForm(Request $request)
     {
+        $input = $request->all();
+        if(isset($input['lang'])) {
+            $language = $request['lang'];
+            App::setLocale($language);
+        }
+
         $mentee = new MenteeProfile();
-        $formTitle = 'Mentee registration';
+        $formTitle = trans('messages.mentee_registration');
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
 
