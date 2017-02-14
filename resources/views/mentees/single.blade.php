@@ -9,9 +9,12 @@
         <div class="profileCardBody">
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1_{{$mentee->id}}">
-                    <h4 class="userDetail">{{$mentee->first_name}} {{$mentee->last_name}},
-                        <small>{{$mentee->job_position}}</small>
-
+                    <h4 class="userDetail"><a href="{{route('showMenteeProfilePage', $mentee->id)}}" target="_blank"> {{$mentee->first_name}} {{$mentee->last_name}}</a>
+                    @if($mentee->is_employed)
+                        <i class="fa fa-briefcase green" aria-hidden="true" title="{{trans('messages.employed')}}"></i>
+                    @else
+                        <i class="fa fa-briefcase red" aria-hidden="true" title="{{trans('messages.unemployed')}}"></i>
+                    @endif
                     </h4>
                     @if($mentee->linkedin_url != null)
                         <a href="{{$mentee->linkedin_url}}" target="_blank"><i class="fa fa-linkedin-square linkedInIcon" aria-hidden="true"></i></a>

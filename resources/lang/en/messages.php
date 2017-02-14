@@ -46,5 +46,6 @@ return [
     'career_goals' => 'Career goals',
     'heard_about' => 'Heard about platform',
     'specialties' => 'Specialties',
-    'industries' => 'Industries'
+    'industries' => 'Industries',
+    'unemployed' => 'Unemployed'
 ];

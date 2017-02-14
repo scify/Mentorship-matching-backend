@@ -87,7 +87,7 @@
                         <div class="col-md-6">
                             <div class="panel">
                                 <div class="panel-heading">
-                                    <div class="panel-title"><h3>Education & employment</h3></div>
+                                    <div class="panel-title"><h3>Employment & education</h3></div>
                                 </div><!--.panel-heading-->
                                 <div class="panel-body">
                                     <div class="col-md-12">
