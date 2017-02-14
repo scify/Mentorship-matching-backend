@@ -44,5 +44,7 @@ return [
     'goals' => 'Goals',
     'specialty_experience' => 'Specialty experience',
     'career_goals' => 'Career goals',
-    'heard_about' => 'Heard about platform'
+    'heard_about' => 'Heard about platform',
+    'specialties' => 'Specialties',
+    'industries' => 'Industries'
 ];
