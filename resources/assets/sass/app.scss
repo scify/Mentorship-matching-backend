@@ -12,14 +12,15 @@
   border-radius: 0px;
 }
 
-.content {
-  margin: 0 81px 0 81px;
-}
+//.content {
+//  margin: 0 81px 0 81px;
+//}
 
 .pageTitle {
   float: left;
   padding-left: 30px;
 }
+
 
 .content .alert {
   z-index: 100000;
@@ -140,8 +141,6 @@
 .inputer.floating-label .form-control:focus ~ label {
   color: $brand-primary;
 }
-
-
 
 .inputer.floating-label .form-control:focus ~ label, .inputer.floating-label .form-control.valid ~ label {
   top: -25px;
@@ -382,6 +381,26 @@
   }
   .form-control {
     padding-left: 0px;
+  }
+}
+
+.loginForm {
+  ::-webkit-input-placeholder { /* Chrome */
+    color: $form-placeholder-color-light;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: $form-placeholder-color-light;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: $form-placeholder-color-light;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: $form-placeholder-color-light;
+    opacity: 1;
+  }
+  .form-control {
+    font-size: 16px;
   }
 }
 

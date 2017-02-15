@@ -8,17 +8,8 @@
 {{--@include('common.header.navbarHorizontal')--}}
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
 <div class="content-wrapper">
-    <section class="content-header">
-        <h3 class="pageTitle margin-bottom-20"> {{isset($page_title) ? $page_title:''}} <span id="feedback-header"></span></h3>
-        <div class="row">
-            <div class="col-md-9" style="float: right; padding-top: 10px;">
-                <div class="loading-bar indeterminate margin-top-10 margin-bottom-10 hidden" id="globalLoader" hidden></div>
-            </div><!--.col-->
-        </div><!--.row-->
-    </section>
-
     <!-- Main content -->
-    <section class="content" style="padding: 0px !important;">
+    <section class="content">
         @if(session('flash_message_success'))
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -44,6 +35,7 @@
         @yield('content')
 
     </section>
+    @yield('additionalContent')
 </div>
 <!-- Footer -->
 @if(Auth::check())
