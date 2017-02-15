@@ -1,6 +1,6 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+//@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
 // Variables
 @import "variables";
@@ -61,11 +61,11 @@ body {
 }
 
 .modal .btn-danger {
-  color: $body-bg;
+  color: $light-white;
 }
 
 .modal .btn-success {
-  color: $body-bg;
+  color: $light-white;
 }
 
 .panel .panel-heading {
@@ -74,11 +74,51 @@ body {
 }
 
 .layer-container .menu-layer.active {
-  background: $brand-dark;
+  background: $body-bg;
 }
 
 .overlay .starting-point span {
   background-color: $brand-primary;
+}
+
+.menu-layer li a {
+  color: $text-color;
+}
+
+.menu-layer li.has-child:before {
+  color: $text-color;
+}
+
+.layer-container .menu-layer li .child-menu li a {
+  color: $form-placeholder-color;
+}
+.layer-container .menu-layer li.open:before, .layer-container .menu-layer li:hover:before {
+  color: $form-placeholder-color;
+}
+
+.layer-container .menu-layer li.open:before, .layer-container .menu-layer li:hover:before {
+  color: $text-color;
+}
+
+.layer-container .menu-layer li .child-menu li.open {
+  background: rgba(252, 193, 87, 0.6);
+}
+
+.layer-container .menu-layer li .child-menu li:hover .hover-bg {
+  background: rgba(252, 193, 87, 0.6);
+}
+
+//
+//.menu-layer li.open {
+//  background-color: $secondary-color;
+//}
+
+.menu-layer li.open {
+  color: $brand-primary;
+}
+
+.menu-layer li .hover-bg {
+  background: rgba(252, 193, 87, 0.6);
 }
 
 .layer-container .menu-layer li.open > a, .layer-container .menu-layer li:hover > a {
@@ -350,7 +390,7 @@ body {
 }
 
 .nav-tabs > li > a {
-  background-color: $body-bg;
+  background-color: $light-white;
 }
 .profileCard {
   .card {
