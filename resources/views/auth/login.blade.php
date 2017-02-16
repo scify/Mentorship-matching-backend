@@ -4,7 +4,7 @@
     <div class="bg-login printable">
         <div class="login-screen">
             <div class="panel-login blur-content">
-                <div class="panel-heading"><img src="{{asset('/assets/img/jobpairs_logo.png')}}" height="100" alt="">
+                <div class="panel-heading"><img src="{{asset('/assets/img/jobpairs_logo.png')}}" height="120" alt="">
                 </div><!--.panel-heading-->
 
                 <div id="pane-login" class="panel-body active">
@@ -12,20 +12,6 @@
                     <form class="form-horizontal loginForm noInputStyles" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
                         <h2>Login to Dashboard</h2>
-                        {{--<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">--}}
-                            {{--<label for="email" class="col-md-4 control-label">E-Mail Address</label>--}}
-
-                            {{--<div class="col-md-6">--}}
-                                {{--<input id="email" type="email" class="form-control" name="email"--}}
-                                       {{--value="{{ old('email') }}" required autofocus>--}}
-
-                                {{--@if ($errors->has('email'))--}}
-                                    {{--<span class="help-block">--}}
-                                        {{--<strong>{{ $errors->first('email') }}</strong>--}}
-                                    {{--</span>--}}
-                                {{--@endif--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
                         <div class="col-md-6 centeredVertically">
                         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                             <div class="inputer">
