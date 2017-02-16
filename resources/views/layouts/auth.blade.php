@@ -2,14 +2,11 @@
 <html>
 <!-- Header -->
 @include('common.header.header')
-@if(Auth::check())
-    @include('common.header.navbarVertical')
-@endif
-{{--@include('common.header.navbarHorizontal')--}}
+<link rel="stylesheet" href="{{asset(elixir('css/auth.css'))}}">
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
 <div class="content-wrapper">
     <!-- Main content -->
-    <section class="content">
+    <section class="">
         @if(session('flash_message_success'))
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -36,10 +33,6 @@
 
     </section>
 </div>
-<!-- Footer -->
-@if(Auth::check())
-    @include('common.sidebar', ['user' => \Illuminate\Support\Facades\Auth::user()])
-@endif
 @include('common.footer')
 </body>
 </html>

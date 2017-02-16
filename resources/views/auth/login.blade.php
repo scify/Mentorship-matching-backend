@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('additionalContent')
+@section('content')
     <div class="bg-login printable">
         <div class="login-screen">
             <div class="panel-login blur-content">

@@ -12,6 +12,7 @@ var gulp = require('gulp');
 elixir(function(mix) {
 
     mix.sass(['app.scss', 'profile_page.scss'],  'public/css/app.css');
+    mix.sass(['auth.scss'],  'public/css/auth.css');
 
     mix.styles([
 
@@ -77,5 +78,5 @@ elixir(function(mix) {
 
 
     //the parameter is relative to the public directory
-    mix.version(['css/app.css', 'css/vendors.css', 'js/app.js', 'js/controllers.js']);
+    mix.version(['css/app.css', 'css/auth.css', 'css/vendors.css', 'js/app.js', 'js/controllers.js']);
 });
