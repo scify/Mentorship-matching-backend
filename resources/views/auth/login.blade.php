@@ -30,7 +30,7 @@
                         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                             <div class="inputer">
                                 <div class="input-wrapper">
-                                    <input type="email" class="form-control" placeholder="Enter your email">
+                                    <input type="email" class="form-control" name="email" placeholder="Enter your email">
                                 </div>
                             </div>
                             @if ($errors->has('email'))
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-blur dark" style="background: url({{asset('/assets/img/team.jpg')}})">
+        <div class="bg-blur dark" style="background: url({{asset('/assets/img/team_blur.jpg')}})">
             <div class="overlay"></div><!--.overlay-->
         </div><!--.bg-blur-->
     </div>

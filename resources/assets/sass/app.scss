@@ -12,9 +12,15 @@
   border-radius: 0px;
 }
 
-//.content {
-//  margin: 0 81px 0 81px;
-//}
+.content {
+  //margin: 0 81px 0 81px;
+  margin-left: 50px;
+  //margin-top: 30px;
+}
+
+.btn {
+  font-size: 16px;
+}
 
 .pageTitle {
   float: left;
@@ -215,6 +221,27 @@
   border: none;
   box-shadow: none;
 }
+.noInputStyles .input-wrapper:active {
+  border: none;
+  box-shadow: none;
+}
+.noInputStyles .input-wrapper:focus {
+  border: none;
+  box-shadow: none;
+}
+.noInputStyles .inputer:focus {
+  border: none;
+  box-shadow: none;
+}
+.noInputStyles .inputer:active {
+  border: none;
+  box-shadow: none;
+}
+.noInputStyles input {
+  border: none;
+}
+
+
 
 .breadcrumb {
   //float: left;
@@ -401,6 +428,9 @@
   }
   .form-control {
     font-size: 16px;
+  }
+  input {
+    color: white;
   }
 }
 
