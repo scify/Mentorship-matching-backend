@@ -32,6 +32,24 @@
             </div>
         @endif
 
+        @if(isset($pageTitle))
+            <div class="page-header full-content margin-top-0">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1> {{$pageTitle}} <small> {{ isset($pageSubTitle) ? $pageSubTitle : ''}} </small></h1>
+                    </div><!--.col-->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                            <li><a href="{{route('home')}}" class="active"><i class="ion-home"></i></a></li>
+                            <li><a href="#">{{$pageTitle}}</a></li>
+                        </ol>
+                    </div><!--.col-->
+                </div><!--.row-->
+            </div><!--.page-header-->
+        @else
+            <div class="margin-bottom-30"></div>
+        @endif
+
         @yield('content')
 
     </section>

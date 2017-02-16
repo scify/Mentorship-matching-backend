@@ -35,11 +35,11 @@ class MentorController extends Controller
      */
     public function showAllMentors() {
         $mentors = $this->mentorManager->getAllMentors();
-        $page_title = 'All mentors';
+        $pageTitle = 'All mentors';
         $loggedInUser = Auth::user();
         $specialties = $this->specialtyManager->getAllSpecialties();
         return view('mentors.list_all', ['mentors' => $mentors,
-            'loggedInUser' => $loggedInUser, 'page_title' => $page_title,
+            'loggedInUser' => $loggedInUser, 'pageTitle' => $pageTitle,
             'specialties' => $specialties
         ]);
     }

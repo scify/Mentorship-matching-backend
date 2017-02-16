@@ -32,7 +32,7 @@ return [
     'university_department' => 'University department',
     'specialty_form_description' => 'In which specialty would you like to do Job Pairing?',
     'mentor_industry_form_description' => 'Specifically:',
-    'skills' => 'Skills',
+    'skills' => ['capitalF' => 'Skills', 'lowerF' => 'skills', 'capitalAll' => 'SKILLS'],
     'matches' => 'Matches',
     'profile_page' => 'profile page',
     'mentorship_sessions' => 'Mentorship sessions',
