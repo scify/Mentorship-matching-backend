@@ -11,6 +11,7 @@
                 $(".alert-dismissable").alert('close');
             });
         }, 4000);
+
     });
 </script>
 
