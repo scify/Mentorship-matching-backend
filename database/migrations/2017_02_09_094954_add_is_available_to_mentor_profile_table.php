@@ -25,8 +25,8 @@ class AddIsAvailableToMentorProfileTable extends Migration
      */
     public function down()
     {
-        Schema::table('mentor_profile', function ($table) {
-            $table->dropComlumn('is_available');
+        Schema::table('mentor_profile', function(Blueprint $table){
+            $table->dropColumn('is_available');
         });
     }
 }
