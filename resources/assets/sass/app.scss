@@ -282,6 +282,10 @@ body {
 
 .alert-dismissable {
   max-width: 800px;
+  position: absolute;
+  z-index: 1000000;
+  top: 50px;
+  right: 50px;
 }
 
 .padding-30 {

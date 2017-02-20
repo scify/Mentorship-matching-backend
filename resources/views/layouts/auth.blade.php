@@ -6,7 +6,7 @@
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
 <div class="content-wrapper">
     <!-- Main content -->
-    <section class="">
+    <div class="">
         @if(session('flash_message_success'))
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -31,7 +31,7 @@
 
         @yield('content')
 
-    </section>
+    </div>
 </div>
 @include('common.footer')
 </body>
