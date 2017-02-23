@@ -100,7 +100,9 @@ class MentorController extends Controller
         $residences = $this->residenceManager->getAllResidences();
         $companies = $companyManager->getAllCompanies();
 
-        return view('mentors.forms.create_edit', ['mentor' => $mentor,
+        return view('mentors.forms.create_edit', [
+            'pageTitle' => 'Create new Mentor',
+            'mentor' => $mentor,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,

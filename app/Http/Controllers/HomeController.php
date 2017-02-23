@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function dashBoard()
     {
-        return view('home.dashboard');
+        return view('home.dashboard', ['pageTitle' => "Dashboard"]);
     }
 
 }

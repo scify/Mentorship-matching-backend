@@ -13,6 +13,10 @@ class ReportController extends Controller
      */
     public function showAllReports()
     {
+        return view('reports.index', [
+            'pageTitle' => 'Reports'
+        ]);
+
 //        $mentees = $this->menteeManager->getAllMentees();
 //        $loggedInUser = Auth::user();
 //        $page_title = 'All mentees';
