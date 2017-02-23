@@ -91,6 +91,7 @@ class MentorController extends Controller
 
         $companyManager = new CompanyManager();
         $mentor = new MentorProfile();
+        $mentor['is_available']  = true; //set default mentor availablity
         $mentorSpecialtiesIds = array();
         $mentorIndustriesIds = array();
         $formTitle = trans('messages.mentor_registration');
