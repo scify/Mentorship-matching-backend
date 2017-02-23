@@ -17,10 +17,8 @@ Auth::routes();
 
 Route::group([ 'middleware' => 'auth' ], function () {
 
-    Route::get('/', 'HomeController@index');
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('contact', 'HomeController@showContactForm')->name('showContactForm');
-    Route::post('contact', 'HomeController@sendContactEmail')->name('sendContactEmail');
+    Route::get('/', 'HomeController@dashboard')->name('home');
+    Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 
     Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
     Route::post('mentor/create', 'MentorController@create')->name('createMentor');

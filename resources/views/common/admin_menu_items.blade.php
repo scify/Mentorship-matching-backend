@@ -1,3 +1,8 @@
+
+<li data-open-after="{{Route::current()->getName() == 'dashboard' ? 'true' : ''}}">
+    <a href="{{ route('dashboard') }}">Dashboard</a>
+</li>
+
 @if($user->userHasAccessToCRUDMentorsAndMentees())
     <li>
         <a href="javascript:;">Mentors </a>
