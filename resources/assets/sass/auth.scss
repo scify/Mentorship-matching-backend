@@ -1,20 +1,19 @@
 .bg-login .panel-login .panel-body {
   padding: 0px 40px 20px 40px;
 }
-
-.bg-login .panel-login .panel-body .form-buttons {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.panel-login {
-  height: 90%;
-}
-
 #pane-login {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.4);
-  height: 90%;
+}
+
+
+#pane-login .form-group{
+  margin-left:0;
+  margin-right:0;
+}
+#pane-login .form-control
+{
+  padding:0;
 }
 .bg-login .login-screen {
   background: transparent;
@@ -29,6 +28,6 @@
   position: absolute;
   top: 45%;
   left: 50%;
-  width: 700px;
   height: 490px;
+
 }

@@ -12,7 +12,7 @@
                     <form class="form-horizontal loginForm noInputStyles" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
                         <h2>Login to Dashboard</h2>
-                        <div class="col-md-6 centeredVertically">
+                        <div class="centeredVertically">
                         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                             <div class="inputer">
                                 <div class="input-wrapper">
@@ -51,6 +51,11 @@
                             </button>
                         </div><!--.form-buttons-->
                         </div>
+
+                        <ul class="extra-links">
+                            <li><a href="{{ url('/password/reset') }}" class="show-pane-forgot-password">Forgot your password</a></li>
+                        </ul>
+
                         {{--<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">--}}
                             {{--<label for="password" class="col-md-4 control-label">Password</label>--}}
 
