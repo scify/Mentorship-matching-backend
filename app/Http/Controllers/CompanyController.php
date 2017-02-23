@@ -30,9 +30,10 @@ class CompanyController extends Controller
     {
         $companies = $this->companyManager->getAllCompanies();
         $loggedInUser = Auth::user();
-        $page_title = 'All companies';
-        return view('companies.list_all', ['companies' => $companies,
-            'loggedInUser' => $loggedInUser, 'page_title' => $page_title
+        return view('companies.list_all', [
+            'pageTitle'=>'All Companies',
+            'companies' => $companies,
+            'loggedInUser' => $loggedInUser
         ]);
     }
 
@@ -48,7 +49,9 @@ class CompanyController extends Controller
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssigned();
         $companyMentorsIds = array();
         $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssigned();
-        return view('companies.forms.create_edit', ['company' => $company,
+        return view('companies.forms.create_edit', [
+            'pageTitle'=>'Create new Company',
+            'company' => $company,
             'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
             'accountManagers' => $accountManagers
         ]);

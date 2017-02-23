@@ -12765,10 +12765,12 @@ h6 {
 }
 .menu-layer li .child-menu li a {
   padding: 10px 45px;
-  font-size: 15px;
+  font-size: 14px;
 }
 .menu-layer li .child-menu li.has-child:before {
   top: 11px;
+
+
 }
 .menu-layer li .child-menu .child-menu {
   padding-bottom: 0;

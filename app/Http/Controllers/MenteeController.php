@@ -33,7 +33,7 @@ class MenteeController extends Controller
         $loggedInUser = Auth::user();
         $page_title = 'All mentees';
         return view('mentees.list_all', [
-            'page_title' => $page_title,
+            'pageTitle' => $page_title,
             'mentees' => $mentees, 'loggedInUser' => $loggedInUser]);
     }
 
@@ -57,7 +57,7 @@ class MenteeController extends Controller
         $residences = $this->residenceManager->getAllResidences();
 
         return view('mentees.forms.create_edit', [
-            'page_title' => 'Create new Mentee',
+            'pageTitle' => 'Create new Mentee',
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties
@@ -79,7 +79,7 @@ class MenteeController extends Controller
 
         $formTitle = 'Edit mentee';
         return view('mentees.forms.create_edit', [
-            'page_title' => 'Edit mentee',
+            'pageTitle' => 'Edit mentee',
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties
