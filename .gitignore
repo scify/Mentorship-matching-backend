@@ -10,3 +10,4 @@ Homestead.yaml
 /public/build
 /public/js
 /public/css
+composer.phar

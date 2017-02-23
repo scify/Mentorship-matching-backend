@@ -13,23 +13,21 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
-Route::get('/', 'HomeController@index');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('contact', 'HomeController@showContactForm')->name('showContactForm');
-Route::post('contact', 'HomeController@sendContactEmail')->name('sendContactEmail');
-
-
-Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
-Route::post('mentor/create', 'MentorController@create')->name('createMentor');
-
-Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
-Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
-
 Route::group([ 'middleware' => 'auth' ], function () {
+
+    Route::get('/', 'HomeController@index');
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('contact', 'HomeController@showContactForm')->name('showContactForm');
+    Route::post('contact', 'HomeController@sendContactEmail')->name('sendContactEmail');
+
+    Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
+    Route::post('mentor/create', 'MentorController@create')->name('createMentor');
+
+    Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
+    Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
+
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
     Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
