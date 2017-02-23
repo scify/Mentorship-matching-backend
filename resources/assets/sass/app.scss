@@ -35,11 +35,11 @@
 }
 
 .page-header {
-  background: linear-gradient(to right, #737c80, #3b4042); /* Standard syntax */
+  background: linear-gradient(to right, #3b4042,#737c80 ); /* Standard syntax */
 }
 
 .header-tabs {
-  background: linear-gradient(to right, #737c80, #3b4042); /* Standard syntax */
+  background: linear-gradient(to right, #3b4042, #737c80); /* Standard syntax */
 }
 
 .profilePage {
@@ -54,7 +54,7 @@
 
 .resultsTitle {
   font-style: italic;
-  color: $brand-primary;
+  color: $text-color;
   padding-left: 15px;
 }
 
@@ -89,7 +89,7 @@
 
 .panel .panel-heading {
   padding: 10px;
-  border-color: $secondary-color;
+/*  border-color: $secondary-color;*/
 }
 
 .layer-container .menu-layer.active {
