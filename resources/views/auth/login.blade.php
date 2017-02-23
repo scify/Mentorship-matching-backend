@@ -11,7 +11,7 @@
 
                     <form class="form-horizontal loginForm noInputStyles" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
-                        <h2>Login to Dashboard</h2>
+                        <h2>Login to BackOffice</h2>
                         <div class="centeredVertically">
                         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                             <div class="inputer">
