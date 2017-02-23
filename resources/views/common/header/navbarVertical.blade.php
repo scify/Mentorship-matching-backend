@@ -12,14 +12,14 @@
         </div><!--.hamburger-->
     </div><!--.nav-menu-->
 
-    {{--<div class="nav-search">--}}
-        {{--<span class="search"></span>--}}
-    {{--</div><!--.nav-search-->--}}
+    <div class="nav-search">
+        <span class="search"></span>
+    </div><!--.nav-search-->
 
     <div class="nav-user">
         <div class="user">
-            <img src="{{asset("/assets/img/jobpairs_logo.png")}}" alt="">
-            {{--<span class="badge">3</span>--}}
+            <img src="{{asset("/assets/img/boy.png")}}" alt="">
+            <span class="badge">0</span>
         </div><!--.user-->
         <div class="cross">
             <span class="line"></span>

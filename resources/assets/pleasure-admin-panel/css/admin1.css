@@ -13911,10 +13911,10 @@ button.toast-close-button {
   background: rgba(62, 80, 180, 0.1);
 }
 .layer-container .menu-layer.active {
-  background: #3a4ba9;
+  background: #2f3033;
 }
 .layer-container .search-layer.active {
-  background: #3a4ba9;
+  background: #2f3033;
 }
 .layer-container .user-layer .nav > li > a {
   color: #3e50b4;

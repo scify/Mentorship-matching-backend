@@ -12,4 +12,9 @@
             </li>
         </ul>
     </div>
+    @include('common.sidebar-search')
+    @include('common.sidebar-user-notifications')
+
+
+
 </div>
