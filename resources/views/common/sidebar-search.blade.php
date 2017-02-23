@@ -126,7 +126,7 @@
             </div>
             <div class="col-md-4">
                 <div class="result result-users">
-                    <h4>Users <small>(2)</small></h4>
+                    <h4>Users <small>(3)</small></h4>
 
                     <ul class="list-material">
                         <li class="has-action-left">
@@ -148,7 +148,7 @@
                                     <img src="{{ asset("/assets/img/boy.png") }}" class="face-radius" alt="">
                                 </div>
                                 <div class="list-content">
-                                    <span class="title">Alexandros Tzoumas</span>
+                                    <span class="title">Vasilis Giannakopoulos</span>
                                     <span class="caption">Account Manager, Matcher</span>
                                 </div>
                             </a>
