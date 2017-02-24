@@ -263,6 +263,35 @@
   width: 60% !important;
 }
 
+.singleAccordion {
+  .accordion .panel-heading a:after, .toggle .panel-heading a:after {
+    top:25%;
+  }
+  .userAdminActionsBtn {
+    height: 75%;
+    right: 8px !important;
+    .btn-floating {
+      font-size: 20px;
+      border-radius: 50%;
+    }
+    .layer {
+      width:40px;
+      height:40px;
+    }
+    .btn {
+      width:40px;
+      height:40px;
+      padding: 0;
+    }
+    i {
+      font-size: 25px;
+      margin-top: 7px;
+    }
+  }
+  .layered-content.active .overflow-content {
+    margin-top: 10px;
+  }
+}
 
 .accordion .panel-heading.active a:after {
   content: '\f123';
