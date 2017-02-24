@@ -46,8 +46,6 @@
                     </div><!--.col-->
                 </div><!--.row-->
             </div><!--.page-header-->
-        @else
-            <div class="margin-bottom-30"></div>
         @endif
 
         @yield('content')
