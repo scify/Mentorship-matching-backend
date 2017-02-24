@@ -32,7 +32,7 @@ return [
     'university_department' => 'Τμήμα και Κατεύθυνση',
     'specialty_form_description' => 'Σε ποια ειδικότητα θα θέλατε να κάνετε Job Pairing;',
     'mentor_industry_form_description' => 'Πιο Συγκεκριμένα:',
-    'skills' => ['capitalF' => 'Δεξιότητες / Προσόντα', 'lowerF' => 'Δεξιότητες / Προσόντα', 'capitalAll' => 'ΔΕΞΙΟΤΗΤΕΣ / ΠΡΟΣΟΝΤΑ'],
+    'skills' => ['capitalF' => 'Δεξιότητες / Προσόντα', 'lowerF' => 'δεξιότητες / προσόντα', 'capitalAll' => 'ΔΕΞΙΟΤΗΤΕΣ / ΠΡΟΣΟΝΤΑ'],
     'matches' => 'Matches',
     'profile_page' => 'profile page',
     'mentorship_sessions' => 'Mentorship sessions',

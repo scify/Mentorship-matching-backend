@@ -28,7 +28,7 @@
             <div class="header-tabs scrollable-tabs sticky">
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
                     <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.info')}}</a></li>
-                    <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.specialties')}} & {{trans('messages.skills')}}</a></li>
+                    <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.specialties')}} & {{trans('messages.skills.capitalF')}}</a></li>
                     <li><a data-href="#photos" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
                 </ul>
             </div>
@@ -142,7 +142,7 @@
                         <div class="col-md-6">
                             <div class="panel">
                                 <div class="panel-heading">
-                                    <div class="panel-title"><h3>{{trans('messages.skills')}}</h3></div>
+                                    <div class="panel-title"><h3>{{trans('messages.skills.capitalF')}}</h3></div>
                                 </div><!--.panel-heading-->
                                 <div class="panel-body">
                                     <div class="col-md-12">
