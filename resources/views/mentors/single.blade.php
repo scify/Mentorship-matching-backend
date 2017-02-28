@@ -15,9 +15,9 @@
                     <div class="overflow-content">
                         <ul class="borderless float-left">
 
-                            <li><div href="{{route('showEditMentorForm', $mentor->id)}}"
-                                   class="btn btn-flat btn-ripple"><i class="fa fa-pencil"
-                                                                      aria-hidden="true"></i> Edit</div></li>
+                            <li><a href="{{route('showEditMentorForm', $mentor->id)}}"
+                                   class="noAfterContent btn btn-flat btn-ripple"><i class="fa fa-pencil"
+                                                                      aria-hidden="true"></i> Edit</a></li>
                             <li>
                                 <div data-toggle="modal"
                                    data-userName="{{$mentor->first_name . $mentor->last_name}}"

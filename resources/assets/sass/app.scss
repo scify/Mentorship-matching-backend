@@ -267,6 +267,9 @@
   .panel-heading a:after, .toggle .panel-heading a:after {
     top:25% !important;
   }
+  .noAfterContent:after {
+    content: none !important;
+  }
   .userAdminActionsBtn {
     height: 75%;
     right: 8px !important;
