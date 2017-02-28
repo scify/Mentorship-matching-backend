@@ -264,8 +264,8 @@
 }
 
 .singleAccordion {
-  .accordion .panel-heading a:after, .toggle .panel-heading a:after {
-    top:25%;
+  .panel-heading a:after, .toggle .panel-heading a:after {
+    top:25% !important;
   }
   .userAdminActionsBtn {
     height: 75%;
