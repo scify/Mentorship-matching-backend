@@ -70,3 +70,19 @@
     color: white;
   }
 }
+
+.has-error {
+  .help-block {
+    color: #e99704;
+  }
+ .form-control {
+    border-color: lightgray !important;
+  }
+  .inputer .input-wrapper::before, .inputer .input-wrapper::after {
+    background: #ff4409 !important;
+  }
+}
+
+.alert.alert-danger {
+  display: none !important;
+}
