@@ -5,29 +5,18 @@
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+.btn-primary
+{
+  background-color: $brand-dark;
+  border-color: $brand-dark;
+}
 .nav-user .user img {
   border-radius: 0px;
 }
 
-.content {
-  //margin: 0 81px 0 81px;
-  margin-left: 41px;
-  //margin-top: 30px;
-}
-
 .btn {
   font-size: 16px;
-}
-
-.pageTitle {
-  float: left;
-  padding-left: 30px;
-}
-.loginForm .form-control {
-  font-size:17px;
 }
 
 .content .alert {
@@ -35,20 +24,21 @@
 }
 
 .page-header {
-  background: linear-gradient(to right, #3b4042,#737c80 ); /* Standard syntax */
+  background: linear-gradient(to right, #3b4042,#737c80 );
+  h1 { margin-top:3px;}
 }
 
 .header-tabs {
-  background: linear-gradient(to right, #3b4042, #737c80); /* Standard syntax */
+  background: linear-gradient(to right, #3b4042, #737c80);
 }
 
 .profilePage {
   .page-header {
-    background: linear-gradient(to right, #4457bf, #2d3a81); /* Standard syntax */
+    background: linear-gradient(to right, #4457bf, #2d3a81);
   }
 
   .header-tabs {
-    background: linear-gradient(to right, #4457bf, #2d3a81); /* Standard syntax */
+    background: linear-gradient(to right, #4457bf, #2d3a81);
   }
 }
 
@@ -57,7 +47,6 @@
   color: $text-color;
   padding-left: 15px;
 }
-
 .float-left {
   float: left;
 }
@@ -85,11 +74,6 @@
 
 .modal .btn-success {
   color: $light-white;
-}
-
-.panel .panel-heading {
-  padding: 10px;
-/*  border-color: $secondary-color;*/
 }
 
 .layer-container .menu-layer.active {
@@ -127,11 +111,6 @@
   background: rgba(252, 193, 87, 0.6);
 }
 
-//
-//.menu-layer li.open {
-//  background-color: $secondary-color;
-//}
-
 .menu-layer li.open {
   color: $brand-primary;
 }
@@ -144,12 +123,19 @@
   color: $text-color;
 }
 
+
 .nav-menu .hamburger .patty {
   background: $text-color;
 }
 
 .overlay .logo {
   color: $text-color;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: $secondary-color;
 }
 
 .form-control {
@@ -174,13 +160,6 @@
   background: $brand-primary;
 }
 
-.panel:before {
-  background: $secondary-color;
-}
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-  background-color: $secondary-color;
-}
 
 
 .chosen-choices {
@@ -189,12 +168,6 @@
 
 .chosen-container-active .chosen-choices {
   border-color: $brand-primary;
-}
-
-.centeredVertically {
-  margin-left: auto;
-  margin-right: auto ;
-  float: none;
 }
 
 .navbar {
@@ -318,6 +291,7 @@
   right: 50px;
 }
 
+
 .padding-30 {
   padding: 30px !important;
 }
@@ -404,7 +378,7 @@
   line-height:30px;
   font-size:16px;
   padding-left:0;
-    border-bottom:2px solid #f0f0f0;
+  border-bottom:2px solid #f0f0f0;
 
 }
 .chosen-container-single .chosen-single span
@@ -439,6 +413,7 @@
   .form-control {
     color: $text-color;
   }
+
 
 
   textarea::-webkit-input-placeholder { /* Chrome */
@@ -496,36 +471,6 @@
   }
 }
 
-.loginForm {
-  ::-webkit-input-placeholder { /* Chrome */
-    color: $form-placeholder-color-light;
-  }
-  :-ms-input-placeholder { /* IE 10+ */
-    color: $form-placeholder-color-light;
-  }
-  ::-moz-placeholder { /* Firefox 19+ */
-    color: $form-placeholder-color-light;
-    opacity: 1;
-  }
-  :-moz-placeholder { /* Firefox 4 - 18 */
-    color: $form-placeholder-color-light;
-    opacity: 1;
-  }
-  .form-control {
-    font-size: 16px;
-  }
-  input {
-    color: white;
-  }
-}
-
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-  background-color: transparent;
-}
-
-.nav-tabs > li > a {
-  background-color: $light-white;
-}
 .profileCard {
   .card {
     min-height: 200px;
@@ -570,6 +515,13 @@
   }
 }
 
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  background-color: transparent;
+}
+
+.nav-tabs > li > a {
+  background-color: $light-white;
+}
 
 .searchBtn {
   width: 110px;
@@ -593,3 +545,6 @@
 .page-header .breadcrumb {
   float: right;
 }
+
+
+

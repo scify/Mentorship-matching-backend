@@ -1,9 +1,13 @@
 @extends('layouts.app')
 @section('content')
-    <div class="col-md-12 centeredVertically">
+    <div class="row">
+    <div class="col-md-12">
         <div class="panel">
             <div class="panel-heading">
-                <h4 class="col-md-12">{{$formTitle}}</h4>
+                <div class="panel-title">
+                    <h4 >{{$formTitle}}</h4>
+                </div>
+
             </div><!--.panel-heading-->
             <div class="panel-body">
                 <form class="jobPairsForm noInputStyles" method="POST"
@@ -344,6 +348,7 @@
                 </form>
             </div>
         </div>
+    </div>
     </div>
 @endsection
 @section('additionalFooter')

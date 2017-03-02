@@ -59,7 +59,7 @@ class UserController extends Controller
         $companyManager = new CompanyManager();
         $user = new User();
         $userRoleIds = array();
-        $formTitle = 'Create a new user';
+        $formTitle = 'FILL IN THE FOLLOWING FORM IN ORDER TO REGISTER A NEW USER';
         $userRoles = $this->userRoleManager->getAllUserRoles();
         $companies = $companyManager->getAllUnassignedCompanies();
         return view('users.forms.create_edit', [

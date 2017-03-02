@@ -45,7 +45,7 @@ class CompanyController extends Controller
     public function showCreateForm()
     {
         $company = new Company();
-        $formTitle = 'Company registration';
+        $formTitle = 'FILL IN THE FORM TO REGISTER A NEW COMPANY';
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssigned();
         $companyMentorsIds = array();
         $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssigned();

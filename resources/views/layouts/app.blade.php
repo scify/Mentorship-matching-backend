@@ -7,9 +7,9 @@
 @endif
 {{--@include('common.header.navbarHorizontal')--}}
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
-<div class="content-wrapper">
+<div class="content">
     <!-- Main content -->
-    <section class="content">
+
         @if(session('flash_message_success'))
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -50,7 +50,6 @@
 
         @yield('content')
 
-    </section>
 </div>
 <!-- Footer -->
 @if(Auth::check())

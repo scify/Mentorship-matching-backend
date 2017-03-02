@@ -1,3 +1,8 @@
+
+// Variables
+@import "variables";
+
+
 .bg-login .panel-login .panel-body {
   padding: 0px 40px 20px 40px;
 }
@@ -36,4 +41,32 @@
   left: 50%;
   height: 490px;
 
+}
+
+.loginForm .form-control {
+  font-size:17px;
+}
+
+
+.loginForm {
+  ::-webkit-input-placeholder { /* Chrome */
+    color: $form-placeholder-color-light;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: $form-placeholder-color-light;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: $form-placeholder-color-light;
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 4 - 18 */
+    color: $form-placeholder-color-light;
+    opacity: 1;
+  }
+  .form-control {
+    font-size: 16px;
+  }
+  input {
+    color: white;
+  }
 }

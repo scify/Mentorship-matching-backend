@@ -1,9 +1,14 @@
 @extends('layouts.app')
 @section('content')
-    <div class="col-md-12 centeredVertically">
+    <div class="row">
+
+    </div>
+    <div class="col-md-12">
         <div class="panel">
             <div class="panel-heading">
-                <h4 class="col-md-12">Filters</h4>
+                <div class="panel-title">
+                    <h4>FILTERS</h4>
+                </div>
             </div><!--.panel-heading-->
             <div class="panel-body">
                 <div class="col-md-9">
