@@ -35,11 +35,13 @@ class MentorController extends Controller
      */
     public function showAllMentors() {
         $mentors = $this->mentorManager->getAllMentors();
-        $pageTitle = 'All mentors';
         $loggedInUser = Auth::user();
         $specialties = $this->specialtyManager->getAllSpecialties();
-        return view('mentors.list_all', ['mentors' => $mentors,
-            'loggedInUser' => $loggedInUser, 'pageTitle' => $pageTitle,
+        return view('mentors.list_all', [
+            'pageTitle' => 'Mentors',
+            'pageSubTitle' => 'view all',
+            'mentors' => $mentors,
+            'loggedInUser' => $loggedInUser,
             'specialties' => $specialties
         ]);
     }
@@ -102,7 +104,8 @@ class MentorController extends Controller
         $companies = $companyManager->getAllCompanies();
 
         return view('mentors.forms.create_edit', [
-            'pageTitle' => 'Create new Mentor',
+            'pageTitle' => 'Mentors',
+            'pageSubTitle' => 'create new',
             'mentor' => $mentor,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
@@ -132,7 +135,8 @@ class MentorController extends Controller
         $companies = $companyManager->getAllCompanies();
         $formTitle = 'Edit mentor';
         return view('mentors.forms.create_edit', ['mentor' => $mentor,
-            'formTitle' => $formTitle, 'residences' => $residences,
+            'formTitle' => $formTitle,
+            'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),

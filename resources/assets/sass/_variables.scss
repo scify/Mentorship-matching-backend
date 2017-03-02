@@ -4,6 +4,8 @@ $body-bg: #fcfcfc;
 
 $light-white: #f6f6f6;
 
+$form-control-font-size:16px;
+
 // Borders
 $laravel-border-color: darken($body-bg, 10%);
 $list-group-border: $laravel-border-color;
@@ -31,6 +33,7 @@ $text-color: #1b1d1e;
 //$form-placeholder-color: #555555;
 $form-placeholder-color: #777777;
 $form-placeholder-color-light: #bbbbbb;
+$form-placeholder-font-size:12px;
 
 // Navbar
 $navbar-default-bg: #fff;

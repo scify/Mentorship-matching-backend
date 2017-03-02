@@ -30,10 +30,10 @@ class UserController extends Controller
     {
         $users = $this->userManager->getAllUsers();
         $userRoles = $this->userRoleManager->getAllUserRoles();
-        $pageTitle = 'All users';
         $loggedInUser = Auth::user();
         return view('users.list_all', [
-            'pageTitle' => $pageTitle,
+            'pageTitle' => 'System Users',
+            'pageSubTitle' => 'view all',
             'users' => $users, 'userRoles' => $userRoles, 'loggedInUser' => $loggedInUser]);
     }
 
@@ -63,7 +63,8 @@ class UserController extends Controller
         $userRoles = $this->userRoleManager->getAllUserRoles();
         $companies = $companyManager->getAllUnassignedCompanies();
         return view('users.forms.create_edit', [
-            'pageTitle' => 'Create new user',
+            'pageTitle' => 'System Users',
+            'pageSubTitle' => 'create new user',
             'user' => $user,
             'formTitle' => $formTitle, 'userRoles' => $userRoles,
             'userRoleIds' => $userRoleIds, 'companies' => $companies

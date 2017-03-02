@@ -16,7 +16,8 @@
 }
 
 .btn {
-  font-size: 16px;
+  font-size:$form-control-font-size;
+
 }
 
 .content .alert {
@@ -138,9 +139,15 @@
   background-color: $secondary-color;
 }
 
+/* <editor-fold descr="form controls"> */
 .form-control {
   box-shadow: none;
 }
+.form-control.error{
+  margin-bottom:0;
+}
+
+
 
 .inputer.floating-label .form-control:focus ~ label {
   color: $brand-primary;
@@ -148,43 +155,63 @@
 
 .inputer.floating-label .form-control ~ label {
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: $form-placeholder-font-size;
 }
 
-.inputer.floating-label .form-control:focus ~ label, .inputer.floating-label .form-control.valid ~ label {
+.inputer.floating-label .form-control:focus ~ label,
+.inputer.floating-label .form-control.error ~ label,
+.inputer.floating-label .form-control.valid ~ label {
   top: -12px;
-  font-size: 12px;
+  font-size: $form-placeholder-font-size;
 }
 
 .inputer .input-wrapper:after {
   background: $brand-primary;
 }
 
-
-
 .chosen-choices {
   border-radius: 3px;
 }
 
+.chosen-container
+{
+  font-size:$form-control-font-size;
+}
 .chosen-container-active .chosen-choices {
   border-color: $brand-primary;
 }
+.chosen-container-active.chosen-with-drop .chosen-single
+{
+ background-image:none;
+}
+.chosen-container-multi .chosen-choices li.search-field input[type=text]
+{
+  padding:0;
+  height:32px;
+  color:$form-placeholder-color;
+  font-size:$form-placeholder-font-size;
+}
 
-.navbar {
+.chosen-container .chosen-default span
+{
+  color:$form-placeholder-color;
+  font-size:$form-placeholder-font-size;
+}
+.chosen-container-multi .chosen-choices {
+  border-color: #f0f0f0;
+  border-radius: 0px;
   border-top: 0px;
+  border-left: 0;
+  border-right: 0;
+  border-width: 2px;
 }
-
-.content .alert {
-  float: right;
-  min-width: 500px;
-  right: 100px;
-  position: absolute;
-  width: auto;
-  z-index: 1;
-}
-
-.navbar{
-  margin-bottom: 0px;
+.chosen-container-multi .chosen-choices li.search-choice
+{
+  margin-top:0;
+  margin-left:0;
+  margin-bottom:0;
+  margin-right:5px;
+  background-color:rgba(236, 236, 236, 0.9);
 }
 
 .noInputStyles .form-control:focus {
@@ -210,6 +237,27 @@
 .noInputStyles input {
   border: none;
 }
+
+/* </editor-fold> */
+
+.navbar {
+  border-top: 0px;
+}
+
+.content .alert {
+  float: right;
+  min-width: 500px;
+  right: 100px;
+  position: absolute;
+  width: auto;
+  z-index: 1;
+}
+
+.navbar{
+  margin-bottom: 0px;
+}
+
+
 
 
 
@@ -376,7 +424,7 @@
   border-right:0;
   height:30px;
   line-height:30px;
-  font-size:16px;
+  font-size:$form-control-font-size;
   padding-left:0;
   border-bottom:2px solid #f0f0f0;
 
@@ -397,10 +445,16 @@
 
   .selecterTitle {
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: $form-placeholder-font-size;
     margin-top:5px;
     color: $form-placeholder-color;
   }
+
+  .selecterTitle.form-full-row{
+    margin-bottom: 5px;
+    margin-top: 10px;
+  }
+
 
   .error {
     color: $brand-danger;
@@ -412,25 +466,26 @@
 
   .form-control {
     color: $text-color;
+    font-size:$form-control-font-size;
   }
 
 
 
   textarea::-webkit-input-placeholder { /* Chrome */
-    font-size: 12px;
+    font-size: $form-placeholder-font-size;
     color: $form-placeholder-color;
   }
   textarea:-ms-input-placeholder { /* IE 10+ */
-    font-size: 12px;
+    font-size: $form-placeholder-font-size;
     color: $form-placeholder-color;
   }
   textarea::-moz-placeholder { /* Firefox 19+ */
-    font-size: 12px;
+    font-size: $form-placeholder-font-size;
     color: $form-placeholder-color;
     opacity: 1;
   }
   textarea:-moz-placeholder { /* Firefox 4 - 18 */
-    font-size: 12px;
+    font-size: $form-placeholder-font-size;
     color: $form-placeholder-color;
     opacity: 1;
   }
@@ -449,13 +504,7 @@
     color: $form-placeholder-color;
     opacity: 1;
   }
-  .formRow {
-    margin-bottom: 20px;
-  }
-  .row {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
+
   .formElementName {
     margin-top: 5px;
     color: $form-placeholder-color;
