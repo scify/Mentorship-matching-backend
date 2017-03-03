@@ -45,6 +45,14 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class, 'id', 'account_manager_id');
     }
 
+    public function capacity() {
+        $userAccessManager = new UserAccessManager();
+        if($userAccessManager->userIsAccountManager($this)) {
+            return $this->hasOne(AccountManagerCapacity::class, 'account_manager_id', 'id');
+        }
+        return null;
+    }
+
     /**
      * Get @see Role instances this user has
      */
