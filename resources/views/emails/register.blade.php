@@ -19,10 +19,10 @@
         </p>
         <br>
         <p style="text-align: center; font-size: 14px;">email: 
-            <span style="display: inline-block;">[email]</span>
+            <span style="display: inline-block;">{{ $email }}</span>
         </p>
         <p style="text-align: center; font-size: 14px;">password: 
-            <span style="display: inline-block;">[password]</span>
+            <span style="display: inline-block;">{{ $password }}</span>
         </p>
     </body>
 </html>
