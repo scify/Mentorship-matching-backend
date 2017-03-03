@@ -85,7 +85,8 @@ class UserController extends Controller
             'email' => 'required|max:255|email',
             'user_roles' => 'required',
             'password'        => 'required|min:4|max:12',
-            'passwordconfirm' => 'required|same:password'
+            'passwordconfirm' => 'required|same:password',
+            'capacity' =>'numeric|min:1|max:10'
         ]);
 
         $input = $request->all();
@@ -124,7 +125,7 @@ class UserController extends Controller
         $companyManager = new CompanyManager();
         $user = $this->userManager->getUser($id);
         $userRoleIds = $this->userRoleManager->getUserRoleIds($user);
-        $formTitle = 'Edit user';
+        $formTitle = 'EDIT USER';
         $userRoles = $this->userRoleManager->getAllUserRoles();
         $companies = $companyManager->getCompaniesWithNoAccountManagerAssignedExceptAccountManager($user);
 
@@ -134,6 +135,8 @@ class UserController extends Controller
             $user['company_id'] = null;
 
         return view('users.forms.create_edit', ['user' => $user,
+            'pageTitle' => 'System Users',
+            'pageSubTitle' => 'edit user',
             'formTitle' => $formTitle, 'userRoles' => $userRoles,
             'userRoleIds' => $userRoleIds, 'companies' => $companies
         ]);
@@ -154,7 +157,8 @@ class UserController extends Controller
             'email' => 'required|max:255|email',
             'user_roles' => 'required',
             'password'        => 'min:4|max:12',
-            'passwordconfirm' => 'same:password'
+            'passwordconfirm' => 'same:password',
+            'capacity' =>'numeric|min:1|max:10'
         ]);
         $input = $request->all();
         try {
