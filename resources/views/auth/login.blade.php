@@ -97,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-blur dark" style="background: url({{asset('/assets/img/team_blur.jpg')}})">
+        <div class="bg-blur dark active">
             <div class="overlay"></div><!--.overlay-->
         </div><!--.bg-blur-->
     </div>
