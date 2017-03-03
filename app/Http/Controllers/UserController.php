@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
+use App\BusinessLogicLayer\managers\MailManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\User;
 use Illuminate\Http\Request;
@@ -93,13 +94,21 @@ class UserController extends Controller
 
         try {
             $this->userManager->createUser($input);
+            // send email with login credentials
+            (new MailManager())->sendEmailToSpecificEmail('emails.register', 
+                array('email' => $input['email'], 'password' => $input['password']), 
+                'Your account has been created',
+                $input['email']
+            );
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();
         }
 
-        session()->flash('flash_message_success', 'User created');
-        return $this->showAllUsers();
+        session()->flash('flash_message_success', 'User ' . $input["email"] . ' has been created. 
+            An email has been sent with account information'
+        );
+        return redirect('/users/all');
 
     }
 
