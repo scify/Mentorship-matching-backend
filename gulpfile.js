@@ -74,7 +74,10 @@ elixir(function(mix) {
         'public/js/app.js' , './')
         .scripts([
             'resources/assets/js/controllers/'
-        ], 'public/js/controllers.js');
+        ], 'public/js/controllers.js')
+        .scripts([
+            'resources/assets/js/AuthPage.js'
+        ], 'public/js/auth.js');
 
 
     //the parameter is relative to the public directory

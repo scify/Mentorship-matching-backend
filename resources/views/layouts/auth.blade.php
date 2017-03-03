@@ -33,6 +33,8 @@
 
     </div>
 </div>
+<script src="{{asset(elixir('js/auth.js'))}}"></script>
+<script>(function(){UserPages.login();})();</script>
 @include('common.footer')
 </body>
 </html>

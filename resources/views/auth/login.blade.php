@@ -53,7 +53,7 @@
                         </div>
 
                         <ul class="extra-links">
-                            <li><a href="{{ url('/password/reset') }}" class="show-pane-forgot-password">Forgot your password</a></li>
+                            <li><a href="javascript:void(0)" class="show-pane-forgot-password">Forgot your password</a></li>
                         </ul>
 
                         {{--<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">--}}
@@ -95,6 +95,24 @@
                         {{--</div>--}}
                     </form>
                 </div>
+
+                <div id="pane-forgot-password" class="panel-body">
+                    <form class="form-horizontal forgotPasswordForm noInputStyles" role="form" method="POST" action="{{ url('/password/email') }}">
+                        {{ csrf_field() }}
+                        <h2>Forgot your password</h2>
+                        <div class="form-group">
+                            <div class="inputer">
+                                <div class="input-wrapper">
+                                    <input class="form-control" placeholder="Enter your email address" type="email">
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-buttons clearfix">
+                            <button type="button" class="btn btn-white pull-left show-pane-login btn-ripple">Cancel<span class="ripple _2 animate" style="height: 0px; width: 0px; top: 271px; left: 589px;"></span></button>
+                            <button type="submit" class="btn btn-primary pull-right btn-ripple">Send</button>
+                        </div> 
+                    </form>
+                </div>
             </div>
         </div>
         <div class="bg-blur dark active">
@@ -109,6 +127,9 @@
                 checkboxClass: 'icheckbox_flat-orange',
                 radioClass: 'iradio_flat-orange'
             });
+
+            var authPage = new window.AuthPage();
+            authPage.init();    
         });
     </script>
 @endsection

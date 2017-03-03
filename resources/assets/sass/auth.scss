@@ -2,23 +2,23 @@
 // Variables
 @import "variables";
 
-#pane-login {
+.panel-body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.4);
   border-radius:5px;
 }
 
-#pane-login h2
+.panel-body h2
 {
   border-top-left-radius:5px;
   border-top-right-radius:5px;
 
 }
-#pane-login .form-group{
+.panel-body .form-group{
   margin-left:0;
   margin-right:0;
 }
-#pane-login .form-control
+.panel-body .form-control
 {
   padding:0;
 }
@@ -47,12 +47,12 @@
   }
 }
 
-.loginForm .form-control {
+.loginForm .form-control, .forgotPasswordForm .form-control {
   font-size:17px;
 }
 
 
-.loginForm {
+.loginForm, .forgotPasswordForm {
   ::-webkit-input-placeholder { /* Chrome */
     color: $form-placeholder-color-light;
   }
