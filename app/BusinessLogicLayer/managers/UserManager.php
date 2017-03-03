@@ -2,6 +2,7 @@
 
 namespace App\BusinessLogicLayer\managers;
 
+use App\Models\eloquent\AccountManagerCapacity;
 use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\User;
@@ -39,6 +40,10 @@ class UserManager {
             $newUser = $this->userStorage->saveUser($newUser);
             $this->userRoleManager->assignRolesToUser($newUser, $inputFields['user_roles']);
             $this->handleCompanyAccountManager($newUser, $inputFields['company_id']);
+
+            if(isset($inputFields['capacity']) && $newUser->isAccountManager()) {
+                $this->createOrUpdateAccountManagerCapacity($newUser->id, $inputFields['capacity']);
+            }
         });
     }
 
@@ -71,6 +76,9 @@ class UserManager {
             $user = $this->userStorage->saveUser($user);
             $this->handleCompanyAccountManager($user, $inputFields['company_id']);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
+            if(isset($inputFields['capacity']) && $user->isAccountManager()) {
+                $this->createOrUpdateAccountManagerCapacity($user->id, $inputFields['capacity']);
+            }
         });
     }
 
@@ -138,6 +146,22 @@ class UserManager {
         $accountManagersWithNoCompany = $this->getAccountManagersWithNoCompanyAssigned();
         $company->accountManager != null ? $accountManagersWithNoCompany->add($company->accountManager) : '';
         return $accountManagersWithNoCompany;
+    }
+
+    public function createOrUpdateAccountManagerCapacity($accountManagerId, $capacity) {
+        $existingCapacity = $this->userStorage->getAccountManagerCapacityById($accountManagerId);
+        // if no record exists
+        if($existingCapacity == null) {
+            //create new model
+            $newAccountManagerCapacity = new AccountManagerCapacity();
+            $newAccountManagerCapacity->account_manager_id = $accountManagerId;
+            $newAccountManagerCapacity->capacity = $capacity;
+            $capacityToBeSaved = $newAccountManagerCapacity;
+        } else {
+            $existingCapacity->capacity = $capacity;
+            $capacityToBeSaved = $existingCapacity;
+        }
+        $this->userStorage->saveAccountManagerCapacity($capacityToBeSaved);
     }
 
 }
