@@ -2,10 +2,6 @@
 // Variables
 @import "variables";
 
-
-.bg-login .panel-login .panel-body {
-  padding: 0px 40px 20px 40px;
-}
 #pane-login {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.4);
@@ -26,21 +22,29 @@
 {
   padding:0;
 }
-.bg-login .login-screen {
-  background: transparent;
-  box-shadow: none;
-}
 
-.bg-login .panel-login .panel-heading {
-  max-height: 200px;
-}
+.bg-login {
+  .panel-login {
+    .panel-body {
+      padding: 0px 40px 20px 40px;
+    }
+    .panel-heading {
+      max-height: 200px;
+    }
+  }
+  .login-screen {
+    background: transparent;
+    box-shadow: none;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    height: 490px;
 
-.bg-login .login-screen {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  height: 490px;
-
+  }
+  .bg-blur::before {
+    background: url("/assets/img/contract_sign.jpg") fixed no-repeat;
+    background-size: cover;
+  }
 }
 
 .loginForm .form-control {
@@ -69,4 +73,8 @@
   input {
     color: white;
   }
+}
+
+body {
+  margin: 0;
 }
