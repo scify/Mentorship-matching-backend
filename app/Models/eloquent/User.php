@@ -46,11 +46,7 @@ class User extends Authenticatable
     }
 
     public function capacity() {
-        $userAccessManager = new UserAccessManager();
-        if($userAccessManager->userIsAccountManager($this)) {
-            return $this->hasOne(AccountManagerCapacity::class, 'account_manager_id', 'id');
-        }
-        return null;
+        return $this->hasOne(AccountManagerCapacity::class, 'account_manager_id', 'id');
     }
 
     /**
