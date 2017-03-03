@@ -16,9 +16,14 @@ window.AuthPage.prototype = function () {
                 $('.login-screen').removeClass('forgot-password');
             });
         },
+        showForgotPasswordPaneIfContainsErrors = function() {
+            if($("#pane-forgot-password .has-error").length > 0)
+                $('.show-pane-forgot-password').trigger("click");
+        },
         initializeHandlers = function() {
             showForgotPasswordPaneHandler();
             showLoginPaneHandler();
+            showForgotPasswordPaneIfContainsErrors();
         },
         init = function() {
             initializeHandlers();
