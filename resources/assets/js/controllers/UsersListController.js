@@ -10,17 +10,17 @@ window.UsersListController.prototype = function () {
                 $('#deleteUserModal').find('input[name="user_id"]').val(userId);
             });
         },
-        searchBtnHandler = function (instance) {
+        searchBtnHandler = function () {
             $("#searchBtn").on("click", function (e) {
                 var roleId = $('select[name=user_role]').val();
                 var userName = $('input[name=userName]').val();
                 console.log("search triggered for role: " + roleId + " and name: " + userName);
-                getUsersByFilter(roleId, userName, instance);
+                getUsersByFilter(roleId, userName);
             });
         },
-        clearSearchBtnHandler = function (instance) {
+        clearSearchBtnHandler = function () {
             $("#clearSearchBtn").on("click", function (e) {
-                getUsersByFilter(null, null, instance);
+                getUsersByFilter(null, null);
                 $('select[name=user_role]').val(0);
                 $('select[name=user_role]').trigger("chosen:updated");
                 $('input[name=userName]').val(null);
@@ -48,7 +48,7 @@ window.UsersListController.prototype = function () {
                 width: '100%'
             });
         },
-        getUsersByFilter = function(roleId, userName, instance) {
+        getUsersByFilter = function(roleId, userName) {
             var data = {
                 'role_id': roleId,
                 'user_name': userName
@@ -62,7 +62,7 @@ window.UsersListController.prototype = function () {
                     $(".loader").removeClass('hidden');
                 },
                 success: function (response) {
-                    parseSuccessData(response, instance);
+                    parseSuccessData(response);
                 },
                 error: function (xhr, status, errorThrown) {
                     console.log(xhr.responseText);
@@ -89,20 +89,18 @@ window.UsersListController.prototype = function () {
                 Pleasure.listenClickableCards();
             }
         },
-        initializeHandlers = function(instance) {
+        initializeHandlers = function() {
             deleteUserBtnHandler();
             activateUserBtnHandler();
             deactivateUserBtnHandler();
-            searchBtnHandler(instance);
-            clearSearchBtnHandler(instance);
+            searchBtnHandler();
+            clearSearchBtnHandler();
         },
         init = function () {
-            var instance = this;
-            initializeHandlers(instance);
+            initializeHandlers();
             initializeRoleSelect();
         };
     return {
-        init: init,
-        initializeHandlers: initializeHandlers
+        init: init
     }
 }();
