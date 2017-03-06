@@ -83,6 +83,10 @@ class UserManager {
             $this->handleCompanyAccountManager($user, $inputFields['company_id']);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
         });
+        //we need to reload the model again, for the isAccountManager
+        //to take effect. Because the model we retrieved earlier in this method
+        //may have changed it's roles
+        $user = $this->getUser($id);
         if($user->isAccountManager()) {
             $this->accountManagerDetails($user, $inputFields);
         }
