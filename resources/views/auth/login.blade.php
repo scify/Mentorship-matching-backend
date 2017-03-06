@@ -13,15 +13,15 @@
                         {{ csrf_field() }}
                         <h2>Login to BackOffice</h2>
                         <div class="centeredVertically">
-                        <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('email_address') ? ' has-error' : '' }}">
                             <div class="inputer">
                                 <div class="input-wrapper">
-                                    <input type="email" class="form-control" name="email" placeholder="Enter your email">
+                                    <input type="email" class="form-control" name="email_address" placeholder="Enter your email">
                                 </div>
                             </div>
-                            @if ($errors->has('email'))
+                            @if ($errors->has('email_address'))
                                 <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('email_address') }}</strong>
                                     </span>
                             @endif
                         </div><!--.form-group-->
@@ -53,7 +53,7 @@
                         </div>
 
                         <ul class="extra-links">
-                            <li><a href="{{ url('/password/reset') }}" class="show-pane-forgot-password">Forgot your password</a></li>
+                            <li><a href="javascript:void(0)" class="show-pane-forgot-password">Forgot your password</a></li>
                         </ul>
 
                         {{--<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">--}}
@@ -95,9 +95,32 @@
                         {{--</div>--}}
                     </form>
                 </div>
+
+                <div id="pane-forgot-password" class="panel-body">
+                    <form class="form-horizontal forgotPasswordForm noInputStyles" role="form" method="POST" action="{{ url('/password/email') }}">
+                        {{ csrf_field() }}
+                        <h2>Forgot your password</h2>
+                        <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+                            <div class="inputer">
+                                <div class="input-wrapper">
+                                    <input class="form-control" placeholder="Enter your email address" type="email" name="email">
+                                </div>
+                            </div>
+                            @if ($errors->has('email'))
+                                <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                            @endif
+                        </div> 
+                        <div class="form-buttons clearfix">
+                            <button type="button" class="btn btn-white pull-left show-pane-login btn-ripple">Cancel<span class="ripple _2 animate" style="height: 0px; width: 0px; top: 271px; left: 589px;"></span></button>
+                            <button type="submit" class="btn btn-primary pull-right btn-ripple">Send</button>
+                        </div> 
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="bg-blur dark" style="background: url({{asset('/assets/img/team_blur.jpg')}})">
+        <div class="bg-blur dark active">
             <div class="overlay"></div><!--.overlay-->
         </div><!--.bg-blur-->
     </div>
@@ -109,6 +132,9 @@
                 checkboxClass: 'icheckbox_flat-orange',
                 radioClass: 'iradio_flat-orange'
             });
+
+            var authPage = new window.AuthPage();
+            authPage.init();    
         });
     </script>
 @endsection

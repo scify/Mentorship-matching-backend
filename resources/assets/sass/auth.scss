@@ -2,53 +2,57 @@
 // Variables
 @import "variables";
 
-
-.bg-login .panel-login .panel-body {
-  padding: 0px 40px 20px 40px;
-}
-#pane-login {
+.panel-body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.4);
   border-radius:5px;
 }
 
-#pane-login h2
+.panel-body h2
 {
   border-top-left-radius:5px;
   border-top-right-radius:5px;
 
 }
-#pane-login .form-group{
+.panel-body .form-group{
   margin-left:0;
   margin-right:0;
 }
-#pane-login .form-control
+.panel-body .form-control
 {
   padding:0;
 }
-.bg-login .login-screen {
-  background: transparent;
-  box-shadow: none;
+
+.bg-login {
+  .panel-login {
+    .panel-body {
+      padding: 0px 40px 20px 40px;
+    }
+    .panel-heading {
+      max-height: 200px;
+    }
+  }
+  .login-screen {
+    background: transparent;
+    box-shadow: none;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    height: 490px;
+
+  }
+  .bg-blur::before {
+    background: url("../../assets/img/contract_sign.jpg") fixed no-repeat;
+    background-size: cover;
+  }
 }
 
-.bg-login .panel-login .panel-heading {
-  max-height: 200px;
-}
-
-.bg-login .login-screen {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  height: 490px;
-
-}
-
-.loginForm .form-control {
+.loginForm .form-control, .forgotPasswordForm .form-control {
   font-size:17px;
 }
 
 
-.loginForm {
+.loginForm, .forgotPasswordForm {
   ::-webkit-input-placeholder { /* Chrome */
     color: $form-placeholder-color-light;
   }
@@ -85,4 +89,8 @@
 
 .alert.alert-danger {
   display: none !important;
+}
+
+body {
+  margin: 0;
 }

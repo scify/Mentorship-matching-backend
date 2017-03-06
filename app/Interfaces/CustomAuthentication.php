@@ -16,11 +16,19 @@ trait CustomAuthentication {
 
     use AuthenticatesUsers{
         attemptLogin as performLogin;
+        username as getUsername;
     }
 
     public function attemptLogin(Request $request){
         $loginCredentials = $this->credentials($request);
+        $loginCredentials['email'] = $loginCredentials['email_address'];
+        unset($loginCredentials['email_address']);
         $loginCredentials['state_id'] = 1;
         return $this->guard()->attempt($loginCredentials, $request->has('remember'));
+    }
+
+    public function username()
+    {
+        return 'email_address';
     }
 }

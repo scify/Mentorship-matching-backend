@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-md-8 ">
             <div class="panel">
                 <div class="panel-heading">
                     <div class="panel-title">
@@ -84,7 +84,7 @@
                                     <div class="col-md-12">
                                         <!-- Skills -->
                                         <div class="selecterTitle form-full-row">Select user roles</div>
-                                        <select data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
+                                        <select id="roleSelector" data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
                                             @foreach($userRoles as $userRole)
                                                 <option value="{{$userRole->id}}" {{in_array($userRole->id, $userRoleIds)? 'selected':''}}>{{$userRole->title}}</option>
                                             @endforeach
@@ -92,9 +92,9 @@
                                     </div>
                                 </div>
 
-                                <div class="row {{!$user->isAccountManager() ? 'hidden' : ''}}">
+                                <div id="accountManagerDetailsContainer" class="row {{!$user->isAccountManager() ? 'hidden' : ''}}">
                                     <div class="col-md-12">
-                                        <!-- Skills -->
+                                        <!-- Company -->
                                         <div class="selecterTitle form-full-row">Select Company</div>
                                         <select data-placeholder="Choose Company" name="company_id" class="chosen-select">
                                             <option value="">No Company</option>
@@ -103,13 +103,22 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-md-12">
+                                        <!-- Capacity -->
+                                        <div class="inputer floating-label margin-top-60">
+                                            <div class="input-wrapper">
+                                                <input name="capacity" type="number" class="form-control" value="{{$user->capacity != null ? $user->capacity->capacity : ""}}">
+                                                <label for="capacity" class="control-label">Capacity</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="submitBtnContainer margin-top-50">
                                     <button type="button" class="btn btn-flat-primary">
                                         <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllUsers') }}">Cancel</a>
                                     </button>
                                     <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple margin-left-10">
-                                        {{($user->id == null ? 'Create' : 'Edit')}}
+                                        {{($user->id == null ? 'Create' : 'Save')}}
                                     </button>
                                 </div>
                             </form>
@@ -124,9 +133,8 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            $('.chosen-select').chosen({
-                width: '100%'
-            });
+            var controller = new UserFormController();
+            controller.init();
         });
     </script>
 @endsection
