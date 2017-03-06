@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'first_name', 'last_name', 'state_id'
+        'email', 'password', 'first_name', 'last_name', 'state_id', 'user_icon_id'
     ];
 
     /**
@@ -47,6 +47,10 @@ class User extends Authenticatable
 
     public function capacity() {
         return $this->hasOne(AccountManagerCapacity::class, 'account_manager_id', 'id');
+    }
+
+    public function icon() {
+        return $this->hasOne(UserIcon::class, 'id', 'user_icon_id');
     }
 
     /**

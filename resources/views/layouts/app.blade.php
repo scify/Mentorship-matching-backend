@@ -3,7 +3,7 @@
 <!-- Header -->
 @include('common.header.header')
 @if(Auth::check())
-    @include('common.header.navbarVertical')
+    @include('common.header.navbarVertical', ['user' => \Illuminate\Support\Facades\Auth::user()])
 @endif
 {{--@include('common.header.navbarHorizontal')--}}
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">

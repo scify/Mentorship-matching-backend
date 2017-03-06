@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\CompanyManager;
+use App\BusinessLogicLayer\managers\UserIconManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
 use App\BusinessLogicLayer\managers\MailManager;
@@ -59,16 +60,19 @@ class UserController extends Controller
     {
         $companyManager = new CompanyManager();
         $user = new User();
+        $userIconsManager = new UserIconManager();
         $userRoleIds = array();
         $formTitle = 'FILL IN THE FOLLOWING FORM IN ORDER TO REGISTER A NEW USER';
         $userRoles = $this->userRoleManager->getAllUserRoles();
         $companies = $companyManager->getAllUnassignedCompanies();
+        $userIcons = $userIconsManager->getAllUserIcons();
         return view('users.forms.create_edit', [
             'pageTitle' => 'System Users',
             'pageSubTitle' => 'create new user',
             'user' => $user,
             'formTitle' => $formTitle, 'userRoles' => $userRoles,
-            'userRoleIds' => $userRoleIds, 'companies' => $companies
+            'userRoleIds' => $userRoleIds, 'companies' => $companies,
+            'userIcons' => $userIcons
         ]);
     }
 
@@ -133,10 +137,12 @@ class UserController extends Controller
     {
         $companyManager = new CompanyManager();
         $user = $this->userManager->getUser($id);
+        $userIconsManager = new UserIconManager();
         $userRoleIds = $this->userRoleManager->getUserRoleIds($user);
         $formTitle = 'EDIT USER';
         $userRoles = $this->userRoleManager->getAllUserRoles();
         $companies = $companyManager->getCompaniesWithNoAccountManagerAssignedExceptAccountManager($user);
+        $userIcons = $userIconsManager->getAllUserIcons();
 
         if($user->company != null)
             $user['company_id'] = $user->company->id;
@@ -147,7 +153,8 @@ class UserController extends Controller
             'pageTitle' => 'System Users',
             'pageSubTitle' => 'edit user',
             'formTitle' => $formTitle, 'userRoles' => $userRoles,
-            'userRoleIds' => $userRoleIds, 'companies' => $companies
+            'userRoleIds' => $userRoleIds, 'companies' => $companies,
+            'userIcons' => $userIcons
         ]);
     }
 

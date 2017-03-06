@@ -18,7 +18,7 @@
 
     <div class="nav-user">
         <div class="user">
-            <img src="{{asset("/assets/img/boy.png")}}" alt="">
+            <img src="{{$user->icon != null? asset($user->icon->path) : asset('/assets/img/boy.png')}}" alt="">
             <span class="badge">0</span>
         </div><!--.user-->
         <div class="cross">

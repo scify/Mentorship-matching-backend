@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ResidenceTableSeeder::class);
         $this->call(SpecialtyTableSeeder::class);
         $this->call(IndustryTableSeeder::class);
+        $this->call(UserIconTableSeeder::class);
     }
 }

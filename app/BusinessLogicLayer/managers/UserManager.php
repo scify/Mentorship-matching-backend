@@ -7,6 +7,7 @@ use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\User;
 use App\StorageLayer\RoleStorage;
+use App\StorageLayer\UserIconStorage;
 use App\StorageLayer\UserStorage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Hash;
 class UserManager {
 
     private $userRoleManager;
+    private $userIconsManager;
     private $userStorage;
     private $roleStorage;
 
@@ -28,12 +30,15 @@ class UserManager {
 
     public function __construct() {
         $this->userRoleManager = new UserRoleManager();
+        $this->userIconsManager = new UserIconManager();
         $this->userStorage = new UserStorage();
         $this->roleStorage = new RoleStorage();
     }
 
     public function createUser(array $inputFields) {
         $newUser = new User();
+        $inputFields['user_icon_id'] = $this->userIconsManager->getIconIdFromTitle($inputFields['usericon']);
+        unset($inputFields['usericon']);
         $newUser = $this->assignInputFieldsToUser($newUser, $inputFields);
 
         DB::transaction(function() use($newUser, $inputFields) {
@@ -56,6 +61,7 @@ class UserManager {
         $user->first_name = $inputFields['first_name'];
         $user->last_name = $inputFields['last_name'];
         $user->email = $inputFields['email'];
+        $user->user_icon_id = $inputFields['user_icon_id'];
         //store a has of the password entered
         if($inputFields['password'] != null && $inputFields['password'] != "") {
             $user->password = Hash::make($inputFields['password']);
@@ -69,8 +75,9 @@ class UserManager {
 
     public function editUser(array $inputFields, $id) {
         $user = $this->getUser($id);
+        $inputFields['user_icon_id'] = $this->userIconsManager->getIconIdFromTitle($inputFields['usericon']);
+        unset($inputFields['usericon']);
         $user = $this->assignInputFieldsToUser($user, $inputFields);
-
 
         DB::transaction(function() use($user, $inputFields) {
             $user = $this->userStorage->saveUser($user);

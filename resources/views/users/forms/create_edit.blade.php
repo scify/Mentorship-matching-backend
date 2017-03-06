@@ -79,7 +79,28 @@
                                         <span class="help-block">{{ $errors->first('passwordconfirm') }}</span>
                                     @endif
                                 </div>
-
+                                <!-- User icon selection -->
+                                <div id="userIconSelectionContainer" class="row">
+                                    <div class="col-md-12">
+                                        <div class="selecterTitle form-full-row">Select user icon</div>
+                                        {{-- make the first item selected --}}
+                                        <?php $first = true; ?>
+                                        @foreach($userIcons as $userIcon)
+                                            <input name="usericon" type="radio" value="{{ $userIcon->title }}"
+                                                   id="{{ $userIcon->title }}" class="form-control"
+                                                   @if($first || (isset($user) && $user->user_icon_id != null && $user->user_icon_id === $userIcon->id))
+                                                        checked="checked"
+                                                   @endif
+                                            >
+                                            <label for="{{ $userIcon->title }}" class="control-label">
+                                                <img class="face-radius" src="{{ asset($userIcon->path) }}"
+                                                     alt="{{ $userIcon->title }}">
+                                            </label>
+                                            {{-- the next item(s) should not be checked  --}}
+                                            <?php $first = false; ?>
+                                        @endforeach
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Skills -->
