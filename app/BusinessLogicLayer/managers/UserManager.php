@@ -39,12 +39,18 @@ class UserManager {
         DB::transaction(function() use($newUser, $inputFields) {
             $newUser = $this->userStorage->saveUser($newUser);
             $this->userRoleManager->assignRolesToUser($newUser, $inputFields['user_roles']);
-            $this->handleCompanyAccountManager($newUser, $inputFields['company_id']);
-            if(isset($inputFields['capacity'])) {
-                $this->createOrUpdateAccountManagerCapacity($newUser->id, $inputFields['capacity']);
-            }
         });
+        if($newUser->isAccountManager()) {
+            $this->accountManagerDetails($newUser, $inputFields);
+        }
 
+    }
+
+    private function accountManagerDetails(User $user, array $inputFields) {
+        $this->handleCompanyAccountManager($user, $inputFields['company_id']);
+        if(isset($inputFields['capacity'])) {
+            $this->createOrUpdateAccountManagerCapacity($user->id, $inputFields['capacity']);
+        }
     }
 
     public function getAllUsers() {
@@ -76,10 +82,10 @@ class UserManager {
             $user = $this->userStorage->saveUser($user);
             $this->handleCompanyAccountManager($user, $inputFields['company_id']);
             $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
-            if(isset($inputFields['capacity'])) {
-                $this->createOrUpdateAccountManagerCapacity($user->id, $inputFields['capacity']);
-            }
         });
+        if($user->isAccountManager()) {
+            $this->accountManagerDetails($user, $inputFields);
+        }
 
     }
 
