@@ -93,7 +93,9 @@
                                 </div>
 
                                 <div id="accountManagerDetailsContainer" class="row {{!$user->isAccountManager() ? 'hidden' : ''}}">
+
                                     <div class="col-md-12">
+                                        <h6 class="margin-top-20">ACCOUNT MANAGER OPTIONS</h6>
                                         <!-- Company -->
                                         <div class="selecterTitle form-full-row">Select Company</div>
                                         <select data-placeholder="Choose Company" name="company_id" class="chosen-select">
