@@ -94,6 +94,10 @@ class UserManager {
 
     public function deleteUser($userId) {
         $user = $this->getUser($userId);
+        //update user email to include a fixed string so this email
+        // can be used again for registering
+        $user->email = $user->email . '_deleted_at';
+        $this->userStorage->saveUser($user);
         $user->delete();
     }
 
