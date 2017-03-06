@@ -4,36 +4,36 @@ window.MentorsListController = function () {
 window.MentorsListController.prototype = function () {
 
     var deleteMentorBtnHandler = function () {
-            $(".deleteMentorBtn").on("click", function (e) {
+            $("body").on("click", ".deleteMentorBtn", function (e) {
                 e.stopPropagation();
                 var mentorId = $(this).attr("data-mentorId");
                 $('#deleteMentorModal').modal('toggle');
                 $('#deleteMentorModal').find('input[name="mentor_id"]').val(mentorId);
             });
         },
-        initializeHandlers = function(instance) {
+        initializeHandlers = function() {
             deleteMentorBtnHandler();
             cardTabClickHandler();
-            searchBtnHandler(instance);
-            clearSearchBtnHandler(instance);
+            searchBtnHandler();
+            clearSearchBtnHandler();
         },
-        searchBtnHandler = function (instance) {
+        searchBtnHandler = function () {
             $("#searchBtn").on("click", function (e) {
                 var specialtyId = $('select[name=specialty]').val();
                 var mentorName = $('input[name=mentorName]').val();
                 console.log("search triggered for specialty: " + specialtyId + " and name: " + mentorName);
-                getMentorsByFilter(specialtyId, mentorName, instance);
+                getMentorsByFilter(specialtyId, mentorName);
             });
         },
-        clearSearchBtnHandler = function (instance) {
+        clearSearchBtnHandler = function () {
             $("#clearSearchBtn").on("click", function (e) {
-                getMentorsByFilter(null, null, instance);
+                getMentorsByFilter(null, null);
                 $('select[name=specialty]').val(0);
                 $('select[name=specialty]').trigger("chosen:updated");
                 $('input[name=mentorName]').val(null);
             });
         },
-        getMentorsByFilter = function (specialtyId, mentorName, instance) {
+        getMentorsByFilter = function (specialtyId, mentorName) {
             var data = {
                 'specialty_id': specialtyId,
                 'mentor_name': mentorName
@@ -47,7 +47,7 @@ window.MentorsListController.prototype = function () {
                     $(".loader").removeClass('hidden');
                 },
                 success: function (response) {
-                    parseSuccessData(response, instance);
+                    parseSuccessData(response);
                 },
                 error: function (xhr, status, errorThrown) {
                     console.log(xhr.responseText);
@@ -58,7 +58,7 @@ window.MentorsListController.prototype = function () {
                 }
             });
         },
-        parseSuccessData = function(response, instance) {
+        parseSuccessData = function(response) {
             var responseObj = JSON.parse(response);
             //if operation was unsuccessful
             if (responseObj.status == 2) {
@@ -72,13 +72,10 @@ window.MentorsListController.prototype = function () {
                 $(".loader").addClass('hidden');
                 $("#usersList").html(responseObj.data);
                 Pleasure.listenClickableCards();
-                //run the handlers initialization function again
-                instance.initializeHandlers(instance);
-
             }
         },
-        initializeSpecialtiesSelect = function(instance) {
-            var specialtiesSelect = $('#specialtiesSelect').chosen({
+        initializeSpecialtiesSelect = function() {
+            $('#specialtiesSelect').chosen({
                 width: '100%'
             });
         },
@@ -93,12 +90,10 @@ window.MentorsListController.prototype = function () {
             });
         },
         init = function () {
-            var instance = this;
-            initializeHandlers(instance);
+            initializeHandlers();
             initializeSpecialtiesSelect();
         };
     return {
-        init: init,
-        initializeHandlers: initializeHandlers
+        init: init
     }
 }();
