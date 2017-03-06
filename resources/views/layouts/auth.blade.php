@@ -7,10 +7,16 @@
 <div class="content-wrapper">
     <!-- Main content -->
     <div class="">
-        @if(session('flash_message_success'))
+        @if(session('flash_message_success') || session('status'))
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> {{ session('flash_message_success') }}</h4>
+                <h4><i class="icon fa fa-check"> </i>
+                    @if(session('flash_message_success'))
+                        {{ session('flash_message_success') }}
+                    @else
+                        {{ session('status') }}
+                    @endif
+                </h4>
             </div>
         @endif
 
@@ -33,6 +39,7 @@
 
     </div>
 </div>
+<script src="{{asset(elixir('js/auth.js'))}}"></script>
 @include('common.footer')
 </body>
 </html>
