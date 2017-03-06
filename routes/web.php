@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('user/delete', 'UserController@delete')->name('deleteUser');
     Route::post('user/activate', 'UserController@activate')->name('activateUser');
     Route::post('user/deactivate', 'UserController@deactivate')->name('deactivateUser');
-    Route::get('users/byRole', ['as' => 'getUsersByRole','uses' => 'UserController@getUsersByRole']);
+    Route::get('users/byCriteria', ['as' => 'getUsersByCriteria','uses' => 'UserController@getUsersByCriteria']);
 
     Route::get('reports/all', 'ReportController@showAllReports')->name('showAllReports');
 

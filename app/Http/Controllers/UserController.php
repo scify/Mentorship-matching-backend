@@ -260,19 +260,16 @@ class UserController extends Controller
         return back();
     }
 
-    public function getUsersByRole (Request $request) {
-        $validator = Validator::make($request->all(), [
-            'role_id' => 'required'
-        ]);
-        if ($validator->fails()) {
-            $errorMessage = "Please select a role";
+    public function getUsersByCriteria (Request $request) {
+        $input = $request->all();
+
+        try {
+            $users = $this->userManager->getUsersByCriteria($input);
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
-        $input = $request->all();
-        $roleId = (int) $input['role_id'];
-        //dd($roleId);
-        $users = $this->userRoleManager->getUsersByRoleId($roleId);
-        //dd($users);
+
         if($users->count() == 0) {
             $errorMessage = "No users found";
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));

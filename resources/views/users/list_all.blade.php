@@ -1,32 +1,53 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4>FILTERS</h4>
+                    </div>
+                </div><!--.panel-heading-->
+                <div class="panel-body filtersContainer noInputStyles">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-2 filterName">Role</div><!--.col-md-3-->
+                                <div class="col-md-6">
+                                    <select data-placeholder="Choose role" name="user_role" class="chosen-select">
+                                        <option><!-- Empty option allows the placeholder to take effect. --><option>
+                                        @foreach($userRoles as $userRole)
+                                            <option value="{{$userRole->id}}">{{$userRole->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div><!--.col-md-6-->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 filterName">Name</div><!--.col-md-3-->
+                                <div class="col-md-6">
+                                    <div class="inputer">
+                                        <div class="input-wrapper">
+                                            <input name="userName" class="form-control" placeholder="User name" type="text" id="userName">
+                                        </div>
+                                    </div>
+                                </div><!--.col-md-6-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">
+                                    {{trans('messages.search')}} <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
 
-    </div>
-    <div class="col-md-12">
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="panel-title">
-                    <h4>FILTERS</h4>
+                                <button id="clearSearchBtn" class="searchBtn btn btn-flat-primary btn-ripple margin-right-10">
+                                    {{trans('messages.clear_filters')}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div><!--.panel-heading-->
-            <div class="panel-body">
-                <div class="col-md-9">
-                    <div class="col-md-2">Role</div><!--.col-md-3-->
-                    <div class="col-md-6">
-                        <select data-placeholder="Choose role" name="user_role" class="chosen-select">
-                            <option><!-- Empty option allows the placeholder to take effect. --><option>
-                            @foreach($userRoles as $userRole)
-                                <option value="{{$userRole->id}}">{{$userRole->title}}</option>
-                            @endforeach
-                        </select>
-                    </div><!--.col-md-6-->
-                </div>
-                {{--<div class="col-md-3">--}}
-                    {{--<button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">--}}
-                        {{--{{trans('messages.search')}}--}}
-                    {{--</button>--}}
-                {{--</div>--}}
             </div>
         </div>
     </div><!--.row-->

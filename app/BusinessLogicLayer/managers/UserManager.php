@@ -186,4 +186,53 @@ class UserManager {
         $this->userStorage->saveAccountManagerCapacity($capacityToBeSaved);
     }
 
+    /**
+     * Gets users satisfying some criteria (for example
+     * those who have a specific role and name)
+     *
+     * @param array $input array with criteria values
+     * @return Collection|mixed|static[] a collection with users satisfying the criteria
+     */
+    public function getUsersByCriteria($input) {
+        $roleId = $input['role_id'];
+        $userName = $input['user_name'];
+        if($roleId != null) {
+            $users = $this->getUsersWithRole($roleId);
+        } else {
+            $users = $this->getAllUsers();
+        }
+        if($userName != null) {
+            $users = $this->filterUsersByName($users, $userName);
+        }
+        return $users;
+    }
+
+    /**
+     * Gets the users having a specified role
+     *
+     * @param $roleId int the is of the @see Specialty
+     * @return mixed a collection of the users with this role
+     * @throws \Exception if the specialty queried is null
+     */
+    private function getUsersWithRole($roleId) {
+        $roleId = (int) $roleId;
+        return $this->userRoleManager->getUsersByRoleId($roleId);
+    }
+
+    /**
+     * Queries a users collection for a given name
+     *
+     * @param Collection $users a collection of @see Users instances
+     * @param $name string the name to query the collection for
+     * @return Collection the subset of the collection, satisfying the query
+     */
+    private function filterUsersByName(Collection $users, $name) {
+        $filteredUsers = $users->filter(function ($value, $key) use ($name) {
+            $currentUser = $value;
+            $mentorNameSurnameLower = strtolower($currentUser->first_name . " " . $currentUser->last_name);
+            $queryNameLower = strtolower($name);
+            return mb_strpos($mentorNameSurnameLower, $queryNameLower) !== false;
+        });
+        return $filteredUsers;
+    }
 }
