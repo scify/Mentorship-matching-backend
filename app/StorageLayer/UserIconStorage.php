@@ -20,6 +20,6 @@ class UserIconStorage
     }
 
     public function getIdFromTitle($title) {
-        return (UserIcon::where('title', $title)->first())->id;
+        return UserIcon::where('title', $title)->first()->id;
     }
 }
