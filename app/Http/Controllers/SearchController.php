@@ -30,9 +30,16 @@ class SearchController extends Controller
 
     public function filterResultsByString(Request $request)
     {
-        $mentors = $this->mentorManager->getAllMentors();
-        $mentees = $this->menteeManager->getAllMentees();
-        $users = $this->userManager->getAllUsers();
+        $input = $request->all();
+        if(empty($input['search_query'])) {
+            $mentors = $this->mentorManager->getAllMentors();
+            $mentees = $this->menteeManager->getAllMentees();
+            $users = $this->userManager->getAllUsers();
+        } else {
+            $mentors = $this->mentorManager->filterMentorsByNameAndEmail($input['search_query']);
+            $mentees = $this->menteeManager->filterMenteesByNameAndEmail($input['search_query']);
+            $users = $this->userManager->filterUsersByNameAndEmail($input['search_query']);
+        }
         $loggedInUser = Auth::user();
         if($mentors->count() + $mentees->count() + $users->count() == 0) {
             $errorMessage = "No mentors, mentees or users found";

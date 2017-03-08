@@ -2,16 +2,26 @@ window.SearchController = function () {
 };
 
 window.SearchController.prototype = function () {
-    var searchBtnHandler = function () {
+    var $ajaxCall,
+        searchBtnHandler = function () {
             $(".nav-search .search").on("click", function (e) {
                 getSearchResults(null);
             });
         },
+        searchInputHandler = function() {
+            $("#input-search").on("keyup", function() {
+                setTimeout(getSearchResults($(this).val()), 2 * 1000);
+            });
+        },
         getSearchResults = function(searchQuery) {
+            // if there is a pending ajax call, abort it
+            if($ajaxCall !== undefined && $ajaxCall !== null && $ajaxCall.state() === 'pending') {
+                $ajaxCall.abort();
+            }
             var data = {
                 'search_query': searchQuery
             };
-            $.ajax({
+            $ajaxCall = $.ajax({
                 method: "GET",
                 url: $("#common-search").data("search-url"),
                 cache: false,
@@ -23,11 +33,13 @@ window.SearchController.prototype = function () {
                     parseSuccessData(response);
                 },
                 error: function (xhr, status, errorThrown) {
-                    console.log(xhr.responseText);
-                    $(".search-layer .loader").addClass('hidden');
-                    $("#search-error-messages").removeClass('hidden');
-                    //The message added to Response object in Controller can be retrieved as following.
-                    $("#search-error-messages").html(errorThrown);
+                    if(errorThrown !== 'abort') {
+                        console.log(xhr.responseText);
+                        $(".search-layer .loader").addClass('hidden');
+                        $("#search-error-messages").removeClass('hidden');
+                        //The message added to Response object in Controller can be retrieved as following.
+                        $("#search-error-messages").html(errorThrown);
+                    }
                 }
             });
         },
@@ -48,6 +60,7 @@ window.SearchController.prototype = function () {
         },
         initializeHandlers = function() {
             searchBtnHandler();
+            searchInputHandler();
         },
         init = function () {
             initializeHandlers();

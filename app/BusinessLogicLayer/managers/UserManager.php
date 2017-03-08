@@ -235,4 +235,14 @@ class UserManager {
         });
         return $filteredUsers;
     }
+
+    /**
+     * Queries the users DB table to find string in name or email
+     *
+     * @param $searchQuery string the name or email that we need to check for
+     * @return Collection the users that match
+     */
+    public function filterUsersByNameAndEmail($searchQuery) {
+        return $this->userStorage->getUsersThatMatchGivenNameOrEmail($searchQuery);
+    }
 }

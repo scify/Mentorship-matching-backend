@@ -251,4 +251,14 @@ class MentorManager {
         });
         return $filteredMentors;
     }
+
+    /**
+     * Queries the mentor DB table to find string in name or email
+     *
+     * @param $searchQuery string the name or email that we need to check for
+     * @return Collection the mentors that match
+     */
+    public function filterMentorsByNameAndEmail($searchQuery) {
+        return $this->mentorStorage->getMentorsThatMatchGivenNameOrEmail($searchQuery);
+    }
 }

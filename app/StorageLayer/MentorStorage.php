@@ -28,4 +28,10 @@ class MentorStorage {
     public function getMentorsByCompanyId($companyId) {
         return MentorProfile::where(['company_id' => $companyId])->get();
     }
+
+    public function getMentorsThatMatchGivenNameOrEmail($searchQuery) {
+        return MentorProfile::where('first_name', 'like', '%' . $searchQuery . '%')
+            ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
+            ->orWhere('email', 'like', '%' . $searchQuery . '%')->get();
+    }
 }
