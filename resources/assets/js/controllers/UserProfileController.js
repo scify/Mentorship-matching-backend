@@ -13,6 +13,7 @@ window.UserProfileController.prototype = function () {
         },
         capacityEditBtnHandler = function() {
             $("#capacityEditBtn").click(function(){
+                $("#editCapacityContainer").css("display", "block");
                 $("#capacityUpdateDiv").slideDown("slow");
             });
         },
@@ -22,6 +23,10 @@ window.UserProfileController.prototype = function () {
                 var userId = $(this).attr("data-userId");
                 console.log("userId: " + userId);
                 console.log("newCapacity: " + newCapacity);
+                if(newCapacity < 0) {
+                    parseErrorData("Capacity cannot be less than 0.");
+                    return;
+                }
                 if(userId != undefined && newCapacity != undefined)
                     editAccountManagerCapacity(newCapacity, userId);
             });
@@ -44,10 +49,7 @@ window.UserProfileController.prototype = function () {
                 },
                 error: function (xhr, status, errorThrown) {
                     console.log(xhr.responseText);
-                    $(".loader").addClass('hidden');
-                    $("#errorMsg").removeClass('hidden');
-                    //The message added to Response object in Controller can be retrieved as following.
-                    $("#errorMsg").html(errorThrown);
+                    parseErrorData(errorThrown);
                 }
             });
         },
@@ -66,10 +68,24 @@ window.UserProfileController.prototype = function () {
                 //update capacity field
                 $("#accountManagerCapacity").html(newCapacity);
                 //show success div
-                $("#successMsg").removeClass('hidden');
+                $("#successMsg").removeClass("hidden");
+                $("#successMsg").css("display", "block");
                 //slide up whole div
-                setTimeout(function(){$("#capacityUpdateDiv").slideUp("slow"); }, 2000);
+                setTimeout(function(){
+                    $("#capacityUpdateDiv").slideUp("slow");
+
+                    $("#successMsg").slideUp('slow');
+                    $("#capacityUpdateDiv").css("display", "block");
+                }, 2000);
+
             }
+        },
+        parseErrorData = function(errorThrown) {
+            $(".loader").addClass('hidden');
+            $("#errorMsg").removeClass('hidden');
+            //The message added to Response object in Controller can be retrieved as following.
+            $("#errorMsg").html(errorThrown);
+            setTimeout(function(){$("#errorMsg").addClass('hidden'); }, 2000);
         },
         init = function () {
             initTabs();

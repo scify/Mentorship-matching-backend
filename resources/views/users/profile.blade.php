@@ -82,7 +82,7 @@
                                                 <div class="formRow row">
                                                     <div class="col-md-3 formElementName">{{trans('messages.capacity.capitalF')}}</div>
                                                     <div class="col-md-9">
-                                                        <span id="accountManagerCapacity">{{$user->capacity->capacity}}</span>
+                                                        Can monitor up to <span id="accountManagerCapacity">{{$user->capacity->capacity}}</span> pairs.
                                                         @if($user->id == \Illuminate\Support\Facades\Auth::user()->id)
                                                             <a id="capacityEditBtn" class="margin-left-10" href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                                         @endif
