@@ -189,18 +189,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="col-md-2">
-                                            <div class="selecterTitle">{{trans('messages.are_you_employed')}}</div>
-                                        </div>
-                                        <div class="col-md-10 ">
-                                            <div class="switcher">
-                                                <input id="switcher1" type="checkbox" hidden="hidden" name="is_employed" {{$mentee['is_employed'] == true ? 'checked' : ''}}>
-                                                <label for="switcher1"></label>
-                                            </div>
-                                        </div><!--.switcher-->
+                                <div class="row margin-top-20">
+                                    <div class="col-md-2">
+                                        <div class="selecterTitle">{{trans('messages.are_you_employed')}}</div>
                                     </div>
+                                    <div class="col-md-10 ">
+                                        <div class="switcher">
+                                            <input id="switcher1" type="checkbox" hidden="hidden" name="is_employed" {{$mentee['is_employed'] == true ? 'checked' : ''}}>
+                                            <label for="switcher1"></label>
+                                        </div>
+                                    </div><!--.switcher-->
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
