@@ -96,6 +96,11 @@ class User extends Authenticatable
         return $userAccessManager->userIsAccountManager($this);
     }
 
+    public function isMatcher() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userIsMatcher($this);
+    }
+
     public function userHasAccessToCRUDSystemUsers() {
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userHasAccessToCRUDSystemUsers($this);

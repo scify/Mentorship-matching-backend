@@ -2,9 +2,34 @@
 @import "variables";
 
 .profilePage {
-  .page-header .profile-info .profile-text, .header .profile-info .profile-text {
-    margin-left: 0px;
+  //.page-header .profile-info .profile-text, .header .profile-info .profile-text {
+  //  margin-left: 0px;
+  //}
+
+  .page-header {
+    background: -webkit-linear-gradient(left, #3b4042, #737c80);
+    background: linear-gradient(to right, #3b4042, #737c80);
   }
+  .header-tabs {
+    background: -webkit-linear-gradient(left, #3b4042, #737c80);
+    background: linear-gradient(to right, #3b4042, #737c80);
+  }
+
+  a {
+    color: $brand-primary;
+  }
+  a:hover, a:active, a:focus {
+    color: $secondary-color;
+    text-decoration: none;
+  }
+
+  //.page-header {
+  //  background: linear-gradient(to right, #4457bf, #2d3a81);
+  //}
+  //
+  //.header-tabs {
+  //  background: linear-gradient(to right, #4457bf, #2d3a81);
+  //}
 
   .breadCrumpContainer {
     float: right;

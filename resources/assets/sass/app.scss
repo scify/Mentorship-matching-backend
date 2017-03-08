@@ -56,16 +56,6 @@
   background: linear-gradient(to right, #3b4042, #737c80);
 }
 
-.profilePage {
-  .page-header {
-    background: linear-gradient(to right, #4457bf, #2d3a81);
-  }
-
-  .header-tabs {
-    background: linear-gradient(to right, #4457bf, #2d3a81);
-  }
-}
-
 .resultsTitle {
   font-style: italic;
   color: $text-color;
@@ -632,4 +622,8 @@
   input:checked+label {
     filter: grayscale(0%);
   }
+}
+
+.card-user .card-footer .roles {
+  font-size: smaller;
 }
