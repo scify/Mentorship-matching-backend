@@ -19,16 +19,27 @@
 
                                 @if($loggedInUser != null)
                                     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                                        {{--<div class="row">--}}
+                                            {{--<div class="col-md-2">--}}
+                                                {{--<div class="selecterTitle">{{trans('messages.availability')}}</div>--}}
+                                            {{--</div>--}}
+                                            {{--<div class="col-md-10 ">--}}
+                                                {{--<div class="switcher">--}}
+                                                    {{--<input id="switcher1" type="checkbox" hidden="hidden" name="is_available" {{$mentor['is_available'] == true ? 'checked' : ''}}>--}}
+                                                    {{--<label for="switcher1"></label>--}}
+                                                {{--</div>--}}
+                                            {{--</div><!--.switcher-->--}}
+                                        {{--</div>--}}
                                         <div class="row">
-                                            <div class="col-md-2">
-                                                <div class="selecterTitle">{{trans('messages.availability')}}</div>
+                                            <div class="col-md-6">
+                                                <!-- Mentor status -->
+                                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.mentor_status')}}</div>
+                                                <select data-placeholder="select" name="status_id" class="chosen-select">
+                                                    @foreach($mentorStatuses as $mentorStatus)
+                                                        <option value="{{$mentorStatus->id}}" {{$mentor['status_id'] == $mentorStatus->id ? 'selected' : ''}}>{{$mentorStatus->description}}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
-                                            <div class="col-md-10 ">
-                                                <div class="switcher">
-                                                    <input id="switcher1" type="checkbox" hidden="hidden" name="is_available" {{$mentor['is_available'] == true ? 'checked' : ''}}>
-                                                    <label for="switcher1"></label>
-                                                </div>
-                                            </div><!--.switcher-->
                                         </div>
                                     @endif
                                 @endif
