@@ -66,9 +66,8 @@ return [
     'choose_specialty' => 'Choose specialty',
     'are_you_employed' => 'Are you employed?',
     'job_description_form' => 'If your are employed, what is your job\'s description?',
-    'specialty_experience_form' => 'Do you have experience in this specialty?',
-    'expectations_form' => 'What are your expectations from JobPairs?',
-    'expectations_form_placeholder' => 'Describe in a few words what you expect to gain from job-pairs',
-    'career_goals_form' => 'Please describe your career goals and the specialty you would like to work on',
-    'reference_form' => 'Where did you hear about jobpairs?'
+    'specialty_experience_form' => 'DO YOU HAVE EXPERIENCE IN THIS SPECIALTY?',
+    'expectations_form_placeholder' => 'DESCRIBE IN A FEW WORDS WHAT YOU EXPECT TO GAIN FROM JOB-PAIRS',
+    'career_goals_form' => 'PLEASE DESCRIBE YOUR CAREER GOALS',
+    'reference_form' => 'WHERE DOD YOU HEAR ABOUT JOB-PAIRS?'
 ];
