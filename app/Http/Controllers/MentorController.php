@@ -6,6 +6,7 @@ use App;
 use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MentorManager;
+use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\Http\OperationResponse;
@@ -20,12 +21,14 @@ class MentorController extends Controller
     private $specialtyManager;
     private $industryManager;
     private $residenceManager;
+    private $mentorStatusManager;
 
     public function __construct() {
         $this->specialtyManager = new SpecialtyManager();
         $this->industryManager = new IndustryManager();
         $this->mentorManager = new MentorManager();
         $this->residenceManager = new ResidenceManager();
+        $this->mentorStatusManager = new MentorStatusManager();
     }
 
     /**
@@ -93,7 +96,6 @@ class MentorController extends Controller
 
         $companyManager = new CompanyManager();
         $mentor = new MentorProfile();
-        $mentor['is_available']  = true; //set default mentor availablity
         $mentorSpecialtiesIds = array();
         $mentorIndustriesIds = array();
         $formTitle = trans('messages.mentor_registration');
@@ -102,6 +104,7 @@ class MentorController extends Controller
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
         $companies = $companyManager->getAllCompanies();
+        $mentorStatuses = $this->mentorStatusManager->getMentorStatusesForMentorCreation();
 
         return view('mentors.forms.create_edit', [
             'pageTitle' => 'Mentors',
@@ -111,7 +114,8 @@ class MentorController extends Controller
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
-            'companies' => $companies
+            'companies' => $companies,
+            'mentorStatuses' => $mentorStatuses
         ]);
     }
 
@@ -133,6 +137,8 @@ class MentorController extends Controller
         $mentorSpecialtiesIds = $this->specialtyManager->getMentorSpecialtiesIds($mentor);
         $mentorIndustriesIds = $this->industryManager->getMentorIndustriesIds($mentor);
         $companies = $companyManager->getAllCompanies();
+        $mentorStatuses = $this->mentorStatusManager->getAllMentorStatuses();
+
         $formTitle = 'Edit mentor';
         return view('mentors.forms.create_edit', ['mentor' => $mentor,
             'formTitle' => $formTitle,
@@ -140,7 +146,8 @@ class MentorController extends Controller
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
-            'companies' => $companies
+            'companies' => $companies,
+            'mentorStatuses' => $mentorStatuses
         ]);
     }
 
@@ -165,7 +172,8 @@ class MentorController extends Controller
             'job_experience_years' => 'required',
             'skills' => 'required',
             'specialties' => 'required',
-            'industries' => 'required'
+            'industries' => 'required',
+            'status_id' => 'required'
         ]);
 
         $input = $request->all();
@@ -204,7 +212,8 @@ class MentorController extends Controller
             'job_experience_years' => 'required',
             'skills' => 'required',
             'specialties' => 'required',
-            'industries' => 'required'
+            'industries' => 'required',
+            'status_id' => 'required'
         ]);
 
         $input = $request->all();

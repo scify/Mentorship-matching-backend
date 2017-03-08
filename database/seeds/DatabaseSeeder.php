@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SpecialtyTableSeeder::class);
         $this->call(IndustryTableSeeder::class);
         $this->call(UserIconTableSeeder::class);
+        $this->call(MentorStatusLookupSeeder::class);
     }
 }

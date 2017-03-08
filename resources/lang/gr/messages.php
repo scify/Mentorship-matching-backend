@@ -17,6 +17,7 @@ return [
     'email' => 'Email',
     'address' => 'Διέυθυνση',
     'residence' => 'Τόπος διαμονής',
+    'mentor_status' => 'Mentor status',
     'availability' => 'Availability',
     'available' => 'Available',
     'not' => 'Not',
@@ -62,13 +63,12 @@ return [
     'create_btn' => 'Υποβολή',
     'edit_btn' => 'Υποβολή',
     'cancel_btn' => 'Ακύρωση',
-    'choose_specialties' => 'Επιλέξτε ειδικότητες',
-    'choose_specialty' => 'Επιλέξτε ειδικότητα',
-    'are_you_employed' => 'Εργάζεστε αυτή την περίοδο;',
-    'job_description_form' => 'Εάν εργάζεστε, πείτε μας λίγα λόγια για την απασχόλησή σας',
-    'specialty_experience_form' => 'Έχετε εμπειρία στην παραπάνω ειδικότητα;',
-    'expectations_form' => 'Τι περιμένετε να αποκομίσετε;',
-    'expectations_form_placeholder' => 'Αναφέρετε εν συντομία τι αναμένετε να αποκομίσετε μέσα από την διαδικασία του job-pairs',
+    'choose_specialties' => 'ΕΠΙΛΕΞΤΕ ΕΙΔΙΚΟΤΗΤΕΣ',
+    'choose_specialty' => 'ΕΠΙΛΕΞΤΕ ΕΙΔΙΚΟΤΗΤΑ',
+    'are_you_employed' => 'ΕΡΓΑΖΕΣΤΕ ΑΥΤΗ ΤΗΝ ΠΕΡΙΟΔΟ;',
+    'job_description_form' => 'ΕΑΝ ΕΡΓΑΖΕΣΤΕ, ΠΕΙΤΕ ΜΑΣ ΛΙΓΑ ΛΟΓΙΑ ΓΙΑ ΤΗΝ ΑΠΑΣΧΟΛΗΣΗ ΣΑΣ',
+    'specialty_experience_form' => 'ΕΧΕΤΕ ΕΜΠΕΙΡΙΑ ΣΤΗΝ ΠΑΡΑΠΑΝΩ ΕΙΔΙΚΟΤΗΤΑ;',
+    'expectations_form_placeholder' => 'ΑΝΑΦΕΡΕΤΕ ΕΝ ΣΥΝΤΟΜΙΑ ΤΙ ΠΕΡΙΜΕΝΕΤΕ ΝΑ ΑΠΟΚΟΜΙΣΕΤΕ ΑΠΟ ΤΗ ΔΙΑΔΙΚΑΣΙΑ ΤΟΥ JOB-PAIRS',
     'career_goals_form' => 'Περιγράψτε μας τους επαγγελματικούς σας στόχους και την ειδικότητα που θέλετε να απασχοληθείτε.',
-    'reference_form' => 'Από που μάθατε για το Job-Pairs;'
+    'reference_form' => 'ΑΠΟ ΠΟΥ ΜΑΘΑΤΕ ΓΙΑ ΤΟ JOB-PAIRS;'
 ];
