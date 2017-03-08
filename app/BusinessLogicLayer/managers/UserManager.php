@@ -12,6 +12,7 @@ use App\StorageLayer\UserStorage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use League\Flysystem\Exception;
 
 /**
  * Class UserManager
@@ -205,6 +206,17 @@ class UserManager {
             $users = $this->filterUsersByName($users, $userName);
         }
         return $users;
+    }
+
+    public function editUserCapacity(array $input) {
+        $userId = $input['user_id'];
+        $capacity = $input['capacity'];
+        $user = $this->getUser($userId);
+
+        if(!$user->isAccountManager()) {
+            throw new Exception("This user is not an Account Manager");
+        }
+        $this->createOrUpdateAccountManagerCapacity($userId, $capacity);
     }
 
     /**

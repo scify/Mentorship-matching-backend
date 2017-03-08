@@ -84,7 +84,7 @@ class UserAccessManager {
     }
 
     /**
-     * Checks if a given @see User has the account manager role
+     * Checks if a given @see User has the "account manager" role
      *
      * @param User $user the @see User instance
      * @return bool
@@ -94,6 +94,19 @@ class UserAccessManager {
             return false;
         $userRoles = $user->roles;
         return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
+    }
+
+    /**
+     * Checks if a given @see User has the "matcher" role
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userIsMatcher(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        return $this->userHasRole($userRoles, [$this->MATCHER_ROLE_ID]);
     }
 
     /**

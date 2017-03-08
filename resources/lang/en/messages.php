@@ -55,6 +55,7 @@ return [
     'unemployed' => 'Unemployed',
     'joined' => ['capitalF' => 'Joined', 'lowerF' => 'joined'],
     'roles' => ['capitalF' => 'Roles', 'lowerF' => 'roles'],
+    'capacity' =>['capitalF' => 'Capacity', 'lowerF' => 'capacity'],
     'years_old' => 'years old',
     'mentor_registration' => 'FILL IN THE FOLLOWING FORM IN ORDER TO REGISTER A NEW MENTOR',
     'mentee_registration' => 'FILL IN THE FOLLOWING FORM IN ORDER TO REGISTER A NEW MENTEE',
