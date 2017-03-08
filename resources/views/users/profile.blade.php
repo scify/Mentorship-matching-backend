@@ -73,6 +73,12 @@
                                             @endforeach
                                         </div>
                                     </div>
+                                    @if($user->created_at != null)
+                                        <div class="formRow row">
+                                            <div class="col-md-3 formElementName">{{trans('messages.joined.capitalF')}}</div>
+                                            <div class="col-md-9">{{$user->created_at->format('d / m / Y')}}</div>
+                                        </div><!--.row-->
+                                    @endif
                                     @if($user->isAccountManager())
                                         <div id="accountManagerDetailsContainer" class="margin-top-40">
                                             <div class="formRow row">
@@ -122,12 +128,6 @@
                                                 </div>
                                             @endif
                                         </div>
-                                    @endif
-                                    @if($user->created_at != null)
-                                        <div class="formRow row">
-                                            <div class="col-md-3 formElementName">{{trans('messages.joined.capitalF')}}</div>
-                                            <div class="col-md-9">{{$user->created_at->format('d / m / Y')}}</div>
-                                        </div><!--.row-->
                                     @endif
                                 </div>
                             </div>
