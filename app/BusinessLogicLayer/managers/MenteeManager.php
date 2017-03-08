@@ -100,4 +100,14 @@ class MenteeManager {
         $mentee = $this->getMentee($menteeId);
         $mentee->delete();
     }
+
+    /**
+     * Queries the mentees DB table to find string in name or email
+     *
+     * @param $searchQuery string the name or email that we need to check for
+     * @return Collection the mentees that match
+     */
+    public function filterMenteesByNameAndEmail($searchQuery) {
+        return $this->menteeStorage->getMenteesThatMatchGivenNameOrEmail($searchQuery);
+    }
 }

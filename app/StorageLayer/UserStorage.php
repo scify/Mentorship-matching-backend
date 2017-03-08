@@ -35,4 +35,9 @@ class UserStorage {
         return AccountManagerCapacity::where(['account_manager_id' => $accountManagerId])->first();
     }
 
+    public function getUsersThatMatchGivenNameOrEmail($searchQuery) {
+        return User::where('first_name', 'like', '%' . $searchQuery . '%')
+            ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
+            ->orWhere('email', 'like', '%' . $searchQuery . '%')->get();
+    }
 }
