@@ -32,6 +32,7 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('user/{id}/profile', 'UserController@showProfile')->name('showUserProfile');
     Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showEditUserForm');
     Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
+    Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity','uses' => 'UserController@editUserCapacity']);
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {

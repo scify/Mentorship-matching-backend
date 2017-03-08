@@ -11,7 +11,14 @@
                             <a class="margin-left-10" href="{{route('showEditUserForm', $user->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                         @endif
                     </span>
-                    <span class="caption">{{trans('messages.profile_page')}} </span>
+                    <span class="caption">
+                        @foreach($user->roles as $role)
+                            <b>{{$role->title}}</b>
+                            @if(!$loop->last)
+                                ,
+                            @endif
+                        @endforeach
+                    </span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
@@ -59,6 +66,56 @@
                                                 @endforeach
                                             </div>
                                         </div>
+                                        @if($user->isAccountManager())
+                                            <div id="accountManagerDetailsContainer" class="margin-top-40">
+                                                <div class="formRow row">
+                                                    <div class="col-md-9 formElementName">ACCOUNT MANAGER DETAILS</div>
+                                                    <div class="col-md-3">
+                                                    </div>
+                                                </div>
+                                                <div class="formRow row">
+                                                    <div class="col-md-3 formElementName">{{trans('messages.company')}}</div>
+                                                    <div class="col-md-9">
+                                                        {{isset($user->company) ? $user->company->name : 'No company'}}
+                                                    </div>
+                                                </div>
+                                                <div class="formRow row">
+                                                    <div class="col-md-3 formElementName">{{trans('messages.capacity.capitalF')}}</div>
+                                                    <div class="col-md-9">
+                                                        <span id="accountManagerCapacity">{{$user->capacity->capacity}}</span>
+                                                        @if($user->id == \Illuminate\Support\Facades\Auth::user()->id)
+                                                            <a id="capacityEditBtn" class="margin-left-10" href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                @if($user->id == \Illuminate\Support\Facades\Auth::user()->id)
+                                                    <div id="capacityUpdateDiv" class="display-none">
+                                                        <div class="col-md-12 padding-0">
+                                                            <div id="editCapacityContainer">
+                                                                <div class="col-md-3 padding-0">
+                                                                    <div class="inputer floating-label margin-top-0">
+                                                                        <div class="input-wrapper">
+                                                                            <input name="capacity" type="number" class="form-control" value="{{$user->capacity->capacity != null ? $user->capacity->capacity : ""}}">
+                                                                            <label for="capacity" class="control-label">Set new Capacity</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 padding-0">
+                                                                    <button id="capacityEditSubmitBtn" data-userId="{{$user->id}}" class="btn btn-primary btn-ripple margin-left-20">
+                                                                        Save
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="loading-bar indeterminate margin-top-30 loader hidden"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="errorMsg" class="position-initial alert alert-danger margin-top-10 margin-bottom-10 hidden" role="alert">Error</div>
+                                                        <div id="successMsg" class="position-initial alert alert-success margin-top-10 margin-bottom-10 hidden" role="alert">Saved</div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endif
                                         @if($user->created_at != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.joined.capitalF')}}</div>
@@ -66,33 +123,33 @@
                                             </div><!--.row-->
                                         @endif
                                     </div>
-                                    </div>
+                                </div>
 
-                                </div><!--.panel-->
-                            </div>
+                            </div><!--.panel-->
                         </div>
-                        <div class="col-md-6">
-                            {{--<div class="panel">--}}
-                                {{--<div class="panel-heading">--}}
-                                    {{--<div class="panel-title"><h3>Roles</h3></div>--}}
-                                {{--</div><!--.panel-heading-->--}}
-                                {{--<div class="panel-body">--}}
-                                    {{--<div class="col-md-12">--}}
-                                        {{----}}
-                                    {{--</div>--}}
-                                {{--</div><!--.panel-->--}}
-                            {{--</div>--}}
-                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        {{--<div class="panel">--}}
+                        {{--<div class="panel-heading">--}}
+                        {{--<div class="panel-title"><h3>Roles</h3></div>--}}
+                        {{--</div><!--.panel-heading-->--}}
+                        {{--<div class="panel-body">--}}
+                        {{--<div class="col-md-12">--}}
+                        {{----}}
+                        {{--</div>--}}
+                        {{--</div><!--.panel-->--}}
+                        {{--</div>--}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 @endsection
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var controller = new window.ProfileController();
+            var controller = new window.UserProfileController();
             controller.init();
         });
     </script>

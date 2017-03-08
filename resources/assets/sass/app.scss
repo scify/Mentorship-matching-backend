@@ -11,8 +11,31 @@
   background-color: $brand-dark;
   border-color: $brand-dark;
 }
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: $brand-primary;
+  border-color: $brand-primary;
+}
+
+.loading-bar:before {
+  background: $brand-primary;
+}
+
+.display-none {
+  display: none;
+}
+
+.position-initial {
+  position: initial !important;
+}
+
 .nav-user .user img {
   border-radius: 0px;
+}
+
+.margin-top-0 {
+  margin-top: 0 !important;
 }
 
 .btn {

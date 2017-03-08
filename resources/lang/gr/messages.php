@@ -33,6 +33,7 @@ return [
     'specialty_form_description' => 'Σε ποια ειδικότητα θα θέλατε να κάνετε Job Pairing;',
     'mentor_industry_form_description' => 'Πιο Συγκεκριμένα:',
     'skills' => ['capitalF' => 'Δεξιότητες / Προσόντα', 'lowerF' => 'δεξιότητες / προσόντα', 'capitalAll' => 'ΔΕΞΙΟΤΗΤΕΣ / ΠΡΟΣΟΝΤΑ'],
+    'capacity' =>['capitalF' => 'Capacity', 'lowerF' => 'capacity'],
     'matches' => 'Matches',
     'profile_page' => 'profile page',
     'mentorship_sessions' => 'Mentorship sessions',
