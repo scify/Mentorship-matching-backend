@@ -23,7 +23,7 @@ class MentorProfile extends Model
         'residence_id', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'company_name', 'company_sector', 'job_position', 'job_experience_years',
         'university_name', 'university_department_name', 'skills', 'reference',
-        'is_available', 'company_id'
+        'status_id', 'company_id'
     ];
 
     /**
@@ -56,6 +56,22 @@ class MentorProfile extends Model
     public function industries()
     {
         return $this->belongsToMany(Industry::class, 'mentor_industry')->wherePivot('deleted_at', null);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function status()
+    {
+        return $this->hasOne(MentorStatus::class, 'id', 'status_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function statusComment()
+    {
+        return $this->hasOne(MentorStatusComment::class, 'id', 'mentor_profile_id');
     }
 
     public function hasCompany(){
