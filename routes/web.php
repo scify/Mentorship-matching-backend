@@ -61,4 +61,6 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('company/{id}/edit', 'CompanyController@showEditForm')->name('showEditCompanyForm');
     Route::post('company/{id}/edit', 'CompanyController@edit')->name('editCompany');
     Route::post('company/delete', 'CompanyController@delete')->name('deleteCompany');
+
+    Route::get('search', 'SearchController@filterResultsByString')->name('search');
 });

@@ -12,6 +12,7 @@
             });
         }, 4000);
 
+        (new SearchController()).init();
     });
 </script>
 
