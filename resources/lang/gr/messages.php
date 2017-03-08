@@ -17,6 +17,7 @@ return [
     'email' => 'Email',
     'address' => 'Διέυθυνση',
     'residence' => 'Τόπος διαμονής',
+    'mentor_status' => 'Mentor status',
     'availability' => 'Availability',
     'available' => 'Available',
     'not' => 'Not',

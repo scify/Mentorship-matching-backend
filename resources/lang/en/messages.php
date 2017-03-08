@@ -17,6 +17,7 @@ return [
     'email' => 'Email',
     'address' => 'Address',
     'residence' => 'Residence',
+    'mentor_status' => 'Mentor status',
     'availability' => 'Availability',
     'available' => 'Available',
     'not' => 'Not',
@@ -69,5 +70,5 @@ return [
     'specialty_experience_form' => 'DO YOU HAVE EXPERIENCE IN THIS SPECIALTY?',
     'expectations_form_placeholder' => 'DESCRIBE IN A FEW WORDS WHAT YOU EXPECT TO GAIN FROM JOB-PAIRS',
     'career_goals_form' => 'PLEASE DESCRIBE YOUR CAREER GOALS',
-    'reference_form' => 'WHERE DOD YOU HEAR ABOUT JOB-PAIRS?'
+    'reference_form' => 'WHERE DID YOU HEAR ABOUT JOB-PAIRS?'
 ];
