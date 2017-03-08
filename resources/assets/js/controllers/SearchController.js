@@ -9,8 +9,11 @@ window.SearchController.prototype = function () {
             });
         },
         searchInputHandler = function() {
+            var timer = null;
             $("#input-search").on("keyup", function() {
-                setTimeout(getSearchResults($(this).val()), 2 * 1000);
+                if (timer!=null)
+                    clearTimeout(timer);
+                timer = setTimeout(getSearchResults($(this).val()),  500);
             });
         },
         getSearchResults = function(searchQuery) {
