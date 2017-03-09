@@ -28,11 +28,11 @@ class CompanyController extends Controller
      */
     public function showAllCompanies()
     {
-        $companies = $this->companyManager->getAllCompanies();
+        $companyViewModels = $this->companyManager->getAllCompanyViewModels();
         $loggedInUser = Auth::user();
         return view('companies.list_all', [
             'pageTitle'=>'All Companies',
-            'companies' => $companies,
+            'companyViewModels' => $companyViewModels,
             'loggedInUser' => $loggedInUser
         ]);
     }

@@ -343,18 +343,25 @@
     top: 7px;
   }
 
-  .available {
-    color: $brand-success;
-  }
-  .not_available_for_mentorship {
-    color: $brand-danger;
-  }
-  .matched {
-    color: $brand-warning;
-  }
-  .matched {
-    color: $brand-danger;
-  }
+
+}
+
+.companyMentorsInfo {
+  margin-bottom: 10px;
+  font-size: medium;
+}
+
+.available {
+  color: $brand-success !important;
+}
+.not_available_for_mentorship {
+  color: $brand-danger !important;
+}
+.matched {
+  color: $brand-warning !important;
+}
+.matched {
+  color: $brand-danger !important;
 }
 
 .layered-content.active .clickable-close-button {
