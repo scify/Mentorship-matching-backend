@@ -1,9 +1,12 @@
 <div class="col-md-12 singleAccordion">
     <div class="panel-group accordion" id="accordion">
         <div class="panel">
-            <div class="panel-heading card-heading heading-full card card-user card-clickable card-clickable-over-content">
+            <div class="panel-heading singleMentorItem  card  card-clickable card-clickable-over-content">
                 <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapse_"{{$mentorViewModel->mentor->id}}>{{$mentorViewModel->mentor->first_name}} {{$mentorViewModel->mentor->last_name}},
                     <small>{{$mentorViewModel->mentor->age}} years old</small>
+                    @if($mentorViewModel->mentor->status != null)
+                         | <small class="{{$mentorViewModel->mentor->status->status}}">{{$mentorViewModel->mentor->status->description}}</small>
+                    @endif
                 </a>
                 <div class="clickable-button userAdminActionsBtn">
                     <div class="layer bg-orange"></div>

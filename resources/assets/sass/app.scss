@@ -305,29 +305,60 @@
     content: none !important;
   }
   .userAdminActionsBtn {
-    height: 75%;
     right: 8px !important;
+    margin-top: 70px;
+    height: initial;
     .btn-floating {
       font-size: 20px;
       border-radius: 50%;
     }
     .layer {
-      width:40px;
-      height:40px;
+      width:35px;
+      height:35px;
     }
     .btn {
-      width:40px;
-      height:40px;
+      width:35px;
+      height:35px;
       padding: 0;
     }
     i {
-      font-size: 25px;
-      margin-top: 7px;
+      font-size: 22px;
+      margin-top: 6px;
     }
   }
   .layered-content.active .overflow-content {
     margin-top: 10px;
   }
+}
+
+.singleMentorItem {
+  height: 100px;
+
+  .layered-content {
+    width: 20%;
+    margin-left: 80%;
+  }
+
+  .layered-content.active .clickable-close-button {
+    top: 7px;
+  }
+
+  .available {
+    color: $brand-success;
+  }
+  .not_available_for_mentorship {
+    color: $brand-danger;
+  }
+  .matched {
+    color: $brand-warning;
+  }
+  .matched {
+    color: $brand-danger;
+  }
+}
+
+.layered-content.active .clickable-close-button {
+  background-color: $secondary-color;
 }
 
 .accordion .panel-heading.active a:after {
@@ -570,8 +601,14 @@
 
 }
 
-.floating-close .fa-times {
-  margin-top: 11px;
+.floating-close {
+
+  height: 35px;
+  width: 35px;
+  background-color: $brand-primary;
+  .fa-times {
+    font-size: large;
+  }
 }
 
 .companyCard {
