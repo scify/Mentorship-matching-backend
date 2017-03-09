@@ -9,15 +9,30 @@
                 </div>
             </div><!--.panel-heading-->
             <div class="panel-body">
-                <div class="col-md-3">Role</div><!--.col-md-3-->
-                <div class="col-md-6">
-                    <select data-placeholder="Choose role" name="user_role" class="chosen-select">
-                        <option><!-- Empty option allows the placeholder to take effect. --><option>
-                        {{--@foreach($userRoles as $userRole)--}}
-                            {{--<option value="{{$userRole->id}}">{{$userRole->title}}</option>--}}
-                        {{--@endforeach--}}
-                    </select>
-                </div><!--.col-md-9-->
+                <div class="row">
+                    <div class="col-md-3">Role</div><!--.col-md-3-->
+                    <div class="col-md-6">
+                        <select data-placeholder="Choose role" name="user_role" class="chosen-select">
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
+                            {{--@foreach($userRoles as $userRole)--}}
+                                {{--<option value="{{$userRole->id}}">{{$userRole->title}}</option>--}}
+                            {{--@endforeach--}}
+                        </select>
+                    </div><!--.col-md-9-->
+                </div>
+                <div class="form-buttons">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button id="searchBtn" class="searchBtn btn btn-primary btn-ripple margin-right-10">
+                                {{trans('messages.search')}} <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+
+                            <button id="clearSearchBtn" class="searchBtn btn btn-flat-primary btn-ripple margin-right-10">
+                                {{trans('messages.clear_filters')}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div><!--.row-->

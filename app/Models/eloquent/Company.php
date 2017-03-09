@@ -17,7 +17,7 @@ class Company extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'website', 'account_manager_id'];
+    protected $fillable = ['name', 'description', 'website', 'hr_contact_details', 'account_manager_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

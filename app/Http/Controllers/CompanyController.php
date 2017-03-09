@@ -50,7 +50,8 @@ class CompanyController extends Controller
         $companyMentorsIds = array();
         $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssigned();
         return view('companies.forms.create_edit', [
-            'pageTitle'=>'Create new Company',
+            'pageTitle' => 'Company',
+            'pageSubTitle' => 'create new company',
             'company' => $company,
             'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
             'accountManagers' => $accountManagers
@@ -69,8 +70,9 @@ class CompanyController extends Controller
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssignedExceptCompany($company);
         $companyMentorsIds = $this->companyManager->getCompanyMentorsIds($company);
         $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssignedExceptCurrent($company);
-        $formTitle = 'Edit company';
-        return view('companies.forms.create_edit', ['company' => $company,
+        $formTitle = 'EDIT COMPANY';
+        return view('companies.forms.create_edit', [
+            'pageTitle' => 'Company', 'pageSubTitle' => 'edit company', 'company' => $company,
             'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
             'accountManagers' => $accountManagers
         ]);

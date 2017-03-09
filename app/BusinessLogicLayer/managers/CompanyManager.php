@@ -61,6 +61,8 @@ class CompanyManager {
             $company->description = $inputFields['description'];
         if(isset($inputFields['website']))
             $company->website = $inputFields['website'];
+        if(isset($inputFields['hr_contact_details']))
+            $company->hr_contact_details = $inputFields['hr_contact_details'];
 
         return $company;
     }
