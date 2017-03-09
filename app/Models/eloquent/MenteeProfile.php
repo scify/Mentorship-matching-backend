@@ -41,4 +41,11 @@ class MenteeProfile extends Model
     {
         return $this->hasOne(Specialty::class, 'id', 'specialty_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sessions() {
+        return $this->hasMany(MentorshipSession::class);
+    }
 }

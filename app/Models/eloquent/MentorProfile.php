@@ -78,4 +78,8 @@ class MentorProfile extends Model
 
         return (bool) $this->company()->first();
     }
+
+//    public function sessions() {
+//        return $this->belongsToMany(MentorshipSession::class);
+//    }
 }
