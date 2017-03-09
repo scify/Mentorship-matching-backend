@@ -5,7 +5,9 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\Company;
 use App\Models\eloquent\User;
+use App\Models\viewmodels\CompanyViewModel;
 use App\StorageLayer\CompanyStorage;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CompanyManager {
@@ -181,5 +183,19 @@ class CompanyManager {
         if($company != null) {
             $this->removeAccountManagerFromCompany($company);
         }
+    }
+
+    public function getAllCompanyViewModels() {
+        $companies = $this->getAllCompanies();
+        $companyViewModels = new Collection();
+        foreach ($companies as $company) {
+            $companyViewModels->add($this->getCompanyViewModel($company));
+        }
+        return $companyViewModels;
+    }
+
+    public function getCompanyViewModel(Company $company) {
+        $companyViewModel = new CompanyViewModel($company);
+        return $companyViewModel;
     }
 }
