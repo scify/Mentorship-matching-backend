@@ -59,7 +59,7 @@
                         <div class="companyAttrsList"><b>Mentors:</b>
                             <ul class="borderless">
                             @foreach($companyViewModel->company->mentors as $mentor)
-                                <li>{{$mentor->first_name . ' ' . $mentor->last_name}}
+                                    <li><a href="{{route('showMentorProfilePage', $mentor->id)}}">{{$mentor->first_name . ' ' . $mentor->last_name}}</a>
                                     @if($mentor->status != null)
                                         | <small class="{{$mentor->status->status}}">{{$mentor->status->description}}</small>
                                     @endif
@@ -78,7 +78,7 @@
         <div class="card-footer">
             @if($companyViewModel->company->accountManager != null)
                 <div class="companyAttrsList"><b>{{trans('messages.company_account_manager')}}: </b>
-                    {{$companyViewModel->company->accountManager->first_name . ' ' . $companyViewModel->company->accountManager->last_name}}
+                    <a href="{{route('showUserProfile', $companyViewModel->company->accountManager->id)}}">{{$companyViewModel->company->accountManager->first_name . ' ' . $companyViewModel->company->accountManager->last_name}}</a>
                 </div>
             @else
                 <h6>{{trans('messages.company_no_account_manager')}}</h6>

@@ -8,7 +8,7 @@ return [
     'details' => 'Details',
     'mentor' => 'Mentor',
     'account_manager' => 'Account Manager',
-    'company_account_manager' => 'Company Account Manager',
+    'company_account_manager' => 'Account Manager',
     'company_no_mentors' => 'There are no mentors working in this company.',
     'company_no_account_manager' => 'No Account Manager set.',
     'website' => 'Website',
