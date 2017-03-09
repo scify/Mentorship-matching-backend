@@ -233,7 +233,7 @@
                                         <div class="{{ $errors->first('specialty_experience')?'has-error has-feedback':'' }}">
                                             <div class="inputer floating-label">
                                                 <div class="input-wrapper">
-                                                    <textarea required class="form-control js-auto-size" rows="1" name="specialty_experience" placeholder="{{trans('messages.expectations_form_placeholder')}}">{{ old('specialty_experience') != '' ? old('specialty_experience') : $mentee['specialty_experience']}}</textarea>
+                                                    <textarea required class="form-control js-auto-size" rows="1" name="specialty_experience" placeholder="{{trans('messages.specialty_experience_form')}}">{{ old('specialty_experience') != '' ? old('specialty_experience') : $mentee['specialty_experience']}}</textarea>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('specialty_experience') }}</span>

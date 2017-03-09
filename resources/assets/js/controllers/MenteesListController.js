@@ -12,16 +12,24 @@ window.MenteesListController.prototype = function () {
         },
         searchBtnHandler = function () {
             $("#searchBtn").on("click", function (e) {
-                getMenteesByFilter();
+                var filterCriteria = window.MenteesCriteria;
+                filterCriteria.displayOnlyNeverMatched = $("input[name=only-never-matched]").parent().hasClass("checked");
+                getMenteesByFilter(filterCriteria);
             });
         },
-        getMenteesByFilter = function() {
-            var data = {};
+        clearSearchBtnHandler = function() {
+            $("#clearSearchBtn").on("click", function() {
+                $('input[name=only-never-matched]').iCheck('uncheck');
+                delete window.MenteesCriteria.displayOnlyNeverMatched;
+                getMenteesByFilter(window.MenteesCriteria);
+            });
+        },
+        getMenteesByFilter = function(filterCriteria) {
             $.ajax({
                 method: "GET",
-                url: "byCriteria",
+                url: $(".filtersContainer").data("url"),
                 cache: false,
-                data: data,
+                data: filterCriteria,
                 beforeSend: function () {
                     $('.panel-body').append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
                 },
@@ -42,6 +50,20 @@ window.MenteesListController.prototype = function () {
                 }
             });
         },
+        parseSuccessData = function(response) {
+            var responseObj = JSON.parse(response);
+            //if operation was unsuccessful
+            if (responseObj.status == 2) {
+                $("#errorMsg").removeClass('hidden');
+                $("#errorMsg").html(responseObj.data);
+                $("#menteesList").html("");
+            } else {
+                $("#usersList").html("");
+                $("#errorMsg").addClass('hidden');
+                $("#menteesList").html(responseObj.data);
+                Pleasure.listenClickableCards();
+            }
+        },
         initHandlers = function() {
             deleteMenteeBtnHandler();
             $('a[data-toggle="tab"]').click(function (e) {
@@ -54,6 +76,7 @@ window.MenteesListController.prototype = function () {
                 $(".card_" + $(this).attr('data-id')).find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
             });
             searchBtnHandler();
+            clearSearchBtnHandler();
         },
         init = function () {
             initHandlers();
@@ -62,3 +85,5 @@ window.MenteesListController.prototype = function () {
         init: init
     }
 }();
+
+window.MenteesCriteria = {};

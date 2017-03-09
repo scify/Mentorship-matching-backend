@@ -8,7 +8,6 @@
 
 namespace App\BusinessLogicLayer\managers;
 
-
 use App\Models\eloquent\MenteeProfile;
 use App\StorageLayer\MenteeStorage;
 use Illuminate\Support\Facades\DB;
@@ -109,5 +108,23 @@ class MenteeManager {
      */
     public function filterMenteesByNameAndEmail($searchQuery) {
         return $this->menteeStorage->getMenteesThatMatchGivenNameOrEmail($searchQuery);
+    }
+
+    private function getNeverMatchedMentees() {
+        $mentees = $this->menteeStorage->getAllMenteeProfiles();
+        $filteredMentees = $mentees->filter(function ($value, $key) {
+            $currentMentee = $value;
+            return ($currentMentee->sessions()->get())->isEmpty();
+        });
+        return $filteredMentees;
+    }
+
+    public function getMenteesByCriteria($filters) {
+        if(isset($filters['displayOnlyNeverMatched']) && (boolean) $filters['displayOnlyNeverMatched'] == true) {
+            $filteredMentees = $this->getNeverMatchedMentees();
+        } else {
+            $filteredMentees = $this->menteeStorage->getAllMenteeProfiles();
+        }
+        return $filteredMentees;
     }
 }

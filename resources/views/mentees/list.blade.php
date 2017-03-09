@@ -1,5 +1,5 @@
 <div class="row">
-    <h4 class="resultsTitle margin-bottom-20">{{$mentees->count()}} mentees found</h4>
+    <h4 class="resultsTitle margin-bottom-20">{{$mentees->count()}} mentee(s) found</h4>
     <div class="col-md-12 padding-0">
         @foreach($mentees as $mentee)
             <div class="col-md-3">
@@ -8,12 +8,3 @@
         @endforeach
     </div>
 </div>
-@include('mentees.modals')
-@section('additionalFooter')
-    <script>
-        $( document ).ready(function() {
-            var controller = new window.MenteesListController();
-            controller.init();
-        });
-    </script>
-@endsection

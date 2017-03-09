@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
+use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -195,5 +196,23 @@ class MenteeController extends Controller
         }
         session()->flash('flash_message_success', 'Mentee deleted');
         return back();
+    }
+
+    public function showMenteesByCriteria(Request $request) {
+        $input = $request->all();
+        try {
+            $mentees = $this->menteeManager->getMenteesByCriteria($input);
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+
+        if($mentees->count() == 0) {
+            $errorMessage = "No mentees found";
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        } else {
+            $loggedInUser = Auth::user();
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentees.list', compact('mentees', 'loggedInUser'))));
+        }
     }
 }

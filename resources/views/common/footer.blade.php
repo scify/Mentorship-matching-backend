@@ -5,6 +5,12 @@
         Pleasure.init();
         Layout.init();
 
+        // initialize iCheck
+        $("input[type='checkbox'], input[type='radio']").iCheck({
+            checkboxClass: 'icheckbox_flat-orange',
+            radioClass: 'iradio_flat-orange'
+        });
+
         setTimeout(function(){
             /*Close any flash message after some time*/
             $(".alert-dismissable").fadeTo(4000, 500).slideUp(500, function(){
