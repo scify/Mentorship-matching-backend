@@ -43,8 +43,14 @@ class CompanyManager {
 
         DB::transaction(function() use($company, $inputFields) {
             $company = $this->companyStorage->saveCompany($company);
-            if(isset($inputFields['mentors']))
-                $this->editCompanyMentors($company, $inputFields['mentors']);
+            //if the mentors of input fields does not exist
+            //it means that either the user dod not choose any mentors for this company
+            //or that the user removed all mentors from the company.
+            //so we need to pass an empty array as the selected company mentors.
+            if(!isset($inputFields['mentors'])) {
+                $inputFields['mentors'] = array();
+            }
+            $this->editCompanyMentors($company, $inputFields['mentors']);
             if(isset($inputFields['account_manager_id']))
                 $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
         });

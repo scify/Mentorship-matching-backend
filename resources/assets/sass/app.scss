@@ -570,9 +570,13 @@
 
 }
 
+.floating-close .fa-times {
+  margin-top: 11px;
+}
+
 .companyCard {
   .card {
-    height: 200px;
+    height: 300px;
     overflow-y: auto;
   }
 }
