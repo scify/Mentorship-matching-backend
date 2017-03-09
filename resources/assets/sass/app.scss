@@ -342,6 +342,19 @@
   .layered-content.active .clickable-close-button {
     top: 7px;
   }
+
+  .available {
+    color: $brand-success;
+  }
+  .not_available_for_mentorship {
+    color: $brand-danger;
+  }
+  .matched {
+    color: $brand-warning;
+  }
+  .matched {
+    color: $brand-danger;
+  }
 }
 
 .layered-content.active .clickable-close-button {
