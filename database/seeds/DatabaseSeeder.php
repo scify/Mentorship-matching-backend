@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(IndustryTableSeeder::class);
         $this->call(UserIconTableSeeder::class);
         $this->call(MentorStatusLookupSeeder::class);
+        $this->call(MentorshipSessionStatusTableSeeder::class);
     }
 }
