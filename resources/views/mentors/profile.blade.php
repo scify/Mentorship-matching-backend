@@ -5,10 +5,10 @@
             <div class="profile-info">
 
                 <div class="profile-text light">
-                    {{$mentor->first_name}}  {{$mentor->last_name}},
+                    {{$mentorViewModel->mentor->first_name}}  {{$mentorViewModel->mentor->last_name}},
                     <span class="caption userRole">{{trans('messages.mentor')}}
                         @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-                            <a class="margin-left-10" href="{{route('showEditMentorForm', $mentor->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                            <a class="margin-left-10" href="{{route('showEditMentorForm', $mentorViewModel->mentor->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                         @endif
                     </span>
                     <span class="caption">{{trans('messages.profile_page')}} </span>
@@ -20,7 +20,7 @@
                     <ol class="breadcrumb">
                         <li><a href="{{route('home')}}"><i class="ion-home"></i></a></li>
                         <li><a href="{{route('showAllMentors')}}">mentors</a></li>
-                        <li><a href="#" class="active">{{$mentor->first_name}}  {{$mentor->last_name}}</a></li>
+                        <li><a href="#" class="active">{{$mentorViewModel->mentor->first_name}}  {{$mentorViewModel->mentor->last_name}}</a></li>
                     </ol>
                 </div><!--.col-->
             </div><!--.row-->
@@ -48,40 +48,40 @@
                                     <div class="col-md-12">
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.year_of_birth')}}</div>
-                                            <div class="col-md-9">{{$mentor->year_of_birth}}  <span class="margin-left-5"> ({{$mentor->age}} {{trans('messages.years_old')}})</span></div>
+                                            <div class="col-md-9">{{$mentorViewModel->mentor->year_of_birth}}  <span class="margin-left-5"> ({{$mentorViewModel->mentor->age}} {{trans('messages.years_old')}})</span></div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.email')}}</div>
-                                            <div class="col-md-9">{{$mentor->email}}</div>
+                                            <div class="col-md-9">{{$mentorViewModel->mentor->email}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.phone')}}</div>
-                                            <div class="col-md-9">{{$mentor->phone}}</div>
+                                            <div class="col-md-9">{{$mentorViewModel->mentor->phone}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.cell_phone')}}</div>
-                                            <div class="col-md-9">{{$mentor->phone}}</div>
+                                            <div class="col-md-9">{{$mentorViewModel->mentor->phone}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.address')}}</div>
-                                            <div class="col-md-9">{{$mentor->address}}</div>
+                                            <div class="col-md-9">{{$mentorViewModel->mentor->address}}</div>
                                         </div><!--.row-->
-                                        @if($mentor->residence != null)
+                                        @if($mentorViewModel->mentor->residence != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.residence')}}</div>
-                                                <div class="col-md-9">{{$mentor->residence->name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->residence->name}}</div>
                                             </div><!--.row-->
                                         @endif
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.linkedin')}}</div>
-                                            @if($mentor->linkedin_url != null)
-                                                <a href="{{$mentor->linkedin_url}}"><div class="col-md-9">{{$mentor->linkedin_url}}</div></a>
+                                            @if($mentorViewModel->mentor->linkedin_url != null)
+                                                <a href="{{$mentorViewModel->mentor->linkedin_url}}"><div class="col-md-9">{{$mentorViewModel->mentor->linkedin_url}}</div></a>
                                             @endif
                                         </div><!--.row-->
-                                        @if($mentor->created_at != null)
+                                        @if($mentorViewModel->mentor->created_at != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.joined.capitalF')}}</div>
-                                                <div class="col-md-9">{{$mentor->created_at->format('d / m / Y')}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->created_at->format('d / m / Y')}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
@@ -96,40 +96,40 @@
                                 </div><!--.panel-heading-->
                                 <div class="panel-body">
                                     <div class="col-md-12">
-                                        @if($mentor->company != null)
+                                        @if($mentorViewModel->mentor->company != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.company')}}</div>
-                                                <div class="col-md-9">{{$mentor->company->name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->company->name}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentor->company_sector != null)
+                                        @if($mentorViewModel->mentor->company_sector != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.company_sector')}}</div>
-                                                <div class="col-md-9">{{$mentor->company_sector}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->company_sector}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentor->job_position != null)
+                                        @if($mentorViewModel->mentor->job_position != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.job_position')}}</div>
-                                                <div class="col-md-9">{{$mentor->job_position}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->job_position}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentor->job_experience_years != null)
+                                        @if($mentorViewModel->mentor->job_experience_years != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.job_experience_years')}}</div>
-                                                <div class="col-md-9">{{$mentor->job_experience_years}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->job_experience_years}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentor->university_name != null)
+                                        @if($mentorViewModel->mentor->university_name != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.university')}}</div>
-                                                <div class="col-md-9">{{$mentor->university_name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->university_name}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentor->university_department_name != null)
+                                        @if($mentorViewModel->mentor->university_department_name != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.university_department')}}</div>
-                                                <div class="col-md-9">{{$mentor->university_department_name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->university_department_name}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
@@ -146,9 +146,9 @@
                                 </div><!--.panel-heading-->
                                 <div class="panel-body">
                                     <div class="col-md-12">
-                                        @if($mentor->skills != null)
+                                        @if($mentorViewModel->mentor->skills != null)
                                             <div class="formRow row">
-                                                <div class="col-md-9">{{$mentor->skills}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->skills}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
@@ -162,11 +162,11 @@
                                 </div><!--.panel-heading-->
                                 <div class="panel-body">
                                     <div class="col-md-12">
-                                        @if($mentor->specialties != null)
+                                        @if($mentorViewModel->mentor->specialties != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.specialties')}}</div>
                                                 <div class="col-md-9">
-                                                @foreach($mentor->specialties as $specialty)
+                                                @foreach($mentorViewModel->mentor->specialties as $specialty)
                                                     {{$specialty->name}}
                                                     @if(!$loop->last)
                                                         ,
@@ -175,11 +175,11 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @if($mentor->industries != null)
+                                        @if($mentorViewModel->mentor->industries != null)
                                                 <div class="formRow row">
                                                     <div class="col-md-3 formElementName">{{trans('messages.industries')}}</div>
                                                     <div class="col-md-9">
-                                                @foreach($mentor->industries as $industry)
+                                                @foreach($mentorViewModel->mentor->industries as $industry)
                                                     {{$industry->name}}
                                                     @if(!$loop->last)
                                                         ,

@@ -37,13 +37,13 @@ class MentorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showAllMentors() {
-        $mentors = $this->mentorManager->getAllMentors();
+        $mentorViewModels = $this->mentorManager->getAllMentorViewModels();
         $loggedInUser = Auth::user();
         $specialties = $this->specialtyManager->getAllSpecialties();
         return view('mentors.list_all', [
             'pageTitle' => 'Mentors',
             'pageSubTitle' => 'view all',
-            'mentors' => $mentors,
+            'mentorViewModels' => $mentorViewModels,
             'loggedInUser' => $loggedInUser,
             'specialties' => $specialties
         ]);
@@ -53,18 +53,18 @@ class MentorController extends Controller
         $input = $request->all();
 
         try {
-            $mentors = $this->mentorManager->getMentorsByCriteria($input);
+            $mentorViewModels = $this->mentorManager->getMentorViewModelsByCriteria($input);
         }  catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
-        if($mentors->count() == 0) {
+        if($mentorViewModels->count() == 0) {
             $errorMessage = "No mentors found";
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentors', 'loggedInUser'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentorViewModels', 'loggedInUser'))));
         }
     }
 
@@ -75,9 +75,9 @@ class MentorController extends Controller
      */
     public function showProfile($id)
     {
-        $mentor = $this->mentorManager->getMentor($id);
+        $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor(id));
         $loggedInUser = Auth::user();
-        return view('mentors.profile', ['mentor' => $mentor, 'loggedInUser' => $loggedInUser]);
+        return view('mentors.profile', ['mentorViewModel' => $mentorViewModel, 'loggedInUser' => $loggedInUser]);
     }
 
     /**

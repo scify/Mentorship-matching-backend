@@ -11,6 +11,7 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
+use App\Models\viewmodels\MentorViewModel;
 use App\StorageLayer\MentorStorage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,20 @@ class MentorManager {
      */
     public function getAllMentors() {
         return $this->mentorStorage->getAllMentorProfiles();
+    }
+
+    /**
+     * Gets all @see MentorProfile instances from the database
+     *
+     * @return Collection the mentors
+     */
+    public function getAllMentorViewModels() {
+        $mentors = $this->mentorStorage->getAllMentorProfiles();
+        $mentorViewModels = new Collection();
+        foreach ($mentors as $mentor) {
+            $mentorViewModels->add($this->getMentorViewModel($mentor));
+        }
+        return $mentorViewModels;
     }
 
     /**
@@ -133,8 +148,12 @@ class MentorManager {
      */
     public function getMentor($id) {
         $mentor = $this->mentorStorage->getMentorProfileById($id);
-        $mentor->age = intval(date("Y")) - intval($mentor->year_of_birth);
         return $mentor;
+    }
+
+    public function getMentorViewModel(MentorProfile $mentor) {
+        $mentorViewModel = new MentorViewModel($mentor);
+        return $mentorViewModel;
     }
 
     /**
@@ -195,6 +214,22 @@ class MentorManager {
         $mentor = $this->getMentor($mentorId);
         $mentor->company_id = null;
         $this->mentorStorage->saveMentor($mentor);
+    }
+
+    /**
+     * Gets mentor view models satisfying some criteria (for example
+     * those who have a specific specialty and name)
+     *
+     * @param array $input array with criteria values
+     * @return Collection|mixed|static[] a collection with mentor view models satisfying the criteria
+     */
+    public function getMentorViewModelsByCriteria(array $input) {
+        $mentors = $this->getMentorsByCriteria($input);
+        $mentorViewModels = new Collection();
+        foreach ($mentors as $mentor) {
+            $mentorViewModels->add($this->getMentorViewModel($mentor));
+        }
+        return $mentorViewModels;
     }
 
     /**
