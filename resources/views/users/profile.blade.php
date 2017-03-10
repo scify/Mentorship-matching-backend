@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="profilePage">
-        <div class="page-header full-content parallax" style="height: 250px; overflow: hidden">
+        <div class="page-header full-content parallax">
             <div class="profile-info">
                 <div class="profile-photo">
                     <img src="{{$user->icon != null? asset($user->icon->path) : asset('/assets/img/boy.png')}}" alt="User profile image">

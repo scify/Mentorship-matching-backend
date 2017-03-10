@@ -75,7 +75,7 @@ class MentorController extends Controller
      */
     public function showProfile($id)
     {
-        $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor(id));
+        $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
         $loggedInUser = Auth::user();
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel, 'loggedInUser' => $loggedInUser]);
     }

@@ -71,5 +71,6 @@ return [
     'specialty_experience_form' => 'ΕΧΕΤΕ ΕΜΠΕΙΡΙΑ ΣΤΗΝ ΠΑΡΑΠΑΝΩ ΕΙΔΙΚΟΤΗΤΑ;',
     'expectations_form_placeholder' => 'ΑΝΑΦΕΡΕΤΕ ΕΝ ΣΥΝΤΟΜΙΑ ΤΙ ΠΕΡΙΜΕΝΕΤΕ ΝΑ ΑΠΟΚΟΜΙΣΕΤΕ ΑΠΟ ΤΗ ΔΙΑΔΙΚΑΣΙΑ ΤΟΥ JOB-PAIRS',
     'career_goals_form' => 'Περιγράψτε μας τους επαγγελματικούς σας στόχους και την ειδικότητα που θέλετε να απασχοληθείτε.',
-    'reference_form' => 'ΑΠΟ ΠΟΥ ΜΑΘΑΤΕ ΓΙΑ ΤΟ JOB-PAIRS;'
+    'reference_form' => 'ΑΠΟ ΠΟΥ ΜΑΘΑΤΕ ΓΙΑ ΤΟ JOB-PAIRS;',
+    'created_by' => 'Created by'
 ];
