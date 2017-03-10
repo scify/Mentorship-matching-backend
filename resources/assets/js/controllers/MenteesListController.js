@@ -13,15 +13,23 @@ window.MenteesListController.prototype = function () {
         searchBtnHandler = function () {
             $("#searchBtn").on("click", function (e) {
                 window.MenteesCriteria.displayOnlyNeverMatched =
-                    $("input[name=only-never-matched]").parent().hasClass("checked");
+                    $("input[name=only_never_matched]").parent().hasClass("checked");
+                window.MenteesCriteria.completedSessionAgo = $("select[name=completed_session_ago]").val();
                 getMenteesByFilter();
             });
         },
         clearSearchBtnHandler = function() {
             $("#clearSearchBtn").on("click", function() {
-                $('input[name=only-never-matched]').iCheck('uncheck');
-                delete window.MenteesCriteria.displayOnlyNeverMatched;
-                getMenteesByFilter(window.MenteesCriteria);
+                $('input[name=only_never_matched]').iCheck('uncheck');
+                $('select[name=completed_session_ago]').val(0);
+                $('select[name=completed_session_ago]').trigger("chosen:updated");
+                // clear MenteesCriteria object from all of its properties
+                for(var prop in window.MenteesCriteria) {
+                    if(window.MenteesCriteria.hasOwnProperty(prop)) {
+                        delete window.MenteesCriteria[prop];
+                    }
+                }
+                getMenteesByFilter();
             });
         },
         getMenteesByFilter = function() {
@@ -51,6 +59,7 @@ window.MenteesListController.prototype = function () {
             });
         },
         parseSuccessData = function(response) {
+            console.log(response);
             var responseObj = JSON.parse(response);
             //if operation was unsuccessful
             if (responseObj.status == 2) {

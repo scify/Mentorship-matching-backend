@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-md-3">Mentees that completed sessions</div><!--.col-md-3-->
                         <div class="col-md-6">
-                            <select data-placeholder="Choose time passed from last completed session" name="completed_session_ago" class="chosen-select">
+                            <select data-placeholder="Choose time passed from completed session" name="completed_session_ago" class="chosen-select">
                                 <option><!-- Empty option allows the placeholder to take effect. --><option>
                                 @for($i = 1; $i <= 12; $i++)
                                     <option value="{{$i}}">{{$i}} @if($i == 1) month @else months @endif ago</option>
@@ -32,12 +32,12 @@
                         </div><!--.col-md-9-->
                     </div>
                     <div class="row">
+                        <div class="col-md-3">
+                            <label for="only-never-matched">Mentees with no sessions</label>
+                        </div>
                         <div class="col-md-6">
                             <div class="icheckbox">
-                                <label>
-                                    <input type="checkbox" name="only-never-matched">
-                                    Display only never matched mentees
-                                </label>
+                                <input type="checkbox" name="only_never_matched" id="only-never-matched">
                             </div>
                         </div>
                     </div>

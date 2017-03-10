@@ -30,4 +30,8 @@ class MenteeStorage {
             ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
             ->orWhere('email', 'like', '%' . $searchQuery . '%')->get();
     }
+
+    public function getMenteesFromIdsArray($filteredMenteeIds) {
+        return MenteeProfile::whereIn('id', $filteredMenteeIds)->get();
+    }
 }

@@ -5,6 +5,7 @@ namespace App\BusinessLogicLayer\managers;
 use App\Models\eloquent\MenteeProfile;
 use App\Models\viewmodels\MenteeViewModel;
 use App\StorageLayer\MenteeStorage;
+use App\StorageLayer\RawQueryStorage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -135,33 +136,48 @@ class MenteeManager {
         return $this->menteeStorage->getMenteesThatMatchGivenNameOrEmail($searchQuery);
     }
 
-    /**
-     * Filters all the mentees that have never been matched with a mentor
-     *
-     * @return Collection MenteeProfile
-     */
-    private function getNeverMatchedMentees() {
-        $mentees = $this->menteeStorage->getAllMenteeProfiles();
-        $filteredMentees = $mentees->filter(function ($value, $key) {
-            $currentMentee = $value;
-            return $currentMentee->sessions->isEmpty();
-        });
-        return $filteredMentees;
+    private function transformRawQueryStorageResultsToOneDimensionalArray($results) {
+        $temp = array();
+        foreach ($results as $result) {
+            array_push($temp, $result->id);
+        }
+        return $temp;
     }
 
     /**
      * Gets all the filters passed and returns the filtered results
      *
      * @param $filters
-     * @return Collection MenteeProfile
+     * @return Collection|void|static[]
+     * @throws \Exception When filters aren't valid
      */
     private function getMenteesByCriteria($filters) {
-        if(isset($filters['displayOnlyNeverMatched']) && (boolean) $filters['displayOnlyNeverMatched'] == true) {
-            $filteredMentees = $this->getNeverMatchedMentees();
-        } else {
-            $filteredMentees = $this->menteeStorage->getAllMenteeProfiles();
+        if((!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
+            (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false')) {
+            return $this->menteeStorage->getAllMenteeProfiles();
         }
-        return $filteredMentees;
+        $whereClauseExists = false;
+        $dbQuery = "select distinct mp.id 
+            from mentee_profile as mp 
+            left outer join mentorship_session as ms on mp.id = ms.mentee_profile_id
+            left outer join mentorship_session_history as msh on ms.id = msh.mentorship_session_id
+            where ";
+        if(isset($filters['completedSessionAgo']) && $filters['completedSessionAgo'] != "") {
+            if(intval($filters['completedSessionAgo']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            $dbQuery .= "msh.status_id in (8,9) and msh.updated_at between (now() - interval " . $filters['completedSessionAgo'] . " month) 
+                and (now() - interval " . ($filters['completedSessionAgo'] - 1) . " month) ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['displayOnlyNeverMatched']) && $filters['displayOnlyNeverMatched'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "ms.id is null";
+        }
+        $filteredMenteeIds = $this->transformRawQueryStorageResultsToOneDimensionalArray((new RawQueryStorage())->performRawQuery($dbQuery));
+        return $this->menteeStorage->getMenteesFromIdsArray($filteredMenteeIds);
     }
 
     /**
