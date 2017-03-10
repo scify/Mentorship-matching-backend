@@ -17,14 +17,12 @@
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
-            <div class="row breadCrumpContainer">
-                <div class="">
+            <div class="row">
                     <ol class="breadcrumb">
                         <li><a href="{{route('home')}}"><i class="ion-home"></i></a></li>
                         <li><a href="{{route('showAllMentors')}}">mentors</a></li>
                         <li><a href="#" class="active">{{$mentorViewModel->mentor->first_name}}  {{$mentorViewModel->mentor->last_name}}</a></li>
                     </ol>
-                </div><!--.col-->
             </div><!--.row-->
 
             <div class="header-tabs scrollable-tabs sticky">

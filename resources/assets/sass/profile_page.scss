@@ -1,15 +1,19 @@
 // Variables
 @import "variables";
 
-
-/* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
-  .page-header {
-    height: 320px !important;
+  .page-header .breadcrumb {
+    float: none;
   }
 }
 
 .profilePage {
+
+  @media only screen and (max-width : 768px) {
+    .page-header {
+      height: 320px !important;
+    }
+  }
 
   .page-header {
     display: table;

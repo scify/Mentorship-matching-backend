@@ -24,15 +24,11 @@
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
-            <div class="row breadCrumpContainer">
-                <div class="">
-                    <ol class="breadcrumb">
-                        <li><a href="{{route('home')}}"><i class="ion-home"></i></a></li>
-                        <li><a href="{{route('showAllUsers')}}">users</a></li>
-                        <li><a href="#" class="active">{{$user->first_name}}  {{$user->last_name}}</a></li>
-                    </ol>
-                </div><!--.col-->
-            </div><!--.row-->
+            <ol class="breadcrumb">
+                <li><a href="{{route('home')}}"><i class="ion-home"></i></a></li>
+                <li><a href="{{route('showAllUsers')}}">users</a></li>
+                <li><a href="#" class="active">{{$user->first_name}}  {{$user->last_name}}</a></li>
+            </ol>
 
             <div class="header-tabs scrollable-tabs sticky">
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
