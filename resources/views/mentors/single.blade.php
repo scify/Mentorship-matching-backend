@@ -56,12 +56,12 @@
 
                     </div>
                 </div>
-                    <div class="clickable-button userAdminActionsBtn">
-                        <div class="layer bg-orange"></div>
-                        <div class="btn btn-floating btn-orange initial-position floating-open"><i
-                                    class="fa fa-cog"
-                                    aria-hidden="true"></i></div>
-                    </div>
+                <div class="clickable-button userAdminActionsBtn">
+                    <div class="layer bg-orange"></div>
+                    <div class="btn btn-floating btn-orange initial-position floating-open"><i
+                                class="fa fa-cog"
+                                aria-hidden="true"></i></div>
+                </div>
                 <div class="layered-content bg-orange col-md-3">
                     <div class="overflow-content">
                         <ul class="borderless float-left">
