@@ -14,6 +14,7 @@ use App\Models\eloquent\MentorProfile;
 use App\Models\viewmodels\MentorViewModel;
 use App\StorageLayer\MentorStorage;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MentorManager {
@@ -123,6 +124,10 @@ class MentorManager {
         $mentorProfile->residence_id = $inputFields['residence_id'];
 
         $mentorProfile->status_id = $inputFields['status_id'];
+
+        $loggedInUser = Auth::user();
+        if($loggedInUser != null)
+            $mentorProfile->creator_user_id = $loggedInUser->id;
 
         if(isset($inputFields['university_name']))
             $mentorProfile->university_name = $inputFields['university_name'];

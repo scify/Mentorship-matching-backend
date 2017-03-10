@@ -23,7 +23,7 @@ class MenteeProfile extends Model
         'residence_id', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'university_name', 'university_department_name', 'university_graduation_year',
         'is_employed', 'job_description', 'specialty_id', 'specialty_experience',
-        'expectations', 'career_goals', 'reference'
+        'expectations', 'career_goals', 'reference', 'creator_user_id'
     ];
 
     /**
@@ -32,6 +32,14 @@ class MenteeProfile extends Model
     public function residence()
     {
         return $this->hasOne(Residence::class, 'id', 'residence_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function creator()
+    {
+        return $this->hasOne(User::class, 'id', 'creator_user_id');
     }
 
     /**
