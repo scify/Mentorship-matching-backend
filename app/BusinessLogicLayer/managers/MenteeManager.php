@@ -3,7 +3,9 @@
 namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MenteeProfile;
+use App\Models\viewmodels\MenteeViewModel;
 use App\StorageLayer\MenteeStorage;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class MenteeManager {
@@ -19,6 +21,31 @@ class MenteeManager {
 
     public function getAllMentees() {
         return $this->menteeStorage->getAllMenteeProfiles();
+    }
+
+    /**
+     * Gets all the mentees transformed to view model
+     *
+     * @return Collection MenteeViewModel
+     */
+    public function getAllMenteeViewModels() {
+        $mentees = $this->menteeStorage->getAllMenteeProfiles();
+        $menteeViewModels = new Collection();
+        foreach ($mentees as $mentee) {
+            $menteeViewModels->add($this->getMenteeViewModel($mentee));
+        }
+        return $menteeViewModels;
+    }
+
+    /**
+     * Trandform a mentee to the according view model
+     *
+     * @param MenteeProfile $mentee
+     * @return MenteeViewModel
+     */
+    public function getMenteeViewModel(MenteeProfile $mentee) {
+        $menteeViewModel = new MenteeViewModel($mentee);
+        return $menteeViewModel;
     }
 
     public function createMentee(array $inputFields) {
@@ -104,6 +131,11 @@ class MenteeManager {
         return $this->menteeStorage->getMenteesThatMatchGivenNameOrEmail($searchQuery);
     }
 
+    /**
+     * Filters all the mentees that have never been matched with a mentor
+     *
+     * @return Collection MenteeProfile
+     */
     private function getNeverMatchedMentees() {
         $mentees = $this->menteeStorage->getAllMenteeProfiles();
         $filteredMentees = $mentees->filter(function ($value, $key) {
@@ -113,12 +145,33 @@ class MenteeManager {
         return $filteredMentees;
     }
 
-    public function getMenteesByCriteria($filters) {
+    /**
+     * Gets all the filters passed and returns the filtered results
+     *
+     * @param $filters
+     * @return Collection MenteeProfile
+     */
+    private function getMenteesByCriteria($filters) {
         if(isset($filters['displayOnlyNeverMatched']) && (boolean) $filters['displayOnlyNeverMatched'] == true) {
             $filteredMentees = $this->getNeverMatchedMentees();
         } else {
             $filteredMentees = $this->menteeStorage->getAllMenteeProfiles();
         }
         return $filteredMentees;
+    }
+
+    /**
+     * Gets all the filters passed and returns the filtered results as their according view model
+     *
+     * @param $filters
+     * @return Collection MenteeViewModel
+     */
+    public function getMenteeViewModelsByCriteria($filters) {
+        $mentees = $this->getMenteesByCriteria($filters);
+        $menteeViewModels = new Collection();
+        foreach ($mentees as $mentee) {
+            $menteeViewModels->add($this->getMenteeViewModel($mentee));
+        }
+        return $menteeViewModels;
     }
 }
