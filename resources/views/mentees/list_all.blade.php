@@ -9,14 +9,25 @@
                     </div>
                 </div><!--.panel-heading-->
                 <div class="panel-body filtersContainer noInputStyles" data-url="{{ route('filterMentees') }}">
-                    <div class="row">
-                        <div class="col-md-3">Role</div><!--.col-md-3-->
-                        <div class="col-md-6">
-                            <select data-placeholder="Choose role" name="user_role" class="chosen-select">
-                                <option><!-- Empty option allows the placeholder to take effect. --><option>
+                    {{--<div class="row">--}}
+                        {{--<div class="col-md-3">Role</div><!--.col-md-3-->--}}
+                        {{--<div class="col-md-6">--}}
+                            {{--<select data-placeholder="Choose role" name="user_role" class="chosen-select">--}}
+                                {{--<option><!-- Empty option allows the placeholder to take effect. --><option>--}}
                                 {{--@foreach($userRoles as $userRole)--}}
                                     {{--<option value="{{$userRole->id}}">{{$userRole->title}}</option>--}}
                                 {{--@endforeach--}}
+                            {{--</select>--}}
+                        {{--</div><!--.col-md-9-->--}}
+                    {{--</div>--}}
+                    <div class="row">
+                        <div class="col-md-3">Mentees that completed sessions</div><!--.col-md-3-->
+                        <div class="col-md-6">
+                            <select data-placeholder="Choose time passed from last completed session" name="completed_session_ago" class="chosen-select">
+                                <option><!-- Empty option allows the placeholder to take effect. --><option>
+                                @for($i = 1; $i <= 12; $i++)
+                                    <option value="{{$i}}">{{$i}} @if($i == 1) month @else months @endif ago</option>
+                                @endfor
                             </select>
                         </div><!--.col-md-9-->
                     </div>

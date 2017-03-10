@@ -12,9 +12,9 @@ window.MenteesListController.prototype = function () {
         },
         searchBtnHandler = function () {
             $("#searchBtn").on("click", function (e) {
-                var filterCriteria = window.MenteesCriteria;
-                filterCriteria.displayOnlyNeverMatched = $("input[name=only-never-matched]").parent().hasClass("checked");
-                getMenteesByFilter(filterCriteria);
+                window.MenteesCriteria.displayOnlyNeverMatched =
+                    $("input[name=only-never-matched]").parent().hasClass("checked");
+                getMenteesByFilter();
             });
         },
         clearSearchBtnHandler = function() {
@@ -24,12 +24,12 @@ window.MenteesListController.prototype = function () {
                 getMenteesByFilter(window.MenteesCriteria);
             });
         },
-        getMenteesByFilter = function(filterCriteria) {
+        getMenteesByFilter = function() {
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
                 cache: false,
-                data: filterCriteria,
+                data: window.MenteesCriteria,
                 beforeSend: function () {
                     $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
                 },
@@ -64,6 +64,11 @@ window.MenteesListController.prototype = function () {
                 Pleasure.listenClickableCards();
             }
         },
+        initSelectInputs = function() {
+            $("select[name=completed_session_ago]").chosen({
+                width: '100%'
+            });
+        },
         initHandlers = function() {
             deleteMenteeBtnHandler();
             $("body").on("click", "a[data-toggle='tab']", function (e) {
@@ -79,6 +84,7 @@ window.MenteesListController.prototype = function () {
             clearSearchBtnHandler();
         },
         init = function () {
+            initSelectInputs();
             initHandlers();
         };
     return {
