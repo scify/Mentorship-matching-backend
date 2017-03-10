@@ -6,6 +6,7 @@ use App\Models\eloquent\MenteeProfile;
 use App\Models\viewmodels\MenteeViewModel;
 use App\StorageLayer\MenteeStorage;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MenteeManager {
@@ -74,6 +75,9 @@ class MenteeManager {
         $menteeProfile->career_goals = $inputFields['career_goals'];
         $menteeProfile->residence_id = $inputFields['residence_id'];
 
+        $loggedInUser = Auth::user();
+        if($loggedInUser != null)
+            $menteeProfile->creator_user_id = $loggedInUser->id;
 
         if(isset($inputFields['is_employed']))
             $menteeProfile->is_employed = true;

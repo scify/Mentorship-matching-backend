@@ -23,7 +23,7 @@ class MentorProfile extends Model
         'residence_id', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'company_name', 'company_sector', 'job_position', 'job_experience_years',
         'university_name', 'university_department_name', 'skills', 'reference',
-        'status_id', 'company_id'
+        'status_id', 'company_id', 'creator_user_id'
     ];
 
     /**
@@ -32,6 +32,14 @@ class MentorProfile extends Model
     public function company()
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function creator()
+    {
+        return $this->hasOne(User::class, 'id', 'creator_user_id');
     }
 
     /**
