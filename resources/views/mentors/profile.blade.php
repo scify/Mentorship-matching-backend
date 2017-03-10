@@ -91,6 +91,11 @@
                                                 <div class="col-md-3 formElementName">{{trans('messages.created_by')}}</div>
                                                 <div class="col-md-9"><a href="{{route('showUserProfile', $mentorViewModel->mentor->creator->id)}}">{{$mentorViewModel->mentor->creator->first_name}} {{$mentorViewModel->mentor->creator->last_name}}</a></div>
                                             </div><!--.row-->
+                                        @else
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.created_by')}}</div>
+                                                <div class="col-md-9">Public form</div>
+                                            </div><!--.row-->
                                         @endif
                                     </div>
 

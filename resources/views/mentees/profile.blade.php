@@ -84,6 +84,17 @@
                                                 <div class="col-md-9">{{$mentee->created_at->format('d / m / Y')}}</div>
                                             </div><!--.row-->
                                         @endif
+                                        @if($mentee->creator != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.created_by')}}</div>
+                                                <div class="col-md-9"><a href="{{route('showUserProfile', $mentee->creator->id)}}">{{$mentee->creator->first_name}} {{$mentee->creator->last_name}}</a></div>
+                                            </div><!--.row-->
+                                        @else
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.created_by')}}</div>
+                                                <div class="col-md-9">Public form</div>
+                                            </div><!--.row-->
+                                        @endif
                                     </div>
 
                                 </div><!--.panel-->
