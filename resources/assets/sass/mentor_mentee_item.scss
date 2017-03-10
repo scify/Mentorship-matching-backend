@@ -1,0 +1,53 @@
+// Variables
+@import "variables";
+
+
+
+.singleItem {
+  .userImageContainer {
+    width:64px;
+  }
+
+  height: 120px;
+
+  .available:after {
+    background: $brand-success;
+    opacity:0.5;
+  }
+
+  .not_available_for_mentorship:after {
+    background: $brand-danger;
+    opacity:0.5;
+  }
+
+  .black_listed:after {
+    background: $brand-danger;
+    opacity:0.5;
+  }
+
+  .userAdminActionsBtn {
+    right: 8px !important;
+    bottom: 40px;
+    height: initial;
+    .btn-floating {
+      font-size: 20px;
+      border-radius: 50%;
+    }
+    .layer {
+      width:35px;
+      height:35px;
+    }
+    .btn {
+      width:35px;
+      height:35px;
+      padding: 0;
+    }
+    i {
+      font-size: 22px;
+      margin-top: 6px;
+    }
+  }
+  .layered-content.active .overflow-content {
+    margin-top: 10px;
+  }
+}

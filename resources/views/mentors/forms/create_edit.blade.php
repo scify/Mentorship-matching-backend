@@ -190,17 +190,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <!-- Company -->
-                                        <div class="{{ $errors->first('company_name')?'has-error has-feedback':'' }}">
-                                            <div class="inputer floating-label">
-                                                <div class="input-wrapper">
-                                                    <input type="text" class="form-control" name="company_name"
-                                                           value="{{ old('company_name') != '' ? old('company_name') : $mentor['company_name']}}">
-                                                    <label for="email">{{trans('messages.company')}}</label>
-                                                </div>
-                                            </div>
-                                            <span class="help-block">{{ $errors->first('company_name') }}</span>
-
-                                        </div>
+                                        <div class="selecterTitle" style="margin-top:9px">{{trans('messages.company')}}</div>
+                                        <select name="company_id" class="select2-company col-md-12">
+                                            <option></option>
+                                            @foreach($companies as $company)
+                                                <option value="{{$company->id}}" {{$company->id == $mentor['company_id']? 'selected':''}}>{{$company->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="help-block">{{ $errors->first('skills') }}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <!-- Company Sector -->
@@ -216,6 +213,20 @@
 
                                         </div>
                                     </div>
+                                    {{--<div class="col-md-6">--}}
+                                        {{--<!-- Company -->--}}
+                                        {{--<div class="{{ $errors->first('company_name')?'has-error has-feedback':'' }}">--}}
+                                            {{--<div class="inputer floating-label">--}}
+                                                {{--<div class="input-wrapper">--}}
+                                                    {{--<input type="text" class="form-control" name="company_name"--}}
+                                                           {{--value="{{ old('company_name') != '' ? old('company_name') : $mentor['company_name']}}">--}}
+                                                    {{--<label for="company_name">OR ENTER YOUR OWN COMPANY:</label>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<span class="help-block">{{ $errors->first('company_name') }}</span>--}}
+
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -270,23 +281,6 @@
                                         <span class="help-block">{{ $errors->first('skills') }}</span>
                                     </div>
                                 </div>
-                                @if($loggedInUser != null)
-                                    @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <!-- Industry -->
-                                                <div class="selecterTitle form-full-row">{{trans('messages.company')}}</div>
-                                                <select data-placeholder="Choose the company the mentor works at" name="company_id" class="chosen-select">
-                                                    <option value="">No Company</option>
-                                                    @foreach($companies as $company)
-                                                        <option value="{{$company->id}}" {{$company->id == $mentor['company_id']? 'selected':''}}>{{$company->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <span class="help-block">{{ $errors->first('skills') }}</span>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endif
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Skills -->
@@ -314,6 +308,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if($loggedInUser != null)
+                                    <div class="row font-size-smaller margin-top-20">
+                                        <div class="col-md-6">
+                                            <div class="icheckbox">
+                                                <label>
+                                                    <input type="checkbox" name="terms" required>
+                                                    I accept the <a href="http://www.job-pairs.gr/faq/">terms & conditions</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-12 submitBtnContainer margin-top-100">
                                         <button type="button" class="btn btn-flat-primary">

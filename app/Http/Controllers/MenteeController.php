@@ -61,7 +61,7 @@ class MenteeController extends Controller
             'pageTitle' => 'Create new Mentee',
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
-            'specialties' => $specialties
+            'specialties' => $specialties, 'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -83,7 +83,7 @@ class MenteeController extends Controller
             'pageTitle' => 'Edit mentee',
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
-            'specialties' => $specialties
+            'specialties' => $specialties, 'loggedInUser' => Auth::user()
         ]);
     }
 

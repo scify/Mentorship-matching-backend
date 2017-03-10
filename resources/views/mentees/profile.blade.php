@@ -15,14 +15,12 @@
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
-            <div class="row breadCrumpContainer">
-                <div class="">
-                    <ol class="breadcrumb">
-                        <li><a href="{{route('home')}}"><i class="ion-home"></i></a></li>
-                        <li><a href="{{route('showAllMentees')}}">mentees</a></li>
-                        <li><a href="#" class="active">{{$mentee->first_name}}  {{$mentee->last_name}}</a></li>
-                    </ol>
-                </div><!--.col-->
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="{{route('home')}}"><i class="ion-home"></i></a></li>
+                    <li><a href="{{route('showAllMentees')}}">mentees</a></li>
+                    <li><a href="#" class="active">{{$mentee->first_name}}  {{$mentee->last_name}}</a></li>
+                </ol>
             </div><!--.row-->
 
             <div class="header-tabs scrollable-tabs sticky">
