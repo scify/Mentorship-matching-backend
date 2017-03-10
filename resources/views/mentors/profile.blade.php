@@ -1,9 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="profilePage">
-        <div class="page-header full-content parallax" style="height: 200px; overflow: hidden">
+        <div class="page-header full-content parallax">
             <div class="profile-info">
-
+                <div class="profile-photo">
+                    <img src="{{ asset("/assets/img/mentor_default.png") }}" alt="Mentor profile image">
+                </div><!--.profile-photo-->
                 <div class="profile-text light">
                     {{$mentorViewModel->mentor->first_name}}  {{$mentorViewModel->mentor->last_name}},
                     <span class="caption userRole">{{trans('messages.mentor')}}
@@ -82,6 +84,12 @@
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.joined.capitalF')}}</div>
                                                 <div class="col-md-9">{{$mentorViewModel->mentor->created_at->format('d / m / Y')}}</div>
+                                            </div><!--.row-->
+                                        @endif
+                                        @if($mentorViewModel->mentor->creator != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.created_by')}}</div>
+                                                <div class="col-md-9"><a href="{{route('showUserProfile', $mentorViewModel->mentor->creator->id)}}">{{$mentorViewModel->mentor->creator->first_name}} {{$mentorViewModel->mentor->creator->last_name}}</a></div>
                                             </div><!--.row-->
                                         @endif
                                     </div>

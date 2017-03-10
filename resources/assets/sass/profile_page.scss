@@ -2,13 +2,33 @@
 @import "variables";
 
 .profilePage {
-  //.page-header .profile-info .profile-text, .header .profile-info .profile-text {
-  //  margin-left: 0px;
-  //}
+
+  .page-header {
+    display: table;
+    height: 100%;
+    width: 100%;
+  }
+
+  .page-header .profile-info {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .page-header .profile-info .profile-photo img, .header .profile-info .profile-photo img {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+  }
+
+  .page-header .profile-info .profile-text, .header .profile-info .profile-text {
+    margin-top: -5px;
+  }
 
   .page-header {
     background: -webkit-linear-gradient(left, #3b4042, #737c80);
     background: linear-gradient(to right, #3b4042, #737c80);
+    height: 220px;
+    overflow: hidden;
   }
   .header-tabs {
     background: -webkit-linear-gradient(left, #3b4042, #737c80);

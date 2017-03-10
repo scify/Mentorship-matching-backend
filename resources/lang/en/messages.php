@@ -71,5 +71,6 @@ return [
     'specialty_experience_form' => 'DO YOU HAVE EXPERIENCE IN THIS SPECIALTY?',
     'expectations_form_placeholder' => 'DESCRIBE IN A FEW WORDS WHAT YOU EXPECT TO GAIN FROM JOB-PAIRS',
     'career_goals_form' => 'PLEASE DESCRIBE YOUR CAREER GOALS',
-    'reference_form' => 'WHERE DID YOU HEAR ABOUT JOB-PAIRS?'
+    'reference_form' => 'WHERE DID YOU HEAR ABOUT JOB-PAIRS?',
+    'created_by' => 'Created by'
 ];
