@@ -1,6 +1,14 @@
 // Variables
 @import "variables";
 
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+  .page-header {
+    height: 320px !important;
+  }
+}
+
 .profilePage {
 
   .page-header {
@@ -22,7 +30,10 @@
 
   .page-header .profile-info .profile-text, .header .profile-info .profile-text {
     margin-top: -5px;
+    margin-left: 100px;
   }
+
+
 
   .page-header {
     background: -webkit-linear-gradient(left, #3b4042, #737c80);
