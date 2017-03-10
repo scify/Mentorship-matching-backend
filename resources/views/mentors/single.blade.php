@@ -82,7 +82,8 @@
                 </div><!--.overflow-content-->
                 <div class="clickable-close-button">
                     <div class="btn btn-floating initial-position floating-close"><i class="fa fa-times"
-                                                                                     aria-hidden="true"></i></div>
+                                                                                     aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
         </div>

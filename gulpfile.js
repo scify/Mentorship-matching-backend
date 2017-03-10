@@ -15,7 +15,7 @@ elixir(function(mix) {
     mix.sass(['auth.scss'],  'public/css/auth.css');
 
     mix.styles([
-
+        'node_modules/select2/dist/css/select2.min.css',
         'node_modules/sweetalert/dist/sweetalert.css',
         'node_modules/jasny-bootstrap/dist/css/jasny-bootstrap.min.css',
         'node_modules/bootstrap-select/dist/css/bootstrap-select.min.css',
@@ -49,11 +49,13 @@ elixir(function(mix) {
     }
 
     mix.scripts([
+
             'node_modules/npm-modernizr/modernizr.js',
             'node_modules/jquery/dist/jquery.min.js',
             'node_modules/jquery-validation/dist/jquery.validate.min.js',
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
             'node_modules/chosen-js/chosen.jquery.js',
+            'node_modules/select2/dist/js/select2.min.js',
             'node_modules/bootstrap/dist/js/bootstrap.min.js',
             'node_modules/velocity-animate/velocity.min.js',
             'node_modules/moment/moment.js',
