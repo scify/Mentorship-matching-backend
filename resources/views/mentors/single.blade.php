@@ -11,46 +11,50 @@
                     {{$mentorViewModel->mentor->first_name}} {{$mentorViewModel->mentor->last_name}},
                     {{$mentorViewModel->mentor->job_position}}
                     @if($mentorViewModel->mentor->company != null)
-                        {{ "@ " . $mentorViewModel->mentor->company->name}},
+                        {{ "@ " . $mentorViewModel->mentor->company->name}}
                     @endif
-                    <small>{{$mentorViewModel->mentor->age}} years old</small>
+                    <small>, {{$mentorViewModel->mentor->age}} years old</small>
                 </a>
-                <div class="padding-left-20">
-                    <div class="mentorAttrsList font-size-medium">
+                <div class="row">
+                    <div class="col-md-9 padding-left-0">
+                        <div class="mentorAttrsList font-size-medium">
 
-                        @foreach($mentorViewModel->mentor->specialties as $specialty)
-                            {{$specialty->name}}
-                            @if(!$loop->last)
-                                ,
+                            @foreach($mentorViewModel->mentor->specialties as $specialty)
+                                {{$specialty->name}}
+                                @if(!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
+                            {{"("}}
+                            @foreach($mentorViewModel->mentor->industries as $industry)
+                                {{$industry->name}}
+                                @if(!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
+                            {{")"}}
+                        </div>
+                        <ul class="list-inline mentorAttrsList font-size-smaller">
+                            @if($mentorViewModel->mentor->status != null)
+                                <li class="padding-left-0 {{$mentorViewModel->mentor->status->status}}">{{$mentorViewModel->mentor->status->description}}</li>
                             @endif
-                        @endforeach
-                        {{"("}}
-                        @foreach($mentorViewModel->mentor->industries as $industry)
-                            {{$industry->name}}
-                            @if(!$loop->last)
-                                ,
+                                |<li>  3 mentor sessions</li>
+                            @if($mentorViewModel->mentor->created_at!= null)
+                                    | <li >joined: {{$mentorViewModel->mentor->created_at->diffForHumans()}}</li>
                             @endif
-                        @endforeach
-                        {{")"}}
+                             | <li><a class="noPanelHeadingStyleLink" href="{{route('showMentorProfilePage', $mentorViewModel->mentor->id)}}">view profile</a></li>
+                        </ul>
                     </div>
-                    <div class="mentorAttrsList font-size-smaller">
-                        @if($mentorViewModel->mentor->status != null)
-                            <small class="{{$mentorViewModel->mentor->status->status}}">{{$mentorViewModel->mentor->status->description}}</small>
-                        @endif
-                         | 3 mentor sessions
-                        @if($mentorViewModel->mentor->created_at!= null)
-                                | <small class="">joined: {{$mentorViewModel->mentor->created_at->diffForHumans()}}</small>
-                        @endif
+
+                    <div class="col-md1">
+                        <div class="clickable-button userAdminActionsBtn">
+                            <div class="layer bg-orange"></div>
+                            <div class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog"
+                                                                                                       aria-hidden="true"></i></div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="clickable-button userAdminActionsBtn">
-                    <div class="layer bg-orange"></div>
-                    <div class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog"
-                                                                                               aria-hidden="true"></i></div>
-                </div>
-
-                <div class="layered-content bg-orange">
+                <div class="layered-content bg-orange col-md-3">
                     <div class="overflow-content">
                         <ul class="borderless float-left">
 

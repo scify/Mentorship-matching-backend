@@ -12,12 +12,35 @@
   border-color: $brand-dark;
 }
 
+.padding-left-0 {
+  padding-left: 0 !important;
+}
+
+.accordion .panel-heading .noPanelHeadingStyleLink:after {
+  content: none;
+}
+
+.accordion .panel-heading.active .noPanelHeadingStyleLink:after {
+  content: none;
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+  .singleMentorItem {
+    height: 150px !important;
+  }
+}
+
 .font-size-medium {
   font-size: medium;
 }
 
 .font-size-smaller {
   font-size: smaller;
+}
+
+.font-size-small {
+  font-size: small;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {

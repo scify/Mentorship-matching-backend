@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: pisaris
- * Date: 7/2/2017
- * Time: 2:03 μμ
- */
 
 namespace App\BusinessLogicLayer\managers;
 
@@ -91,7 +85,7 @@ class MenteeManager {
         $mentee = $this->assignInputFieldsToMenteeProfile($mentee, $inputFields);
 
         DB::transaction(function() use($mentee, $inputFields) {
-            $mentee = $this->menteeStorage->saveMentee($mentee);
+            $this->menteeStorage->saveMentee($mentee);
         });
     }
 
@@ -114,7 +108,7 @@ class MenteeManager {
         $mentees = $this->menteeStorage->getAllMenteeProfiles();
         $filteredMentees = $mentees->filter(function ($value, $key) {
             $currentMentee = $value;
-            return ($currentMentee->sessions()->get())->isEmpty();
+            return $currentMentee->sessions->isEmpty();
         });
         return $filteredMentees;
     }
