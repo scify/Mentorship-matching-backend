@@ -3,7 +3,7 @@ window.MenteesListController = function () {
 
 window.MenteesListController.prototype = function () {
     var deleteMenteeBtnHandler = function () {
-            $(".deleteMenteeBtn").on("click", function (e) {
+            $("body").on("click", ".deleteMenteeBtn", function (e) {
                 e.stopPropagation();
                 var menteeId = $(this).attr("data-menteeId");
                 $('#deleteMenteeModal').modal('toggle');
@@ -31,7 +31,7 @@ window.MenteesListController.prototype = function () {
                 cache: false,
                 data: filterCriteria,
                 beforeSend: function () {
-                    $('.panel-body').append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                    $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
                 },
                 success: function (response) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -66,7 +66,7 @@ window.MenteesListController.prototype = function () {
         },
         initHandlers = function() {
             deleteMenteeBtnHandler();
-            $('a[data-toggle="tab"]').click(function (e) {
+            $("body").on("click", "a[data-toggle='tab']", function (e) {
                 e.preventDefault();
                 console.log($(this).attr('data-id'));
                 $(".card_" + $(this).attr('data-id')).find('.tab-pane.active').removeClass('active');

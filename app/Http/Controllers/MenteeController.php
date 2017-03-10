@@ -30,12 +30,12 @@ class MenteeController extends Controller
      */
     public function showAllMentees()
     {
-        $mentees = $this->menteeManager->getAllMentees();
+        $menteeViewModels = $this->menteeManager->getAllMenteeViewModels();
         $loggedInUser = Auth::user();
         $page_title = 'All mentees';
         return view('mentees.list_all', [
             'pageTitle' => $page_title,
-            'mentees' => $mentees, 'loggedInUser' => $loggedInUser]);
+            'menteeViewModels' => $menteeViewModels, 'loggedInUser' => $loggedInUser]);
     }
 
     /**
@@ -201,18 +201,18 @@ class MenteeController extends Controller
     public function showMenteesByCriteria(Request $request) {
         $input = $request->all();
         try {
-            $mentees = $this->menteeManager->getMenteesByCriteria($input);
+            $menteeViewModels = $this->menteeManager->getMenteeViewModelsByCriteria($input);
         }  catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
-        if($mentees->count() == 0) {
+        if($menteeViewModels->count() == 0) {
             $errorMessage = "No mentees found";
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentees.list', compact('mentees', 'loggedInUser'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentees.list', compact('menteeViewModels', 'loggedInUser'))));
         }
     }
 }
