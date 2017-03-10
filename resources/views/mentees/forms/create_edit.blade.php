@@ -285,6 +285,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if($loggedInUser != null)
+                                    <div class="row font-size-smaller margin-top-20">
+                                        <div class="col-md-6">
+                                            <div class="icheckbox">
+                                                <label>
+                                                    <input type="checkbox" name="terms" required>
+                                                    I accept the <a href="http://www.job-pairs.gr/faq/">terms & conditions</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-12 submitBtnContainer margin-top-100">
                                         <button type="button" class="btn btn-flat-primary">

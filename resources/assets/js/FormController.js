@@ -20,29 +20,29 @@ window.FormController.prototype = function () {
         }
 
         // validation
-        $('.jobPairsForm').validate({
-            errorPlacement: function (error, element) {
-                if (element.is("select.chosen-select")) {
-                    // placement for chosen
-                    element.next("div.chosen-container").append(error);
-                } else {
-                    // standard placement
-                    var elementjQuery = $(element);
-                    elementjQuery.closest(".inputer").next().html(error);
-                    element.next("div").append(error);
-                }
-            }
-        });
-
-        var inputFields = $( ".form-control" );
-        inputFields.focus(function() {
-            var inputName = $(this).closest(".formRow").find(".formElementName");
-            inputName.addClass("focused");
-        });
-        inputFields.focusout(function() {
-            var inputName = $(this).closest(".formRow").find(".formElementName");
-            inputName.removeClass("focused");
-        });
+        // $('.jobPairsForm').validate({
+        //     errorPlacement: function (error, element) {
+        //         if (element.is("select.chosen-select")) {
+        //             // placement for chosen
+        //             element.next("div.chosen-container").append(error);
+        //         } else {
+        //             // standard placement
+        //             var elementjQuery = $(element);
+        //             elementjQuery.closest(".inputer").next().html(error);
+        //             element.next("div").append(error);
+        //         }
+        //     }
+        // });
+        //
+        // var inputFields = $( ".form-control" );
+        // inputFields.focus(function() {
+        //     var inputName = $(this).closest(".formRow").find(".formElementName");
+        //     inputName.addClass("focused");
+        // });
+        // inputFields.focusout(function() {
+        //     var inputName = $(this).closest(".formRow").find(".formElementName");
+        //     inputName.removeClass("focused");
+        // });
     };
     return {
         init: init
