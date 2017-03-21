@@ -20,9 +20,10 @@ class SpecialtyTableSeeder extends Seeder
             array('id'=> 4, 'name'=>'Ηλεκτρολόγος Μηχανικός'),
             array('id'=> 5, 'name'=>'Χημικός Μηχανικός'),
             array('id'=> 6, 'name'=>'Οικονομικά / Λογιστική'),
-            array('id'=> 7, 'name'=>'Marketing / Πωλήσεις'),
+            array('id'=> 7, 'name'=>'Marketing'),
             array('id'=> 8, 'name'=>'Logistics'),
-            array('id'=> 9, 'name'=>'Μηχανολόγος Μηχανικός')
+            array('id'=> 9, 'name'=>'Μηχανολόγος Μηχανικός'),
+            array('id'=> 10, 'name'=>'Πωλήσεις')
         ));
     }
 }
