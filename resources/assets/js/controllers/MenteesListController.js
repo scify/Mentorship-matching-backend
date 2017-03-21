@@ -2,7 +2,8 @@ window.MenteesListController = function () {
 };
 
 window.MenteesListController.prototype = function () {
-    var deleteMenteeBtnHandler = function () {
+    var menteesCriteria = {},
+        deleteMenteeBtnHandler = function () {
             $("body").on("click", ".deleteMenteeBtn", function (e) {
                 e.stopPropagation();
                 var menteeId = $(this).attr("data-menteeId");
@@ -11,22 +12,27 @@ window.MenteesListController.prototype = function () {
             });
         },
         searchBtnHandler = function () {
-            $("#searchBtn").on("click", function (e) {
-                window.MenteesCriteria.displayOnlyNeverMatched =
+            $("#searchBtn").on("click", function () {
+                menteesCriteria.menteeName = $("input[name=mentee_name]").val();
+                menteesCriteria.universityName = $("input[name=university]").val();
+                menteesCriteria.completedSessionAgo = $("select[name=completed_session_ago]").val();
+                menteesCriteria.displayOnlyActiveSession = $("input[name=only_active_sessions]").parent().hasClass("checked");
+                menteesCriteria.displayOnlyNeverMatched =
                     $("input[name=only_never_matched]").parent().hasClass("checked");
-                window.MenteesCriteria.completedSessionAgo = $("select[name=completed_session_ago]").val();
                 getMenteesByFilter();
             });
         },
         clearSearchBtnHandler = function() {
             $("#clearSearchBtn").on("click", function() {
+                $('input[name=mentee_name]').val("");
+                $('input[name=university]').val("");
+                $('select[name=completed_session_ago]').val(0).trigger("chosen:updated");
+                $('input[name=only_active_sessions]').iCheck('uncheck');
                 $('input[name=only_never_matched]').iCheck('uncheck');
-                $('select[name=completed_session_ago]').val(0);
-                $('select[name=completed_session_ago]').trigger("chosen:updated");
                 // clear MenteesCriteria object from all of its properties
-                for(var prop in window.MenteesCriteria) {
-                    if(window.MenteesCriteria.hasOwnProperty(prop)) {
-                        delete window.MenteesCriteria[prop];
+                for(var prop in menteesCriteria) {
+                    if(menteesCriteria.hasOwnProperty(prop)) {
+                        delete menteesCriteria[prop];
                     }
                 }
                 getMenteesByFilter();
@@ -37,7 +43,7 @@ window.MenteesListController.prototype = function () {
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
                 cache: false,
-                data: window.MenteesCriteria,
+                data: menteesCriteria,
                 beforeSend: function () {
                     $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
                 },
@@ -59,7 +65,6 @@ window.MenteesListController.prototype = function () {
             });
         },
         parseSuccessData = function(response) {
-            console.log(response);
             var responseObj = JSON.parse(response);
             //if operation was unsuccessful
             if (responseObj.status == 2) {
@@ -100,5 +105,3 @@ window.MenteesListController.prototype = function () {
         init: init
     }
 }();
-
-window.MenteesCriteria = {};

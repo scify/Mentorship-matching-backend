@@ -21,7 +21,27 @@
                         {{--</div><!--.col-md-9-->--}}
                     {{--</div>--}}
                     <div class="row">
-                        <div class="col-md-3">Mentees that completed sessions</div><!--.col-md-3-->
+                        <div class="col-md-3 filterName">Mentee name</div><!--.col-md-3-->
+                        <div class="col-md-6">
+                            <div class="inputer">
+                                <div class="input-wrapper">
+                                    <input name="mentee_name" class="form-control" placeholder="Mentee name" type="text">
+                                </div>
+                            </div>
+                        </div><!--.col-md-6-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 filterName">University</div><!--.col-md-3-->
+                        <div class="col-md-6">
+                            <div class="inputer">
+                                <div class="input-wrapper">
+                                    <input name="university" class="form-control" placeholder="University attended" type="text">
+                                </div>
+                            </div>
+                        </div><!--.col-md-6-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 filterName">Mentees that completed sessions</div><!--.col-md-3-->
                         <div class="col-md-6">
                             <select data-placeholder="Choose time passed from completed session" name="completed_session_ago" class="chosen-select">
                                 <option><!-- Empty option allows the placeholder to take effect. --><option>
@@ -32,7 +52,17 @@
                         </div><!--.col-md-9-->
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 filterName">
+                            <label for="only-active-sessions">Mentees with active sessions</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="icheckbox">
+                                <input type="checkbox" name="only_active_sessions" id="only-active-sessions">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 filterName">
                             <label for="only-never-matched">Mentees with no sessions</label>
                         </div>
                         <div class="col-md-6">

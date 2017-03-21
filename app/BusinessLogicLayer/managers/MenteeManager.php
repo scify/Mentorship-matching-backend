@@ -152,7 +152,10 @@ class MenteeManager {
      * @throws \Exception When filters aren't valid
      */
     private function getMenteesByCriteria($filters) {
-        if((!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
+        if((!isset($filters['menteeName']) || $filters['menteeName'] === "") &&
+            (!isset($filters['universityName']) || $filters['universityName'] === "") &&
+            (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
+            (!isset($filters['displayOnlyActiveSession']) || $filters['displayOnlyActiveSession'] === 'false') &&
             (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false')) {
             return $this->menteeStorage->getAllMenteeProfiles();
         }
@@ -160,11 +163,36 @@ class MenteeManager {
         $dbQuery = "select distinct mp.id 
             from mentee_profile as mp 
             left outer join mentorship_session as ms on mp.id = ms.mentee_profile_id
-            left outer join mentorship_session_history as msh on ms.id = msh.mentorship_session_id
-            where ";
+            left outer join mentorship_session_history as msh on ms.id = msh.mentorship_session_id ";
+        if(isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {
+            $dbQuery .= "left outer join (select ms.id, max(msh.updated_at) as session_date 
+	            from mentorship_session_history as msh join mentorship_session as ms on 
+	            msh.mentorship_session_id = ms.id join mentee_profile as mp on mp.id = ms.mentee_profile_id 
+	            group by mp.id, ms.id)	as last_session on (last_session.id = ms.id and last_session.session_date = msh.updated_at) ";
+        }
+        $dbQuery .= "where ";
+        if(isset($filters['menteeName']) && $filters['menteeName'] != "") {
+            $dbQuery .= "(mp.first_name like '%" . $filters['menteeName'] . "%' or mp.last_name like '%" . $filters['menteeName'] . "%') ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['universityName']) && $filters['universityName'] != "") {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.university_name like '%" . $filters['universityName'] . "%' ";
+        }
+        if(isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "(last_session.session_date is not null and msh.status_id in (1,2,3,4,5,6,7)) ";
+        }
         if(isset($filters['completedSessionAgo']) && $filters['completedSessionAgo'] != "") {
             if(intval($filters['completedSessionAgo']) == 0) {
                 throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
             }
             $dbQuery .= "msh.status_id in (8,9) and msh.updated_at between (now() - interval " . $filters['completedSessionAgo'] . " month) 
                 and (now() - interval " . ($filters['completedSessionAgo'] - 1) . " month) ";
@@ -174,7 +202,7 @@ class MenteeManager {
             if($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            $dbQuery .= "ms.id is null";
+            $dbQuery .= "ms.id is null ";
         }
         $filteredMenteeIds = $this->transformRawQueryStorageResultsToOneDimensionalArray((new RawQueryStorage())->performRawQuery($dbQuery));
         return $this->menteeStorage->getMenteesFromIdsArray($filteredMenteeIds);
