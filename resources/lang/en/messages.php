@@ -3,6 +3,7 @@
 return [
     'welcome' => 'Welcome to our application',
     'info' => 'Info',
+    'profile_information' => 'Profile Information',
     'profile' => 'Profile',
     'mentors' => 'Mentors',
     'details' => 'Details',

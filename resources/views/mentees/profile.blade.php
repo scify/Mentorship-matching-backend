@@ -25,9 +25,9 @@
 
             <div class="header-tabs scrollable-tabs sticky">
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
-                    <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.info')}}</a></li>
-                    <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.specialty')}} & {{trans('messages.expectations')}}</a></li>
-                    <li><a data-href="#photos" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
+                    <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.profile_information')}}</a></li>
+                    <li><a data-href="availability" data-toggle="tab" class="btn-ripple">{{trans('messages.availability')}}</a></li>
+                    <li><a data-href="sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
                 </ul>
             </div>
 
@@ -148,10 +148,6 @@
                                     </div>
                                 </div><!--.panel-->
                             </div>
-                        </div>
-                    </div>
-                    <div id="skills" class="tab-pane">
-                        <div class="col-md-6">
                             <div class="panel">
                                 <div class="panel-heading">
                                     <div class="panel-title"><h3>{{trans('messages.specialty')}}</h3></div>
@@ -170,7 +166,7 @@
                                 </div><!--.panel-->
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="panel">
                                 <div class="panel-heading">
                                     <div class="panel-title"><h3>{{trans('messages.goals')}} & {{trans('messages.expectations')}}</h3></div>
@@ -183,7 +179,7 @@
                                                 <div class="col-md-9">{{$mentee->career_goals}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->university_name != null)
+                                        @if($mentee->expectations != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.expectations')}}</div>
                                                 <div class="col-md-9">{{$mentee->expectations}}</div>
@@ -200,6 +196,10 @@
                             </div>
                         </div>
                     </div>
+                    <div id="availability" class="tab-pane">
+
+                    </div>
+                    <div id="sessions" class="tab-pane"></div>
                 </div>
             </div>
         </div>

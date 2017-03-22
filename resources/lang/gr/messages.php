@@ -3,6 +3,7 @@
 return [
     'welcome' => 'Welcome to our application',
     'info' => 'Πληροφορίες',
+    'profile_information' => 'Πληροφορίες Προφίλ',
     'profile' => 'Προφίλ',
     'mentors' => 'Μέντορες',
     'details' => 'Λεπτομέρειες',
