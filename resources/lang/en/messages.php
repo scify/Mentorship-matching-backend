@@ -74,5 +74,7 @@ return [
     'expectations_form_placeholder' => 'DESCRIBE IN A FEW WORDS WHAT YOU EXPECT TO GAIN FROM JOB-PAIRS',
     'career_goals_form' => 'PLEASE DESCRIBE YOUR CAREER GOALS',
     'reference_form' => 'WHERE DID YOU HEAR ABOUT JOB-PAIRS?',
-    'created_by' => 'Created by'
+    'created_by' => 'Created by',
+    'i_accept_the' => 'I accept the',
+    'terms_and_conditions' => 'terms & conditions'
 ];

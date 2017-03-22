@@ -58,6 +58,16 @@ class MenteeController extends Controller
             App::setLocale($language);
         }
 
+        $pageTitle = 'Mentees';
+        $pageSubTitle = 'create new';
+        // when on public form ,we do not want to present header with page title and subtitle
+        if(isset($input['public'])) {
+            if($input['public'] == 1) {
+                $pageTitle = null;
+                $pageSubTitle = null;
+            }
+        }
+
         $mentee = new MenteeProfile();
         $formTitle = trans('messages.mentee_registration');
         $specialties = $this->specialtyManager->getAllSpecialties();
@@ -66,7 +76,8 @@ class MenteeController extends Controller
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
 
         return view('mentees.forms.create_edit', [
-            'pageTitle' => 'Create new Mentee',
+            'pageTitle' => $pageTitle,
+            'pageSubTitle' => $pageSubTitle,
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,

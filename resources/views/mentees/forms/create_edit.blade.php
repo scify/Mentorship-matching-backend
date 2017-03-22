@@ -257,7 +257,7 @@
                                         <div class="{{ $errors->first('expectations')?'has-error has-feedback':'' }}">
                                             <div class="inputer floating-label">
                                                 <div class="input-wrapper">
-                                                    <textarea required class="form-control js-auto-size" rows="1" name="expectations" placeholder="{{trans('messages.expectations_form_placeholder')}}">{{ old('expectations') != '' ? old('expectations') : $mentee['expectations']}}</textarea>
+                                                    <textarea required class="form-control js-auto-size" rows="2" name="expectations" placeholder="{{trans('messages.expectations_form_placeholder')}}">{{ old('expectations') != '' ? old('expectations') : $mentee['expectations']}}</textarea>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('expectations') }}</span>
@@ -271,7 +271,7 @@
                                         <div class="{{ $errors->first('career_goals')?'has-error has-feedback':'' }}">
                                             <div class="inputer floating-label">
                                                 <div class="input-wrapper">
-                                                    <textarea required class="form-control  js-auto-size" rows="1" name="career_goals" placeholder="{{trans('messages.career_goals_form')}}">{{ old('career_goals') != '' ? old('career_goals') : $mentee['career_goals']}}</textarea>
+                                                    <textarea required class="form-control js-auto-size" rows="2" name="career_goals" placeholder="{{trans('messages.career_goals_form')}}">{{ old('career_goals') != '' ? old('career_goals') : $mentee['career_goals']}}</textarea>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('career_goals') }}</span>
@@ -294,13 +294,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if($loggedInUser != null)
+                                @if($loggedInUser == null)
                                     <div class="row font-size-smaller margin-top-20">
                                         <div class="col-md-6">
                                             <div class="icheckbox">
                                                 <label>
                                                     <input type="checkbox" name="terms" required>
-                                                    I accept the <a href="http://www.job-pairs.gr/faq/">terms & conditions</a>
+                                                    {{trans('messages.i_accept_the')}} <a href="http://www.job-pairs.gr/faq/">{{trans('messages.terms_and_conditions')}}</a>
                                                 </label>
                                             </div>
                                         </div>

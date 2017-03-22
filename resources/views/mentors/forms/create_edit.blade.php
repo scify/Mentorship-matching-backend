@@ -308,13 +308,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if($loggedInUser != null)
+                                @if($loggedInUser == null)
                                     <div class="row font-size-smaller margin-top-20">
                                         <div class="col-md-6">
                                             <div class="icheckbox">
                                                 <label>
                                                     <input type="checkbox" name="terms" required>
-                                                    I accept the <a href="http://www.job-pairs.gr/faq/">terms & conditions</a>
+                                                    {{trans('messages.i_accept_the')}} <a href="http://www.job-pairs.gr/faq/">{{trans('messages.terms_and_conditions')}}</a>
                                                 </label>
                                             </div>
                                         </div>
