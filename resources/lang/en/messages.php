@@ -19,6 +19,8 @@ return [
     'address' => 'Address',
     'residence' => 'Residence',
     'mentor_status' => 'Mentor status',
+    'status_history_comment' => 'Mentor Status Change Reason',
+    'follow_up_date' => 'Follow Up Date (dd/mm/yyyy)',
     'availability' => 'Availability',
     'available' => 'Available',
     'not' => 'Not',

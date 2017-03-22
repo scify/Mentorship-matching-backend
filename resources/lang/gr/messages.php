@@ -19,6 +19,8 @@ return [
     'address' => 'Διέυθυνση',
     'residence' => 'Τόπος διαμονής',
     'mentor_status' => 'Mentor status',
+    'status_history_comment' => 'Λόγος Αλλαγής Κατάστασης Μέντορα',
+    'follow_up_date' => 'Ημερομηνία Επικοινωνίας (ηη/μμ/εεεε)',
     'availability' => 'Availability',
     'available' => 'Available',
     'not' => 'Not',

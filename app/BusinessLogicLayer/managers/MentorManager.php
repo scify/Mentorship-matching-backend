@@ -77,12 +77,19 @@ class MentorManager {
      */
     public function editMentor(array $inputFields, $id) {
         $mentor = $this->getMentor($id);
+        $oldStatusId = $mentor->status_id;
         $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);
+        $mentorStatusHistoryManager = new MentorStatusHistoryManager();
 
-        DB::transaction(function() use($mentor, $inputFields) {
+        DB::transaction(function() use($mentor, $oldStatusId, $inputFields, $mentorStatusHistoryManager) {
             $mentor = $this->mentorStorage->saveMentor($mentor);
             $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
             $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
+            if($oldStatusId != $inputFields['status_id']) {
+                $mentorStatusHistoryManager->createMentorStatusHistory($mentor, $inputFields['status_id'],
+                    $inputFields['status_history_comment'], ($inputFields['follow_up_date'] != "") ?
+                        $inputFields['follow_up_date'] : null);
+            }
             $this->handleMentorCompany($mentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
         });
     }

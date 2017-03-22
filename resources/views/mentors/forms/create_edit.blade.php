@@ -40,6 +40,34 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <div class="col-md-6">
+                                                <!-- Status change comment -->
+                                                <div class="{{ $errors->first('status_history_comment')?'has-error has-feedback':'' }}">
+                                                    <div class="inputer floating-label">
+                                                        <div class="input-wrapper">
+                                                            <input type="text" class="form-control" name="status_history_comment"
+                                                                   value="{{ old('status_history_comment')}}">
+                                                            <label for="status_history_comment">{{trans('messages.status_history_comment')}}</label>
+                                                        </div>
+                                                    </div>
+                                                    <span class="help-block">{{ $errors->first('status_history_comment') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!-- Mentor follow up date -->
+                                                <div class="{{ $errors->first('follow_up_date')?'has-error has-feedback':'' }}">
+                                                    <div class="inputer floating-label">
+                                                        <div class="input-wrapper">
+                                                            <input type="text" class="form-control" name="follow_up_date"
+                                                                   value="{{ old('follow_up_date')}}">
+                                                            <label for="follow_up_date">{{trans('messages.follow_up_date')}}</label>
+                                                        </div>
+                                                    </div>
+                                                    <span class="help-block">{{ $errors->first('follow_up_date') }}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     @endif
                                 @endif
