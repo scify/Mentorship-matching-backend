@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MentorManager;
@@ -13,6 +12,7 @@ use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class MentorController extends Controller
@@ -95,6 +95,17 @@ class MentorController extends Controller
             App::setLocale($language);
         }
 
+        $pageTitle = 'Mentors';
+        $pageSubTitle = 'create new';
+
+        // when on public form ,we do not want to present header with page title and subtitle
+        if(isset($input['public'])) {
+            if($input['public'] == 1) {
+                $pageTitle = null;
+                $pageSubTitle = null;
+            }
+        }
+
         $companyManager = new CompanyManager();
         $mentor = new MentorProfile();
         $mentorSpecialtiesIds = array();
@@ -108,8 +119,8 @@ class MentorController extends Controller
         $mentorStatuses = $this->mentorStatusManager->getMentorStatusesForMentorCreation();
 
         return view('mentors.forms.create_edit', [
-            'pageTitle' => 'Mentors',
-            'pageSubTitle' => 'create new',
+            'pageTitle' => $pageTitle,
+            'pageSubTitle' => $pageSubTitle,
             'mentor' => $mentor,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,

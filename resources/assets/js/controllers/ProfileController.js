@@ -8,6 +8,7 @@ window.ProfileController.prototype = function() {
                 var profilePageClassElement = $(".profilePage");
                 profilePageClassElement.find('.tab-pane.active').removeClass('active');
                 profilePageClassElement.find('.tab-content.active').removeClass('active');
+                console.log($(this).attr('data-href'));
                 profilePageClassElement.find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
             });
         },

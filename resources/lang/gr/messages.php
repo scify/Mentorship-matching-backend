@@ -3,6 +3,7 @@
 return [
     'welcome' => 'Welcome to our application',
     'info' => 'Πληροφορίες',
+    'profile_information' => 'Πληροφορίες Προφίλ',
     'profile' => 'Προφίλ',
     'mentors' => 'Μέντορες',
     'details' => 'Λεπτομέρειες',
@@ -13,7 +14,7 @@ return [
     'company_no_account_manager' => 'No Account Manager set.',
     'website' => 'Website',
     'phone' => 'Τηλέφωνο',
-    'cell_phone' => 'Κινητό τηλέφνο',
+    'cell_phone' => 'Κινητό τηλέφωνο',
     'linkedin' => 'Linkedin Profile',
     'email' => 'Email',
     'address' => 'Διέυθυνση',
@@ -22,6 +23,7 @@ return [
     'status_history_comment' => 'Λόγος Αλλαγής Κατάστασης Μέντορα',
     'follow_up_date' => 'Ημερομηνία Επικοινωνίας (ηη/μμ/εεεε)',
     'availability' => 'Availability',
+    'availability' => 'Διαθεσιμότητα',
     'available' => 'Available',
     'not' => 'Not',
     'first_name' => 'Όνομα',
@@ -45,7 +47,7 @@ return [
     'search' => 'Search',
     'clear_filters' => 'Clear filters',
     'mentee' => 'Mentee',
-    'university_graduation_year' => 'University graduation year',
+    'university_graduation_year' => 'Ετος αποφοιτησης',
     'employed' => 'Employed',
     'yes' => 'Yes',
     'no' => 'No',
@@ -73,7 +75,9 @@ return [
     'job_description_form' => 'ΕΑΝ ΕΡΓΑΖΕΣΤΕ, ΠΕΙΤΕ ΜΑΣ ΛΙΓΑ ΛΟΓΙΑ ΓΙΑ ΤΗΝ ΑΠΑΣΧΟΛΗΣΗ ΣΑΣ',
     'specialty_experience_form' => 'ΕΧΕΤΕ ΕΜΠΕΙΡΙΑ ΣΤΗΝ ΠΑΡΑΠΑΝΩ ΕΙΔΙΚΟΤΗΤΑ;',
     'expectations_form_placeholder' => 'ΑΝΑΦΕΡΕΤΕ ΕΝ ΣΥΝΤΟΜΙΑ ΤΙ ΠΕΡΙΜΕΝΕΤΕ ΝΑ ΑΠΟΚΟΜΙΣΕΤΕ ΑΠΟ ΤΗ ΔΙΑΔΙΚΑΣΙΑ ΤΟΥ JOB-PAIRS',
-    'career_goals_form' => 'Περιγράψτε μας τους επαγγελματικούς σας στόχους και την ειδικότητα που θέλετε να απασχοληθείτε.',
+    'career_goals_form' => 'ΠΕΡΙΓΡΑΨΤΕ ΜΑΣ ΤΟΥΣ ΕΠΑΓΓΕΛΜΑΤΙΚΟΥΣ ΣΑΣ ΣΤΟΧΟΥΣ ΚΑΙ ΤΗΝ ΕΙΔΙΚΟΤΗΤΑ ΠΟΥ ΘΕΛΕΤΕ ΝΑ ΑΣΧΟΛΗΘΕΙΤΕ',
     'reference_form' => 'ΑΠΟ ΠΟΥ ΜΑΘΑΤΕ ΓΙΑ ΤΟ JOB-PAIRS;',
-    'created_by' => 'Created by'
+    'created_by' => 'Created by',
+    'i_accept_the' => 'Αποδέχομαι τους',
+    'terms_and_conditions' => 'όρους χρήσης'
 ];

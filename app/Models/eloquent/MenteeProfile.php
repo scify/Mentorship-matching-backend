@@ -67,7 +67,7 @@ class MenteeProfile extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function sessions() {
         return $this->hasMany(MentorshipSession::class);

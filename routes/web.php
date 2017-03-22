@@ -15,16 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
+Route::post('mentor/create', 'MentorController@create')->name('createMentor');
+
+Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
+Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
+
 Route::group([ 'middleware' => 'auth' ], function () {
 
     Route::get('/', 'HomeController@dashboard')->name('home');
     Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 
-    Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
-    Route::post('mentor/create', 'MentorController@create')->name('createMentor');
 
-    Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
-    Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
 
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
