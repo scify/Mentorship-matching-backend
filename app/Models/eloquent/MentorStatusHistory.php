@@ -4,14 +4,14 @@ namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MentorStatusComment extends Model
+class MentorStatusHistory extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'mentor_status_comment';
+    protected $table = 'mentor_status_history';
     /**
      * The attributes that are mass assignable.
      *

@@ -77,9 +77,9 @@ class MentorProfile extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function statusComment()
+    public function statusHistory()
     {
-        return $this->hasOne(MentorStatusComment::class, 'id', 'mentor_profile_id');
+        return $this->hasOne(MentorStatusHistory::class, 'id', 'mentor_profile_id');
     }
 
     public function hasCompany(){
