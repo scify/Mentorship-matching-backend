@@ -30,13 +30,15 @@ class CompanyManager {
         $company = new Company();
         $company = $this->assignInputFieldsToCompany($company, $inputFields);
 
-        DB::transaction(function() use($company, $inputFields) {
+        // return the newly created company
+        return (DB::transaction(function() use($company, $inputFields) {
             $newCompany = $this->companyStorage->saveCompany($company);
             if(isset($inputFields['mentors']))
                 $this->assignCompanyToMentors($newCompany, $inputFields['mentors']);
             if(isset($inputFields['account_manager_id']))
                 $this->handleCompanyAccountManager($company, $inputFields['account_manager_id']);
-        });
+            return $newCompany;
+        }));
     }
 
     public function editCompany(array $inputFields, $id) {

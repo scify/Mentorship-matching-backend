@@ -21,7 +21,20 @@ window.FormController.prototype = function () {
         $(".select2-company").select2({
             maximumSelectionLength: 2,
             placeholder: "SELECT A COMPANY OR ENTER YOUR OWN",
-            tags: true
+            tags: true,
+            createTag: function (params) {
+                var term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: 'new-company-' + term,
+                    text: term,
+                    newTag: true
+                }
+            }
         });
 
         // validation

@@ -65,7 +65,7 @@ class MentorManager {
             $newMentor = $this->mentorStorage->saveMentor($mentorProfile);
             $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
             $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
-            $this->handleMentorCompany($newMentor, $inputFields['company_id']);
+            $this->handleMentorCompany($newMentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
         });
     }
 
@@ -83,8 +83,33 @@ class MentorManager {
             $mentor = $this->mentorStorage->saveMentor($mentor);
             $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
             $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
-            $this->handleMentorCompany($mentor, $inputFields['company_id']);
+            $this->handleMentorCompany($mentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
         });
+    }
+
+    /**
+     * Validates the company id passed and returns it or creates a new company if it doesn't exist in the DB
+     * and returns the newly created company's id.
+     *
+     * @param $companyId
+     * @return mixed Returns empty string when the id is invalid, the id (integer) otherwise
+     */
+    private function getCompanyIdAndCreateCompanyIfNeeded($companyId) {
+        $companyManager = new CompanyManager();
+        // check if $companyId is a valid DB id and return it
+        if(intval($companyId) != 0) {
+            // the id is NOT valid, return empty string
+            if ($companyManager->getCompany($companyId) == null) {
+                return "";
+            }
+            return $companyId;
+        }
+        // if the company doesn't exist, create a new one
+        else {
+            $newCompanyName = str_replace('new-company-', '', $companyId);
+            $newCompany = $companyManager->createCompany(['name' => $newCompanyName]);
+            return ($newCompany == null) ? "" : $newCompany->id;
+        }
     }
 
     /**
@@ -117,7 +142,6 @@ class MentorManager {
         $mentorProfile->address = $inputFields['address'];
         $mentorProfile->email = $inputFields['email'];
         $mentorProfile->skills = $inputFields['skills'];
-        $mentorProfile->company_name = $inputFields['company_name'];
         $mentorProfile->company_sector = $inputFields['company_sector'];
         $mentorProfile->job_position = $inputFields['job_position'];
         $mentorProfile->job_experience_years = $inputFields['job_experience_years'];
