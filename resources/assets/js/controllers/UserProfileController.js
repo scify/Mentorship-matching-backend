@@ -2,16 +2,7 @@ window.UserProfileController = function () {
 };
 
 window.UserProfileController.prototype = function () {
-    var initTabs = function() {
-            $('a[data-toggle="tab"]').click(function (e) {
-                e.preventDefault();
-                var profilePageClassElement = $(".profilePage");
-                profilePageClassElement.find('.tab-pane.active').removeClass('active');
-                profilePageClassElement.find('.tab-content.active').removeClass('active');
-                profilePageClassElement.find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
-            });
-        },
-        capacityEditBtnHandler = function() {
+    var capacityEditBtnHandler = function() {
             $("#capacityEditBtn").click(function(){
                 $("#editCapacityContainer").css("display", "block");
                 $("#capacityUpdateDiv").slideDown("slow");

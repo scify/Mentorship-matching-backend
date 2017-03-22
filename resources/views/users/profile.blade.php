@@ -171,8 +171,10 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var controller = new window.UserProfileController();
+            var controller = new window.ProfileController();
             controller.init();
+            var userProfileController = new window.UserProfileController();
+            userProfileController.init();
         });
     </script>
 @endsection

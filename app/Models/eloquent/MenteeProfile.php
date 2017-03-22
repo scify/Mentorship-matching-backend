@@ -51,6 +51,14 @@ class MenteeProfile extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function university()
+    {
+        return $this->hasOne(University::class, 'id', 'university_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function sessions() {

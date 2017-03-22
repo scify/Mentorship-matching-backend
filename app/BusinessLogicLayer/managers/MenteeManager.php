@@ -88,8 +88,8 @@ class MenteeManager {
 
         if(isset($inputFields['job_description']))
             $menteeProfile->job_description = $inputFields['job_description'];
-        if(isset($inputFields['university_name']))
-            $menteeProfile->university_name = $inputFields['university_name'];
+        if(isset($inputFields['university_id']))
+            $menteeProfile->university_id = $inputFields['university_id'];
         if(isset($inputFields['university_graduation_year']))
             $menteeProfile->university_graduation_year = $inputFields['university_graduation_year'];
         if(isset($inputFields['university_department_name']))

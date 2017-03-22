@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
+use App\BusinessLogicLayer\managers\UniversityManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
 use Illuminate\Http\Request;
@@ -16,11 +17,13 @@ class MenteeController extends Controller
     private $menteeManager;
     private $specialtyManager;
     private $residenceManager;
+    private $universityManager;
 
     public function __construct() {
         $this->specialtyManager = new SpecialtyManager();
         $this->menteeManager = new MenteeManager();
         $this->residenceManager = new ResidenceManager();
+        $this->universityManager = new UniversityManager();
     }
 
     /**
@@ -56,12 +59,14 @@ class MenteeController extends Controller
         $formTitle = trans('messages.mentee_registration');
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
+        $universities = $this->universityManager->getAllUniversities();
 
         return view('mentees.forms.create_edit', [
             'pageTitle' => 'Create new Mentee',
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
-            'specialties' => $specialties, 'loggedInUser' => Auth::user()
+            'specialties' => $specialties, 'universities' => $universities,
+            'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -77,13 +82,15 @@ class MenteeController extends Controller
 
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
+        $universities = $this->universityManager->getAllUniversities();
 
         $formTitle = 'Edit mentee';
         return view('mentees.forms.create_edit', [
             'pageTitle' => 'Edit mentee',
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
-            'specialties' => $specialties, 'loggedInUser' => Auth::user()
+            'specialties' => $specialties, 'universities' => $universities,
+            'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -102,7 +109,7 @@ class MenteeController extends Controller
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
             'address'        => 'required',
-            'university_name' => 'required',
+            'university_id' => 'required',
             'university_department_name' => 'required',
             'university_graduation_year' => 'required',
             'specialty_experience' => 'required',
@@ -153,7 +160,7 @@ class MenteeController extends Controller
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
             'address'        => 'required',
-            'university_name' => 'required',
+            'university_id' => 'required',
             'university_department_name' => 'required',
             'university_graduation_year' => 'required',
             'specialty_experience' => 'required',

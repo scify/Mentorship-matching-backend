@@ -132,17 +132,13 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <!-- University -->
-                                        <div class="{{ $errors->first('university_name')?'has-error has-feedback':'' }}">
-                                            <div class="inputer floating-label">
-                                                <div class="input-wrapper">
-                                                    <input type="text" class="form-control" name="university_name"
-                                                           value="{{ old('university_name') != '' ? old('university_name') : $mentee['university_name']}}">
-                                                    <label for="email">{{trans('messages.university')}}</label>
-                                                </div>
-                                            </div>
-                                            <span class="help-block">{{ $errors->first('university_name') }}</span>
-
-                                        </div>
+                                        <div class="margin-bottom-5 selecterTitle">{{trans('messages.university')}}</div>
+                                        <select data-placeholder="select" name="university_id" class="chosen-select">
+                                            <option><!-- Empty option allows the placeholder to take effect. --><option>
+                                            @foreach($universities as $university)
+                                                <option value="{{$university->id}}" {{$mentee['university_id'] == $university->id ? 'selected' : ''}}>{{$university->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-6">
                                         <!-- University Department -->
