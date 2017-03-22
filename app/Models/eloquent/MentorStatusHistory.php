@@ -17,7 +17,7 @@ class MentorStatusHistory extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'mentor_profile_id', 'comment', 'follow_up_date'];
+    protected $fillable = ['user_id', 'mentor_profile_id', 'mentor_status_id', 'comment', 'follow_up_date'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -33,5 +33,13 @@ class MentorStatusHistory extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function status()
+    {
+        return $this->hasOne(MentorStatus::class, 'id', 'mentor_status_id');
     }
 }
