@@ -30,6 +30,7 @@ return [
     'company_sector' => 'Company Sector',
     'job_position' => 'Job Position',
     'job_experience_years' => 'Job Experience years',
+    'education_level' => 'Education Level',
     'university' => 'University',
     'university_department' => 'University department',
     'specialty_form_description' => 'In which specialty would you like to do Job Pairing?',

@@ -86,6 +86,8 @@ class MenteeManager {
             $menteeProfile->is_employed = false;
 
 
+        if(isset($inputFields['education_level_id']))
+            $menteeProfile->education_level_id = $inputFields['education_level_id'];
         if(isset($inputFields['job_description']))
             $menteeProfile->job_description = $inputFields['job_description'];
         if(isset($inputFields['university_id']))
@@ -114,6 +116,7 @@ class MenteeManager {
 
     public function editMentee(array $inputFields, $id) {
         $mentee = $this->getMentee($id);
+        unset($mentee->age);
         $mentee = $this->assignInputFieldsToMenteeProfile($mentee, $inputFields);
 
         DB::transaction(function() use($mentee, $inputFields) {

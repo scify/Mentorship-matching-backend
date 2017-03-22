@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MentorStatusLookupSeeder::class);
         $this->call(MentorshipSessionStatusTableSeeder::class);
         $this->call(UniversityTableSeeder::class);
+        $this->call(EducationLevelTableSeeder::class);
     }
 }

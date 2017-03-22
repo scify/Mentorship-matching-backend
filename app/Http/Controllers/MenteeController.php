@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLogicLayer\managers\EducationLevelManager;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
@@ -18,12 +19,14 @@ class MenteeController extends Controller
     private $specialtyManager;
     private $residenceManager;
     private $universityManager;
+    private $educationLevelManager;
 
     public function __construct() {
         $this->specialtyManager = new SpecialtyManager();
         $this->menteeManager = new MenteeManager();
         $this->residenceManager = new ResidenceManager();
         $this->universityManager = new UniversityManager();
+        $this->educationLevelManager = new EducationLevelManager();
     }
 
     /**
@@ -60,13 +63,14 @@ class MenteeController extends Controller
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
         $universities = $this->universityManager->getAllUniversities();
+        $educationLevels = $this->educationLevelManager->getAllEducationLevels();
 
         return view('mentees.forms.create_edit', [
             'pageTitle' => 'Create new Mentee',
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
-            'loggedInUser' => Auth::user()
+            'educationLevels' => $educationLevels, 'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -83,6 +87,7 @@ class MenteeController extends Controller
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
         $universities = $this->universityManager->getAllUniversities();
+        $educationLevels = $this->educationLevelManager->getAllEducationLevels();
 
         $formTitle = 'Edit mentee';
         return view('mentees.forms.create_edit', [
@@ -90,7 +95,7 @@ class MenteeController extends Controller
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
-            'loggedInUser' => Auth::user()
+            'educationLevels' => $educationLevels, 'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -109,6 +114,7 @@ class MenteeController extends Controller
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
             'address'        => 'required',
+            'education_level_id' => 'required',
             'university_id' => 'required',
             'university_department_name' => 'required',
             'university_graduation_year' => 'required',
@@ -160,6 +166,7 @@ class MenteeController extends Controller
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
             'address'        => 'required',
+            'education_level_id' => 'required',
             'university_id' => 'required',
             'university_department_name' => 'required',
             'university_graduation_year' => 'required',

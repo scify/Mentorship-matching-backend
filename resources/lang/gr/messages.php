@@ -30,6 +30,7 @@ return [
     'company_sector' => 'Τομέας δραστηριοποίησης της επιχείρησης',
     'job_position' => 'Θέση εργασίας',
     'job_experience_years' => 'Συνολικός χρόνος επαγγελματικής εμπειρίας',
+    'education_level' => 'Επίπεδο Εκπαίδευσης',
     'university' => 'Πανεπιστήμιο ΑΕΙ/ΤΕΙ',
     'university_department' => 'Τμήμα και Κατεύθυνση',
     'specialty_form_description' => 'Σε ποια ειδικότητα θα θέλατε να κάνετε Job Pairing;',
