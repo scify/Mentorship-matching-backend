@@ -1,8 +1,13 @@
 <div class="layer-container">
     <div class="menu-layer">
         <ul>
+            <li data-open-after="{{Route::current()->getName() == 'dashboard' ? 'true' : ''}}">
+                <a href="{{ route('dashboard') }}">Dashboard</a>
+            </li>
             @if($user->isAdmin())
-                @include('common.admin_menu_items')
+                @include('common.menu_items.admin_menu_items')
+            @elseif($user->isMatcher())
+                @include('common.menu_items.matcher_menu_items')
             @endif
             <li>
                 <a class="" href="{{ url('/logout') }}"
