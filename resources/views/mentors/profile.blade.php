@@ -131,10 +131,10 @@
                                                 <div class="col-md-9">{{$mentorViewModel->mentor->job_experience_years}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentorViewModel->mentor->university_name != null)
+                                        @if($mentorViewModel->mentor->university_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.university')}}</div>
-                                                <div class="col-md-9">{{$mentorViewModel->mentor->university_name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->university->name}}</div>
                                             </div><!--.row-->
                                         @endif
                                         @if($mentorViewModel->mentor->university_department_name != null)
