@@ -34,13 +34,14 @@
                                             <div class="col-md-6">
                                                 <!-- Mentor status -->
                                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.mentor_status')}}</div>
-                                                <select data-placeholder="select" name="status_id" class="chosen-select">
+                                                <select data-placeholder="select" name="status_id" class="chosen-select"
+                                                        data-original-value="{{ $mentor['status_id'] }}">
                                                     @foreach($mentorStatuses as $mentorStatus)
                                                         <option value="{{$mentorStatus->id}}" {{$mentor['status_id'] == $mentorStatus->id ? 'selected' : ''}}>{{$mentorStatus->description}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" id="status-change-comment" style="display: none;">
                                                 <!-- Status change comment -->
                                                 <div class="{{ $errors->first('status_history_comment')?'has-error has-feedback':'' }}">
                                                     <div class="inputer floating-label">
@@ -54,7 +55,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" id="status-change-follow-up-date" style="display: none;">
                                             <div class="col-md-6">
                                                 <!-- Mentor follow up date -->
                                                 <div class="{{ $errors->first('follow_up_date')?'has-error has-feedback':'' }}">
@@ -371,6 +372,8 @@
         $( document ).ready(function() {
             var controller = new FormController();
             controller.init();
+            var mentorProfileController = new MentorProfileController();
+            mentorProfileController.init();
         });
     </script>
 @endsection
