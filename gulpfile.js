@@ -74,7 +74,8 @@ elixir(function(mix) {
             'resources/assets/pleasure-admin-panel/js/pleasure.js',
             'node_modules/bootstrap-daterangepicker/daterangepicker.js',
             'resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js',
-            'resources/assets/js/FormController.js'
+            'resources/assets/js/FormController.js',
+            'resources/assets/js/AvailabilityStatusChangeViewHandler.js'
         ],
         'public/js/app.js' , './')
         .scripts([

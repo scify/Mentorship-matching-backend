@@ -35,7 +35,8 @@
                                                 <!-- Mentor status -->
                                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.mentor_status')}}</div>
                                                 <select data-placeholder="select" name="status_id" class="chosen-select"
-                                                        data-original-value="{{ $mentor['status_id'] }}">
+                                                        data-original-value="{{ $mentor['status_id'] }}"
+                                                        data-enable-follow-up-date="2,4">
                                                     @foreach($mentorStatuses as $mentorStatus)
                                                         <option value="{{$mentorStatus->id}}" {{$mentor['status_id'] == $mentorStatus->id ? 'selected' : ''}}>{{$mentorStatus->description}}</option>
                                                     @endforeach
@@ -372,8 +373,8 @@
         $( document ).ready(function() {
             var controller = new FormController();
             controller.init();
-            var mentorProfileController = new MentorProfileController();
-            mentorProfileController.init();
+            var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
+            availabilityStatusChangeHandler.init();
         });
     </script>
 @endsection

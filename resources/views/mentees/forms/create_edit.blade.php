@@ -15,6 +15,51 @@
                           action="{{($mentee->id == null ? route('createMentee') : route('editMentee', $mentee->id))}}"
                           enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        @if($loggedInUser != null)
+                            @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- Mentee status -->
+                                        <div class="margin-bottom-5 selecterTitle">{{trans('messages.mentee_status')}}</div>
+                                        <select data-placeholder="select" name="status_id" class="chosen-select"
+                                                data-original-value="{{ $mentee['status_id'] }}"
+                                                data-enable-follow-up-date="4,5">
+                                            @foreach($menteeStatuses as $menteeStatus)
+                                                <option value="{{$menteeStatus->id}}" {{$mentee['status_id'] == $menteeStatus->id ? 'selected' : ''}}>{{$menteeStatus->description}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6" id="status-change-comment" style="display: none;">
+                                        <!-- Status change comment -->
+                                        <div class="{{ $errors->first('status_history_comment')?'has-error has-feedback':'' }}">
+                                            <div class="inputer floating-label">
+                                                <div class="input-wrapper">
+                                                    <input type="text" class="form-control" name="status_history_comment"
+                                                           value="{{ old('status_history_comment')}}">
+                                                    <label for="status_history_comment">{{trans('messages.status_history_comment')}}</label>
+                                                </div>
+                                            </div>
+                                            <span class="help-block">{{ $errors->first('status_history_comment') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="status-change-follow-up-date" style="display: none;">
+                                    <div class="col-md-6">
+                                        <!-- Mentor follow up date -->
+                                        <div class="{{ $errors->first('follow_up_date')?'has-error has-feedback':'' }}">
+                                            <div class="inputer floating-label">
+                                                <div class="input-wrapper">
+                                                    <input type="text" class="form-control bootstrap-daterangepicker-basic"
+                                                           name="follow_up_date" value="{{ old('follow_up_date')}}">
+                                                    <label for="follow_up_date">{{trans('messages.follow_up_date')}}</label>
+                                                </div>
+                                            </div>
+                                            <span class="help-block">{{ $errors->first('follow_up_date') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
                         <div class="row">
                             <div class="col-md-6">
                                 <!-- First name-->
@@ -323,6 +368,8 @@
         $( document ).ready(function() {
             var controller = new FormController();
             controller.init();
+            var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
+            availabilityStatusChangeHandler.init();
         });
     </script>
 @endsection

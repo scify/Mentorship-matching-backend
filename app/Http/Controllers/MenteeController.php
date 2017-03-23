@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\EducationLevelManager;
 use App\BusinessLogicLayer\managers\MenteeManager;
+use App\BusinessLogicLayer\managers\MenteeStatusManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\BusinessLogicLayer\managers\UniversityManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,7 @@ class MenteeController extends Controller
     private $residenceManager;
     private $universityManager;
     private $educationLevelManager;
+    private $menteeStatusManager;
 
     public function __construct() {
         $this->specialtyManager = new SpecialtyManager();
@@ -27,6 +30,7 @@ class MenteeController extends Controller
         $this->residenceManager = new ResidenceManager();
         $this->universityManager = new UniversityManager();
         $this->educationLevelManager = new EducationLevelManager();
+        $this->menteeStatusManager = new MenteeStatusManager();
     }
 
     /**
@@ -74,6 +78,7 @@ class MenteeController extends Controller
         $residences = $this->residenceManager->getAllResidences();
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
+        $menteeStatuses = $this->menteeStatusManager->getAllMenteeStatuses();
 
         return view('mentees.forms.create_edit', [
             'pageTitle' => $pageTitle,
@@ -81,7 +86,8 @@ class MenteeController extends Controller
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
-            'educationLevels' => $educationLevels, 'loggedInUser' => Auth::user()
+            'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
+            'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -99,6 +105,7 @@ class MenteeController extends Controller
         $residences = $this->residenceManager->getAllResidences();
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
+        $menteeStatuses = $this->menteeStatusManager->getAllMenteeStatuses();
 
         $formTitle = 'Edit mentee';
         return view('mentees.forms.create_edit', [
@@ -106,7 +113,8 @@ class MenteeController extends Controller
             'mentee' => $mentee,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
-            'educationLevels' => $educationLevels, 'loggedInUser' => Auth::user()
+            'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
+            'loggedInUser' => Auth::user()
         ]);
     }
 
@@ -174,6 +182,7 @@ class MenteeController extends Controller
     public function edit(Request $request, $id)
     {
         $this->validate($request, [
+            'follow_up_date' => 'max:10|min:8',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email',
@@ -191,6 +200,10 @@ class MenteeController extends Controller
         ]);
 
         $input = $request->all();
+        if($input['follow_up_date'] != "") {
+            $dateArray = explode("/", $input['follow_up_date']);
+            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+        }
         try {
             $this->menteeManager->editMentee($input, $id);
         }  catch (\Exception $e) {

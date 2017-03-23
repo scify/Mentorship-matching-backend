@@ -19,6 +19,7 @@ return [
     'email' => 'Email',
     'address' => 'Address',
     'residence' => 'Residence',
+    'mentee_status' => 'Mentee status',
     'mentor_status' => 'Mentor status',
     'status_history_comment' => 'Mentor Status Change Reason',
     'follow_up_date' => 'Follow Up Date (dd/mm/yyyy)',

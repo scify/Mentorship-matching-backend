@@ -14,7 +14,6 @@ class MenteeManager {
 
     private $menteeStorage;
     private $specialtyManager;
-    private $industryManager;
 
     public function __construct() {
         $this->menteeStorage = new MenteeStorage();
@@ -75,6 +74,7 @@ class MenteeManager {
         $menteeProfile->expectations = $inputFields['expectations'];
         $menteeProfile->career_goals = $inputFields['career_goals'];
         $menteeProfile->residence_id = $inputFields['residence_id'];
+        $menteeProfile->status_id = $inputFields['status_id'];
 
         $loggedInUser = Auth::user();
         if($loggedInUser != null)
@@ -116,11 +116,18 @@ class MenteeManager {
 
     public function editMentee(array $inputFields, $id) {
         $mentee = $this->getMentee($id);
+        $oldStatusId = $mentee->status_id;
         unset($mentee->age);
         $mentee = $this->assignInputFieldsToMenteeProfile($mentee, $inputFields);
+        $menteeStatusHistoryManager = new MenteeStatusHistoryManager();
 
-        DB::transaction(function() use($mentee, $inputFields) {
+        DB::transaction(function() use($mentee, $oldStatusId, $inputFields, $menteeStatusHistoryManager) {
             $this->menteeStorage->saveMentee($mentee);
+            if($oldStatusId != $inputFields['status_id']) {
+                $menteeStatusHistoryManager->createMenteeStatusHistory($mentee, $inputFields['status_id'],
+                    $inputFields['status_history_comment'], ($inputFields['follow_up_date'] != "") ?
+                        $inputFields['follow_up_date'] : null);
+            }
         });
     }
 
