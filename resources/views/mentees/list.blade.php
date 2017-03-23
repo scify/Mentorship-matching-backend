@@ -1,10 +1,6 @@
-<div class="row">
-    <h4 class="resultsTitle margin-bottom-20">{{$menteeViewModels->count()}} mentee(s) found</h4>
-    <div class="col-md-12 padding-0">
-        @foreach($menteeViewModels as $menteeViewModel)
-            <div class="col-md-3">
-                @include('mentees.single', ['menteeViewModel' => $menteeViewModel])
-            </div>
-        @endforeach
-    </div>
-</div>
+<h4 class="resultsTitle margin-bottom-20">{{$menteeViewModels->count()}} mentee(s) found. Click on a mentee to see their profile.</h4>
+<ul class="list-material has-hidden background-transparent">
+    @foreach($menteeViewModels as $menteeViewModel)
+        @include('mentees.single', ['menteeViewModel' => $menteeViewModel])
+    @endforeach
+</ul>
