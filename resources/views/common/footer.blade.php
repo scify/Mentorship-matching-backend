@@ -11,6 +11,18 @@
             radioClass: 'iradio_flat-orange'
         });
 
+        // initialize pickers
+        CustomFormsPickers.init();
+
+        // display properly the pickers and their labels
+        $("input.bootstrap-daterangepicker-basic").change(function() {
+            if($(this).val() !== "") {
+                $(this).addClass("valid");
+            } else {
+                $(this).removeClass("valid");
+            }
+        });
+
         setTimeout(function(){
             /*Close any flash message after some time*/
             $(".alert-dismissable").fadeTo(4000, 500).slideUp(500, function(){

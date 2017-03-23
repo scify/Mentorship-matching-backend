@@ -11,7 +11,7 @@ var gulp = require('gulp');
 
 elixir(function(mix) {
 
-    mix.sass(['app.scss', 'profile_page.scss', 'mentor_mentee_item.scss'],  'public/css/app.css');
+    mix.sass(['app.scss', 'profile_page.scss', 'mentor_mentee_item.scss', 'plugins_custom.scss'],  'public/css/app.css');
     mix.sass(['auth.scss'],  'public/css/auth.css');
 
     mix.styles([
@@ -22,6 +22,7 @@ elixir(function(mix) {
         'node_modules/datatables/media/css/jquery.dataTables.min.css',
         'node_modules/chosen-js/chosen.css',
         'node_modules/icheck/skins/flat/_all.css',
+        'resources/assets/pleasure-admin-panel/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
         'resources/assets/pleasure-admin-panel/css/admin1.css',
         'resources/assets/pleasure-admin-panel/css/elements.css',
         'resources/assets/pleasure-admin-panel/css/plugins.css'
@@ -71,6 +72,8 @@ elixir(function(mix) {
             'resources/assets/pleasure-admin-panel/js/sliders.js',
             'resources/assets/pleasure-admin-panel/js/layout.js',
             'resources/assets/pleasure-admin-panel/js/pleasure.js',
+            'resources/assets/pleasure-admin-panel/plugins/bootstrap-daterangepicker/daterangepicker.js',
+            'resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js',
             'resources/assets/js/FormController.js'
         ],
         'public/js/app.js' , './')

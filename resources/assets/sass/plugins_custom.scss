@@ -1,0 +1,13 @@
+// date range picker css
+.daterangepicker {
+    .available {
+        color: #2a2a2a !important;
+    }
+    .disabled:hover {
+        cursor: not-allowed;
+    }
+    td.active, td.active:hover {
+        background-color: #fbae25;
+        border-color: #2a2a2a;
+    }
+}

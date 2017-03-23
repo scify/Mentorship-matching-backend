@@ -61,8 +61,8 @@
                                                 <div class="{{ $errors->first('follow_up_date')?'has-error has-feedback':'' }}">
                                                     <div class="inputer floating-label">
                                                         <div class="input-wrapper">
-                                                            <input type="text" class="form-control" name="follow_up_date"
-                                                                   value="{{ old('follow_up_date')}}">
+                                                            <input type="text" class="form-control bootstrap-daterangepicker-basic"
+                                                                   name="follow_up_date" value="{{ old('follow_up_date')}}">
                                                             <label for="follow_up_date">{{trans('messages.follow_up_date')}}</label>
                                                         </div>
                                                     </div>
