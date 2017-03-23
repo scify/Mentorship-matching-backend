@@ -12,11 +12,12 @@
         <div class="list-content">
             <span class="title">
                 {{$mentorViewModel->mentor->first_name}} {{$mentorViewModel->mentor->last_name}},
+                <small>
                 {{$mentorViewModel->mentor->job_position}}
                 @if($mentorViewModel->mentor->company != null)
                     {{ "@ " . $mentorViewModel->mentor->company->name}}
                 @endif
-                <small>, {{$mentorViewModel->mentor->age}} years old</small>
+                , {{$mentorViewModel->mentor->age}} years old</small>
                 <span class="caption">
                     @foreach($mentorViewModel->mentor->specialties as $specialty)
                         {{$specialty->name}}

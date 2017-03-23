@@ -11,22 +11,24 @@
         </div>
         <div class="list-content">
             <span class="title">
-                {{$menteeViewModel->mentee->first_name}} {{$menteeViewModel->mentee->last_name}},
-                {{$menteeViewModel->mentee->university_name}}
-                @if($menteeViewModel->mentee->company != null)
-                    {{ "@ " . $menteeViewModel->mentee->company->name}}
+                {{$menteeViewModel->mentee->first_name}} {{$menteeViewModel->mentee->last_name}}
+                <small>
+                @if($menteeViewModel->mentee->educationLevel != null)
+                        , {{ $menteeViewModel->mentee->educationLevel->name}}
                 @endif
-                <small>, {{$menteeViewModel->mentee->age}} years old</small>
+                @if($menteeViewModel->mentee->university != null)
+                    , {{ $menteeViewModel->mentee->university->name}}
+                @endif
+                , {{$menteeViewModel->mentee->age}} years old</small>
                 <span class="caption">
+                    {{$menteeViewModel->mentee->email}}
                     @if($menteeViewModel->mentee->specialty != null)
                             {{$menteeViewModel->mentee->specialty->name}}
                     @endif
                     | Experience: {{$menteeViewModel->mentee->specialty_experience}}
                 </span>
                 <span class="caption margin-top-5">
-                    @if($menteeViewModel->mentee->status != null)
-                        <span class="{{$menteeViewModel->mentee->status->status}}"> {{$menteeViewModel->mentee->status->description}}</span>
-                    @endif
+                    <span class="{{$menteeViewModel->mentee->is_employed ? 'green' : 'red'}}"> {{$menteeViewModel->mentee->is_employed ? 'Employed' : 'Unemployed'}}</span>
                     | 3 mentee sessions
                     @if($menteeViewModel->mentee->created_at!= null)
                         | joined: {{$menteeViewModel->mentee->created_at->diffForHumans()}}

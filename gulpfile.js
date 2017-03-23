@@ -25,7 +25,8 @@ elixir(function(mix) {
         'resources/assets/pleasure-admin-panel/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
         'resources/assets/pleasure-admin-panel/css/admin1.css',
         'resources/assets/pleasure-admin-panel/css/elements.css',
-        'resources/assets/pleasure-admin-panel/css/plugins.css'
+        'resources/assets/pleasure-admin-panel/css/plugins.css',
+        'node_modules/switchery/switchery.css'
 
     ], 'public/css/vendors.css', './');
 
@@ -55,6 +56,7 @@ elixir(function(mix) {
             'node_modules/jquery/dist/jquery.min.js',
             'node_modules/jquery-validation/dist/jquery.validate.min.js',
             'node_modules/jquery-ui-dist/jquery-ui.min.js',
+            'node_modules/icheck/icheck.min.js',
             'node_modules/chosen-js/chosen.jquery.js',
             'node_modules/select2/dist/js/select2.min.js',
             'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -68,7 +70,6 @@ elixir(function(mix) {
             'node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js',
             'node_modules/sweetalert/dist/sweetalert.min.js',
             'node_modules/datatables/media/js/jquery.dataTables.min.js',
-            'node_modules/icheck/icheck.min.js',
             'resources/assets/pleasure-admin-panel/js/sliders.js',
             'resources/assets/pleasure-admin-panel/js/layout.js',
             'resources/assets/pleasure-admin-panel/js/pleasure.js',
