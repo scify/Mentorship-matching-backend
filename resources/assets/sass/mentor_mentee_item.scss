@@ -72,6 +72,12 @@
   transform: translate3d(-125px, 0, 0);
 }
 
+.list-material.has-hidden > li:hover a.no-slide-left {
+  -webkit-transform: none;
+  transform: none;
+}
+
+
 .list-material > li.has-action-left .list-content {
   margin-left: 65px;
 }
