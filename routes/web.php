@@ -31,10 +31,15 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
     Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
+    Route::get('mentors/all', 'MentorController@showAllMentors')->name('showAllMentors');
+    Route::get('mentees/all', 'MenteeController@showAllMentees')->name('showAllMentees');
+
     Route::get('user/{id}/profile', 'UserController@showProfile')->name('showUserProfile');
     Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showEditUserForm');
     Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
     Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity','uses' => 'UserController@editUserCapacity']);
+
+    Route::get('matcher/{matcherId}/matches', ['as' => 'showMatchesForMatcher','uses' => 'MatcherController@showMatches']);
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
@@ -48,12 +53,12 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
     Route::get('reports/all', 'ReportController@showAllReports')->name('showAllReports');
 
-    Route::get('mentors/all', 'MentorController@showAllMentors')->name('showAllMentors');
+
     Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
     Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');
     Route::post('mentor/delete', 'MentorController@delete')->name('deleteMentor');
 
-    Route::get('mentees/all', 'MenteeController@showAllMentees')->name('showAllMentees');
+
     Route::get('mentee/{id}/edit', 'MenteeController@showEditForm')->name('showEditMenteeForm');
     Route::post('mentee/{id}/edit', 'MenteeController@edit')->name('editMentee');
     Route::post('mentee/delete', 'MenteeController@delete')->name('deleteMentee');
