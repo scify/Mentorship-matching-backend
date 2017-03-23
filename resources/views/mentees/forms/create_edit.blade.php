@@ -278,12 +278,13 @@
                             </div> <!-- Specialty -->
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <!-- Specialty Experience -->
                                 <div class="{{ $errors->first('specialty_experience')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea required class="form-control js-auto-size" rows="1" name="specialty_experience" placeholder="{{trans('messages.specialty_experience_form')}}">{{ old('specialty_experience') != '' ? old('specialty_experience') : $mentee['specialty_experience']}}</textarea>
+                                            <textarea required class="form-control js-auto-size" rows="1" name="specialty_experience">{{ old('specialty_experience') != '' ? old('specialty_experience') : $mentee['specialty_experience']}}</textarea>
+                                            <label for="specialty_experience">{{trans('messages.specialty_experience_form')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('specialty_experience') }}</span>
@@ -298,7 +299,8 @@
                                 <div class="{{ $errors->first('expectations')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea required class="form-control js-auto-size" rows="2" name="expectations" placeholder="{{trans('messages.expectations_form_placeholder')}}">{{ old('expectations') != '' ? old('expectations') : $mentee['expectations']}}</textarea>
+                                            <textarea required class="form-control js-auto-size" rows="1" name="expectations">{{ old('expectations') != '' ? old('expectations') : $mentee['expectations']}}</textarea>
+                                            <label for="expectations">{{trans('messages.expectations_form_placeholder')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('expectations') }}</span>
@@ -307,12 +309,13 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <!-- Career goals -->
                                 <div class="{{ $errors->first('career_goals')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea required class="form-control js-auto-size" rows="2" name="career_goals" placeholder="{{trans('messages.career_goals_form')}}">{{ old('career_goals') != '' ? old('career_goals') : $mentee['career_goals']}}</textarea>
+                                            <textarea required class="form-control js-auto-size" rows="1" name="career_goals">{{ old('career_goals') != '' ? old('career_goals') : $mentee['career_goals']}}</textarea>
+                                            <label for="career_goals">{{trans('messages.career_goals_form')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('career_goals') }}</span>

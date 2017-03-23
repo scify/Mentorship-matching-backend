@@ -312,12 +312,12 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <!-- Skills -->
-                                        <div class="selecterTitle form-full-row">{{trans('messages.skills.capitalAll')}}</div>
-                                        <div class="inputer">
+                                        <div class="inputer floating-label">
                                             <div class="input-wrapper">
                                                 <textarea class="form-control js-auto-size" rows="1" name="skills">{{ old('skills') != '' ? old('skills') : $mentor['skills']}}</textarea>
+                                                <label for="skills">{{trans('messages.skills.capitalAll')}}</label>
                                             </div>
                                         </div>
                                         <span class="help-block">{{ $errors->first('skills') }}</span>
