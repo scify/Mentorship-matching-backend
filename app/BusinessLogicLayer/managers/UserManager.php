@@ -65,14 +65,11 @@ class UserManager {
     }
 
     private function assignInputFieldsToUser(User $user, array $inputFields) {
-        $user->first_name = $inputFields['first_name'];
-        $user->last_name = $inputFields['last_name'];
-        $user->email = $inputFields['email'];
-        $user->user_icon_id = $inputFields['user_icon_id'];
-        //store a has of the password entered
+        //store a hash of the password entered
         if($inputFields['password'] != null && $inputFields['password'] != "") {
-            $user->password = Hash::make($inputFields['password']);
+            $inputFields['password'] = Hash::make($inputFields['password']);
         }
+        $user->fill($inputFields);
         return $user;
     }
 

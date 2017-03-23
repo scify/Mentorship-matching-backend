@@ -58,6 +58,9 @@ class MentorManager {
      * @param array $inputFields the fields to assign to the mentor
      */
     public function createMentor(array $inputFields) {
+        $loggedInUser = Auth::user();
+        if($loggedInUser != null)
+            $inputFields['creator_user_id'] = $loggedInUser->id;
         $mentorProfile = new MentorProfile();
         $mentorProfile = $this->assignInputFieldsToMentorProfile($mentorProfile, $inputFields);
 
@@ -80,15 +83,16 @@ class MentorManager {
         $oldStatusId = $mentor->status_id;
         $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);
         $mentorStatusHistoryManager = new MentorStatusHistoryManager();
+        $loggedInUser = Auth::user();
 
-        DB::transaction(function() use($mentor, $oldStatusId, $inputFields, $mentorStatusHistoryManager) {
+        DB::transaction(function() use($mentor, $oldStatusId, $inputFields, $mentorStatusHistoryManager, $loggedInUser) {
             $mentor = $this->mentorStorage->saveMentor($mentor);
             $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
             $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
             if($oldStatusId != $inputFields['status_id']) {
                 $mentorStatusHistoryManager->createMentorStatusHistory($mentor, $inputFields['status_id'],
                     $inputFields['status_history_comment'], ($inputFields['follow_up_date'] != "") ?
-                        $inputFields['follow_up_date'] : null);
+                        $inputFields['follow_up_date'] : null, $loggedInUser);
             }
             $this->handleMentorCompany($mentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
         });
@@ -143,36 +147,7 @@ class MentorManager {
      * @return MentorProfile the instance with the fields assigned
      */
     private function assignInputFieldsToMentorProfile(MentorProfile $mentorProfile, array $inputFields) {
-        $mentorProfile->first_name = $inputFields['first_name'];
-        $mentorProfile->last_name = $inputFields['last_name'];
-        $mentorProfile->year_of_birth = $inputFields['year_of_birth'];
-        $mentorProfile->address = $inputFields['address'];
-        $mentorProfile->email = $inputFields['email'];
-        $mentorProfile->skills = $inputFields['skills'];
-        $mentorProfile->company_sector = $inputFields['company_sector'];
-        $mentorProfile->job_position = $inputFields['job_position'];
-        $mentorProfile->job_experience_years = $inputFields['job_experience_years'];
-        $mentorProfile->residence_id = $inputFields['residence_id'];
-
-        $mentorProfile->status_id = $inputFields['status_id'];
-
-        $loggedInUser = Auth::user();
-        if($loggedInUser != null)
-            $mentorProfile->creator_user_id = $loggedInUser->id;
-
-        if(isset($inputFields['university_name']))
-            $mentorProfile->university_name = $inputFields['university_name'];
-        if(isset($inputFields['university_department_name']))
-            $mentorProfile->university_department_name = $inputFields['university_department_name'];
-        if(isset($inputFields['linkedin_url']))
-            $mentorProfile->linkedin_url = $inputFields['linkedin_url'];
-        if(isset($inputFields['phone']))
-            $mentorProfile->phone = $inputFields['phone'];
-        if(isset($inputFields['cell_phone']))
-            $mentorProfile->cell_phone = $inputFields['cell_phone'];
-        if(isset($inputFields['reference']))
-            $mentorProfile->reference = $inputFields['reference'];
-
+        $mentorProfile->fill($inputFields);
         return $mentorProfile;
     }
 

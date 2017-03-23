@@ -50,6 +50,10 @@ class MenteeManager {
     }
 
     public function createMentee(array $inputFields) {
+        $loggedInUser = Auth::user();
+        if($loggedInUser != null) {
+            $inputFields['creator_user_id'] = $loggedInUser->id;
+        }
         $menteeProfile = new MenteeProfile();
         $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields);
 
@@ -64,47 +68,11 @@ class MenteeManager {
      * @return MenteeProfile the instance with the fields assigned
      */
     private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields) {
-        $menteeProfile->first_name = $inputFields['first_name'];
-        $menteeProfile->last_name = $inputFields['last_name'];
-        $menteeProfile->year_of_birth = $inputFields['year_of_birth'];
-        $menteeProfile->address = $inputFields['address'];
-        $menteeProfile->email = $inputFields['email'];
-        $menteeProfile->specialty_id = $inputFields['specialty_id'];
-        $menteeProfile->specialty_experience = $inputFields['specialty_experience'];
-        $menteeProfile->expectations = $inputFields['expectations'];
-        $menteeProfile->career_goals = $inputFields['career_goals'];
-        $menteeProfile->residence_id = $inputFields['residence_id'];
-        $menteeProfile->status_id = $inputFields['status_id'];
-
-        $loggedInUser = Auth::user();
-        if($loggedInUser != null)
-            $menteeProfile->creator_user_id = $loggedInUser->id;
-
         if(isset($inputFields['is_employed']))
-            $menteeProfile->is_employed = true;
+            $inputFields['is_employed'] = true;
         else
-            $menteeProfile->is_employed = false;
-
-
-        if(isset($inputFields['education_level_id']))
-            $menteeProfile->education_level_id = $inputFields['education_level_id'];
-        if(isset($inputFields['job_description']))
-            $menteeProfile->job_description = $inputFields['job_description'];
-        if(isset($inputFields['university_id']))
-            $menteeProfile->university_id = $inputFields['university_id'];
-        if(isset($inputFields['university_graduation_year']))
-            $menteeProfile->university_graduation_year = $inputFields['university_graduation_year'];
-        if(isset($inputFields['university_department_name']))
-            $menteeProfile->university_department_name = $inputFields['university_department_name'];
-        if(isset($inputFields['linkedin_url']))
-            $menteeProfile->linkedin_url = $inputFields['linkedin_url'];
-        if(isset($inputFields['phone']))
-            $menteeProfile->phone = $inputFields['phone'];
-        if(isset($inputFields['cell_phone']))
-            $menteeProfile->cell_phone = $inputFields['cell_phone'];
-        if(isset($inputFields['reference']))
-            $menteeProfile->reference = $inputFields['reference'];
-
+            $inputFields['is_employed'] = false;
+        $menteeProfile->fill($inputFields);
         return $menteeProfile;
     }
 
@@ -120,13 +88,14 @@ class MenteeManager {
         unset($mentee->age);
         $mentee = $this->assignInputFieldsToMenteeProfile($mentee, $inputFields);
         $menteeStatusHistoryManager = new MenteeStatusHistoryManager();
+        $loggedInUser = Auth::user();
 
-        DB::transaction(function() use($mentee, $oldStatusId, $inputFields, $menteeStatusHistoryManager) {
+        DB::transaction(function() use($mentee, $oldStatusId, $inputFields, $menteeStatusHistoryManager, $loggedInUser) {
             $this->menteeStorage->saveMentee($mentee);
             if($oldStatusId != $inputFields['status_id']) {
                 $menteeStatusHistoryManager->createMenteeStatusHistory($mentee, $inputFields['status_id'],
                     $inputFields['status_history_comment'], ($inputFields['follow_up_date'] != "") ?
-                        $inputFields['follow_up_date'] : null);
+                        $inputFields['follow_up_date'] : null, $loggedInUser);
             }
         });
     }

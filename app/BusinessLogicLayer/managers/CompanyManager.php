@@ -66,14 +66,8 @@ class CompanyManager {
      * @return Company the instance with the fields assigned
      */
     private function assignInputFieldsToCompany(Company $company, array $inputFields) {
-        $company->name = $inputFields['name'];
-        if(isset($inputFields['description']))
-            $company->description = $inputFields['description'];
-        if(isset($inputFields['website']))
-            $company->website = $inputFields['website'];
-        if(isset($inputFields['hr_contact_details']))
-            $company->hr_contact_details = $inputFields['hr_contact_details'];
-
+        unset($inputFields['account_manager_id']);
+        $company->fill($inputFields);
         return $company;
     }
 

@@ -2,7 +2,9 @@
 
 namespace App\BusinessLogicLayer\managers;
 
+use App\Models\eloquent\MenteeProfile;
 use App\Models\eloquent\MenteeStatusHistory;
+use App\Models\eloquent\User;
 use App\StorageLayer\MenteeStatusHistoryStorage;
 
 class MenteeStatusHistoryManager {
@@ -13,9 +15,9 @@ class MenteeStatusHistoryManager {
         $this->menteeStatusHistoryStorage = new MenteeStatusHistoryStorage();
     }
 
-    public function createMenteeStatusHistory($mentee, $statusId, $comment, $followUpDate) {
+    public function createMenteeStatusHistory(MenteeProfile $mentee, $statusId, $comment, $followUpDate, User $loggedInUser) {
         $menteeStatusHistory = new MenteeStatusHistory();
-        $menteeStatusHistory->user_id = \Auth::id();
+        $menteeStatusHistory->user_id = ($loggedInUser != null) ? $loggedInUser->id : null;
         $menteeStatusHistory->mentee_profile_id = $mentee->id;
         $menteeStatusHistory->mentee_status_id = $statusId;
         $menteeStatusHistory->comment = $comment;
