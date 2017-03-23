@@ -145,7 +145,10 @@ class MenteeController extends Controller
         }
 
         session()->flash('flash_message_success', 'Mentee created');
-        return $this->showAllMentees();
+        //if logged in user created the mentee, return to "all mentors" page
+        if(Auth::user() != null)
+            return redirect()->route('showAllMentees');
+        return back();
 
     }
 
