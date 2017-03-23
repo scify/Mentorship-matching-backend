@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-daterangepicker": "^2.1.25",
     "bootstrap-sass": "^3.3.7",
     "bootstrap-select": "^1.12.1",
     "bxslider": "^4.2.6",

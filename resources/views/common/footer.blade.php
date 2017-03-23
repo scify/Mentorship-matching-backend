@@ -15,13 +15,7 @@
         CustomFormsPickers.init();
 
         // display properly the pickers and their labels
-        $("input.bootstrap-daterangepicker-basic").change(function() {
-            if($(this).val() !== "") {
-                $(this).addClass("valid");
-            } else {
-                $(this).removeClass("valid");
-            }
-        });
+        $("input.bootstrap-daterangepicker-basic").addClass("valid");
 
         setTimeout(function(){
             /*Close any flash message after some time*/

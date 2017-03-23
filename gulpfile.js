@@ -22,11 +22,10 @@ elixir(function(mix) {
         'node_modules/datatables/media/css/jquery.dataTables.min.css',
         'node_modules/chosen-js/chosen.css',
         'node_modules/icheck/skins/flat/_all.css',
-        'resources/assets/pleasure-admin-panel/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css',
+        'node_modules/bootstrap-daterangepicker/daterangepicker.css',
         'resources/assets/pleasure-admin-panel/css/admin1.css',
         'resources/assets/pleasure-admin-panel/css/elements.css',
-        'resources/assets/pleasure-admin-panel/css/plugins.css',
-        'node_modules/switchery/switchery.css'
+        'resources/assets/pleasure-admin-panel/css/plugins.css'
 
     ], 'public/css/vendors.css', './');
 
@@ -73,7 +72,7 @@ elixir(function(mix) {
             'resources/assets/pleasure-admin-panel/js/sliders.js',
             'resources/assets/pleasure-admin-panel/js/layout.js',
             'resources/assets/pleasure-admin-panel/js/pleasure.js',
-            'resources/assets/pleasure-admin-panel/plugins/bootstrap-daterangepicker/daterangepicker.js',
+            'node_modules/bootstrap-daterangepicker/daterangepicker.js',
             'resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js',
             'resources/assets/js/FormController.js'
         ],

@@ -8,6 +8,8 @@
     }
     td.active, td.active:hover {
         background-color: #fbae25;
-        border-color: #2a2a2a;
+    }
+    td.disabled {
+        text-decoration: none;
     }
 }

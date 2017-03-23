@@ -5,13 +5,14 @@ var CustomFormsPickers = {
 		var today = (new Date()).toISOString();
 		var dateSplitted = today.split(/-|T/);
 		var todayFormatted = dateSplitted[2] + "/" + dateSplitted[1] + "/" + dateSplitted[0];
-		console.log("today: " + today + " formatted: " + todayFormatted);
 		$('.bootstrap-daterangepicker-basic').daterangepicker({
 			singleDatePicker: true,
-			format: 'DD/MM/YYYY',
+			locale: {
+				format: 'DD/MM/YYYY'
+			},
 			minDate: todayFormatted
 			}, function(start, end, label) {
-				console.log(start.toISOString(), end.toISOString(), label);
+				// console.log(start.toISOString(), end.toISOString(), label);
 			}
 		);
 	},
@@ -28,7 +29,7 @@ var CustomFormsPickers = {
 			timePickerIncrement: 30,
 			format: 'MM/DD/YYYY h:mm A'
 			}, function(start, end, label) {
-				console.log(start.toISOString(), end.toISOString(), label);
+				// console.log(start.toISOString(), end.toISOString(), label);
 		});
 	},
 
