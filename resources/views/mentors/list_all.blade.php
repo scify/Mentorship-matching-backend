@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
+
             <div class="panel">
                 <div class="panel-heading">
                     <div class="panel-title">
@@ -60,11 +59,8 @@
 
                 </div>
             </div>
-        </div><!--.row-->
-    </div>
 
-    <div class="row">
-    <div class="col-md-12">
+
         <div class="loading-bar indeterminate margin-top-10 hidden loader"></div>
 
         <div id="errorMsg" class="alert alert-danger stickyAlert margin-top-20 margin-bottom-20 margin-left-100 hidden" role="alert"></div>
@@ -72,8 +68,6 @@
         <div id="usersList">
             @include('mentors.list')
         </div>
-    </div>
-    </div>
     @include('mentors.modals')
 @endsection
 
