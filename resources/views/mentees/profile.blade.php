@@ -3,7 +3,9 @@
     <div class="profilePage">
         <div class="page-header full-content parallax" style="height: 200px; overflow: hidden">
             <div class="profile-info">
-
+                <div class="profile-photo">
+                    <img src="{{ asset("/assets/img/mentee_default.png") }}" alt="Mentee profile image">
+                </div><!--.profile-photo-->
                 <div class="profile-text light">
                     {{$mentee->first_name}}  {{$mentee->last_name}},
                     <span class="caption userRole">{{trans('messages.mentee')}}
