@@ -18,7 +18,7 @@ class MenteeStorage {
     }
 
     public function getAllMenteeProfiles() {
-        return MenteeProfile::all();
+        return MenteeProfile::orderBy('updated_at', 'desc')->get();
     }
 
     public function getMenteeProfileById($id) {

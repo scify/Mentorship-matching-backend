@@ -18,7 +18,7 @@ class MentorStorage {
     }
 
     public function getAllMentorProfiles() {
-        return MentorProfile::all();
+        return MentorProfile::orderBy('updated_at', 'desc')->get();
     }
 
     public function getMentorProfileById($id) {
