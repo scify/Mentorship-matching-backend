@@ -6,6 +6,7 @@ use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorStatusManager;
+use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\Http\OperationResponse;
@@ -22,6 +23,7 @@ class MentorController extends Controller
     private $specialtyManager;
     private $industryManager;
     private $residenceManager;
+    private $referenceManager;
     private $mentorStatusManager;
 
     public function __construct() {
@@ -29,6 +31,7 @@ class MentorController extends Controller
         $this->industryManager = new IndustryManager();
         $this->mentorManager = new MentorManager();
         $this->residenceManager = new ResidenceManager();
+        $this->referenceManager = new ReferenceManager();
         $this->mentorStatusManager = new MentorStatusManager();
     }
 
@@ -115,6 +118,7 @@ class MentorController extends Controller
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
+        $references = $this->referenceManager->getAllReferences();
         $companies = $companyManager->getAllCompanies();
         $mentorStatuses = $this->mentorStatusManager->getMentorStatusesForMentorCreation();
 
@@ -126,7 +130,7 @@ class MentorController extends Controller
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
-            'companies' => $companies,
+            'companies' => $companies, 'references' => $references,
             'mentorStatuses' => $mentorStatuses
         ]);
     }
@@ -146,6 +150,7 @@ class MentorController extends Controller
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
+        $references = $this->referenceManager->getAllReferences();
         $mentorSpecialtiesIds = $this->specialtyManager->getMentorSpecialtiesIds($mentor);
         $mentorIndustriesIds = $this->industryManager->getMentorIndustriesIds($mentor);
         $companies = $companyManager->getAllCompanies();
@@ -154,7 +159,7 @@ class MentorController extends Controller
         $formTitle = 'Edit mentor';
         return view('mentors.forms.create_edit', ['mentor' => $mentor,
             'formTitle' => $formTitle,
-            'residences' => $residences,
+            'residences' => $residences, 'references' => $references,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
@@ -177,6 +182,7 @@ class MentorController extends Controller
             'email' => 'required|max:255|email',
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
+            'reference_id' => 'required',
             'address'        => 'required',
             'company_id' => 'required',
             'company_sector' => 'required',

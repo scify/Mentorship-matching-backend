@@ -12,17 +12,17 @@ namespace App\BusinessLogicLayer\managers;
 use App\StorageLayer\ResidenceStorage;
 
 class ResidenceManager {
-    private $residencetorage;
+    private $residenceStorage;
 
     public function __construct() {
-        $this->residencetorage = new ResidenceStorage();
+        $this->residenceStorage = new ResidenceStorage();
     }
 
     public function getResidence($id) {
-        return $this->residencetorage->getResidenceById($id);
+        return $this->residenceStorage->getResidenceById($id);
     }
 
     public function getAllResidences() {
-        return $this->residencetorage->getAllResidences();
+        return $this->residenceStorage->getAllResidences();
     }
 }

@@ -325,17 +325,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <!-- Reference -->
-                                <div class="{{ $errors->first('reference')?'has-error has-feedback':'' }}">
-                                    <div class="inputer floating-label">
-                                        <div class="input-wrapper">
-                                            <input type="text" class="form-control" name="reference"
-                                                   value="{{ old('reference') != '' ? old('reference') : $mentee['reference']}}">
-                                            <label for="reference">{{trans('messages.reference_form')}}</label>
-                                        </div>
-                                    </div>
-                                    <span class="help-block">{{ $errors->first('reference') }}</span>
-                                </div>
+                                <!-- Reference (where did you hear about us) -->
+                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.reference_form')}}</div>
+                                <select data-placeholder="select" name="reference_id" class="chosen-select">
+                                    <option><!-- Empty option allows the placeholder to take effect. --><option>
+                                    @foreach($references as $reference)
+                                        <option value="{{$reference->id}}" {{$mentee['reference_id'] == $reference->id ? 'selected' : ''}}>{{$reference->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         @if($loggedInUser == null)
