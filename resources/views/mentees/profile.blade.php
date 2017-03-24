@@ -187,10 +187,10 @@
                                                 <div class="col-md-9">{{$mentee->expectations}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($loggedInUser != null)
+                                        @if($mentee->reference_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.heard_about')}}</div>
-                                                <div class="col-md-9">{{$mentee->reference}}</div>
+                                                <div class="col-md-9">{{$mentee->reference->name}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
