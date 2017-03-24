@@ -290,9 +290,6 @@
                                     <span class="help-block">{{ $errors->first('specialty_experience') }}</span>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
 
                             <div class="col-md-6">
                                 <!-- Expectations -->
