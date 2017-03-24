@@ -16,12 +16,20 @@ window.UserFormController.prototype = function () {
             }
         });
     },
+    userIconClickHandler = function() {
+        $('.userIconRadio').on('ifChanged', function(event){
+            $(".userIconLabel").addClass("greyscale");
+            $(this).parent().next().removeClass("greyscale");
+            $(this).parent().next().addClass("SDGASDFGSEGHSEHGHGSDH");
+        });
+    },
     init = function () {
         var instance = this;
         $('.chosen-select').chosen({
             width: '100%'
         });
         roleSelectorHandler(instance);
+        userIconClickHandler();
     };
     return {
         init: init
