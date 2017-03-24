@@ -170,6 +170,10 @@
                                             <div class="col-md-3 formElementName">{{trans('messages.specialty_experience')}}</div>
                                             <div class="col-md-9">{{$mentee->specialty_experience}}</div>
                                         </div><!--.row-->
+                                        <div class="formRow row">
+                                            <div class="col-md-3 formElementName">{{trans('messages.skills.capitalF')}}</div>
+                                            <div class="col-md-9">{{$mentee->skills}}</div>
+                                        </div><!--.row-->
                                     </div>
                                 </div><!--.panel-->
                             </div>

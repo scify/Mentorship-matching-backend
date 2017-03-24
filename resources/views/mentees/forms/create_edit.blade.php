@@ -325,6 +325,21 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
+                                <!-- Career goals -->
+                                <div class="{{ $errors->first('skills')?'has-error has-feedback':'' }}">
+                                    <div class="inputer floating-label">
+                                        <div class="input-wrapper">
+                                            <textarea class="form-control js-auto-size" rows="2" name="skills">{{ old('skills') != '' ? old('skills') : $mentee['skills']}}</textarea>
+                                            <label for="skills">{{trans('messages.skills.capitalAll')}}</label>
+                                        </div>
+                                    </div>
+                                    <span class="help-block">{{ $errors->first('skills') }}</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
                                 <!-- Reference (where did you hear about us) -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.reference_form')}}</div>
                                 <select data-placeholder="select" name="reference_id" class="chosen-select">
