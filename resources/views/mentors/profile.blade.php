@@ -95,6 +95,12 @@
                                                 <div class="col-md-9">Public form</div>
                                             </div><!--.row-->
                                         @endif
+                                        @if($mentorViewModel->mentor->reference_id != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.heard_about')}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->reference->name}}</div>
+                                            </div><!--.row-->
+                                        @endif
                                     </div>
 
                                 </div><!--.panel-->

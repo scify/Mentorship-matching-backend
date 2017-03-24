@@ -87,12 +87,12 @@
                                         <?php $first = true; ?>
                                         @foreach($userIcons as $userIcon)
                                             <input name="usericon" type="radio" value="{{ $userIcon->title }}"
-                                                   id="{{ $userIcon->title }}" class="form-control"
+                                                   id="{{ $userIcon->title }}" class="form-control userIconRadio"
                                                    @if($first || (isset($user) && $user->user_icon_id != null && $user->user_icon_id === $userIcon->id))
                                                         checked="checked"
                                                    @endif
                                             >
-                                            <label for="{{ $userIcon->title }}" class="control-label">
+                                            <label for="{{ $userIcon->title }}" class="control-label userIconLabel {{(isset($user) && $user->user_icon_id != null && $user->user_icon_id === $userIcon->id) ? '':'greyscale'}}">
                                                 <img class="face-radius" src="{{ asset($userIcon->path) }}"
                                                      alt="{{ $userIcon->title }}">
                                             </label>

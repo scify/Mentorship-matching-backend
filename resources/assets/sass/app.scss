@@ -715,15 +715,18 @@
   label {
     display: inline-block;
     margin: 5px;
-    filter: grayscale(100%);
     transition: filter 1s;
   }
   input {
     display: none;
   }
-  input:checked+label {
+  input:checked label {
     filter: grayscale(0%);
   }
+}
+
+.greyscale {
+  filter: grayscale(100%);
 }
 
 .card-user .card-footer .roles {
