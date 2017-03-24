@@ -170,8 +170,8 @@
                                             <div class="timeline">
                                                 @foreach($mentorViewModel->mentor->statusHistory as $historyItem)
                                                     <div class="frame">
-                                                        <div class="timeline-badge">
-                                                            <i class="fa fa-bell"></i>
+                                                        <div class="timeline-badge background-{{$historyItem->status->status}}">
+                                                            <i class="fa fa-bell "></i>
                                                         </div><!--.timeline-badge-->
                                                         <span class="timeline-date">{{$historyItem->created_at->format('d / m / Y')}}</span>
                                                         <div class="timeline-bubble">
