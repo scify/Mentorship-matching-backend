@@ -20,7 +20,6 @@ window.UserFormController.prototype = function () {
         $('.userIconRadio').on('ifChanged', function(event){
             $(".userIconLabel").addClass("greyscale");
             $(this).parent().next().removeClass("greyscale");
-            $(this).parent().next().addClass("SDGASDFGSEGHSEHGHGSDH");
         });
     },
     init = function () {
