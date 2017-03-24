@@ -141,6 +141,8 @@ class MentorController extends Controller
      */
     public function showEditForm($id)
     {
+        $pageTitle = 'Edit mentor';
+
         $companyManager = new CompanyManager();
         $mentor = $this->mentorManager->getMentor($id);
         $specialties = $this->specialtyManager->getAllSpecialties();
@@ -159,7 +161,7 @@ class MentorController extends Controller
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
             'companies' => $companies,
-            'mentorStatuses' => $mentorStatuses
+            'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle
         ]);
     }
 
