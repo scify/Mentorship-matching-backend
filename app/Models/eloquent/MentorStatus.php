@@ -13,6 +13,8 @@ class MentorStatus extends Model
      */
     protected $table = 'mentor_status_lookup';
 
+    protected $fillable = ['status', 'description'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
