@@ -3,6 +3,7 @@
 namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MenteeProfile;
+use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\MentorStatusHistory;
 use App\Models\eloquent\User;
 use App\StorageLayer\MentorStatusHistoryStorage;
@@ -15,7 +16,7 @@ class MentorStatusHistoryManager {
         $this->mentorStatusHistoryStorage = new MentorStatusHistoryStorage();
     }
 
-    public function createMentorStatusHistory(MenteeProfile $mentor, $statusId, $comment, $followUpDate, User $loggedInUser) {
+    public function createMentorStatusHistory(MentorProfile $mentor, $statusId, $comment, $followUpDate, User $loggedInUser) {
         $mentorStatusHistory = new MentorStatusHistory();
         $mentorStatusHistory->user_id = ($loggedInUser != null) ? $loggedInUser->id : null;
         $mentorStatusHistory->mentor_profile_id = $mentor->id;
