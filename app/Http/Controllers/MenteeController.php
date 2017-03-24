@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\EducationLevelManager;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MenteeStatusManager;
+use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\BusinessLogicLayer\managers\UniversityManager;
@@ -20,6 +21,7 @@ class MenteeController extends Controller
     private $menteeManager;
     private $specialtyManager;
     private $residenceManager;
+    private $referenceManager;
     private $universityManager;
     private $educationLevelManager;
     private $menteeStatusManager;
@@ -28,6 +30,7 @@ class MenteeController extends Controller
         $this->specialtyManager = new SpecialtyManager();
         $this->menteeManager = new MenteeManager();
         $this->residenceManager = new ResidenceManager();
+        $this->referenceManager = new ReferenceManager();
         $this->universityManager = new UniversityManager();
         $this->educationLevelManager = new EducationLevelManager();
         $this->menteeStatusManager = new MenteeStatusManager();
@@ -76,6 +79,7 @@ class MenteeController extends Controller
         $formTitle = trans('messages.mentee_registration');
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
+        $references = $this->referenceManager->getAllReferences();
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $menteeStatuses = $this->menteeStatusManager->getAllMenteeStatuses();
@@ -83,7 +87,7 @@ class MenteeController extends Controller
         return view('mentees.forms.create_edit', [
             'pageTitle' => $pageTitle,
             'pageSubTitle' => $pageSubTitle,
-            'mentee' => $mentee,
+            'mentee' => $mentee, 'references' => $references,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
@@ -103,6 +107,7 @@ class MenteeController extends Controller
 
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
+        $references = $this->referenceManager->getAllReferences();
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $menteeStatuses = $this->menteeStatusManager->getAllMenteeStatuses();
@@ -110,7 +115,7 @@ class MenteeController extends Controller
         $formTitle = 'Edit mentee';
         return view('mentees.forms.create_edit', [
             'pageTitle' => 'Edit mentee',
-            'mentee' => $mentee,
+            'mentee' => $mentee, 'references' => $references,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
@@ -132,6 +137,7 @@ class MenteeController extends Controller
             'email' => 'required|max:255|email',
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
+            'reference_id' => 'required',
             'address'        => 'required',
             'education_level_id' => 'required',
             'university_id' => 'required',
