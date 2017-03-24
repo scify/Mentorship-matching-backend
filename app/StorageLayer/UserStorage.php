@@ -3,6 +3,7 @@
 namespace App\StorageLayer;
 
 use App\Models\eloquent\AccountManagerCapacity;
+use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
 
 /**
@@ -20,6 +21,22 @@ class UserStorage {
 
     public function getAllUsers() {
         return User::all();
+    }
+
+    public function getCountOfActiveSessionsForAllAccountManagers() {
+        $rawQueryStorage = new RawQueryStorage();
+        return $rawQueryStorage->performRawQuery("           
+            select ms.account_manager_id, count(*) as total_active_sessions  -- count how many active sessions exist per account manager
+                from  mentorship_session ms 
+                inner join   -- find sessions that have not yet completed
+                    (select mentorship_session_id
+                     from mentorship_session_history as msh
+                        group by mentorship_session_id
+                     having
+                        max(status_id) <8
+                    ) as NonCompletedSessions on ms.id = NonCompletedSessions.mentorship_session_id
+                group by ms.account_manager_id
+        ");
     }
 
     public function getUserById($id) {

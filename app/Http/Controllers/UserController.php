@@ -32,11 +32,13 @@ class UserController extends Controller
     {
         $users = $this->userManager->getAllUsers();
         $userRoles = $this->userRoleManager->getAllUserRoles();
+        $accountManagersActiveSessions = $this->userManager->getCountOfActiveSessionsForAllAccountManagers();
         $loggedInUser = Auth::user();
         return view('users.list_all', [
             'pageTitle' => 'System Users',
             'pageSubTitle' => 'view all',
-            'users' => $users, 'userRoles' => $userRoles, 'loggedInUser' => $loggedInUser]);
+            'users' => $users, 'userRoles' => $userRoles, 'accountManagersActiveSessions' => $accountManagersActiveSessions,
+            'loggedInUser' => $loggedInUser]);
     }
 
     /**
@@ -275,7 +277,8 @@ class UserController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('users.list', compact('users', 'loggedInUser'))));
+            $accountManagersActiveSessions = $this->userManager->getCountOfActiveSessionsForAllAccountManagers();
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('users.list', compact('users', 'accountManagersActiveSessions', 'loggedInUser'))));
         }
     }
 

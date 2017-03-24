@@ -20,6 +20,7 @@ class MentorshipSessionHistory extends Model
      * @var string
      */
     protected $table = 'mentorship_session_history';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +43,11 @@ class MentorshipSessionHistory extends Model
 //    public function matcher() {
 //        return $this->hasOne(User::class, 'id', 'matcher_id');
 //    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function status() {
+        return $this->hasOne(MentorshipSessionStatus::class, 'id', 'status_id');
+    }
 }

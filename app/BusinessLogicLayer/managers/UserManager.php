@@ -5,6 +5,7 @@ namespace App\BusinessLogicLayer\managers;
 use App\Models\eloquent\AccountManagerCapacity;
 use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
+use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
 use App\StorageLayer\RoleStorage;
 use App\StorageLayer\UserIconStorage;
@@ -62,6 +63,31 @@ class UserManager {
     public function getAllUsers() {
         $users = $this->userStorage->getAllUsers();
         return $users;
+    }
+
+    /**
+     * Transforms an objects' array to an associative array.
+     *
+     * @param array $originalArray The array passed here should contain objects
+     * @param string $newArrayKey The objects' field that will be used as the key of
+     *                              the newly created associative array
+     * @return array Returns an associative array
+     */
+    private function getAssociativeArrayFromObjectsArray(array $originalArray, $newArrayKey) {
+        $newArray = array();
+        foreach ($originalArray as $arrayElement) {
+            // gets the value of the field and then removes the field from the object
+            $newArrayKeyValue = $arrayElement->$newArrayKey;
+            unset($arrayElement->$newArrayKey);
+            // puts the rest of the object to the associative array
+            $newArray[$newArrayKeyValue] = $arrayElement;
+        }
+        return $newArray;
+    }
+
+    public function getCountOfActiveSessionsForAllAccountManagers() {
+        $activeSessionsPerAccountManager = $this->userStorage->getCountOfActiveSessionsForAllAccountManagers();
+        return $this->getAssociativeArrayFromObjectsArray($activeSessionsPerAccountManager, "account_manager_id");
     }
 
     private function assignInputFieldsToUser(User $user, array $inputFields) {

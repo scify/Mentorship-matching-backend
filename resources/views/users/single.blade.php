@@ -13,6 +13,9 @@
         <p class="userDetail">{{$user->email}}</p>
         @if($loggedInUser != null)
             @if($loggedInUser->userHasAccessToCRUDSystemUsers())
+                @if(isset($accountManagersActiveSessions[$user->id]))
+                    <p>Remaining Sessions Capacity: {{ $user->capacity->capacity - $accountManagersActiveSessions[$user->id]->total_active_sessions }}</p>
+                @endif
                 <div class="clickable-button">
                     <div class="layer bg-orange"></div>
                     <a class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog" aria-hidden="true"></i></a>
