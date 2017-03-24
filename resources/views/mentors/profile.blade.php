@@ -171,7 +171,9 @@
                                                         <div class="timeline-bubble">
                                                             <h4>{{$historyItem->status->description}}</h4>
                                                             <p>Comment: {{$historyItem->comment}}</p>
-                                                            <p>Follow up date: {{$historyItem->follow_up_date}}</p>
+                                                            @if($historyItem->follow_up_date != null)
+                                                                <p>Follow up date: {{ \Carbon\Carbon::parse($historyItem->follow_up_date)->format('d / m / Y')}}</p>
+                                                            @endif
                                                         </div><!--.timeline-bubble-->
                                                     </div><!--.frame-->
                                                 @endforeach
