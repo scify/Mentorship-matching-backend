@@ -101,6 +101,12 @@
                                                 <div class="col-md-9">{{$mentorViewModel->mentor->reference->name}}</div>
                                             </div><!--.row-->
                                         @endif
+                                        @if($mentorViewModel->mentor->status_id != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.availability')}}</div>
+                                                <div class="col-md-9 {{$mentorViewModel->mentor->status->status}}">{{$mentorViewModel->mentor->status->description}}</div>
+                                            </div><!--.row-->
+                                        @endif
                                     </div>
 
                                 </div><!--.panel-->
@@ -169,7 +175,7 @@
                                                         </div><!--.timeline-badge-->
                                                         <span class="timeline-date">{{$historyItem->created_at->format('d / m / Y')}}</span>
                                                         <div class="timeline-bubble">
-                                                            <h4>{{$historyItem->status->description}}</h4>
+                                                            <h4 class="{{$historyItem->status->status}}">{{$historyItem->status->description}}</h4>
                                                             <p>Comment: {{$historyItem->comment}}</p>
                                                             @if($historyItem->follow_up_date != null)
                                                                 <p>Follow up date: {{ \Carbon\Carbon::parse($historyItem->follow_up_date)->format('d / m / Y')}}</p>
