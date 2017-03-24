@@ -79,5 +79,6 @@ return [
     'reference_form' => 'WHERE DID YOU HEAR ABOUT JOB-PAIRS?',
     'created_by' => 'Created by',
     'i_accept_the' => 'I accept the',
-    'terms_and_conditions' => 'terms & conditions'
+    'terms_and_conditions' => 'terms & conditions',
+    'status' => ['capitalF' => 'Status', 'lowerF' => 'status']
 ];

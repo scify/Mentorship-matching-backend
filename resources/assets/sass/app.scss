@@ -418,8 +418,25 @@
   color: $brand-danger !important;
 }
 
+.background-available {
+  background-color: $brand-success !important;
+  border-color: $brand-success !important;
+}
+.background-not_available_for_mentorship {
+  background-color: $brand-danger !important;
+  border-color: $brand-danger !important;
+}
+.background-matched {
+  background-color: $brand-warning !important;
+  border-color: $brand-warning !important;
+}
+.background-black_listed {
+  background-color: $brand-danger !important;
+  border-color: $brand-danger !important;
+}
+
 .layered-content.active .clickable-close-button {
-  background-color: $secondary-color;
+  background-color: $secondary-color !important;
 }
 
 .accordion .panel-heading.active a:after {

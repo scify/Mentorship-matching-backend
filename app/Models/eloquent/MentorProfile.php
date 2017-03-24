@@ -87,7 +87,7 @@ class MentorProfile extends Model
      */
     public function statusHistory()
     {
-        return $this->hasMany(MentorStatusHistory::class, 'id', 'mentor_profile_id');
+        return $this->hasMany(MentorStatusHistory::class, 'mentor_profile_id', 'id')->orderBy('created_at', 'desc');
     }
 
     public function hasCompany(){

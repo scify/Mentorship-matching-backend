@@ -101,6 +101,12 @@
                                                 <div class="col-md-9">{{$mentorViewModel->mentor->reference->name}}</div>
                                             </div><!--.row-->
                                         @endif
+                                        @if($mentorViewModel->mentor->status_id != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.status.capitalF')}}</div>
+                                                <div class="col-md-9 {{$mentorViewModel->mentor->status->status}}">{{$mentorViewModel->mentor->status->description}}</div>
+                                            </div><!--.row-->
+                                        @endif
                                     </div>
 
                                 </div><!--.panel-->
@@ -153,7 +159,36 @@
                                 </div><!--.panel-->
                             </div>
                         </div>
-
+                        @if($mentorViewModel->mentor->statusHistory != null)
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-title"><h3>Mentor status history</h3></div>
+                                    </div><!--.panel-heading-->
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="timeline">
+                                                @foreach($mentorViewModel->mentor->statusHistory as $historyItem)
+                                                    <div class="frame">
+                                                        <div class="timeline-badge background-{{$historyItem->status->status}}">
+                                                            <i class="fa fa-bell "></i>
+                                                        </div><!--.timeline-badge-->
+                                                        <span class="timeline-date">{{$historyItem->created_at->format('d / m / Y')}}</span>
+                                                        <div class="timeline-bubble">
+                                                            <h4 class="{{$historyItem->status->status}}">{{$historyItem->status->description}}</h4>
+                                                            <p>Comment: {{$historyItem->comment}}</p>
+                                                            @if($historyItem->follow_up_date != null)
+                                                                <p>Follow up date: {{ \Carbon\Carbon::parse($historyItem->follow_up_date)->format('d / m / Y')}}</p>
+                                                            @endif
+                                                        </div><!--.timeline-bubble-->
+                                                    </div><!--.frame-->
+                                                @endforeach
+                                            </div><!--.timeline-->
+                                        </div>
+                                    </div><!--.panel-->
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div id="skills" class="tab-pane">
                         <div class="col-md-6">
