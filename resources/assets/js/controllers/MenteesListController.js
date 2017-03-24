@@ -14,8 +14,12 @@ window.MenteesListController.prototype = function () {
         searchBtnHandler = function () {
             $("#searchBtn").on("click", function () {
                 menteesCriteria.menteeName = $("input[name=mentee_name]").val();
-                menteesCriteria.universityName = $("input[name=university]").val();
+                menteesCriteria.ageRange = $("input[name=age]").val();
+                menteesCriteria.educationLevel = $("select[name=education_level]").val();
+                menteesCriteria.university = $("select[name=university]").val();
+                menteesCriteria.signedUpAgo = $("select[name=signed_up_ago]").val();
                 menteesCriteria.completedSessionAgo = $("select[name=completed_session_ago]").val();
+                menteesCriteria.displayOnlyUnemployed = $("input[name=only_unemployed_mentees]").parent().hasClass("checked");
                 menteesCriteria.displayOnlyActiveSession = $("input[name=only_active_sessions]").parent().hasClass("checked");
                 menteesCriteria.displayOnlyNeverMatched =
                     $("input[name=only_never_matched]").parent().hasClass("checked");
@@ -25,8 +29,12 @@ window.MenteesListController.prototype = function () {
         clearSearchBtnHandler = function() {
             $("#clearSearchBtn").on("click", function() {
                 $('input[name=mentee_name]').val("");
-                $('input[name=university]').val("");
+                $('#age').data("ionRangeSlider").reset();
+                $('select[name=education_level]').val(0).trigger("chosen:updated");
+                $('select[name=university]').val(0).trigger("chosen:updated");
+                $('select[name=signed_up_ago]').val(0).trigger("chosen:updated");
                 $('select[name=completed_session_ago]').val(0).trigger("chosen:updated");
+                $('input[name=only_unemployed_mentees]').iCheck('uncheck');
                 $('input[name=only_active_sessions]').iCheck('uncheck');
                 $('input[name=only_never_matched]').iCheck('uncheck');
                 // clear MenteesCriteria object from all of its properties
@@ -79,8 +87,20 @@ window.MenteesListController.prototype = function () {
             }
         },
         initSelectInputs = function() {
-            $("select[name=completed_session_ago]").chosen({
+            $(".chosen-select").chosen({
                 width: '100%'
+            });
+        },
+        initAgeRangeSlider = function() {
+            $('#age').ionRangeSlider({
+                min: 18,
+                max: 75,
+                from: 18,
+                to: 75,
+                type: 'double',
+                step: 1,
+                postfix: ' years old',
+                grid: true
             });
         },
         initHandlers = function() {
@@ -99,6 +119,7 @@ window.MenteesListController.prototype = function () {
         },
         init = function () {
             initSelectInputs();
+            initAgeRangeSlider();
             initHandlers();
         };
     return {

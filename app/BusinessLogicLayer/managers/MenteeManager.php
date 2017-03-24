@@ -132,8 +132,12 @@ class MenteeManager {
      */
     private function getMenteesByCriteria($filters) {
         if((!isset($filters['menteeName']) || $filters['menteeName'] === "") &&
-            (!isset($filters['universityName']) || $filters['universityName'] === "") &&
+            (!isset($filters['ageRange']) || $filters['ageRange'] === "") &&
+            (!isset($filters['educationLevel']) || $filters['educationLevel'] === "") &&
+            (!isset($filters['university']) || $filters['university'] === "") &&
+            (!isset($filters['signedUpAgo']) || $filters['signedUpAgo'] === "") &&
             (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
+            (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
             (!isset($filters['displayOnlyActiveSession']) || $filters['displayOnlyActiveSession'] === 'false') &&
             (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false')) {
             return $this->menteeStorage->getAllMenteeProfiles();
@@ -154,17 +158,58 @@ class MenteeManager {
             $dbQuery .= "(mp.first_name like '%" . $filters['menteeName'] . "%' or mp.last_name like '%" . $filters['menteeName'] . "%') ";
             $whereClauseExists = true;
         }
-        if(isset($filters['universityName']) && $filters['universityName'] != "") {
+        if(isset($filters['educationLevel']) && $filters['educationLevel'] != "") {
+            if(intval($filters['educationLevel']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
             if($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            $dbQuery .= "mp.university_name like '%" . $filters['universityName'] . "%' ";
+            $dbQuery .= "mp.education_level_id = " . $filters['educationLevel'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['university']) && $filters['university'] != "") {
+            if(intval($filters['university']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.university_id = " . $filters['university'] . " ";
+            $whereClauseExists = true;
         }
         if(isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {
             if($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "(last_session.session_date is not null and msh.status_id in (1,2,3,4,5,6,7)) ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['ageRange']) && $filters['ageRange'] != "") {
+            $ageRange = explode(';', $filters['ageRange']);
+            if(intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "(mp.year_of_birth > year(curdate()) - " . $ageRange[1] . " and mp.year_of_birth < year(curdate()) - " . $ageRange[0] . ") ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['signedUpAgo']) && $filters['signedUpAgo'] != "") {
+            if(intval($filters['signedUpAgo']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            if($filters['signedUpAgo'] < 13) {
+                $dbQuery .= "mp.created_at between (now() - interval " . $filters['signedUpAgo'] .
+                    " month) and (now() - interval " . ($filters['signedUpAgo'] - 1) . " month) ";
+            } else {
+                $dbQuery .= "mp.created_at < (now() - interval 12 month) ";
+            }
+            $whereClauseExists = true;
         }
         if(isset($filters['completedSessionAgo']) && $filters['completedSessionAgo'] != "") {
             if(intval($filters['completedSessionAgo']) == 0) {
@@ -175,6 +220,13 @@ class MenteeManager {
             }
             $dbQuery .= "msh.status_id in (8,9) and msh.updated_at between (now() - interval " . $filters['completedSessionAgo'] . " month) 
                 and (now() - interval " . ($filters['completedSessionAgo'] - 1) . " month) ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['displayOnlyUnemployed']) && $filters['displayOnlyUnemployed'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.is_employed = 0 ";
             $whereClauseExists = true;
         }
         if(isset($filters['displayOnlyNeverMatched']) && $filters['displayOnlyNeverMatched'] === 'true') {

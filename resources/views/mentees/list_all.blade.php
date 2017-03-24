@@ -20,24 +20,59 @@
             {{--</div><!--.col-md-9-->--}}
             {{--</div>--}}
             <div class="row">
-                <div class="col-md-3 filterName">Mentee name</div><!--.col-md-3-->
+                <div class="col-md-3 filterName">Mentees' name</div><!--.col-md-3-->
                 <div class="col-md-6">
                     <div class="inputer">
                         <div class="input-wrapper">
-                            <input name="mentee_name" class="form-control" placeholder="Mentee name" type="text">
+                            <input name="mentee_name" class="form-control" placeholder="Mentee name" type="text" style="width: 100%;">
                         </div>
                     </div>
                 </div><!--.col-md-6-->
             </div>
             <div class="row">
-                <div class="col-md-3 filterName">University</div><!--.col-md-3-->
+                <div class="col-md-3 filterName">Mentees' age</div><!--.col-md-3-->
                 <div class="col-md-6">
-                    <div class="inputer">
-                        <div class="input-wrapper">
-                            <input name="university" class="form-control" placeholder="University attended" type="text">
-                        </div>
-                    </div>
+                    <input id="age" name="age" placeholder="age" type="text">
                 </div><!--.col-md-6-->
+            </div>
+            <div class="row">
+                <div class="col-md-3 filterName">Mentees' education level</div><!--.col-md-3-->
+                <div class="col-md-6">
+                    <select data-placeholder="Choose an education level" name="education_level" class="chosen-select">
+                        <option><!-- Empty option allows the placeholder to take effect. --><option>
+                        @foreach($educationLevels as $educationLevel)
+                            <option value="{{ $educationLevel->id }}">{{ $educationLevel->name }}</option>
+                        @endforeach
+                    </select>
+                </div><!--.col-md-6-->
+            </div>
+            <div class="row">
+                <div class="col-md-3 filterName">Mentees' university</div><!--.col-md-3-->
+                <div class="col-md-6">
+                    <select data-placeholder="Choose a university" name="university" class="chosen-select">
+                        <option><!-- Empty option allows the placeholder to take effect. --><option>
+                        @foreach($universities as $university)
+                            <option value="{{ $university->id }}">{{ $university->name }}</option>
+                        @endforeach
+                    </select>
+                </div><!--.col-md-6-->
+            </div>
+            <div class="row">
+                <div class="col-md-3 filterName">Mentees that signed up</div><!--.col-md-3-->
+                <div class="col-md-6">
+                    <select data-placeholder="Choose time passed from sign up" name="signed_up_ago" class="chosen-select">
+                        <option><!-- Empty option allows the placeholder to take effect. --><option>
+                        @for($i = 1; $i <= 13; $i++)
+                            <option value="{{$i}}">
+                                @if($i < 13)
+                                    {{$i}} @if($i == 1) month @else months @endif ago
+                                @else
+                                    more that a year ago
+                                @endif
+                            </option>
+                        @endfor
+                    </select>
+                </div><!--.col-md-9-->
             </div>
             <div class="row">
                 <div class="col-md-3 filterName">Mentees that completed sessions</div><!--.col-md-3-->
@@ -49,6 +84,16 @@
                         @endfor
                     </select>
                 </div><!--.col-md-9-->
+            </div>
+            <div class="row">
+                <div class="col-md-3 filterName">
+                    <label for="only-unemployed-mentees">Mentees that are unemployed</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="icheckbox">
+                        <input type="checkbox" name="only_unemployed_mentees" id="only-unemployed-mentees">
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-3 filterName">

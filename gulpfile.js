@@ -25,7 +25,9 @@ elixir(function(mix) {
         'node_modules/bootstrap-daterangepicker/daterangepicker.css',
         'resources/assets/pleasure-admin-panel/css/admin1.css',
         'resources/assets/pleasure-admin-panel/css/elements.css',
-        'resources/assets/pleasure-admin-panel/css/plugins.css'
+        'resources/assets/pleasure-admin-panel/css/plugins.css',
+        'node_modules/ion-rangeslider/css/ion.rangeSlider.css',
+        'node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css'
 
     ], 'public/css/vendors.css', './');
 
@@ -75,7 +77,8 @@ elixir(function(mix) {
             'node_modules/bootstrap-daterangepicker/daterangepicker.js',
             'resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js',
             'resources/assets/js/FormController.js',
-            'resources/assets/js/AvailabilityStatusChangeViewHandler.js'
+            'resources/assets/js/AvailabilityStatusChangeViewHandler.js',
+            'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js'
         ],
         'public/js/app.js' , './')
         .scripts([

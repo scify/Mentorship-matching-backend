@@ -44,11 +44,15 @@ class MenteeController extends Controller
     public function showAllMentees()
     {
         $menteeViewModels = $this->menteeManager->getAllMenteeViewModels();
+        $universities = $this->universityManager->getAllUniversities();
+        $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $loggedInUser = Auth::user();
         $page_title = 'All mentees';
         return view('mentees.list_all', [
             'pageTitle' => $page_title,
-            'menteeViewModels' => $menteeViewModels, 'loggedInUser' => $loggedInUser]);
+            'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
+            'educationLevels' => $educationLevels,
+            'loggedInUser' => $loggedInUser]);
     }
 
     /**

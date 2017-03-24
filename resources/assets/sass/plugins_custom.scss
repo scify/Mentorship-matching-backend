@@ -13,3 +13,19 @@
         text-decoration: none;
     }
 }
+
+// ion range slider css
+.irs-bar {
+    background: none;
+    background-color: #FBAE25;
+}
+
+.irs-from, .irs-to {
+    background-color: #FBAE25;
+    cursor: pointer;
+}
+
+.irs-from::after, .irs-to::after {
+    border-top-color: #FBAE25;
+    cursor: pointer;
+}
