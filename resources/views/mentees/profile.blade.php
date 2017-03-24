@@ -95,6 +95,12 @@
                                                 <div class="col-md-9">Public form</div>
                                             </div><!--.row-->
                                         @endif
+                                        @if($mentee->reference_id != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.heard_about')}}</div>
+                                                <div class="col-md-9">{{$mentee->reference->name}}</div>
+                                            </div><!--.row-->
+                                        @endif
                                     </div>
 
                                 </div><!--.panel-->
@@ -185,12 +191,6 @@
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.expectations')}}</div>
                                                 <div class="col-md-9">{{$mentee->expectations}}</div>
-                                            </div><!--.row-->
-                                        @endif
-                                        @if($mentee->reference_id != null)
-                                            <div class="formRow row">
-                                                <div class="col-md-3 formElementName">{{trans('messages.heard_about')}}</div>
-                                                <div class="col-md-9">{{$mentee->reference->name}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
