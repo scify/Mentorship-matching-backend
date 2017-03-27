@@ -1,6 +1,6 @@
 <li class="has-action-left singleItem">
     @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees())
-        <a href="#"
+        <a href="javascript: void(0)"
            data-toggle="modal"
            data-userName="{{$menteeViewModel->mentee->first_name . $menteeViewModel->mentee->last_name}}"
            data-menteeId="{{$menteeViewModel->mentee->id}}"
@@ -13,17 +13,17 @@
         </div>
         <div class="list-content">
             <span class="title">
-                {{$menteeViewModel->mentee->first_name}} {{$menteeViewModel->mentee->last_name}}
+                {{$menteeViewModel->mentee->first_name}} {{$menteeViewModel->mentee->last_name}}, {{$menteeViewModel->mentee->age}} y.o
                 <small>
-                @if($menteeViewModel->mentee->educationLevel != null)
-                        , {{ $menteeViewModel->mentee->educationLevel->name}}
-                @endif
-                @if($menteeViewModel->mentee->university != null)
-                    , {{ $menteeViewModel->mentee->university->name}}
-                @endif
-                , {{$menteeViewModel->mentee->age}} years old</small>
+                    @if($menteeViewModel->mentee->educationLevel != null)
+                            , {{ $menteeViewModel->mentee->educationLevel->name}}
+                    @endif
+                    @if($menteeViewModel->mentee->university != null)
+                        , {{ $menteeViewModel->mentee->university->name}}
+                    @endif
+                </small>
                 <span class="caption">
-                    {{$menteeViewModel->mentee->email}}
+                    {{--{{$menteeViewModel->mentee->email}}--}}
                     @if($menteeViewModel->mentee->specialty != null)
                             {{$menteeViewModel->mentee->specialty->name}}
                     @endif

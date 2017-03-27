@@ -103,7 +103,7 @@
                                         @endif
                                         @if($mentorViewModel->mentor->status_id != null)
                                             <div class="formRow row">
-                                                <div class="col-md-3 formElementName">{{trans('messages.status.capitalF')}}</div>
+                                                <div class="col-md-3 formElementName">{{trans('messages.status.capitalF)}}</div>
                                                 <div class="col-md-9 {{$mentorViewModel->mentor->status->status}}">{{$mentorViewModel->mentor->status->description}}</div>
                                             </div><!--.row-->
                                         @endif
