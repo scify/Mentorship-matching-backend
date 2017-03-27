@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+    @include('mentees.filters')
     @include('mentees.list')
     @include('mentees.modals')
 
