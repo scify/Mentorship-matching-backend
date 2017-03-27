@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('mentees.filters')
-    @include('mentees.list')
+    @include('mentees.list', ['actionButtonsNum' => 2, 'matchingMode' => false])
     @include('mentees.modals')
 @endsection
 

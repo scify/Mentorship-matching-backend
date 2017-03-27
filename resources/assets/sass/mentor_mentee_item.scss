@@ -65,12 +65,18 @@
   .deleteIcon {
     color: $brand-danger;
   }
+
+  .matchingIcon {
+    color: $brand-primary
+  }
 }
 
-.list-material.has-hidden > li:hover a.visible {
+.list-material.has-hidden > .twoActionButtons:hover a.visible {
   -webkit-transform: translate3d(-125px, 0, 0);
   transform: translate3d(-125px, 0, 0);
 }
+
+
 
 .list-material.has-hidden > li:hover a.no-slide-left {
   -webkit-transform: none;

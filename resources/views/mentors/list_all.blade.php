@@ -66,7 +66,7 @@
         <div id="errorMsg" class="alert alert-danger stickyAlert margin-top-20 margin-bottom-20 margin-left-100 hidden" role="alert"></div>
 
         <div id="usersList">
-            @include('mentors.list')
+            @include('mentors.list', ['actionButtonsNum' => 2, 'matchingMode' => false])
         </div>
     @include('mentors.modals')
 @endsection
