@@ -1,6 +1,6 @@
 <li class="has-action-left singleItem">
     @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees())
-        <a href="javascript: void(0)"
+        <a href="javascript: void(0)" target="_blank"
            data-toggle="modal"
            data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
            data-mentorId="{{$mentorViewModel->mentor->id}}"
