@@ -33,7 +33,7 @@
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
                     <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.info')}}</a></li>
                     <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.specialties')}} & {{trans('messages.skills.capitalF')}}</a></li>
-                    <li><a data-href="#photos" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
+                    <li><a data-href="mentorship_sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
                 </ul>
             </div>
 
@@ -249,6 +249,11 @@
                             </div>
                         </div>
                     </div>
+                    <div id="mentorship_sessions" class="tab-pane">
+                        @include('mentees.filters')
+                        @include('mentees.list')
+                        @include('mentees.modals')
+                    </div>
                 </div>
             </div>
         </div>
@@ -259,6 +264,8 @@
         $( document ).ready(function() {
             var controller = new window.ProfileController();
             controller.init();
+            var menteesListcontroller = new window.MenteesListController();
+            menteesListcontroller.init();
         });
     </script>
 @endsection

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\CompanyManager;
+use App\BusinessLogicLayer\managers\EducationLevelManager;
 use App\BusinessLogicLayer\managers\IndustryManager;
+use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
+use App\BusinessLogicLayer\managers\UniversityManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
 use Illuminate\Http\Request;
@@ -78,9 +81,18 @@ class MentorController extends Controller
      */
     public function showProfile($id)
     {
+        $menteeManager = new MenteeManager();
+        $universityManager = new UniversityManager();
+        $educationLevelManager = new EducationLevelManager();
         $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
+        $menteeViewModels = $menteeManager->getAllMenteeViewModels();
+        $universities = $universityManager->getAllUniversities();
+        $educationLevels = $educationLevelManager->getAllEducationLevels();
         $loggedInUser = Auth::user();
-        return view('mentors.profile', ['mentorViewModel' => $mentorViewModel, 'loggedInUser' => $loggedInUser]);
+        return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
+            'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
+            'educationLevels' => $educationLevels,
+            'loggedInUser' => $loggedInUser]);
     }
 
     /**

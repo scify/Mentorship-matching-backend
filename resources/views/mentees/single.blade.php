@@ -7,7 +7,9 @@
            class="deleteMenteeBtn hidden"><i class="deleteIcon ion-android-delete"></i></a>
         <a href="{{route('showEditMenteeForm', $menteeViewModel->mentee->id)}}" class="hidden secondItem"><i class="editIcon ion-edit"></i></a>
     @endif
-    <a href="{{route('showMenteeProfilePage', $menteeViewModel->mentee->id)}}" class="visible {{Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees() ? '':'no-slide-left'}}">
+    <a href="{{route('showMenteeProfilePage', $menteeViewModel->mentee->id)}}"
+       class="visible {{Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees() ? '':'no-slide-left'}}"
+       target="_blank">
         <div class="list-action-left">
             <img src="{{ asset("/assets/img/mentee_default.png") }}" class="face-radius" alt="">
         </div>
