@@ -17,6 +17,7 @@ window.MenteesListController.prototype = function () {
                 menteesCriteria.ageRange = $("input[name=age]").val();
                 menteesCriteria.educationLevel = $("select[name=education_level]").val();
                 menteesCriteria.university = $("select[name=university]").val();
+                menteesCriteria.skills = $("input[name=mentee_skills]").val();
                 menteesCriteria.signedUpAgo = $("select[name=signed_up_ago]").val();
                 menteesCriteria.completedSessionAgo = $("select[name=completed_session_ago]").val();
                 menteesCriteria.displayOnlyUnemployed = $("input[name=only_unemployed_mentees]").parent().hasClass("checked");
@@ -32,6 +33,7 @@ window.MenteesListController.prototype = function () {
                 $('#age').data("ionRangeSlider").reset();
                 $('select[name=education_level]').val(0).trigger("chosen:updated");
                 $('select[name=university]').val(0).trigger("chosen:updated");
+                $('input[name=mentee_skills]').val("");
                 $('select[name=signed_up_ago]').val(0).trigger("chosen:updated");
                 $('select[name=completed_session_ago]').val(0).trigger("chosen:updated");
                 $('input[name=only_unemployed_mentees]').iCheck('uncheck');

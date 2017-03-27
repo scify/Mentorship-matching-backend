@@ -36,30 +36,38 @@
                 </div><!--.col-md-6-->
             </div>
             <div class="row">
-                <div class="col-md-3 filterName">Mentees' education level</div><!--.col-md-3-->
+                <div class="col-md-3 filterName">Mentees' skills (comma separated)</div><!--.col-md-3-->
                 <div class="col-md-6">
-                    <select data-placeholder="Choose an education level" name="education_level" class="chosen-select">
-                        <option><!-- Empty option allows the placeholder to take effect. --><option>
-                        @foreach($educationLevels as $educationLevel)
-                            <option value="{{ $educationLevel->id }}">{{ $educationLevel->name }}</option>
-                        @endforeach
-                    </select>
+                    <div class="inputer">
+                        <div class="input-wrapper">
+                            <input name="mentee_skills" class="form-control" placeholder="Mentees' skills" type="text" style="width: 100%;">
+                        </div>
+                    </div>
                 </div><!--.col-md-6-->
             </div>
             <div class="row">
-                <div class="col-md-3 filterName">Mentees' university</div><!--.col-md-3-->
-                <div class="col-md-6">
-                    <select data-placeholder="Choose a university" name="university" class="chosen-select">
+                <div class="col-md-3 filterName">Mentees' education level</div><!--.col-md-3-->
+                <div class="col-md-3">
+                    <select data-placeholder="Choose an education level" name="education_level" class="chosen-select">
                         <option><!-- Empty option allows the placeholder to take effect. --><option>
-                        @foreach($universities as $university)
-                            <option value="{{ $university->id }}">{{ $university->name }}</option>
+                    @foreach($educationLevels as $educationLevel)
+                        <option value="{{ $educationLevel->id }}">{{ $educationLevel->name }}</option>
                         @endforeach
                     </select>
-                </div><!--.col-md-6-->
+                </div><!--.col-md-3-->
+                <div class="col-md-3 filterName">Mentees' university</div><!--.col-md-3-->
+                <div class="col-md-3">
+                    <select data-placeholder="Choose a university" name="university" class="chosen-select">
+                        <option><!-- Empty option allows the placeholder to take effect. --><option>
+                    @foreach($universities as $university)
+                        <option value="{{ $university->id }}">{{ $university->name }}</option>
+                        @endforeach
+                    </select>
+                </div><!--.col-md-3-->
             </div>
             <div class="row">
                 <div class="col-md-3 filterName">Mentees that signed up</div><!--.col-md-3-->
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <select data-placeholder="Choose time passed from sign up" name="signed_up_ago" class="chosen-select">
                         <option><!-- Empty option allows the placeholder to take effect. --><option>
                         @for($i = 1; $i <= 13; $i++)
@@ -72,34 +80,30 @@
                             </option>
                         @endfor
                     </select>
-                </div><!--.col-md-9-->
-            </div>
-            <div class="row">
+                </div><!--.col-md-6-->
                 <div class="col-md-3 filterName">Mentees that completed sessions</div><!--.col-md-3-->
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <select data-placeholder="Choose time passed from completed session" name="completed_session_ago" class="chosen-select">
                         <option><!-- Empty option allows the placeholder to take effect. --><option>
                         @for($i = 1; $i <= 12; $i++)
                             <option value="{{$i}}">{{$i}} @if($i == 1) month @else months @endif ago</option>
                         @endfor
                     </select>
-                </div><!--.col-md-9-->
+                </div><!--.col-md-6-->
             </div>
             <div class="row">
                 <div class="col-md-3 filterName">
                     <label for="only-unemployed-mentees">Mentees that are unemployed</label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="icheckbox">
                         <input type="checkbox" name="only_unemployed_mentees" id="only-unemployed-mentees">
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-3 filterName">
                     <label for="only-active-sessions">Mentees with active sessions</label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="icheckbox">
                         <input type="checkbox" name="only_active_sessions" id="only-active-sessions">
                     </div>
@@ -109,7 +113,7 @@
                 <div class="col-md-3 filterName">
                     <label for="only-never-matched">Mentees with no sessions</label>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="icheckbox">
                         <input type="checkbox" name="only_never_matched" id="only-never-matched">
                     </div>

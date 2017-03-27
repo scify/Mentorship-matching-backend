@@ -135,6 +135,7 @@ class MenteeManager {
             (!isset($filters['ageRange']) || $filters['ageRange'] === "") &&
             (!isset($filters['educationLevel']) || $filters['educationLevel'] === "") &&
             (!isset($filters['university']) || $filters['university'] === "") &&
+            (!isset($filters['skills']) || $filters['skills'] === "") &&
             (!isset($filters['signedUpAgo']) || $filters['signedUpAgo'] === "") &&
             (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
             (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
@@ -195,6 +196,16 @@ class MenteeManager {
             }
             $dbQuery .= "(mp.year_of_birth > year(curdate()) - " . $ageRange[1] . " and mp.year_of_birth < year(curdate()) - " . $ageRange[0] . ") ";
             $whereClauseExists = true;
+        }
+        if(isset($filters['skills']) && $filters['skills'] != "") {
+            $allSkills = explode(",", $filters['skills']);
+            foreach ($allSkills as $skill) {
+                if($whereClauseExists) {
+                    $dbQuery .= "and ";
+                }
+                $dbQuery .= "mp.skills like '%" . $skill . "%' ";
+                $whereClauseExists = true;
+            }
         }
         if(isset($filters['signedUpAgo']) && $filters['signedUpAgo'] != "") {
             if(intval($filters['signedUpAgo']) == 0) {
