@@ -1,6 +1,6 @@
 <li class="has-action-left singleItem">
     @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees())
-        <a href="#"
+        <a href="javascript: void(0)"
            data-toggle="modal"
            data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
            data-mentorId="{{$mentorViewModel->mentor->id}}"
@@ -13,13 +13,13 @@
         </div>
         <div class="list-content">
             <span class="title">
-                {{$mentorViewModel->mentor->first_name}} {{$mentorViewModel->mentor->last_name}},
+                {{$mentorViewModel->mentor->first_name}} {{$mentorViewModel->mentor->last_name}}, {{$mentorViewModel->mentor->age}} y.o,
                 <small>
-                {{$mentorViewModel->mentor->job_position}}
-                @if($mentorViewModel->mentor->company != null)
-                    {{ "@ " . $mentorViewModel->mentor->company->name}}
-                @endif
-                , {{$mentorViewModel->mentor->age}} years old</small>
+                    {{$mentorViewModel->mentor->job_position}}
+                    @if($mentorViewModel->mentor->company != null)
+                        {{ "@ " . $mentorViewModel->mentor->company->name}}
+                    @endif
+                </small>
                 <span class="caption">
                     @foreach($mentorViewModel->mentor->specialties as $specialty)
                         {{$specialty->name}}
