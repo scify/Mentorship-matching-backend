@@ -1,4 +1,4 @@
-<a href="javascript:void(0)" class="visible">
+<a href="{{ route('showMenteeProfilePage', $mentee->id) }}" class="visible" target="_blank">
     <div class="list-action-left">
         <img src="{{ asset("/assets/img/mentee_default.png") }}" class="face-radius" alt="">
     </div>

@@ -1,4 +1,4 @@
-<a href="javascript:void(0)" class="visible">
+<a href="{{ route('showMentorProfilePage', $mentor->id) }}" class="visible" target="_blank">
     <div class="list-action-left">
         <img src="{{ asset("/assets/img/mentor_default.png") }}" class="face-radius" alt="">
     </div>
