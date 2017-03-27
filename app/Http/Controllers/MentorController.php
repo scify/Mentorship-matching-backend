@@ -43,12 +43,18 @@ class MentorController extends Controller
         $mentorViewModels = $this->mentorManager->getAllMentorViewModels();
         $loggedInUser = Auth::user();
         $specialties = $this->specialtyManager->getAllSpecialties();
+        $companies = (new CompanyManager())->getAllCompanies();
+        $statuses = $this->mentorStatusManager->getAllMentorStatuses();
+        $residences = $this->residenceManager->getAllResidences();
         return view('mentors.list_all', [
             'pageTitle' => 'Mentors',
             'pageSubTitle' => 'view all',
             'mentorViewModels' => $mentorViewModels,
             'loggedInUser' => $loggedInUser,
-            'specialties' => $specialties
+            'specialties' => $specialties,
+            'companies' => $companies,
+            'statuses' => $statuses,
+            'residences' => $residences
         ]);
     }
 

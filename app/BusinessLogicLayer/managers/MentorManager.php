@@ -13,6 +13,8 @@ use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
 use App\Models\viewmodels\MentorViewModel;
 use App\StorageLayer\MentorStorage;
+use App\StorageLayer\RawQueryStorage;
+use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -239,7 +241,8 @@ class MentorManager {
      * @param array $input array with criteria values
      * @return Collection|mixed|static[] a collection with mentor view models satisfying the criteria
      */
-    public function getMentorViewModelsByCriteria(array $input) {
+    public function getMentorViewModelsByCriteria(array $input)
+    {
         $mentors = $this->getMentorsByCriteria($input);
         $mentorViewModels = new Collection();
         foreach ($mentors as $mentor) {
@@ -249,55 +252,83 @@ class MentorManager {
     }
 
     /**
-     * Gets mentors satisfying some criteria (for example
-     * those who have a specific specialty and name)
+     * Gets all the filters passed and returns the filtered results
      *
-     * @param array $input array with criteria values
-     * @return Collection|mixed|static[] a collection with mentors satisfying the criteria
+     * @param $filters array with criteria values
+     * @return mixed the resulted MentorProfiles or null
+     * @throws \Exception
      */
-    public function getMentorsByCriteria(array $input) {
-        $specialtyId = $input['specialty_id'];
-        $mentorName = $input['mentor_name'];
-        if($specialtyId != null) {
-            $mentors = $this->getMentorsWithSpecialty($specialtyId);
-        } else {
-            $mentors = $this->getAllMentors();
+    private function getMentorsByCriteria($filters) {
+        if((!isset($filters['mentorName'])  || $filters['mentorName'] === "") &&
+            (!isset($filters['ageRange'])  || $filters['ageRange'] === "") &&
+            (!isset($filters['specialtyId'])  || $filters['specialtyId'] === "") &&
+            (!isset($filters['companyId'])  || $filters['companyId'] === "") &&
+            (!isset($filters['availabilityId'])  || $filters['availabilityId'] === "") &&
+            (!isset($filters['residenceId'])  || $filters['residenceId'] === "")) {
+            return $this->mentorStorage->getAllMentorProfiles();
         }
-        if($mentorName != null) {
-            $mentors = $this->filterMentorsByName($mentors, $mentorName);
+        $whereClauseExists = false;
+        $dbQuery = "select distinct mp.id 
+            from mentor_profile as mp 
+            left outer join mentor_specialty as ms on mp.id = ms.mentor_profile_id where ";
+        if(isset($filters['mentorName']) && $filters['mentorName'] != "") {
+            $dbQuery .= "(mp.first_name like '%" . $filters['mentorName'] . "%' or mp.last_name like '%" . $filters['mentorName'] . "%') ";
+            $whereClauseExists = true;
         }
-        return $mentors;
-    }
-
-    /**
-     * Gets the mentors having a specified specialty
-     *
-     * @param $specialtyId int the is of the @see Specialty
-     * @return mixed a collection of the mentors with this specialty
-     * @throws \Exception if the specialty queried is null
-     */
-    private function getMentorsWithSpecialty($specialtyId) {
-        $specialty = $this->specialtyManager->getSpecialty($specialtyId);
-        if($specialty == null)
-            throw new \Exception("Specialty not valid");
-        return $specialty->mentors;
-    }
-
-    /**
-     * Queries a mentor collection for a given name
-     *
-     * @param Collection $mentors a collection of @see MentorProfile instances
-     * @param $name string the name to query the collection for
-     * @return Collection the subset of the collection, satisfying the query
-     */
-    private function filterMentorsByName(Collection $mentors, $name) {
-        $filteredMentors = $mentors->filter(function ($value, $key) use ($name) {
-            $currentMentor = $value;
-            $mentorNameSurenameLower = strtolower($currentMentor->first_name . " " . $currentMentor->last_name);
-            $queryNameLower = strtolower($name);
-            return mb_strpos($mentorNameSurenameLower, $queryNameLower) !== false;
-        });
-        return $filteredMentors;
+        if(isset($filters['ageRange']) && $filters['ageRange'] != "") {
+            $ageRange = explode(';', $filters['ageRange']);
+            if(intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "(mp.year_of_birth > year(curdate()) - " . $ageRange[1] . " and mp.year_of_birth < year(curdate()) - " . $ageRange[0] . ") ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['specialtyId']) && $filters['specialtyId'] != "") {
+            if(intval($filters['specialtyId']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "ms.specialty_id = " . $filters['specialtyId'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['companyId']) && $filters['companyId'] != "") {
+            if(intval($filters['companyId']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.company_id = " . $filters['companyId'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['availabilityId']) && $filters['availabilityId'] != "") {
+            if(intval($filters['availabilityId']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.status_id = " . $filters['availabilityId'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['residenceId']) && $filters['residenceId'] != "") {
+            if(intval($filters['residenceId']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.residence_id = " . $filters['residenceId'] . " ";
+        }
+        $filteredMentorIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
+            (new RawQueryStorage())->performRawQuery($dbQuery)
+        );
+        return $this->mentorStorage->getMentorsFromIdsArray($filteredMentorIds);
     }
 
     /**

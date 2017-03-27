@@ -34,4 +34,8 @@ class MentorStorage {
             ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
             ->orWhere('email', 'like', '%' . $searchQuery . '%')->get();
     }
+
+    public function getMentorsFromIdsArray($filteredMentorIds) {
+        return MentorProfile::whereIn('id', $filteredMentorIds)->get();
+    }
 }
