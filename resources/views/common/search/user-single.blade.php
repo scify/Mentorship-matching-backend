@@ -1,4 +1,4 @@
-<a href="{{ route('showUserProfile', ['id' => $user->id]) }}" class="visible" target="_blank">
+<a href="{{ route('showUserProfile', $user->id) }}" class="visible" target="_blank">
     <div class="list-action-left">
         <img src="{{$user->icon != null? asset($user->icon->path) : asset('/assets/img/boy.png')}}" class="face-radius" alt="">
     </div>

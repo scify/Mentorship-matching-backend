@@ -6,6 +6,7 @@ use App\Models\eloquent\MenteeProfile;
 use App\Models\viewmodels\MenteeViewModel;
 use App\StorageLayer\MenteeStorage;
 use App\StorageLayer\RawQueryStorage;
+use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -118,14 +119,6 @@ class MenteeManager {
      */
     public function filterMenteesByNameAndEmail($searchQuery) {
         return $this->menteeStorage->getMenteesThatMatchGivenNameOrEmail($searchQuery);
-    }
-
-    private function transformRawQueryStorageResultsToOneDimensionalArray($results) {
-        $temp = array();
-        foreach ($results as $result) {
-            array_push($temp, $result->id);
-        }
-        return $temp;
     }
 
     /**
@@ -251,7 +244,9 @@ class MenteeManager {
             }
             $dbQuery .= "ms.id is null ";
         }
-        $filteredMenteeIds = $this->transformRawQueryStorageResultsToOneDimensionalArray((new RawQueryStorage())->performRawQuery($dbQuery));
+        $filteredMenteeIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
+            (new RawQueryStorage())->performRawQuery($dbQuery)
+        );
         return $this->menteeStorage->getMenteesFromIdsArray($filteredMenteeIds);
     }
 

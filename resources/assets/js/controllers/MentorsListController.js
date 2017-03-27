@@ -3,7 +3,8 @@ window.MentorsListController = function () {
 
 window.MentorsListController.prototype = function () {
 
-    var deleteMentorBtnHandler = function () {
+    var mentorsCriteria = {},
+        deleteMentorBtnHandler = function () {
             $("body").on("click", ".deleteMentorBtn", function (e) {
                 e.stopPropagation();
                 var mentorId = $(this).attr("data-mentorId");
@@ -18,40 +19,53 @@ window.MentorsListController.prototype = function () {
             clearSearchBtnHandler();
         },
         searchBtnHandler = function () {
-            $("#searchBtn").on("click", function (e) {
-                var specialtyId = $('select[name=specialty]').val();
-                var mentorName = $('input[name=mentorName]').val();
-                console.log("search triggered for specialty: " + specialtyId + " and name: " + mentorName);
-                getMentorsByFilter(specialtyId, mentorName);
+            $("#searchBtn").on("click", function () {
+                mentorsCriteria.mentorName = $('input[name=mentorName]').val();
+                mentorsCriteria.ageRange = $('input[name=age]').val();
+                mentorsCriteria.specialtyId = $('select[name=specialty]').val();
+                mentorsCriteria.companyId = $('select[name=company]').val();
+                mentorsCriteria.availabilityId = $('select[name=availability]').val();
+                mentorsCriteria.residenceId = $('select[name=residence]').val();
+                getMentorsByFilter();
             });
         },
         clearSearchBtnHandler = function () {
-            $("#clearSearchBtn").on("click", function (e) {
-                getMentorsByFilter(null, null);
-                $('select[name=specialty]').val(0);
-                $('select[name=specialty]').trigger("chosen:updated");
-                $('input[name=mentorName]').val(null);
+            $("#clearSearchBtn").on("click", function () {
+                $('input[name=mentorName]').val("");
+                $('#age').data("ionRangeSlider").reset();
+                $('select[name=specialty]').val(0).trigger("chosen:updated");
+                $('select[name=company]').val(0).trigger("chosen:updated");
+                $('select[name=availability]').val(0).trigger("chosen:updated");
+                $('select[name=residence]').val(0).trigger("chosen:updated");
+                // clear mentorsCriteria object from all of its properties
+                for(var prop in mentorsCriteria) {
+                    if(mentorsCriteria.hasOwnProperty(prop)) {
+                        delete mentorsCriteria[prop];
+                    }
+                }
+                getMentorsByFilter();
             });
         },
-        getMentorsByFilter = function (specialtyId, mentorName) {
-            var data = {
-                'specialty_id': specialtyId,
-                'mentor_name': mentorName
-            };
+        getMentorsByFilter = function () {
             $.ajax({
                 method: "GET",
                 url: "byCriteria",
                 cache: false,
-                data: data,
+                data: mentorsCriteria,
                 beforeSend: function () {
-                    $(".loader").removeClass('hidden');
+                    $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
                 },
                 success: function (response) {
+                    $('.refresh-container').fadeOut(500, function() {
+                        $('.refresh-container').remove();
+                    });
                     parseSuccessData(response);
                 },
                 error: function (xhr, status, errorThrown) {
+                    $('.refresh-container').fadeOut(500, function() {
+                        $('.refresh-container').remove();
+                    });
                     console.log(xhr.responseText);
-                    $(".loader").addClass('hidden');
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
                     $("#errorMsg").html(errorThrown);
@@ -65,18 +79,30 @@ window.MentorsListController.prototype = function () {
                 $(".loader").addClass('hidden');
                 $("#errorMsg").removeClass('hidden');
                 $("#errorMsg").html(responseObj.data);
-                $("#usersList").html("");
+                $("#mentorsList").html("");
             } else {
-                $("#usersList").html("");
+                $("#mentorsList").html("");
                 $("#errorMsg").addClass('hidden');
                 $(".loader").addClass('hidden');
-                $("#usersList").html(responseObj.data);
+                $("#mentorsList").html(responseObj.data);
                 Pleasure.listenClickableCards();
             }
         },
-        initializeSpecialtiesSelect = function() {
-            $('#specialtiesSelect').chosen({
+        initSelectInputs = function() {
+            $(".chosen-select").chosen({
                 width: '100%'
+            });
+        },
+        initAgeRangeSlider = function() {
+            $('#age').ionRangeSlider({
+                min: 18,
+                max: 75,
+                from: 18,
+                to: 75,
+                type: 'double',
+                step: 1,
+                postfix: ' years old',
+                grid: true
             });
         },
         cardTabClickHandler = function() {
@@ -91,7 +117,8 @@ window.MentorsListController.prototype = function () {
         },
         init = function () {
             initializeHandlers();
-            initializeSpecialtiesSelect();
+            initSelectInputs();
+            initAgeRangeSlider();
         };
     return {
         init: init
