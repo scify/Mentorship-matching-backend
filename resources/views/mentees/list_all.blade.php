@@ -3,7 +3,6 @@
     @include('mentees.filters')
     @include('mentees.list')
     @include('mentees.modals')
-
 @endsection
 
 @section('additionalFooter')
