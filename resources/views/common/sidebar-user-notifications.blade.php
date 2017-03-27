@@ -45,7 +45,7 @@
                         <a href="#" class="hidden"><i class="ion-android-delete"></i></a>
                         <a href="#" class="visible">
                             <div class="list-action-left">
-                                <img src="../../assets/globals/img/faces/13.jpg" class="face-radius" alt="">
+                                {{--<img src="../../assets/globals/img/faces/13.jpg" class="face-radius" alt="">--}}
                             </div>
                             <div class="list-content">
                                 <span class="caption">Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</span>
@@ -60,7 +60,7 @@
                         <a href="#" class="hidden"><i class="ion-android-delete"></i></a>
                         <a href="#" class="visible">
                             <div class="list-action-left">
-                                <img src="../../assets/globals/img/faces/14.jpg" class="face-radius" alt="">
+                                {{--<img src="../../assets/globals/img/faces/14.jpg" class="face-radius" alt="">--}}
                             </div>
                             <div class="list-content">
                                 <span class="caption">Completely synergize resource sucking relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.</span>
@@ -120,7 +120,7 @@
                         <a href="#" class="hidden"><i class="ion-android-delete"></i></a>
                         <a href="#" class="visible">
                             <div class="list-action-left">
-                                <img src="../../assets/globals/img/faces/17.jpg" class="face-radius" alt="">
+                                {{--<img src="../../assets/globals/img/faces/17.jpg" class="face-radius" alt="">--}}
                             </div>
                             <div class="list-content">
                                 <span class="caption">Synergistically evolve 2.0 technologies rather than just in time initiatives. Quickly deploy strategic networks with compelling e-business. Credibly pontificate highly efficient manufactured products and enabled data.</span>
