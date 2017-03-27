@@ -13,7 +13,11 @@
                             <a class="margin-left-10" href="{{route('showEditMentorForm', $mentorViewModel->mentor->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                         @endif
                     </span>
-                    <span class="caption">{{trans('messages.profile_page')}} </span>
+                    <span class="caption {{$mentorViewModel->mentor->status->status}}">
+                        @if($mentorViewModel->mentor->status_id != null)
+                            {{$mentorViewModel->mentor->status->description}}
+                        @endif
+                    </span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
@@ -103,7 +107,7 @@
                                         @endif
                                         @if($mentorViewModel->mentor->status_id != null)
                                             <div class="formRow row">
-                                                <div class="col-md-3 formElementName">{{trans('messages.status.capitalF)}}</div>
+                                                <div class="col-md-3 formElementName">{{trans('messages.status.capitalF')}}</div>
                                                 <div class="col-md-9 {{$mentorViewModel->mentor->status->status}}">{{$mentorViewModel->mentor->status->description}}</div>
                                             </div><!--.row-->
                                         @endif

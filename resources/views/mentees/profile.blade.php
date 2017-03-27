@@ -13,7 +13,7 @@
                             <a class="margin-left-10" href="{{route('showEditMenteeForm', $mentee->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                         @endif
                     </span>
-                    <span class="caption">{{trans('messages.profile_page')}} </span>
+                    <span class="caption {{$mentee->is_employed ? 'green' : 'red'}}"> {{$mentee->is_employed ? 'Employed' : 'Unemployed'}}</span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
