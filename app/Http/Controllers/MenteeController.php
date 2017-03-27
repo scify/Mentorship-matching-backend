@@ -11,7 +11,6 @@ use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\BusinessLogicLayer\managers\UniversityManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -210,10 +209,6 @@ class MenteeController extends Controller
         ]);
 
         $input = $request->all();
-        if($input['follow_up_date'] != "") {
-            $dateArray = explode("/", $input['follow_up_date']);
-            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
-        }
         try {
             $this->menteeManager->editMentee($input, $id);
         }  catch (\Exception $e) {

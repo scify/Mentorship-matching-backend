@@ -16,6 +16,7 @@ use App\StorageLayer\MentorStorage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class MentorManager {
 
@@ -79,6 +80,10 @@ class MentorManager {
      * @param $id int the id of the mentor profile
      */
     public function editMentor(array $inputFields, $id) {
+        if($inputFields['follow_up_date'] != "") {
+            $dateArray = explode("/", $inputFields['follow_up_date']);
+            $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+        }
         $mentor = $this->getMentor($id);
         $oldStatusId = $mentor->status_id;
         $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);

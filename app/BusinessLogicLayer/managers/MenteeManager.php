@@ -9,6 +9,7 @@ use App\StorageLayer\RawQueryStorage;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class MenteeManager {
 
@@ -83,6 +84,10 @@ class MenteeManager {
     }
 
     public function editMentee(array $inputFields, $id) {
+        if($inputFields['follow_up_date'] != "") {
+            $dateArray = explode("/", $inputFields['follow_up_date']);
+            $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+        }
         $mentee = $this->getMentee($id);
         $oldStatusId = $mentee->status_id;
         unset($mentee->age);

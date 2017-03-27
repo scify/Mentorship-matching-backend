@@ -11,7 +11,6 @@ use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -241,10 +240,6 @@ class MentorController extends Controller
         ]);
 
         $input = $request->all();
-        if($input['follow_up_date'] != "") {
-            $dateArray = explode("/", $input['follow_up_date']);
-            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
-        }
         try {
             $this->mentorManager->editMentor($input, $id);
         }  catch (\Exception $e) {
