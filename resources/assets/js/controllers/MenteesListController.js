@@ -107,15 +107,15 @@ window.MenteesListController.prototype = function () {
         },
         initHandlers = function() {
             deleteMenteeBtnHandler();
-            $("body").on("click", "a[data-toggle='tab']", function (e) {
-                e.preventDefault();
-                console.log($(this).attr('data-id'));
-                $(".card_" + $(this).attr('data-id')).find('.tab-pane.active').removeClass('active');
-
-                $(".card_" + $(this).attr('data-id')).find('.tab-content.active').removeClass('active');
-
-                $(".card_" + $(this).attr('data-id')).find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
-            });
+            // $("body").on("click", "a[data-toggle='tab']", function (e) {
+            //     e.preventDefault();
+            //     console.log($(this).attr('data-id'));
+            //     $(".card_" + $(this).attr('data-id')).find('.tab-pane.active').removeClass('active');
+            //
+            //     $(".card_" + $(this).attr('data-id')).find('.tab-content.active').removeClass('active');
+            //
+            //     $(".card_" + $(this).attr('data-id')).find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
+            // });
             searchBtnHandler();
             clearSearchBtnHandler();
         },

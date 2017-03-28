@@ -251,21 +251,23 @@
                     </div>
                     <div id="mentorship_sessions" class="tab-pane">
                         @include('mentees.filters')
-                        @include('mentees.list')
-                        @include('mentees.modals')
+                        @include('mentees.list', ['actionButtonsNum' => 1, 'matchingMode' => true])
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @include('mentors.modals')
 @endsection
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
             var controller = new window.ProfileController();
             controller.init();
-            var menteesListcontroller = new window.MenteesListController();
-            menteesListcontroller.init();
+            var menteesListController = new window.MenteesListController();
+            menteesListController.init();
+            var matchingController = new window.MatchingController();
+            matchingController.init();
         });
     </script>
 @endsection
