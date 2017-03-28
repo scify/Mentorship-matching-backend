@@ -6,9 +6,11 @@ window.MatchingController.prototype = function () {
             $("body").on("click", ".matchMentorBtn", function (e) {
                 e.stopPropagation();
                 var menteeId = $(this).attr("data-menteeId");
+                var menteeFullName = $(this).attr("data-userName");
                 console.log(menteeId);
                 $('#matchMentorModal').modal('toggle');
                 $('#matchMentorModal').find('input[name="mentee_id"]').val(menteeId);
+                $('#menteeFullName').html(menteeFullName);
             });
         },
         initHandlers = function() {
