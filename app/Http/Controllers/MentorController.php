@@ -292,4 +292,22 @@ class MentorController extends Controller
         session()->flash('flash_message_success', 'Mentor deleted');
         return back();
     }
+
+    /**
+     * Change mentor availability status if you have the permissions to ONLY change the status
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function changeMentorAvailabilityStatus(Request $request) {
+        $input = $request->all();
+
+        try {
+            $this->mentorManager->changeMentorAvailabilityStatus($input);
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+        return redirect(route("showAllMentors"));
+    }
 }

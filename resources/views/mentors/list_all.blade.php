@@ -93,6 +93,11 @@
         $( document ).ready(function() {
             var controller = new window.MentorsListController();
             controller.init();
+
+            @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
+            var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
+            availabilityStatusChangeHandler.init();
+            @endif
         });
     </script>
 @endsection

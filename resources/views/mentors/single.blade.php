@@ -1,14 +1,27 @@
 <li class="has-action-left singleItem">
     @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees())
-        <a href="javascript: void(0)" target="_blank"
-           data-toggle="modal"
+        <a href="javascript: void(0)" data-toggle="modal"
            data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
            data-mentorId="{{$mentorViewModel->mentor->id}}"
            class="deleteMentorBtn hidden"><i class="deleteIcon ion-android-delete"></i></a>
-        <a href="{{route('showEditMentorForm', $mentorViewModel->mentor->id)}}" class="hidden secondItem"><i class="editIcon ion-edit"></i></a>
+    @endif
+    @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees() &&
+        ! \Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees()
+    )
+        <a href="javascript:void(0)" data-toggle="modal"
+           data-mentorId="{{$mentorViewModel->mentor->id}}" data-original-status="{{$mentorViewModel->mentor->status_id}}"
+           class="editMentorStatusBtn hidden">
+            <i class="editIcon ion-edit"></i>
+        </a>
+    @endif
+    @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees())
+        <a href="{{route('showEditMentorForm', $mentorViewModel->mentor->id)}}" class="hidden secondItem">
+            <i class="editIcon ion-edit"></i>
+        </a>
     @endif
     <a href="{{route('showMentorProfilePage', $mentorViewModel->mentor->id)}}"
-       class="visible {{Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees() ? '':'no-slide-left'}}"
+       class="visible {{Illuminate\Support\Facades\Auth::user()->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees()
+       || \Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees() ? '':'no-slide-left'}}"
        target="_blank">
         <div class="list-action-left">
             <img src="{{ asset("/assets/img/mentor_default.png") }}" class="face-radius" alt="">

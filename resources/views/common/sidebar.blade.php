@@ -6,6 +6,8 @@
             </li>
             @if($user->isAdmin())
                 @include('common.menu_items.admin_menu_items')
+            @elseif($user->isAccountManager())
+                @include('common.menu_items.account_manager_menu_items')
             @elseif($user->isMatcher())
                 @include('common.menu_items.matcher_menu_items')
             @endif

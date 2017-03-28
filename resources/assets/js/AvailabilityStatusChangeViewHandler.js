@@ -2,13 +2,13 @@ window.AvailabilityStatusChangeViewHandler = function() {
 };
 
 window.AvailabilityStatusChangeViewHandler.prototype = (function(){
-    var originalStatusId,
-        dateFieldDisplayConditions,
+    var dateFieldDisplayConditions,
         statusChangeHandler = function() {
             var $followUpDate = $("#status-change-follow-up-date");
             var $comment = $("#status-change-comment");
             $("select[name=status_id]").change(function() {
-                $followUpDate.fadeOut("fast")
+                $followUpDate.fadeOut("fast");
+                var originalStatusId = $(this).data("original-value");
                 // if we are creating a new profile don't do anything
                 if(originalStatusId === "") {
                     return;
@@ -29,9 +29,7 @@ window.AvailabilityStatusChangeViewHandler.prototype = (function(){
 
         },
         init = function() {
-            var $statusIdSelect = $("select[name=status_id]");
-            originalStatusId = $statusIdSelect.data("original-value");
-            dateFieldDisplayConditions = $statusIdSelect.data("enable-follow-up-date").split(",");
+            dateFieldDisplayConditions = $("select[name=status_id]").data("enable-follow-up-date").split(",");
             statusChangeHandler();
         };
     return {

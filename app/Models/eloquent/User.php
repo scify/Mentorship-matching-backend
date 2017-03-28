@@ -101,6 +101,11 @@ class User extends Authenticatable
         return $userAccessManager->userIsMatcher($this);
     }
 
+    public function userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees($this);
+    }
+
     public function userHasAccessToCRUDSystemUsers() {
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userHasAccessToCRUDSystemUsers($this);

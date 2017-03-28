@@ -340,4 +340,31 @@ class MentorManager {
     public function filterMentorsByNameAndEmail($searchQuery) {
         return $this->mentorStorage->getMentorsThatMatchGivenNameOrEmail($searchQuery);
     }
+
+    /**
+     * Change the mentor's availability status
+     *
+     * @param array $input parameters passed by user
+     * @throws \Exception When something weird happens with the parameters passed
+     */
+    public function changeMentorAvailabilityStatus(array $input) {
+        $statusFollowUpDate = "";
+        if($input['follow_up_date'] != "") {
+            $dateArray = explode("/", $input['follow_up_date']);
+            $statusFollowUpDate = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+        }
+        $mentor = $this->getMentor($input['mentor_id']);
+        // if something wrong passed
+        if($mentor == null || intval($input['status_id']) == 0) {
+            throw new \Exception("Wrong parameters passed.");
+        }
+        $mentor->status_id = $input['status_id'];
+        $loggedInUser = Auth::user();
+        DB::transaction(function() use($mentor, $input, $statusFollowUpDate, $loggedInUser) {
+            $mentor = $this->mentorStorage->saveMentor($mentor);
+            $mentorStatusHistoryManager = new MentorStatusHistoryManager();
+            $mentorStatusHistoryManager->createMentorStatusHistory($mentor, $input['status_id'], $input['status_history_comment'],
+                ($statusFollowUpDate != "") ? $statusFollowUpDate : null, $loggedInUser);
+        });
+    }
 }

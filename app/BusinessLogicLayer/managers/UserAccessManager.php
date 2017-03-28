@@ -27,7 +27,7 @@ class UserAccessManager {
     }
 
     /**
-     * Checks if a given @see User has acces to create, edit and delete system users
+     * Checks if a given @see User has access to create, edit and delete system users
      *
      * @param User $user the @see User instance
      * @return bool
@@ -42,7 +42,7 @@ class UserAccessManager {
 
 
     /**
-     * Checks if a given @see User has acces to create, edit and delete Mentors and Mentees
+     * Checks if a given @see User has access to create, edit and delete Mentors and Mentees
      *
      * @param User $user the @see User instance
      * @return bool
@@ -56,7 +56,7 @@ class UserAccessManager {
     }
 
     /**
-     * Checks if a given @see User has acces to create, edit and delete @see Company instances
+     * Checks if a given @see User has access to create, edit and delete @see Company instances
      *
      * @param User $user the @see User instance
      * @return bool
@@ -67,6 +67,20 @@ class UserAccessManager {
         $userRoles = $user->roles;
         //only user with admin role
         return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+    }
+
+    /**
+     * Checks if a given @see User has access to change availability status for Mentors and Mentees
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        //if user has admin or account manager role
+        return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
     }
 
     /**
