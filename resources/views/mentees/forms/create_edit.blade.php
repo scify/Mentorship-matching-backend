@@ -294,7 +294,7 @@
 
                         <div class="row">
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <!-- Expectations -->
                                 <div class="{{ $errors->first('expectations')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">

@@ -12,8 +12,20 @@ window.MentorsListController.prototype = function () {
                 $('#deleteMentorModal').find('input[name="mentor_id"]').val(mentorId);
             });
         },
+        editMentorStatusBtnHandler = function () {
+            $("body").on("click", ".editMentorStatusBtn", function (e) {
+                e.stopPropagation();
+                var mentorId = $(this).attr("data-mentorId");
+                var originalStatusId = $(this).attr("data-original-status");
+                $('#editMentorStatusModal').modal('toggle');
+                $('#editMentorStatusModal').find('input[name="mentor_id"]').val(mentorId);
+                $('#editMentorStatusModal').find('select[name="status_id"]').attr("data-original-value", originalStatusId);
+                $('#editMentorStatusModal').find('select[name="status_id"]').val(originalStatusId).trigger("chosen:updated");
+            });
+        },
         initializeHandlers = function() {
             deleteMentorBtnHandler();
+            editMentorStatusBtnHandler();
             cardTabClickHandler();
             searchBtnHandler();
             clearSearchBtnHandler();

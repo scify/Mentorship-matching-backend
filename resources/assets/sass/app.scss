@@ -770,6 +770,19 @@
   font-size: smaller;
 }
 
+/* change mentor status modal */
+#editMentorStatusModal {
+  .btn-primary {
+    color: white;
+  }
+  .btn-primary:hover, .btn-primary:focus {
+    color: #FBAE25;
+  }
+  .modal-body {
+    min-height: 250px;
+  }
+}
+/* end of change mentor status modal */
 #matchMentorModal {
   .modal-dialog {
     width: 45%;

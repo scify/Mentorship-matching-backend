@@ -39,6 +39,10 @@ class Kernel extends HttpKernel
 
         'admin' => [
             \App\Http\Middleware\IsAdmin::class
+        ],
+
+        'status-changer' => [
+            \App\Http\Middleware\CanOnlyChangeStatus::class
         ]
     ];
 

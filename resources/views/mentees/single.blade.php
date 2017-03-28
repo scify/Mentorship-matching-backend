@@ -21,11 +21,11 @@
     <a href="{{route('showMenteeProfilePage', $menteeViewModel->mentee->id)}}"
        class="visible
        @if($matchingMode)
-            @if(!Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees())
+            @if(!Illuminate\Support\Facades\Auth::user()->isMatcher())
                 {{ 'no-slide-left'}}
             @endif
        @else
-            @if(!Illuminate\Support\Facades\Auth::user()->isMatcher())
+            @if(!Illuminate\Support\Facades\Auth::user()->userHasAccessToCRUDMentorsAndMentees())
                 {{ 'no-slide-left'}}
             @endif
        @endif"
