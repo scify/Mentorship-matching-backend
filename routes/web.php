@@ -79,3 +79,7 @@ Route::group(['middleware' => ['auth', 'status-changer']], function () {
 
     Route::post('mentee/changeStatus', 'MenteeController@changeMenteeAvailabilityStatus')->name('changeMenteeStatus');
 });
+
+Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], function () {
+    Route::post('session/matchMentorWithMentee', 'MentorshipSessionController@matchMentorWithMentee')->name('matchMentorWithMentee');
+});
