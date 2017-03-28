@@ -5,9 +5,8 @@
             <div class="panel">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <h4 >{{$formTitle}}</h4>
+                        <h4>{{$formTitle}}</h4>
                     </div>
-
                 </div><!--.panel-heading-->
                 <div class="panel-body">
                     <div class="row">
@@ -16,20 +15,8 @@
                                   action="{{($mentor->id == null ? route('createMentor') : route('editMentor', $mentor->id))}}"
                                   enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
                                 @if($loggedInUser != null)
                                     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-                                        {{--<div class="row">--}}
-                                            {{--<div class="col-md-2">--}}
-                                                {{--<div class="selecterTitle">{{trans('messages.availability')}}</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="col-md-10 ">--}}
-                                                {{--<div class="switcher">--}}
-                                                    {{--<input id="switcher1" type="checkbox" hidden="hidden" name="is_available" {{$mentor['is_available'] == true ? 'checked' : ''}}>--}}
-                                                    {{--<label for="switcher1"></label>--}}
-                                                {{--</div>--}}
-                                            {{--</div><!--.switcher-->--}}
-                                        {{--</div>--}}
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <!-- Mentor status -->
