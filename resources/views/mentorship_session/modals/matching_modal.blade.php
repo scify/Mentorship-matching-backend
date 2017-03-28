@@ -1,9 +1,8 @@
 <div class="modal scale fade" id="matchMentorModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="{{route('showAllMentees')}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('matchMentorWithMentee')}}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="mentor_id" value="">
                 <div class="modal-header">
                     <h4 class="modal-title">Select an account manager from the drop-down list and begin the session</h4>
                 </div>
@@ -13,7 +12,7 @@
                         <div class="col-md-5 text-align-right">
                             <div class="row">
                                 <div class="col-md-9">
-                                    <b>{{$mentorViewModel->mentor->first_name}}  {{$mentorViewModel->mentor->last_name}}</b>
+                                    @include('mentorship_session.modals.mentor_view')
                                     <h6>Mentor</h6>
                                 </div>
                                 <div class="col-md-3">
@@ -30,7 +29,7 @@
                                     <img class="matchingImg face-radius" src="{{ asset("/assets/img/mentee_default.png") }}" alt="Mentor profile image">
                                 </div>
                                 <div class="col-md-9">
-                                    <b id="menteeFullName"></b>
+                                    @include('mentorship_session.modals.mentee_view')
                                     <h6>Mentee</h6>
                                 </div>
                             </div>
