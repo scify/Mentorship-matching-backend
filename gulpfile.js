@@ -52,7 +52,6 @@ elixir(function(mix) {
     }
 
     mix.scripts([
-
             'node_modules/npm-modernizr/modernizr.js',
             'node_modules/jquery/dist/jquery.min.js',
             'node_modules/jquery-validation/dist/jquery.validate.min.js',
@@ -78,7 +77,8 @@ elixir(function(mix) {
             'resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js',
             'resources/assets/js/FormController.js',
             'resources/assets/js/AvailabilityStatusChangeViewHandler.js',
-            'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js'
+            'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
+            'resources/assets/js/MentorsAndMenteesListsCssCorrector.js'
         ],
         'public/js/app.js' , './')
         .scripts([

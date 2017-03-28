@@ -3,7 +3,8 @@ window.MentorsListController = function () {
 
 window.MentorsListController.prototype = function () {
 
-    var mentorsCriteria = {},
+    var mentorsAndMenteesListsCssCorrector,
+        mentorsCriteria = {},
         deleteMentorBtnHandler = function () {
             $("body").on("click", ".deleteMentorBtn", function (e) {
                 e.stopPropagation();
@@ -72,6 +73,7 @@ window.MentorsListController.prototype = function () {
                         $('.refresh-container').remove();
                     });
                     parseSuccessData(response);
+                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses();
                 },
                 error: function (xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -120,7 +122,6 @@ window.MentorsListController.prototype = function () {
         cardTabClickHandler = function() {
             $('a[data-toggle="tab"]').click(function (e) {
                 e.preventDefault();
-                console.log($(this).attr('data-id'));
                 var objectId = $(".card_" + $(this).attr('data-id'));
                 objectId.find('.tab-pane.active').removeClass('active');
                 objectId.find('.tab-content.active').removeClass('active');
@@ -128,6 +129,8 @@ window.MentorsListController.prototype = function () {
             });
         },
         init = function () {
+            mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
+            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses();
             initializeHandlers();
             initSelectInputs();
             initAgeRangeSlider();
