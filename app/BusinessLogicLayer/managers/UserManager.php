@@ -165,6 +165,10 @@ class UserManager {
         return $accountManagerRole->users;
     }
 
+    public function getAccountManagersWithAvailableCapacity() {
+        return $this->userStorage->getAccountManagersWithAvailableCapacity();
+    }
+
     /**
      * Gets all account managers with no company assigned
      *

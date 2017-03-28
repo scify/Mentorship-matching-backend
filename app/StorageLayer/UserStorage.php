@@ -57,4 +57,30 @@ class UserStorage {
             ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
             ->orWhere('email', 'like', '%' . $searchQuery . '%')->get();
     }
+
+    public function getAccountManagersWithAvailableCapacity() {
+        $rawQueryStorage = new RawQueryStorage();
+        $result = $rawQueryStorage->performRawQuery("
+           select u.*, ur.user_id ,capacity ,  (capacity - total_active_sessions) as remainingCapacity from 
+                account_manager_capacity amc
+                inner join user_role ur on amc.account_manager_id = ur.user_id
+                inner join users u on u.id = ur.user_id
+                inner join          
+                        (select ms.account_manager_id, count(*) as total_active_sessions  -- count how many active sessions exist per account manager
+                            from  mentorship_session ms 
+                            inner join   -- find sessions that have not yet completed
+                                (select mentorship_session_id
+                                 from mentorship_session_history as msh
+                                    group by mentorship_session_id
+                                 having
+                                    max(status_id) <8
+                                ) as NonCompletedSessions on ms.id = NonCompletedSessions.mentorship_session_id
+                            group by ms.account_manager_id
+                         ) as activeAccountManagerSessions on activeAccountManagerSessions.account_manager_id = ur.user_id
+            
+            
+            where ur.role_id = 3 
+        ");
+        return $result;
+    }
 }

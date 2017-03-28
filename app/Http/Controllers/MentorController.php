@@ -12,6 +12,7 @@ use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\BusinessLogicLayer\managers\UniversityManager;
+use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
 use Illuminate\Http\Request;
@@ -90,14 +91,17 @@ class MentorController extends Controller
         $menteeManager = new MenteeManager();
         $universityManager = new UniversityManager();
         $educationLevelManager = new EducationLevelManager();
+        $userManager = new UserManager();
         $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
         $menteeViewModels = $menteeManager->getAllMenteeViewModels();
         $universities = $universityManager->getAllUniversities();
         $educationLevels = $educationLevelManager->getAllEducationLevels();
+        $accountManagers = $userManager->getAccountManagersWithAvailableCapacity();
         $loggedInUser = Auth::user();
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
             'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
             'educationLevels' => $educationLevels,
+            'accountManagers' => $accountManagers,
             'loggedInUser' => $loggedInUser]);
     }
 
