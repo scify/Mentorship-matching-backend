@@ -49,6 +49,15 @@
                                 <span class="help-block">{{ $errors->first('follow_up_date') }}</span>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <!-- Do not contact again -->
+                            <div class="icheckbox" style="margin-top: 35px;">
+                                <label>
+                                    <input type="checkbox" name="do_not_contact">
+                                    <label>{{trans('messages.do_not_contact')}}</label>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

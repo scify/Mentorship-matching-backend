@@ -82,6 +82,9 @@ class MentorManager {
      * @param $id int the id of the mentor profile
      */
     public function editMentor(array $inputFields, $id) {
+        if(isset($inputFields['do_not_contact'])) {
+            $inputFields['follow_up_date'] = "";
+        }
         if($inputFields['follow_up_date'] != "") {
             $dateArray = explode("/", $inputFields['follow_up_date']);
             $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
@@ -348,10 +351,12 @@ class MentorManager {
      * @throws \Exception When something weird happens with the parameters passed
      */
     public function changeMentorAvailabilityStatus(array $input) {
-        $statusFollowUpDate = "";
+        if(isset($input['do_not_contact'])) {
+            $input['follow_up_date'] = "";
+        }
         if($input['follow_up_date'] != "") {
             $dateArray = explode("/", $input['follow_up_date']);
-            $statusFollowUpDate = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
         }
         $mentor = $this->getMentor($input['mentor_id']);
         // if something wrong passed
@@ -360,11 +365,11 @@ class MentorManager {
         }
         $mentor->status_id = $input['status_id'];
         $loggedInUser = Auth::user();
-        DB::transaction(function() use($mentor, $input, $statusFollowUpDate, $loggedInUser) {
+        DB::transaction(function() use($mentor, $input, $loggedInUser) {
             $mentor = $this->mentorStorage->saveMentor($mentor);
             $mentorStatusHistoryManager = new MentorStatusHistoryManager();
             $mentorStatusHistoryManager->createMentorStatusHistory($mentor, $input['status_id'], $input['status_history_comment'],
-                ($statusFollowUpDate != "") ? $statusFollowUpDate : null, $loggedInUser);
+                ($input['follow_up_date'] != "") ? $input['follow_up_date'] : null, $loggedInUser);
         });
     }
 }
