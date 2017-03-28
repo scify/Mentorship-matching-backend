@@ -32,7 +32,7 @@
                 {{ 'no-slide-left'}}
            @endif
        @else
-           @if(!$loggedInUser->userHasAccessToCRUDMentorsAndMentees() && !$loggedInUser->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
+           @if(!$loggedInUser->userHasAccessToCRUDMentorsAndMentees() || !$loggedInUser->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
                 {{ 'no-slide-left'}}
            @endif
        @endif"

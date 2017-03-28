@@ -28,7 +28,7 @@
                     <div class="col-md-2 filterName">Specialty</div>
                     <div class="col-md-4">
                         <select data-placeholder="Choose specialty" name="specialty" id="specialtiesSelect" class="chosen-select">
-                            <option value="">No specialty selected<option>
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
                             @foreach($specialties as $specialty)
                                 <option value="{{$specialty->id}}">{{$specialty->name}}</option>
                             @endforeach
@@ -37,7 +37,7 @@
                     <div class="col-md-2 filterName">Company</div>
                     <div class="col-md-4">
                         <select data-placeholder="Choose a company" name="company" id="companiesSelect" class="chosen-select">
-                            <option value="">No company selected<option>
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
                             @foreach($companies as $company)
                                 <option value="{{$company->id}}">{{$company->name}}</option>
                             @endforeach
@@ -48,7 +48,7 @@
                     <div class="col-md-2 filterName">Availability</div>
                     <div class="col-md-4">
                         <select data-placeholder="Choose availability status" name="availability" id="availabilitySelect" class="chosen-select">
-                            <option value="">No availability status selected<option>
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
                             @foreach($statuses as $status)
                                 <option value="{{$status->id}}">{{$status->description}}</option>
                             @endforeach
@@ -57,7 +57,7 @@
                     <div class="col-md-2 filterName">Residence</div>
                     <div class="col-md-4">
                         <select data-placeholder="Choose a residence" name="residence" id="residencesSelect" class="chosen-select">
-                            <option value="">No residence selected<option>
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
                             @foreach($residences as $residence)
                                 <option value="{{$residence->id}}">{{$residence->name}}</option>
                             @endforeach
