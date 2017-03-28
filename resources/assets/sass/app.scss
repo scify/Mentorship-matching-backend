@@ -23,6 +23,14 @@
   content: none;
 }
 
+.text-align-right {
+  text-align: right;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
 .accordion .panel-heading.active .noPanelHeadingStyleLink:after {
   content: none;
 }
@@ -775,3 +783,25 @@
   }
 }
 /* end of change mentor status modal */
+#matchMentorModal {
+  .modal-dialog {
+    width: 45%;
+    text-align: center;
+  }
+  .matchingIcon {
+    color: $brand-success;
+    font-size: 35px;
+  }
+  .matchingImg {
+    width: 100%;
+  }
+  .accountManagerSelector {
+    margin-top: 50px;
+    margin-bottom: 170px;
+    .selectorTitle {
+      font-size: medium;
+      margin-left: 15%;
+    }
+  }
+
+}

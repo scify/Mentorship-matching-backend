@@ -14,7 +14,7 @@
         @if($loggedInUser != null)
             @if($loggedInUser->userHasAccessToCRUDSystemUsers())
                 @if(isset($accountManagersActiveSessions[$user->id]))
-                    <p>Remaining Sessions Capacity: {{ $user->capacity->capacity - $accountManagersActiveSessions[$user->id]->total_active_sessions }}</p>
+                    <p>Remaining capacity: {{ $user->capacity->capacity - $accountManagersActiveSessions[$user->id]->total_active_sessions }}</p>
                 @endif
                 <div class="clickable-button">
                     <div class="layer bg-orange"></div>

@@ -3,7 +3,7 @@
         <a href="javascript: void(0);" class="hidden">
             <div class="matchMentorBtn"
                     data-toggle="modal"
-                    data-userName="{{$menteeViewModel->mentee->first_name . $menteeViewModel->mentee->last_name}}"
+                    data-userName="{{$menteeViewModel->mentee->first_name . ' ' . $menteeViewModel->mentee->last_name}}"
                     data-menteeId="{{$menteeViewModel->mentee->id}}">
                 <i class="matchingIcon ion-arrow-swap"></i>
             </div>

@@ -257,7 +257,7 @@
             </div>
         </div>
     </div>
-    @include('mentors.modals')
+    @include('mentorship_session.matching_modal', ['mentorViewModel' => $mentorViewModel])
 @endsection
 @section('additionalFooter')
     <script>
