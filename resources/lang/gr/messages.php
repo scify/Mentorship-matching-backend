@@ -24,6 +24,7 @@ return [
     'change_mentor_status' => 'Αλλαγή κατάστασης μέντορα',
     'status_history_comment' => 'Λόγος Αλλαγής Κατάστασης Μέντορα',
     'follow_up_date' => 'Ημερομηνία Επικοινωνίας (ηη/μμ/εεεε)',
+    'do_not_contact' => 'Μην επικοινωνήσεις ξανά',
     'availability' => 'Διαθεσιμότητα',
     'available' => 'Available',
     'not' => 'Not',

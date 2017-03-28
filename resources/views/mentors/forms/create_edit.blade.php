@@ -57,6 +57,15 @@
                                                     <span class="help-block">{{ $errors->first('follow_up_date') }}</span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <!-- Do not contact again -->
+                                                <div class="icheckbox" style="margin-top: 35px;">
+                                                    <label>
+                                                        <input type="checkbox" name="do_not_contact">
+                                                        <label>{{trans('messages.do_not_contact')}}</label>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     @endif
                                 @endif
@@ -310,6 +319,7 @@
                                         <span class="help-block">{{ $errors->first('skills') }}</span>
                                     </div>
                                 </div>
+                                @if($mentor->id == null)
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Reference (where did you hear about us) -->
@@ -322,6 +332,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                @endif
                                 @if($loggedInUser == null)
                                     <div class="row font-size-smaller margin-top-20">
                                         <div class="col-md-6">

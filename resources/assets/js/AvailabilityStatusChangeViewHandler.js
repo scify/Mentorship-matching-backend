@@ -29,9 +29,16 @@ window.AvailabilityStatusChangeViewHandler.prototype = (function(){
             });
 
         },
+        doNotContactHandler = function() {
+            $("input[name=do_not_contact]").on("ifChecked", function() {
+                var $followUpDateInput = $("#status-change-follow-up-date").find("input");
+                $followUpDateInput.val("");
+            });
+        },
         init = function() {
             dateFieldDisplayConditions = $("select[name=status_id]").data("enable-follow-up-date").split(",");
             statusChangeHandler();
+            doNotContactHandler();
         };
     return {
         init: init

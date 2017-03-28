@@ -24,6 +24,7 @@ return [
     'change_mentor_status' => 'Change mentor status',
     'status_history_comment' => 'Mentor Status Change Reason',
     'follow_up_date' => 'Follow Up Date (dd/mm/yyyy)',
+    'do_not_contact' => 'Do not contact again',
     'availability' => 'Availability',
     'available' => 'Available',
     'not' => 'Not',
