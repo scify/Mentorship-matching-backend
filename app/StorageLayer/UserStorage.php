@@ -23,22 +23,6 @@ class UserStorage {
         return User::all();
     }
 
-    public function getCountOfActiveSessionsForAllAccountManagers() {
-        $rawQueryStorage = new RawQueryStorage();
-        return $rawQueryStorage->performRawQuery("           
-            select ms.account_manager_id, count(*) as total_active_sessions  -- count how many active sessions exist per account manager
-                from  mentorship_session ms 
-                inner join   -- find sessions that have not yet completed
-                    (select mentorship_session_id
-                     from mentorship_session_history as msh
-                        group by mentorship_session_id
-                     having
-                        max(status_id) <8
-                    ) as NonCompletedSessions on ms.id = NonCompletedSessions.mentorship_session_id
-                group by ms.account_manager_id
-        ");
-    }
-
     public function getUserById($id) {
         return User::find($id);
     }
@@ -61,11 +45,11 @@ class UserStorage {
     public function getAccountManagersWithAvailableCapacity() {
         $rawQueryStorage = new RawQueryStorage();
         $result = $rawQueryStorage->performRawQuery("
-           select u.*, ur.user_id ,capacity ,  (capacity - total_active_sessions) as remainingCapacity from 
-                account_manager_capacity amc
-                inner join user_role ur on amc.account_manager_id = ur.user_id
+           select u.*, ur.user_id ,capacity ,  (capacity - IFNULL(total_active_sessions,0)) as remainingCapacity from 
+                user_role ur
+                inner join account_manager_capacity amc on amc.account_manager_id = ur.user_id
                 inner join users u on u.id = ur.user_id
-                inner join          
+                left outer join          
                         (select ms.account_manager_id, count(*) as total_active_sessions  -- count how many active sessions exist per account manager
                             from  mentorship_session ms 
                             inner join   -- find sessions that have not yet completed
@@ -73,12 +57,10 @@ class UserStorage {
                                  from mentorship_session_history as msh
                                     group by mentorship_session_id
                                  having
-                                    max(status_id) <8
+                                    max(status_id) < 8
                                 ) as NonCompletedSessions on ms.id = NonCompletedSessions.mentorship_session_id
                             group by ms.account_manager_id
                          ) as activeAccountManagerSessions on activeAccountManagerSessions.account_manager_id = ur.user_id
-            
-            
             where ur.role_id = 3 
         ");
         return $result;
