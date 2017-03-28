@@ -43,6 +43,10 @@ class Kernel extends HttpKernel
 
         'status-changer' => [
             \App\Http\Middleware\CanOnlyChangeStatus::class
+        ],
+
+        'can-create-mentorship-session' => [
+            \App\Http\Middleware\CanCreateMentorshipSession::class
         ]
     ];
 
