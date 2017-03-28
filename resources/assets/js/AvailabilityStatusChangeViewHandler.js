@@ -8,6 +8,7 @@ window.AvailabilityStatusChangeViewHandler.prototype = (function(){
             var $comment = $("#status-change-comment");
             $("select[name=status_id]").change(function() {
                 $followUpDate.fadeOut("fast");
+                $followUpDate.find("input").val("");
                 var originalStatusId = $(this).data("original-value");
                 // if we are creating a new profile don't do anything
                 if(originalStatusId === "") {
