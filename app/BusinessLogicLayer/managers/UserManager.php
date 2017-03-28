@@ -86,8 +86,8 @@ class UserManager {
     }
 
     public function getCountOfActiveSessionsForAllAccountManagers() {
-        $activeSessionsPerAccountManager = $this->userStorage->getCountOfActiveSessionsForAllAccountManagers();
-        return $this->getAssociativeArrayFromObjectsArray($activeSessionsPerAccountManager, "account_manager_id");
+        $activeSessionsPerAccountManager = $this->userStorage->getAccountManagersWithAvailableCapacity();
+        return $this->getAssociativeArrayFromObjectsArray($activeSessionsPerAccountManager, "user_id");
     }
 
     private function assignInputFieldsToUser(User $user, array $inputFields) {
