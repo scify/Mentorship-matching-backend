@@ -129,5 +129,4 @@
     </div>
 </div>
 
-<div class="loading-bar indeterminate margin-top-10 hidden loader"></div>
 <div id="errorMsg" class="alert alert-danger stickyAlert margin-top-20 margin-bottom-20 margin-left-100 hidden" role="alert"></div>
