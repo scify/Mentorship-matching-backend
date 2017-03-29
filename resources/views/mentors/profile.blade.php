@@ -251,7 +251,7 @@
                     </div>
                     <div id="mentorship_sessions" class="tab-pane">
                         @include('mentees.filters')
-                        @include('mentees.list', ['actionButtonsNum' => 1, 'matchingMode' => true])
+                        @include('mentees.list')
                     </div>
                 </div>
             </div>

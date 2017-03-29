@@ -15,12 +15,9 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            'mentors.single-mentor-menu', '\App\ViewComposers\MentorComposer'
+            ['mentors.single-mentor-menu', 'mentees.single-mentee-menu'], '\App\ViewComposers\MenteeAndMentorMenuComposer'
         );
 
-        View::composer(
-            'mentees.single-mentee-menu', '\App\ViewComposers\MenteeComposer'
-        );
     }
 
     /**

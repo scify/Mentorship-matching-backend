@@ -1,11 +1,7 @@
 @extends('layouts.app')
 @section('content')
     @include('mentees.filters')
-    @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-        @include('mentees.list', ['actionButtonsNum' => 2, 'matchingMode' => false])
-    @else
-        @include('mentees.list', ['actionButtonsNum' => 1, 'matchingMode' => false])
-    @endif
+    @include('mentees.list')
     @include('mentees.modals')
 @endsection
 

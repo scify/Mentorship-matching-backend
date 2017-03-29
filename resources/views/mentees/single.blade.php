@@ -1,4 +1,4 @@
-<li class="has-action-left singleItem {{$actionButtonsNum == 2 ? 'twoActionButtons' : ''}}">
+<li class="has-action-left singleItem">
 
     @include('mentees.single-mentee-menu')
 
