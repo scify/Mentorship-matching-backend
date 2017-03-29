@@ -127,7 +127,7 @@ class MentorController extends Controller
             if($input['public'] == 1) {
                 $pageTitle = null;
                 $pageSubTitle = null;
-                $publicForm = false;
+                $publicForm = true;
             }
         }
 

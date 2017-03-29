@@ -4,11 +4,11 @@
         <div class="col-md-12">
             <div class="panel">
                 @if(!$publicForm)
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h4>{{$formTitle}}</h4>
-                    </div>
-                </div><!--.panel-heading-->
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4>{{$formTitle}}</h4>
+                        </div>
+                    </div><!--.panel-heading-->
                 @endif
                 <div class="panel-body">
                     <div class="row">

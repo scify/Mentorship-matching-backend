@@ -70,11 +70,13 @@ class MenteeController extends Controller
 
         $pageTitle = 'Mentees';
         $pageSubTitle = 'create new';
+        $publicForm = false;
         // when on public form ,we do not want to present header with page title and subtitle
         if(isset($input['public'])) {
             if($input['public'] == 1) {
                 $pageTitle = null;
                 $pageSubTitle = null;
+                $publicForm = true;
             }
         }
 
@@ -94,7 +96,7 @@ class MenteeController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
-            'loggedInUser' => Auth::user()
+            'loggedInUser' => Auth::user(),'publicForm' => $publicForm
         ]);
     }
 
