@@ -9,7 +9,7 @@
     </a>
 @else
     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-        <a href="javascript: void(0);" target="_blank"
+        <a href="javascript: void(0);"
            data-toggle="modal"
            data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
            data-menteeId="{{$mentorViewModel->mentor->id}}"

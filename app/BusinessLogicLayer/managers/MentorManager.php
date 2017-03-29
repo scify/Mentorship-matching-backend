@@ -267,7 +267,8 @@ class MentorManager {
             (!isset($filters['specialtyId'])  || $filters['specialtyId'] === "") &&
             (!isset($filters['companyId'])  || $filters['companyId'] === "") &&
             (!isset($filters['availabilityId'])  || $filters['availabilityId'] === "") &&
-            (!isset($filters['residenceId'])  || $filters['residenceId'] === "")) {
+            (!isset($filters['residenceId'])  || $filters['residenceId'] === "") &&
+            (!isset($filters['displayOnlyExternallySubscribed'])  || $filters['displayOnlyExternallySubscribed'] === 'false')) {
             return $this->mentorStorage->getAllMentorProfiles();
         }
         $whereClauseExists = false;
@@ -327,6 +328,13 @@ class MentorManager {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.residence_id = " . $filters['residenceId'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.creator_user_id is null ";
         }
         $filteredMentorIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)

@@ -138,7 +138,8 @@ class MenteeManager {
             (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
             (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
             (!isset($filters['displayOnlyActiveSession']) || $filters['displayOnlyActiveSession'] === 'false') &&
-            (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false')) {
+            (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false') &&
+            (!isset($filters['displayOnlyExternallySubscribed']) || $filters['displayOnlyExternallySubscribed'] === 'false')) {
             return $this->menteeStorage->getAllMenteeProfiles();
         }
         $whereClauseExists = false;
@@ -243,6 +244,13 @@ class MenteeManager {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "ms.id is null ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.creator_user_id is null ";
         }
         $filteredMenteeIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)
