@@ -94,6 +94,8 @@ class UserManager {
         //store a hash of the password entered
         if($inputFields['password'] != null && $inputFields['password'] != "") {
             $inputFields['password'] = Hash::make($inputFields['password']);
+        } else { // if password is empty, do not save it
+            unset($inputFields['password']);
         }
         $user->fill($inputFields);
         return $user;
