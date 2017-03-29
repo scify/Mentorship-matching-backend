@@ -301,7 +301,7 @@ class MentorController extends Controller
      * Change mentor availability status if you have the permissions to ONLY change the status
      *
      * @param Request $request
-     * @return string
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|string
      */
     public function changeMentorAvailabilityStatus(Request $request) {
         $input = $request->all();
