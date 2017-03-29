@@ -2,7 +2,8 @@ window.MenteesListController = function () {
 };
 
 window.MenteesListController.prototype = function () {
-    var menteesCriteria = {},
+    var mentorsAndMenteesListsCssCorrector,
+        menteesCriteria = {},
         deleteMenteeBtnHandler = function () {
             $("body").on("click", ".deleteMenteeBtn", function (e) {
                 e.stopPropagation();
@@ -127,6 +128,8 @@ window.MenteesListController.prototype = function () {
             clearSearchBtnHandler();
         },
         init = function () {
+            mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
+            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses();
             initSelectInputs();
             initAgeRangeSlider();
             initHandlers();

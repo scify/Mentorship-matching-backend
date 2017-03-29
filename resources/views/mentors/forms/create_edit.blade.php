@@ -3,11 +3,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h4>{{$formTitle}}</h4>
-                    </div>
-                </div><!--.panel-heading-->
+                @if(!$publicForm)
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4>{{$formTitle}}</h4>
+                        </div>
+                    </div><!--.panel-heading-->
+                @endif
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12 col-lg-8">
@@ -339,7 +341,7 @@
                                             <div class="icheckbox">
                                                 <label>
                                                     <input type="checkbox" name="terms" required>
-                                                    {{trans('messages.i_accept_the')}} <a href="http://www.job-pairs.gr/faq/">{{trans('messages.terms_and_conditions')}}</a>
+                                                    {{trans('messages.i_accept_the')}} <a target="_blank" href="http://www.job-pairs.gr/faq/">{{trans('messages.terms_and_conditions')}}</a>
                                                 </label>
                                             </div>
                                         </div>

@@ -121,12 +121,13 @@ class MentorController extends Controller
 
         $pageTitle = 'Mentors';
         $pageSubTitle = 'create new';
-
+        $publicForm = false;
         // when on public form ,we do not want to present header with page title and subtitle
         if(isset($input['public'])) {
             if($input['public'] == 1) {
                 $pageTitle = null;
                 $pageSubTitle = null;
+                $publicForm = true;
             }
         }
 
@@ -152,7 +153,7 @@ class MentorController extends Controller
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
             'companies' => $companies, 'references' => $references,
-            'mentorStatuses' => $mentorStatuses
+            'mentorStatuses' => $mentorStatuses, 'publicForm' => $publicForm
         ]);
     }
 
