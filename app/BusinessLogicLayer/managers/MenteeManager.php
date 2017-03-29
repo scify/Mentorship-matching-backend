@@ -272,4 +272,34 @@ class MenteeManager {
         }
         return $menteeViewModels;
     }
+
+    /**
+     * Change the mentee's availability status
+     *
+     * @param array $input parameters passed by user
+     * @throws \Exception When something weird happens with the parameters passed
+     */
+    public function changeMenteeAvailabilityStatus(array $input) {
+        if(isset($input['do_not_contact'])) {
+            $input['follow_up_date'] = "";
+        }
+        if($input['follow_up_date'] != "") {
+            $dateArray = explode("/", $input['follow_up_date']);
+            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+        }
+        $mentee = $this->getMentee($input['mentee_id']);
+        unset($mentee->age);
+        // if something wrong passed
+        if($mentee == null || intval($input['status_id']) == 0) {
+            throw new \Exception("Wrong parameters passed.");
+        }
+        $mentee->status_id = $input['status_id'];
+        $loggedInUser = Auth::user();
+        DB::transaction(function() use($mentee, $input, $loggedInUser) {
+            $mentee = $this->menteeStorage->saveMentee($mentee);
+            $menteeStatusHistoryManager = new MenteeStatusHistoryManager();
+            $menteeStatusHistoryManager->createMenteeStatusHistory($mentee, $input['status_id'], $input['status_history_comment'],
+                ($input['follow_up_date'] != "") ? $input['follow_up_date'] : null, $loggedInUser);
+        });
+    }
 }

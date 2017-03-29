@@ -21,6 +21,7 @@ return [
     'residence' => 'Τόπος διαμονής',
     'mentee_status' => 'Mentee status',
     'mentor_status' => 'Κατάσταση Μέντορα',
+    'change_mentee_status' => 'Αλλαγή κατάστασης mentee',
     'change_mentor_status' => 'Αλλαγή κατάστασης μέντορα',
     'status_history_comment' => 'Λόγος Αλλαγής Κατάστασης Μέντορα',
     'follow_up_date' => 'Ημερομηνία Επικοινωνίας (ηη/μμ/εεεε)',

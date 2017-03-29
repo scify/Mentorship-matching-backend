@@ -11,6 +11,18 @@ window.MenteesListController.prototype = function () {
                 $('#deleteMenteeModal').find('input[name="mentee_id"]').val(menteeId);
             });
         },
+        editMenteeStatusBtnHandler = function () {
+            $("body").on("click", ".editMenteeStatusBtn", function (e) {
+                e.stopPropagation();
+                var menteeId = $(this).attr("data-menteeId");
+                var originalStatusId = $(this).attr("data-original-status");
+                var $editMenteeStatusModal = $('#editMenteeStatusModal');
+                $editMenteeStatusModal.modal('toggle');
+                $editMenteeStatusModal.find('input[name="mentee_id"]').val(menteeId);
+                $editMenteeStatusModal.find('select[name="status_id"]').attr("data-original-value", originalStatusId);
+                $editMenteeStatusModal.find('select[name="status_id"]').val(originalStatusId).trigger("chosen:updated");
+            });
+        },
         searchBtnHandler = function () {
             $("#searchBtn").on("click", function () {
                 menteesCriteria.menteeName = $("input[name=mentee_name]").val();
@@ -110,6 +122,7 @@ window.MenteesListController.prototype = function () {
         },
         initHandlers = function() {
             deleteMenteeBtnHandler();
+            editMenteeStatusBtnHandler();
             searchBtnHandler();
             clearSearchBtnHandler();
         },

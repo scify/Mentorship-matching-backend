@@ -770,8 +770,8 @@
   font-size: smaller;
 }
 
-/* change mentor status modal */
-#editMentorStatusModal {
+/* change mentor / mentee status modal */
+#editMentorStatusModal, #editMenteeStatusModal {
   .btn-primary {
     color: white;
   }
@@ -779,7 +779,7 @@
     color: #FBAE25;
   }
   .modal-body {
-    min-height: 250px;
+    min-height: 300px;
   }
 }
 /* end of change mentor status modal */

@@ -45,12 +45,13 @@ class MenteeController extends Controller
         $menteeViewModels = $this->menteeManager->getAllMenteeViewModels();
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
+        $statuses = $this->menteeStatusManager->getAllMenteeStatuses();
         $loggedInUser = Auth::user();
         $page_title = 'All mentees';
         return view('mentees.list_all', [
             'pageTitle' => $page_title,
             'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
-            'educationLevels' => $educationLevels,
+            'educationLevels' => $educationLevels, 'statuses' => $statuses,
             'loggedInUser' => $loggedInUser]);
     }
 
@@ -260,5 +261,23 @@ class MenteeController extends Controller
             $loggedInUser = Auth::user();
             return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentees.list', compact('menteeViewModels', 'loggedInUser'))));
         }
+    }
+
+    /**
+     * Change mentee availability status if you have the permissions to ONLY change the status
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|string
+     */
+    public function changeMenteeAvailabilityStatus(Request $request) {
+        $input = $request->all();
+
+        try {
+            $this->menteeManager->changeMenteeAvailabilityStatus($input);
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+        return redirect(route("showAllMentees"));
     }
 }

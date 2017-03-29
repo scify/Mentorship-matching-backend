@@ -21,6 +21,7 @@ return [
     'residence' => 'Residence',
     'mentee_status' => 'Mentee status',
     'mentor_status' => 'Mentor status',
+    'change_mentee_status' => 'Change mentee status',
     'change_mentor_status' => 'Change mentor status',
     'status_history_comment' => 'Mentor Status Change Reason',
     'follow_up_date' => 'Follow Up Date (dd/mm/yyyy)',
