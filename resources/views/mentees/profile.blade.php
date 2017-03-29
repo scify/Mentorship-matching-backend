@@ -7,13 +7,13 @@
                     <img src="{{ asset("/assets/img/mentee_default.png") }}" alt="Mentee profile image">
                 </div><!--.profile-photo-->
                 <div class="profile-text light">
-                    {{$mentee->first_name}}  {{$mentee->last_name}},
+                    {{$menteeViewModel->mentee->first_name}}  {{$menteeViewModel->mentee->last_name}},
                     <span class="caption userRole">{{trans('messages.mentee')}}
                         @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-                            <a class="margin-left-10" href="{{route('showEditMenteeForm', $mentee->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                            <a class="margin-left-10" href="{{route('showEditMenteeForm', $menteeViewModel->mentee->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                         @endif
                     </span>
-                    <span class="caption {{$mentee->is_employed ? 'green' : 'red'}}"> {{$mentee->is_employed ? 'Employed' : 'Unemployed'}}</span>
+                    <span class="caption {{$menteeViewModel->mentee->is_employed ? 'green' : 'red'}}"> {{$menteeViewModel->mentee->is_employed ? 'Employed' : 'Unemployed'}}</span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 
@@ -21,7 +21,7 @@
                 <ol class="breadcrumb">
                     <li><a href="{{route('home')}}"><i class="ion-home"></i></a></li>
                     <li><a href="{{route('showAllMentees')}}">mentees</a></li>
-                    <li><a href="#" class="active">{{$mentee->first_name}}  {{$mentee->last_name}}</a></li>
+                    <li><a href="#" class="active">{{$menteeViewModel->mentee->first_name}}  {{$menteeViewModel->mentee->last_name}}</a></li>
                 </ol>
             </div><!--.row-->
 
@@ -48,46 +48,46 @@
                                     <div class="col-md-12">
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.year_of_birth')}}</div>
-                                            <div class="col-md-9">{{$mentee->year_of_birth}}  <span class="margin-left-5"> ({{$mentee->age}} {{trans('messages.years_old')}})</span></div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->year_of_birth}}  <span class="margin-left-5"> ({{$menteeViewModel->mentee->age}} {{trans('messages.years_old')}})</span></div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.email')}}</div>
-                                            <div class="col-md-9">{{$mentee->email}}</div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->email}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.phone')}}</div>
-                                            <div class="col-md-9">{{$mentee->phone}}</div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->phone}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.cell_phone')}}</div>
-                                            <div class="col-md-9">{{$mentee->phone}}</div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->phone}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.address')}}</div>
-                                            <div class="col-md-9">{{$mentee->address}}</div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->address}}</div>
                                         </div><!--.row-->
-                                        @if($mentee->residence != null)
+                                        @if($menteeViewModel->mentee->residence != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.residence')}}</div>
-                                                <div class="col-md-9">{{$mentee->residence->name}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->residence->name}}</div>
                                             </div><!--.row-->
                                         @endif
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.linkedin')}}</div>
-                                            @if($mentee->linkedin_url != null)
-                                                <a href="{{$mentee->linkedin_url}}"><div class="col-md-9">{{$mentee->linkedin_url}}</div></a>
+                                            @if($menteeViewModel->mentee->linkedin_url != null)
+                                                <a href="{{$menteeViewModel->mentee->linkedin_url}}"><div class="col-md-9">{{$menteeViewModel->mentee->linkedin_url}}</div></a>
                                             @endif
                                         </div><!--.row-->
-                                        @if($mentee->created_at != null)
+                                        @if($menteeViewModel->mentee->created_at != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.joined.capitalF')}}</div>
-                                                <div class="col-md-9">{{$mentee->created_at->format('d / m / Y')}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->created_at->format('d / m / Y')}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->creator != null)
+                                        @if($menteeViewModel->mentee->creator != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.created_by')}}</div>
-                                                <div class="col-md-9"><a href="{{route('showUserProfile', $mentee->creator->id)}}">{{$mentee->creator->first_name}} {{$mentee->creator->last_name}}</a></div>
+                                                <div class="col-md-9"><a href="{{route('showUserProfile', $menteeViewModel->mentee->creator->id)}}">{{$menteeViewModel->mentee->creator->first_name}} {{$menteeViewModel->mentee->creator->last_name}}</a></div>
                                             </div><!--.row-->
                                         @else
                                             <div class="formRow row">
@@ -95,10 +95,10 @@
                                                 <div class="col-md-9">Public form</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->reference_id != null)
+                                        @if($menteeViewModel->mentee->reference_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.heard_about')}}</div>
-                                                <div class="col-md-9">{{$mentee->reference->name}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->reference->name}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
@@ -116,41 +116,41 @@
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.employed')}}</div>
                                             <div class="col-md-9">
-                                                @if($mentee->is_employed)
+                                                @if($menteeViewModel->mentee->is_employed)
                                                     {{trans('messages.yes')}} <i class="fa fa-check green" aria-hidden="true"></i>
                                                 @else
                                                     {{trans('messages.no')}} <i class="fa fa-times red" aria-hidden="true"></i>
                                                 @endif
                                             </div>
                                         </div><!--.row-->
-                                        @if($mentee->job_description != null)
+                                        @if($menteeViewModel->mentee->job_description != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.job_description')}}</div>
-                                                <div class="col-md-9">{{$mentee->job_description}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->job_description}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->education_level_id != null)
+                                        @if($menteeViewModel->mentee->education_level_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.education_level')}}</div>
-                                                <div class="col-md-9">{{$mentee->educationLevel->name}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->educationLevel->name}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->university_id != null)
+                                        @if($menteeViewModel->mentee->university_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.university')}}</div>
-                                                <div class="col-md-9">{{$mentee->university->name}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->university->name}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->university_department_name != null)
+                                        @if($menteeViewModel->mentee->university_department_name != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.university_department')}}</div>
-                                                <div class="col-md-9">{{$mentee->university_department_name}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->university_department_name}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->university_graduation_year != null)
+                                        @if($menteeViewModel->mentee->university_graduation_year != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.university_graduation_year')}}</div>
-                                                <div class="col-md-9">{{$mentee->university_graduation_year}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->university_graduation_year}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
@@ -164,15 +164,15 @@
                                     <div class="col-md-12">
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.specialty')}}</div>
-                                            <div class="col-md-9">{{$mentee->specialty->name}}</div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->specialty->name}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.specialty_experience')}}</div>
-                                            <div class="col-md-9">{{$mentee->specialty_experience}}</div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->specialty_experience}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.skills.capitalF')}}</div>
-                                            <div class="col-md-9">{{$mentee->skills}}</div>
+                                            <div class="col-md-9">{{$menteeViewModel->mentee->skills}}</div>
                                         </div><!--.row-->
                                     </div>
                                 </div><!--.panel-->
@@ -185,16 +185,16 @@
                                 </div><!--.panel-heading-->
                                 <div class="panel-body">
                                     <div class="col-md-12">
-                                        @if($mentee->career_goals != null)
+                                        @if($menteeViewModel->mentee->career_goals != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.career_goals')}}</div>
-                                                <div class="col-md-9">{{$mentee->career_goals}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->career_goals}}</div>
                                             </div><!--.row-->
                                         @endif
-                                        @if($mentee->expectations != null)
+                                        @if($menteeViewModel->mentee->expectations != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.expectations')}}</div>
-                                                <div class="col-md-9">{{$mentee->expectations}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->expectations}}</div>
                                             </div><!--.row-->
                                         @endif
                                     </div>
@@ -205,17 +205,25 @@
                     <div id="availability" class="tab-pane">
 
                     </div>
-                    <div id="sessions" class="tab-pane"></div>
+                    <div id="sessions" class="tab-pane">
+                        @include('mentors.filters')
+                        @include('mentors.list')
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    @include('mentorship_session.modals.matching_modal', ['menteeViewModel' => $menteeViewModel])
 @endsection
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
             var controller = new window.ProfileController();
             controller.init();
+            var mentorsListController = new window.MentorsListController();
+            mentorsListController.init();
+            var matchingController = new window.MatchingController();
+            matchingController.init();
         });
     </script>
 @endsection

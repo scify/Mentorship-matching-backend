@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\EducationLevelManager;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MenteeStatusManager;
+use App\BusinessLogicLayer\managers\MentorManager;
+use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
 use App\BusinessLogicLayer\managers\SpecialtyManager;
 use App\BusinessLogicLayer\managers\UniversityManager;
+use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
 use Illuminate\Http\Request;
@@ -179,9 +183,18 @@ class MenteeController extends Controller
      */
     public function showProfile($id)
     {
-        $mentee = $this->menteeManager->getMentee($id);
+        $specialties = $this->specialtyManager->getAllSpecialties();
+        $companies = (new CompanyManager())->getAllCompanies();
+        $statuses = (new MentorStatusManager())->getAllMentorStatuses();
+        $residences = $this->residenceManager->getAllResidences();
+        $accountManagers = (new UserManager())->getAccountManagersWithAvailableCapacity();
+        $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
+        $mentorViewModels = (new MentorManager())->getAllMentorViewModels();
         $loggedInUser = Auth::user();
-        return view('mentees.profile', ['mentee' => $mentee, 'loggedInUser' => $loggedInUser]);
+        return view('mentees.profile', ['menteeViewModel' => $menteeViewModel, 'loggedInUser' => $loggedInUser,
+            'specialties' => $specialties, 'companies' => $companies, 'statuses' => $statuses,
+            'residences' => $residences, 'accountManagers' => $accountManagers, 'mentorViewModels' => $mentorViewModels
+        ]);
     }
 
     /**

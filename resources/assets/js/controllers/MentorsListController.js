@@ -65,7 +65,7 @@ window.MentorsListController.prototype = function () {
         getMentorsByFilter = function () {
             $.ajax({
                 method: "GET",
-                url: "byCriteria",
+                url: $(".filtersContainer").data("url"),
                 cache: false,
                 data: mentorsCriteria,
                 beforeSend: function () {
@@ -96,12 +96,12 @@ window.MentorsListController.prototype = function () {
                 $(".loader").addClass('hidden');
                 $("#errorMsg").removeClass('hidden');
                 $("#errorMsg").html(responseObj.data);
-                $("#usersList").html("");
+                $("#mentorsList").html("");
             } else {
                 $("#mentorsList").html("");
                 $("#errorMsg").addClass('hidden');
                 $(".loader").addClass('hidden');
-                $("#usersList").html(responseObj.data);
+                $("#mentorsList").html(responseObj.data);
                 Pleasure.listenClickableCards();
             }
         },

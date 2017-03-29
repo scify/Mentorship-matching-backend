@@ -32,6 +32,7 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
     Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
     Route::get('mentees/filter', 'MenteeController@showMenteesByCriteria')->name('filterMentees');
+    Route::get('mentors/filter', 'MentorController@showMentorsByCriteria')->name('filterMentors');
     Route::get('mentors/all', 'MentorController@showAllMentors')->name('showAllMentors');
     Route::get('mentees/all', 'MenteeController@showAllMentees')->name('showAllMentees');
 

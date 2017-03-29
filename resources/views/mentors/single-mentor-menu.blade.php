@@ -1,10 +1,10 @@
 @if($matchingMode)
     @if($loggedInUser->isMatcher())
         <a href="javascript: void(0);" class="hidden menu-action">
-            <div class="matchMentorBtn"
+            <div class="matchMenteeBtn"
                  data-toggle="modal"
                  data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
-                 data-menteeId="{{$mentorViewModel->mentor->id}}">
+                 data-mentorId="{{$mentorViewModel->mentor->id}}">
                 <i class="matchingIcon ion-arrow-swap"></i>
             </div>
         </a>
