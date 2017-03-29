@@ -12,7 +12,7 @@ namespace App\ViewComposers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class MentorComposer
+class MenteeComposer
 {
     public function __construct() {
 
