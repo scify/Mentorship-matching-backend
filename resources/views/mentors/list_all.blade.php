@@ -64,6 +64,16 @@
                         </select>
                     </div><!--.col-md-6-->
                 </div>
+                <div class="row">
+                    <div class="col-md-2 filterName">
+                        <label for="only-externally-subscribed">Subscribed from external form</label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="icheckbox">
+                            <input type="checkbox" name="only_externally_subscribed" id="only-externally-subscribed">
+                        </div>
+                    </div>
+                </div>
                 <div class="form-buttons">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">
