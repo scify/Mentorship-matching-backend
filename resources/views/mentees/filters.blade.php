@@ -104,6 +104,14 @@
                     <input type="checkbox" name="only_never_matched" id="only-never-matched">
                 </div>
             </div>
+            <div class="col-md-3 filterName">
+                <label for="only-externally-subscribed">Mentees subscribed externally</label>
+            </div>
+            <div class="col-md-3">
+                <div class="icheckbox">
+                    <input type="checkbox" name="only_externally_subscribed" id="only-externally-subscribed">
+                </div>
+            </div>
         </div>
         <div class="form-buttons">
             <div class="row">
