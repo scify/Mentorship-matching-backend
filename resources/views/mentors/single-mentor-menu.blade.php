@@ -1,15 +1,17 @@
 @if($matchingMode)
-    <a href="javascript: void(0);" class="hidden menu-action">
-        <div class="matchMentorBtn"
-             data-toggle="modal"
-             data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
-             data-menteeId="{{$mentorViewModel->mentor->id}}">
-            <i class="matchingIcon ion-arrow-swap"></i>
-        </div>
-    </a>
+    @if($loggedInUser->isMatcher())
+        <a href="javascript: void(0);" class="hidden menu-action">
+            <div class="matchMentorBtn"
+                 data-toggle="modal"
+                 data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
+                 data-menteeId="{{$mentorViewModel->mentor->id}}">
+                <i class="matchingIcon ion-arrow-swap"></i>
+            </div>
+        </a>
+    @endif
 @else
     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-        <a href="javascript: void(0);"
+        <a href="javascript: void(0);"  target="_blank"
            data-toggle="modal"
            data-userName="{{$mentorViewModel->mentor->first_name . $mentorViewModel->mentor->last_name}}"
            data-menteeId="{{$mentorViewModel->mentor->id}}"
