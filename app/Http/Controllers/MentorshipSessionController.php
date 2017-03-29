@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use Illuminate\Http\Request;
 
 class MentorshipSessionController extends Controller
 {
+    private $mentorshipSessionManager;
+
+    public function __construct() {
+        $this->mentorshipSessionManager = new MentorshipSessionManager();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,23 +30,21 @@ class MentorshipSessionController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function matchMentorWithMentee(Request $request)
+    public function create(Request $request)
     {
+        $this->validate($request, [
+            'mentor_profile_id' => 'required|numeric',
+            'mentee_profile_id' => 'required|numeric',
+            'account_manager_id' => 'required|numeric'
+        ]);
         $input = $request->all();
-        dd($input);
-    }
-
-    /**
-     * Request contains the mentor and mentee id
-     * as well as the account manager id
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function matchMeenteeWithMentor(Request $request)
-    {
-        $input = $request->all();
-        dd($input);
+        try {
+            $this->mentorshipSessionManager->createMentorshipSession($input);
+        } catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+        }
+        session()->flash('flash_message_success', 'Mentorship session created');
+        return back();
     }
 
 
