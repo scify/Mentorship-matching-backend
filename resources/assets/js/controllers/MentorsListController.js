@@ -18,10 +18,11 @@ window.MentorsListController.prototype = function () {
                 e.stopPropagation();
                 var mentorId = $(this).attr("data-mentorId");
                 var originalStatusId = $(this).attr("data-original-status");
-                $('#editMentorStatusModal').modal('toggle');
-                $('#editMentorStatusModal').find('input[name="mentor_id"]').val(mentorId);
-                $('#editMentorStatusModal').find('select[name="status_id"]').attr("data-original-value", originalStatusId);
-                $('#editMentorStatusModal').find('select[name="status_id"]').val(originalStatusId).trigger("chosen:updated");
+                var $editMentorStatusModal = $('#editMentorStatusModal');
+                $editMentorStatusModal.modal('toggle');
+                $editMentorStatusModal.find('input[name="mentor_id"]').val(mentorId);
+                $editMentorStatusModal.find('select[name="status_id"]').attr("data-original-value", originalStatusId);
+                $editMentorStatusModal.find('select[name="status_id"]').val(originalStatusId).trigger("chosen:updated");
             });
         },
         initializeHandlers = function() {
