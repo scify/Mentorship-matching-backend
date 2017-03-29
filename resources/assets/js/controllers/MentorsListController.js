@@ -93,12 +93,12 @@ window.MentorsListController.prototype = function () {
                 $(".loader").addClass('hidden');
                 $("#errorMsg").removeClass('hidden');
                 $("#errorMsg").html(responseObj.data);
-                $("#mentorsList").html("");
+                $("#usersList").html("");
             } else {
                 $("#mentorsList").html("");
                 $("#errorMsg").addClass('hidden');
                 $(".loader").addClass('hidden');
-                $("#mentorsList").html(responseObj.data);
+                $("#usersList").html(responseObj.data);
                 Pleasure.listenClickableCards();
             }
         },
