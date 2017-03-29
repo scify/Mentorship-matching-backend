@@ -19,8 +19,8 @@
         <a href="{{route('showEditMenteeForm', $menteeViewModel->mentee->id)}}" class="hidden secondItem menu-action"><i class="editIcon ion-edit"></i></a>
     @elseif($loggedInUser->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
         <a href="javascript:void(0)" data-toggle="modal"
-           data-mentorId="{{$menteeViewModel->mentee->id}}" data-original-status="{{$menteeViewModel->mentee->status_id}}"
-           class="editMentorStatusBtn hidden menu-action">
+           data-menteeId="{{$menteeViewModel->mentee->id}}" data-original-status="{{$menteeViewModel->mentee->status_id}}"
+           class="editMenteeStatusBtn hidden menu-action">
             <i class="editIcon ion-edit"></i>
         </a>
     @endif
