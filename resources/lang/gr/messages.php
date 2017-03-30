@@ -8,6 +8,7 @@ return [
     'mentors' => 'Μέντορες',
     'details' => 'Λεπτομέρειες',
     'mentor' => 'Μέντορας',
+    'matcher' => 'Matcher',
     'account_manager' => 'Account Manager',
     'company_account_manager' => 'Account Manager',
     'company_no_mentors' => 'There are no mentors working in this company.',

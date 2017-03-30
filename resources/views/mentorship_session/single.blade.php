@@ -1,9 +1,9 @@
 <li class="has-action-left singleItem col-md-12 matchMentorItem">
 
     {{--@include('mentors.single-mentor-menu')--}}
-    <!-- TODO: change route -->
-    <a href="{{route('showMentorProfilePage', $mentorshipSessionViewModel->mentorshipSession->id)}}"
-       class="visible no-slide-left" target="_blank">
+    <a href="javascript:void(0)" class="visible no-slide-left"
+       data-matcherFullName="{{ $mentorshipSessionViewModel->matcher->first_name . " " . $mentorshipSessionViewModel->matcher->last_name }}"
+       data-matcherId="{{ $mentorshipSessionViewModel->matcher->id }}" data-accountManagerId="{{ $mentorshipSessionViewModel->accountManager->id }}">
         <div class="row">
             <div class="col-md-8 centeredVertically">
                 <div class="col-md-5 col-xs-5 text-align-right">
@@ -35,8 +35,8 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <span class="caption">Account Manager: {{ $mentorshipSessionViewModel->accountManager->first_name . " " .
-                    $mentorshipSessionViewModel->accountManager->last_name }}</span>
+                <span class="caption">Account Manager: <span id="accountManagerName">{{ $mentorshipSessionViewModel->accountManager->first_name . " " .
+                    $mentorshipSessionViewModel->accountManager->last_name }}</span></span>
             </div>
         </div>
         <div class="row">
