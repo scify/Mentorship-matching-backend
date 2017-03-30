@@ -96,7 +96,7 @@ class MentorController extends Controller
         $menteeViewModels = $menteeManager->getAllMenteeViewModels();
         $universities = $universityManager->getAllUniversities();
         $educationLevels = $educationLevelManager->getAllEducationLevels();
-        $accountManagers = $userManager->getAccountManagersWithAvailableCapacity();
+        $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
         $loggedInUser = Auth::user();
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
             'menteeViewModels' => $menteeViewModels, 'universities' => $universities,

@@ -42,7 +42,7 @@ class UserStorage {
             ->orWhere('email', 'like', '%' . $searchQuery . '%')->get();
     }
 
-    public function getAccountManagersWithAvailableCapacity() {
+    public function getAccountManagersWithRemainingCapacity() {
         $rawQueryStorage = new RawQueryStorage();
         $result = $rawQueryStorage->performRawQuery("
            select u.*, ur.user_id ,capacity ,  (capacity - IFNULL(total_active_sessions,0)) as remainingCapacity from 

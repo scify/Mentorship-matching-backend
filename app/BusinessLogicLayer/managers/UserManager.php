@@ -86,7 +86,7 @@ class UserManager {
     }
 
     public function getCountOfActiveSessionsForAllAccountManagers() {
-        $activeSessionsPerAccountManager = $this->userStorage->getAccountManagersWithAvailableCapacity();
+        $activeSessionsPerAccountManager = $this->userStorage->getAccountManagersWithRemainingCapacity();
         return $this->getAssociativeArrayFromObjectsArray($activeSessionsPerAccountManager, "user_id");
     }
 
@@ -167,8 +167,8 @@ class UserManager {
         return $accountManagerRole->users;
     }
 
-    public function getAccountManagersWithAvailableCapacity() {
-        return $this->userStorage->getAccountManagersWithAvailableCapacity();
+    public function getAccountManagersWithRemainingCapacity() {
+        return $this->userStorage->getAccountManagersWithRemainingCapacity();
     }
 
     /**
