@@ -84,3 +84,7 @@ Route::group(['middleware' => ['auth', 'status-changer']], function () {
 Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], function () {
     Route::post('session/matchMentorWithMentee', 'MentorshipSessionController@create')->name('matchMentorWithMentee');
 });
+
+Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
+    Route::get('mentorship-sessions/all', 'MentorshipSessionController@index')->name('showAllMentorshipSessions');
+});
