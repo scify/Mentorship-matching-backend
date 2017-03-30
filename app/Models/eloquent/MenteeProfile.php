@@ -80,4 +80,12 @@ class MenteeProfile extends Model
     public function sessions() {
         return $this->hasMany(MentorshipSession::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function statusHistory()
+    {
+        return $this->hasMany(MenteeStatusHistory::class, 'mentee_profile_id', 'id')->orderBy('created_at', 'desc');
+    }
 }
