@@ -20,7 +20,10 @@ class MentorshipSessionController extends Controller
      */
     public function index()
     {
-        //
+        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getAllMentorshipSessionsViewModel();
+        $pageTitle = 'Sessions';
+        $pageSubTitle = 'view all';
+        return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle'));
     }
 
     /**

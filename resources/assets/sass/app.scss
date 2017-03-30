@@ -784,29 +784,6 @@
 }
 /* end of change mentor status modal */
 
-#matchMentorModal {
-  .modal-dialog {
-    width: 45%;
-    text-align: center;
-  }
-  .matchingIcon {
-    color: $brand-success;
-    font-size: 35px;
-  }
-  .matchingImg {
-    width: 100%;
-  }
-  .accountManagerSelector {
-    margin-top: 50px;
-    margin-bottom: 170px;
-    .selectorTitle {
-      font-size: medium;
-      margin-left: 15%;
-    }
-  }
-
-}
-
 /* global search */
 .search-layer {
   .search {

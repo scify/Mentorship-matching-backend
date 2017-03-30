@@ -1,0 +1,53 @@
+// Variables
+@import "variables";
+
+#mentorshipSessionsList {
+  .list-material {
+    li {
+      padding-top: 10px;
+    }
+    li a.visible {
+      height: 100%;
+      margin: -10px -10px 0 -10px;
+      padding: 10px;
+    }
+  }
+}
+
+#matchMentorModal {
+  .modal-dialog {
+    width: 45%;
+    text-align: center;
+  }
+  .accountManagerSelector {
+    margin-top: 50px;
+    margin-bottom: 170px;
+    .selectorTitle {
+      font-size: medium;
+      margin-left: 15%;
+    }
+  }
+
+}
+
+.matchMentorItem {
+  .matchingIcon {
+    color: $brand-success;
+    font-size: 35px;
+  }
+  .matchingImg {
+    width: 100%;
+  }
+}
+
+.started {
+  color: $brand-success !important;
+}
+
+.first_meeting, .second_meeting, .third_meeting, .fourth_meeting {
+  color: $brand-warning !important;
+}
+
+.evaluation_sent, .follow_up_sent {
+  color: $brand-danger !important;
+}

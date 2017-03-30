@@ -1,4 +1,4 @@
-<div class="modal scale fade" id="matchMentorModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal scale fade matchMentorItem" id="matchMentorModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="POST" action="{{route('matchMentorWithMentee')}}" enctype="multipart/form-data">

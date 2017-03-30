@@ -11,7 +11,9 @@ var gulp = require('gulp');
 
 elixir(function(mix) {
 
-    mix.sass(['app.scss', 'profile_page.scss', 'mentor_mentee_item.scss', 'plugins_custom.scss'],  'public/css/app.css');
+    mix.sass(['app.scss', 'profile_page.scss', 'mentor_mentee_item.scss', 'plugins_custom.scss', 'mentorship_session_item.scss'],
+        'public/css/app.css'
+    );
     mix.sass(['auth.scss'],  'public/css/auth.css');
 
     mix.styles([

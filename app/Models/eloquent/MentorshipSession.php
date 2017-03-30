@@ -27,19 +27,38 @@ class MentorshipSession extends Model
      */
     protected $fillable = ['mentor_profile_id', 'mentee_profile_id', 'account_manager_id', 'matcher_id'];
 
-//    public function mentor() {
-//        return $this->hasOne(MentorProfile::class, 'id', 'mentor_profile_id');
-//    }
-//
-//    public function mentee() {
-//        return $this->hasOne(MenteeProfile::class, 'id', 'mentee_profile_id');
-//    }
-//
-//    public function account_manager() {
-//        return $this->hasOne(User::class, 'id', 'account_manager_id');
-//    }
-//
-//    public function matcher() {
-//        return $this->hasOne(User::class, 'id', 'matcher_id');
-//    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function mentor() {
+        return $this->hasOne(MentorProfile::class, 'id', 'mentor_profile_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function mentee() {
+        return $this->hasOne(MenteeProfile::class, 'id', 'mentee_profile_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function account_manager() {
+        return $this->hasOne(User::class, 'id', 'account_manager_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function matcher() {
+        return $this->hasOne(User::class, 'id', 'matcher_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function status() {
+        return $this->hasOne(MentorshipSessionStatus::class, 'id', 'status_id');
+    }
 }
