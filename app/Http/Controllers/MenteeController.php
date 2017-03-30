@@ -187,7 +187,7 @@ class MenteeController extends Controller
         $companies = (new CompanyManager())->getAllCompanies();
         $statuses = (new MentorStatusManager())->getAllMentorStatuses();
         $residences = $this->residenceManager->getAllResidences();
-        $accountManagers = (new UserManager())->getAccountManagersWithAvailableCapacity();
+        $accountManagers = (new UserManager())->getAccountManagersWithRemainingCapacity();
         $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
         $mentorViewModels = (new MentorManager())->getAllMentorViewModels();
         $loggedInUser = Auth::user();
