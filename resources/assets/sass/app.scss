@@ -783,6 +783,7 @@
   }
 }
 /* end of change mentor status modal */
+
 #matchMentorModal {
   .modal-dialog {
     width: 45%;
@@ -804,4 +805,20 @@
     }
   }
 
+}
+
+/* global search */
+.search-layer {
+  .search {
+    padding-top: 30px;
+  }
+
+  .loading-bar-wrapper {
+    margin: 10px 0;
+    height: 3px;
+  }
+
+  .loading-bar {
+    margin-top: 0;
+  }
 }

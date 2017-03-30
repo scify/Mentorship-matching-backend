@@ -7,7 +7,9 @@
             </div>
         </form>
     </div><!--.search-->
-    <div class="loading-bar indeterminate margin-top-10 loader hidden"></div>
+    <div class="loading-bar-wrapper">
+        <div class="loading-bar indeterminate loader hidden"></div>
+    </div>
 
     <div id="search-error-messages" class="alert alert-danger stickyAlert margin-top-20 margin-bottom-20 margin-right-50
         margin-left-50 hidden" role="alert"></div>

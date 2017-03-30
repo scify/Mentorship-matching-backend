@@ -203,7 +203,36 @@
                         </div>
                     </div>
                     <div id="availability" class="tab-pane">
-
+                        @if($menteeViewModel->mentee->statusHistory != null)
+                            <div class="col-md-12">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-title"><h3>Mentee status history</h3></div>
+                                    </div><!--.panel-heading-->
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <div class="timeline">
+                                                @foreach($menteeViewModel->mentee->statusHistory as $historyItem)
+                                                    <div class="frame">
+                                                        <div class="timeline-badge background-{{$historyItem->status->status}}">
+                                                            <i class="fa fa-bell "></i>
+                                                        </div><!--.timeline-badge-->
+                                                        <span class="timeline-date">{{$historyItem->created_at->format('d / m / Y')}}</span>
+                                                        <div class="timeline-bubble">
+                                                            <h4 class="{{$historyItem->status->status}}">{{$historyItem->status->description}}</h4>
+                                                            <p>Comment: {{$historyItem->comment}}</p>
+                                                            @if($historyItem->follow_up_date != null)
+                                                                <p>Follow up date: {{ \Carbon\Carbon::parse($historyItem->follow_up_date)->format('d / m / Y')}}</p>
+                                                            @endif
+                                                        </div><!--.timeline-bubble-->
+                                                    </div><!--.frame-->
+                                                @endforeach
+                                            </div><!--.timeline-->
+                                        </div>
+                                    </div><!--.panel-->
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div id="sessions" class="tab-pane">
                         @include('mentors.filters')
