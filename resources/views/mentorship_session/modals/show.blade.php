@@ -34,32 +34,47 @@
                 </div>
                 <div class="row">
                     <!-- Account manager -->
-                    <div class="col-md-12">
-                        <span class="caption">{{trans('messages.account_manager')}}: <a target="_blank" data-url="{{ route('showUserProfile', ['id' => 'id']) }}" id="accountManagerName"></a></span>
+                    <div class="col-md-3 text-right">
+                        <span class="caption">{{trans('messages.account_manager')}}:</span>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="caption"><a target="_blank" data-url="{{ route('showUserProfile', ['id' => 'id']) }}" id="accountManagerName"></a></span>
                     </div>
                 </div>
                 <div class="row">
                     <!-- Matcher -->
-                    <div class="col-md-12">
-                        <span class="caption">{{trans('messages.matcher')}}: <a target="_blank" data-url="{{ route('showUserProfile', ['id' => 'id']) }}" id="matcherName"></a></span>
+                    <div class="col-md-3 text-right">
+                        <span class="caption">{{trans('messages.matcher')}}:</span>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="caption"><a target="_blank" data-url="{{ route('showUserProfile', ['id' => 'id']) }}" id="matcherName"></a></span>
                     </div>
                 </div>
                 <div class="row">
                     <!-- Status -->
-                    <div class="col-md-12">
-                        <span class="caption">Session Status: <span id="sessionStatus"></span></span>
+                    <div class="col-md-3 text-right">
+                        <span class="caption">Session Status:</span>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="caption"><span id="sessionStatus"></span></span>
                     </div>
                 </div>
                 <div class="row">
-                    <!-- Status -->
-                    <div class="col-md-12">
-                        <span class="caption">Session Initialized: <span id="createdAt"></span></span>
+                    <!-- Created at -->
+                    <div class="col-md-3 text-right">
+                        <span class="caption">Session Initialized:</span>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="caption"><span id="createdAt"></span></span>
                     </div>
                 </div>
                 <div class="row">
-                    <!-- Status -->
-                    <div class="col-md-12">
-                        <span class="caption">Lastly Updated: <span id="updatedAt"></span></span>
+                    <!-- Updated at -->
+                    <div class="col-md-3 text-right">
+                        <span class="caption">Lastly Updated:</span>
+                    </div>
+                    <div class="col-md-9">
+                        <span class="caption"><span id="updatedAt"></span></span>
                     </div>
                 </div>
             </div>

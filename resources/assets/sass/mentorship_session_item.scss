@@ -64,18 +64,17 @@
   }
 }
 
-@media only screen and (max-width : 992px) {
-  .matchMentorItem {
-    .mentorView {
-      margin-bottom: 30px;
-    }
+#mentorshipSessionShowModal {
+  .modal-dialog {
+    width: 700px;
+  }
+  .name-anchor {
+    color: rgba(0, 0, 0, 0.87);
 
-    .matchingIconContainer {
-      -webkit-transform: translateY(20%);
-      -ms-transform: translateY(20%);
-      transform: translateY(20%);
-      top: 20%;
-    }
+  }
+  .name-anchor:hover, .name-anchor:focus {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -89,4 +88,19 @@
 
 .evaluation_sent, .follow_up_sent, .cancelled {
   color: $brand-danger !important;
+}
+
+@media only screen and (max-width : 992px) {
+  .matchMentorItem {
+    .mentorView {
+      margin-bottom: 30px;
+    }
+
+    .matchingIconContainer {
+      -webkit-transform: translateY(20%);
+      -ms-transform: translateY(20%);
+      transform: translateY(20%);
+      top: 20%;
+    }
+  }
 }

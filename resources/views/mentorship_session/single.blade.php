@@ -5,7 +5,8 @@
     <a href="javascript:void(0)" class="visible no-slide-left"
        data-matcherFullName="{{ $mentorshipSessionViewModel->matcher->first_name . " " . $mentorshipSessionViewModel->matcher->last_name }}"
        data-matcherId="{{ $mentorshipSessionViewModel->matcher->id }}" data-accountManagerId="{{ $mentorshipSessionViewModel->accountManager->id }}"
-       data-sessionId="{{ $mentorshipSessionViewModel->mentorshipSession->id }}">
+       data-sessionId="{{ $mentorshipSessionViewModel->mentorshipSession->id }}" data-mentorId="{{ $mentorshipSessionViewModel->mentorViewModel->mentor->id }}"
+       data-menteeId="{{ $mentorshipSessionViewModel->menteeViewModel->mentee->id }}">
         <div class="row mentorshipSessionInfo">
             <div class="col-md-8 centeredVertically">
                 <div class="col-md-5 col-xs-5 text-align-right">

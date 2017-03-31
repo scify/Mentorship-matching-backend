@@ -5,7 +5,9 @@ window.MentorshipSessionsListController.prototype = function() {
     var mentorsAndMenteesListsCssCorrector,
         sessionInfoModalHandler = function() {
             $("body").on("click", ".singleItem > .visible", function() {
+                var mentorId = $(this).data("mentorid");
                 var mentorName = $(this).find("#mentorPresetName").text();
+                var menteeId = $(this).data("menteeid");
                 var menteeName = $(this).find("#menteePresetName").text();
                 var accountManagerId = $(this).data("accountmanagerid");
                 var accountManagerName = $(this).find("#accountManagerName").text();
@@ -18,8 +20,12 @@ window.MentorshipSessionsListController.prototype = function() {
                 var updatedAt = $(this).find("#updatedAt").text();
                 var $modal = $("#mentorshipSessionShowModal");
                 $modal.modal("toggle");
-                $modal.find("#mentorFullName").html(mentorName);
-                $modal.find("#menteeFullName").html(menteeName);
+                var $mentorFullName = $modal.find("#mentorFullName");
+                $mentorFullName.html(mentorName);
+                $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
+                var $menteeFullName = $modal.find("#menteeFullName");
+                $menteeFullName.html(menteeName);
+                $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
                 var $accountManagerNameAnchor = $modal.find("#accountManagerName");
                 $accountManagerNameAnchor.html(accountManagerName);
                 $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url").replace("id", accountManagerId));
