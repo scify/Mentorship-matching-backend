@@ -65,7 +65,6 @@ class MentorshipSessionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -87,12 +86,21 @@ class MentorshipSessionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $this->validate($request, [
+            'mentorship_session_id' => 'required|numeric'
+        ]);
+        $input = $request->all();
+        try {
+            $this->mentorshipSessionManager->deleteMentorshipSession($input);
+        } catch(\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+        }
+        session()->flash('flash_message_success', 'Mentorship session deleted');
+        return back();
     }
 
     public function showMentorshipSessionsForAccountManager() {

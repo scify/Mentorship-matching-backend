@@ -50,6 +50,15 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.find("select[name=status_id]").val(sessionStatusId).trigger("chosen:updated");
             });
         },
+        deleteSessionModalHandler = function() {
+            $("body").on("click", ".deleteSessionBtn", function () {
+                var $siblingVisibleAnchor = $(this).siblings("a.visible");
+                var sessionId = $siblingVisibleAnchor.data("sessionid");
+                var $modal = $("#deleteMentorshipSessionModal");
+                $modal.modal("toggle");
+                $modal.find("input[name=mentorship_session_id]").val(sessionId);
+            });
+        },
         submitValidationHandler = function() {
             $("#matchMentorModal form").submit(function() {
                 var numberOfValidationErrors = 0;
@@ -79,6 +88,7 @@ window.MentorshipSessionsListController.prototype = function() {
             initSelectInputs();
             sessionInfoModalHandler();
             editSessionModalHandler();
+            deleteSessionModalHandler();
             submitValidationHandler();
         };
     return {
