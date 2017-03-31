@@ -13,6 +13,9 @@ use App\Models\eloquent\User;
 use App\Models\eloquent\UserRole;
 use App\StorageLayer\UserStorage;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserAccessManager {
 
@@ -35,9 +38,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDSystemUsers(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        //only user with admin role
-        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
 
@@ -50,9 +51,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDMentorsAndMentees(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        //only user with admin role
-        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -64,9 +63,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDCompanies(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        //only user with admin role
-        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -78,9 +75,7 @@ class UserAccessManager {
     public function userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        //if user has admin or account manager role
-        return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -92,9 +87,7 @@ class UserAccessManager {
     public function userIsAdmin(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        //only user with admin role
-        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -106,8 +99,7 @@ class UserAccessManager {
     public function userIsAccountManager(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -119,8 +111,7 @@ class UserAccessManager {
     public function userIsMatcher(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        return $this->userHasRole($userRoles, [$this->MATCHER_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_matcher', $user, $this->MATCHER_ROLE_ID);
     }
 
     /**
@@ -132,8 +123,7 @@ class UserAccessManager {
     public function userHasAccessToOnlyEditStatusForMentorshipSessions(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -145,22 +135,28 @@ class UserAccessManager {
     public function userHasAccessToCRUDMentorshipSessions(User $user) {
         if($user == null)
             return false;
-        $userRoles = $user->roles;
-        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
      * Checks if a role (identified by role id) exists in a given collection of @see UserRole
      *
      * @param Collection $userRoles the user roles collection
-     * @param array $roleIds a collection of ints representing roles
+     * @param int $roleId
      * @return bool
      */
-    public function userHasRole(Collection $userRoles, array $roleIds) {
-        foreach ($userRoles as $userRole) {
-            if(in_array($userRole->id, $roleIds))
-                return true;
-        }
-        return false;
+    private function userHasRole(Collection $userRoles, $roleId) {
+        return $userRoles->contains($roleId);
     }
+
+    private function checkSessionOrDBForRoleAndStore($roleKey, User $user, $roleId) {
+        $result = Session::get($roleKey);
+        if($result == null) {
+            $userRoles = $user->roles;
+            $result = $this->userHasRole($userRoles, $roleId);
+            Session::put($roleKey, $result);
+        }
+        return $result;
+    }
+
 }

@@ -48,6 +48,7 @@ return [
     'matches' => 'Matches',
     'profile_page' => 'profile page',
     'mentorship_sessions' => 'Mentorship sessions',
+    'mentorship_sessions_history' => 'Ιστορικό',
     'search' => 'Search',
     'clear_filters' => 'Clear filters',
     'mentee' => 'Mentee',

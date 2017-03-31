@@ -7,6 +7,7 @@ use App\BusinessLogicLayer\managers\EducationLevelManager;
 use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MentorManager;
+use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
@@ -28,6 +29,7 @@ class MentorController extends Controller
     private $residenceManager;
     private $referenceManager;
     private $mentorStatusManager;
+    private $mentorshipSessionManager;
 
     public function __construct() {
         $this->specialtyManager = new SpecialtyManager();
@@ -36,6 +38,7 @@ class MentorController extends Controller
         $this->residenceManager = new ResidenceManager();
         $this->referenceManager = new ReferenceManager();
         $this->mentorStatusManager = new MentorStatusManager();
+        $this->mentorshipSessionManager = new MentorshipSessionManager();
     }
 
     /**
@@ -97,12 +100,14 @@ class MentorController extends Controller
         $universities = $universityManager->getAllUniversities();
         $educationLevels = $educationLevelManager->getAllEducationLevels();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
+        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentor($id);
         $loggedInUser = Auth::user();
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
             'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
             'educationLevels' => $educationLevels,
             'accountManagers' => $accountManagers,
-            'loggedInUser' => $loggedInUser]);
+            'loggedInUser' => $loggedInUser,
+            'mentorshipSessionViewModels' => $mentorshipSessionViewModels]);
     }
 
     /**

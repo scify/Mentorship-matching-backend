@@ -7,6 +7,7 @@ use App\BusinessLogicLayer\managers\EducationLevelManager;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MenteeStatusManager;
 use App\BusinessLogicLayer\managers\MentorManager;
+use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
@@ -28,6 +29,7 @@ class MenteeController extends Controller
     private $universityManager;
     private $educationLevelManager;
     private $menteeStatusManager;
+    private $mentorshipSessionManager;
 
     public function __construct() {
         $this->specialtyManager = new SpecialtyManager();
@@ -37,6 +39,7 @@ class MenteeController extends Controller
         $this->universityManager = new UniversityManager();
         $this->educationLevelManager = new EducationLevelManager();
         $this->menteeStatusManager = new MenteeStatusManager();
+        $this->mentorshipSessionManager = new MentorshipSessionManager();
     }
 
     /**
@@ -190,10 +193,12 @@ class MenteeController extends Controller
         $accountManagers = (new UserManager())->getAccountManagersWithRemainingCapacity();
         $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
         $mentorViewModels = (new MentorManager())->getAllMentorViewModels();
+        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentee($id);
         $loggedInUser = Auth::user();
         return view('mentees.profile', ['menteeViewModel' => $menteeViewModel, 'loggedInUser' => $loggedInUser,
             'specialties' => $specialties, 'companies' => $companies, 'statuses' => $statuses,
-            'residences' => $residences, 'accountManagers' => $accountManagers, 'mentorViewModels' => $mentorViewModels
+            'residences' => $residences, 'accountManagers' => $accountManagers, 'mentorViewModels' => $mentorViewModels,
+            'mentorshipSessionViewModels' => $mentorshipSessionViewModels
         ]);
     }
 
