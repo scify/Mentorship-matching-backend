@@ -44,6 +44,24 @@
                         <span class="caption">{{trans('messages.matcher')}}: <a target="_blank" data-url="{{ route('showUserProfile', ['id' => 'id']) }}" id="matcherName"></a></span>
                     </div>
                 </div>
+                <div class="row">
+                    <!-- Status -->
+                    <div class="col-md-12">
+                        <span class="caption">Session Status: <span id="sessionStatus"></span></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Status -->
+                    <div class="col-md-12">
+                        <span class="caption">Session Initialized: <span id="createdAt"></span></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Status -->
+                    <div class="col-md-12">
+                        <span class="caption">Lastly Updated: <span id="updatedAt"></span></span>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>

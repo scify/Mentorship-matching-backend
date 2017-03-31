@@ -120,4 +120,14 @@ class User extends Authenticatable
         $userAccessManager = new UserAccessManager();
         return $userAccessManager->userHasAccessToCRUDCompanies($this);
     }
+
+    public function userHasAccessToOnlyEditStatusForMentorshipSessions() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userHasAccessToOnlyEditStatusForMentorshipSessions($this);
+    }
+
+    public function userHasAccessToCRUDMentorshipSessions() {
+        $userAccessManager = new UserAccessManager();
+        return $userAccessManager->userHasAccessToCRUDMentorshipSessions($this);
+    }
 }
