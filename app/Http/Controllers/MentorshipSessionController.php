@@ -94,4 +94,19 @@ class MentorshipSessionController extends Controller
     {
         //
     }
+
+    public function showMentorshipSessionsForAccountManager() {
+        $loggedInUser = Auth::user();
+        $userManager = new UserManager();
+        $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
+        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+        $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForAccountManager($loggedInUser->id);
+        $isCreatingNewSession = false;
+        $pageTitle = 'Sessions';
+        $pageSubTitle = 'my mentorhsip sessions';
+        return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
+            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
+        ));
+    }
 }
