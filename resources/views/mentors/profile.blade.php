@@ -33,7 +33,10 @@
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
                     <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.info')}}</a></li>
                     <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.specialties')}} & {{trans('messages.skills.capitalF')}}</a></li>
-                    <li><a data-href="mentorship_sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
+                    <li><a data-href="matching" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
+                    @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
+                        <li><a data-href="mentorship_sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions_history')}}</a></li>
+                    @endif
                 </ul>
             </div>
 
@@ -249,15 +252,25 @@
                             </div>
                         </div>
                     </div>
-                    <div id="mentorship_sessions" class="tab-pane">
+                    <div id="matching" class="tab-pane">
                         @include('mentees.filters')
                         @include('mentees.list')
                     </div>
+                    @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
+                        <div id="mentorship_sessions" class="tab-pane">
+                            @if($mentorshipSessionViewModels->count() > 0)
+                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModels])
+                            @else
+                                <h4 class="noSessionsMessage">No mentorship sessions to show.</h4>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
     @include('mentorship_session.modals.matching_modal', ['mentorViewModel' => $mentorViewModel])
+    @include('mentorship_session.modals.show')
 @endsection
 @section('additionalFooter')
     <script>
