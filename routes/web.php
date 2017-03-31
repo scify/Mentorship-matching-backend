@@ -73,6 +73,8 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('company/delete', 'CompanyController@delete')->name('deleteCompany');
 
     Route::get('search', 'SearchController@filterResultsByString')->name('search');
+
+    Route::post('session/delete', 'MentorshipSessionController@destroy')->name('deleteMentorshipSession');
 });
 
 Route::group(['middleware' => ['auth', 'status-changer']], function () {

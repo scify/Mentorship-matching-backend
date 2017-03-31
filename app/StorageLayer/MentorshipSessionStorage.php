@@ -17,6 +17,10 @@ class MentorshipSessionStorage
         return $mentorshipSession;
     }
 
+    public function deleteMentorshipSession(MentorshipSession $mentorshipSession) {
+        $mentorshipSession->delete();
+    }
+
     public function getAllMentorshipSessions() {
         return MentorshipSession::orderBy('updated_at', 'desc')->get();
     }

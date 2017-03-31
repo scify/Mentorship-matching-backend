@@ -129,4 +129,16 @@ class MentorshipSessionManager
         }
         return $mentorshipSessionViewModels;
     }
+
+    /**
+     * Delete a mentorship session from the DB
+     *
+     * @param array $input
+     */
+    public function deleteMentorshipSession(array $input) {
+        DB::transaction(function() use($input) {
+            $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
+            $this->mentorshipSessionStorage->deleteMentorshipSession($mentorshipSession);
+        });
+    }
 }
