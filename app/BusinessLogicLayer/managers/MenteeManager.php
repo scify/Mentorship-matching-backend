@@ -6,6 +6,7 @@ use App\Models\eloquent\MenteeProfile;
 use App\Models\viewmodels\MenteeViewModel;
 use App\StorageLayer\MenteeStorage;
 use App\StorageLayer\RawQueryStorage;
+use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -142,6 +143,7 @@ class MenteeManager {
             (!isset($filters['displayOnlyExternallySubscribed']) || $filters['displayOnlyExternallySubscribed'] === 'false')) {
             return $this->menteeStorage->getAllMenteeProfiles();
         }
+        $mentorshipSessionStatuses = null;
         $whereClauseExists = false;
         $dbQuery = "select distinct mp.id 
             from mentee_profile as mp 
@@ -182,7 +184,9 @@ class MenteeManager {
             if($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            $dbQuery .= "(last_session.session_date is not null and msh.status_id in (1,2,3,4,5,6,7)) ";
+            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+            $dbQuery .= "(last_session.session_date is not null and msh.status_id in (" .
+                implode(",", $mentorshipSessionStatuses::getActiveSessionStatuses()) . ")) ";
             $whereClauseExists = true;
         }
         if(isset($filters['ageRange']) && $filters['ageRange'] != "") {
@@ -228,7 +232,10 @@ class MenteeManager {
             if($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            $dbQuery .= "msh.status_id in (8,9) and msh.updated_at between (now() - interval " . $filters['completedSessionAgo'] . " month) 
+            if($mentorshipSessionStatuses == null) {
+                $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+            }
+            $dbQuery .= "msh.status_id in (" . implode(",", $mentorshipSessionStatuses::getCompletedSessionStatuses()) . ") and msh.updated_at between (now() - interval " . $filters['completedSessionAgo'] . " month) 
                 and (now() - interval " . ($filters['completedSessionAgo'] - 1) . " month) ";
             $whereClauseExists = true;
         }
