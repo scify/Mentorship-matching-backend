@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 col-xs-2 text-center">
+                <div class="col-md-2 col-xs-2 text-center matchingIconContainer">
                     <i class="matchingIcon ion-arrow-swap"></i>
                 </div>
                 <div class="col-md-5 col-xs-5 text-align-left">

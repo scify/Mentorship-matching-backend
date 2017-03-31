@@ -33,7 +33,7 @@
 .matchMentorItem {
   .matchingIcon {
     color: $brand-success;
-    font-size: 35px;
+    font-size: 36px;
   }
   .matchingImg {
     width: 100%;
@@ -48,12 +48,26 @@
     position: absolute;
     bottom: 2px;
   }
+
+  .matchingIconContainer {
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(40%);
+    transform: translateY(40%);
+    top: 40%;
+  }
 }
 
 @media only screen and (max-width : 992px) {
   .matchMentorItem {
     .mentorView {
       margin-bottom: 30px;
+    }
+
+    .matchingIconContainer {
+      -webkit-transform: translateY(20%);
+      -ms-transform: translateY(20%);
+      transform: translateY(20%);
+      top: 20%;
     }
   }
 }
