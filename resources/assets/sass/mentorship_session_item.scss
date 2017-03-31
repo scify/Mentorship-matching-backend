@@ -83,10 +83,10 @@
   color: $brand-success !important;
 }
 
-.available_mentee, .available_mentor, .first_meeting, .second_meeting, .third_meeting, .fourth_meeting {
+.pending, .available_mentee, .available_mentor, .first_meeting, .second_meeting, .third_meeting, .fourth_meeting {
   color: $brand-warning !important;
 }
 
-.evaluation_sent, .follow_up_sent {
+.evaluation_sent, .follow_up_sent, .cancelled {
   color: $brand-danger !important;
 }
