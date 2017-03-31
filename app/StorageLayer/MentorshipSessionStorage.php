@@ -20,4 +20,8 @@ class MentorshipSessionStorage
     public function getAllMentorshipSessions() {
         return MentorshipSession::orderBy('updated_at', 'desc')->get();;
     }
+
+    public function findMentorshipSessionById($id) {
+        return MentorshipSession::find($id);
+    }
 }

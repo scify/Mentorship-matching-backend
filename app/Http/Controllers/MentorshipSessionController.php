@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
+use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
+use App\BusinessLogicLayer\managers\UserManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,11 +23,18 @@ class MentorshipSessionController extends Controller
      */
     public function index()
     {
+        $userManager = new UserManager();
+        $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
+        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+        $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getAllMentorshipSessionsViewModel();
+        $isCreatingNewSession = false;
         $loggedInUser = Auth::user();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'view all';
-        return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle', 'loggedInUser'));
+        return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
+            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
+        ));
     }
 
     /**
@@ -52,29 +61,6 @@ class MentorshipSessionController extends Controller
         return back();
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -82,9 +68,20 @@ class MentorshipSessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'account_manager_id' => 'numeric',
+            'status_id' => 'required|numeric'
+        ]);
+        $input = $request->all();
+        try {
+            $this->mentorshipSessionManager->editMentorshipSession($input);
+        } catch(\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+        }
+        session()->flash('flash_message_success', 'Mentorship session updated');
+        return back();
     }
 
     /**

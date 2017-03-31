@@ -20,8 +20,11 @@ class MentorshipSessionManager
 {
     private $mentorshipSessionStorage;
 
+    private $mentorshipSessionHistoryManager;
+
     public function __construct() {
         $this->mentorshipSessionStorage = new MentorshipSessionStorage();
+        $this->mentorshipSessionHistoryManager = new MentorshipSessionHistoryManager();
     }
 
     /**
@@ -46,11 +49,32 @@ class MentorshipSessionManager
         if($loggedInUser != null) {
             $input['matcher_id'] = $loggedInUser->id;
         }
+        $input['status_id'] = 1;
         $mentorshipSession = new MentorshipSession();
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
 
-        DB::transaction(function() use($mentorshipSession, $input) {
+        DB::transaction(function() use($mentorshipSession, $loggedInUser) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, "");
+        });
+    }
+
+    /**
+     * Updates an existing mentorship session in DB
+     *
+     * @param array $input
+     */
+    public function editMentorshipSession(array $input) {
+        $loggedInUser = Auth::user();
+        $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
+        $input['mentor_profile_id'] = $mentorshipSession->mentor_profile_id;
+        $input['mentee_profile_id'] = $mentorshipSession->mentee_profile_id;
+        $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
+
+        DB::transaction(function() use($mentorshipSession, $loggedInUser) {
+            $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
+            // todo: add comment
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, "");
         });
     }
 

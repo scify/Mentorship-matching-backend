@@ -27,7 +27,14 @@
       margin-left: 15%;
     }
   }
-
+  .sessionStatusSelector {
+    margin-top: 50px;
+    margin-bottom: 200px;
+    .selectorTitle {
+      font-size: medium;
+      margin-left: 15%;
+    }
+  }
 }
 
 .matchMentorItem {
@@ -44,7 +51,7 @@
   color: $brand-success !important;
 }
 
-.first_meeting, .second_meeting, .third_meeting, .fourth_meeting {
+.available_mentee, .available_mentor, .first_meeting, .second_meeting, .third_meeting, .fourth_meeting {
   color: $brand-warning !important;
 }
 

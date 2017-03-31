@@ -25,7 +25,7 @@ class MentorshipSession extends Model
      *
      * @var array
      */
-    protected $fillable = ['mentor_profile_id', 'mentee_profile_id', 'account_manager_id', 'matcher_id'];
+    protected $fillable = ['mentor_profile_id', 'mentee_profile_id', 'account_manager_id', 'matcher_id', 'status_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
