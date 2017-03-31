@@ -38,6 +38,24 @@
   .matchingImg {
     width: 100%;
   }
+
+  .mentorshipSessionInfo {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+
+  .bottomInfo {
+    position: absolute;
+    bottom: 2px;
+  }
+}
+
+@media only screen and (max-width : 992px) {
+  .matchMentorItem {
+    .mentorView {
+      margin-bottom: 30px;
+    }
+  }
 }
 
 .started {

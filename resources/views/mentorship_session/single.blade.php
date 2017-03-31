@@ -4,11 +4,11 @@
     <a href="javascript:void(0)" class="visible no-slide-left"
        data-matcherFullName="{{ $mentorshipSessionViewModel->matcher->first_name . " " . $mentorshipSessionViewModel->matcher->last_name }}"
        data-matcherId="{{ $mentorshipSessionViewModel->matcher->id }}" data-accountManagerId="{{ $mentorshipSessionViewModel->accountManager->id }}">
-        <div class="row">
+        <div class="row mentorshipSessionInfo">
             <div class="col-md-8 centeredVertically">
                 <div class="col-md-5 col-xs-5 text-align-right">
                     <div class="row">
-                        <div class="col-md-9 col-xs-9">
+                        <div class="col-md-9 col-xs-9 mentorView">
                             @include('mentorship_session.modals.mentor_view', ['mentorViewModel' => $mentorshipSessionViewModel->mentorViewModel])
                             <h6>Mentor</h6>
                         </div>
@@ -32,34 +32,32 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+            <div class="bottomInfo">
+                <div class="col-md-12">
                 <span class="caption">Account Manager: <span id="accountManagerName">{{ $mentorshipSessionViewModel->accountManager->first_name . " " .
                     $mentorshipSessionViewModel->accountManager->last_name }}</span></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+                </div>
+                <div class="col-md-12">
                 <span class="caption margin-top-5">
                     @if($mentorshipSessionViewModel->status != null)
                         <span class="{{$mentorshipSessionViewModel->status->title}}"> {{$mentorshipSessionViewModel->status->description}}</span>
                     @endif
                     @if($mentorshipSessionViewModel->status != null && $mentorshipSessionViewModel->mentorshipSession->created_at != null)
-                    |
+                        |
                     @endif
                     @if($mentorshipSessionViewModel->mentorshipSession->created_at != null)
-                    created: {{ $mentorshipSessionViewModel->mentorshipSession->created_at->diffForHumans() }}
+                        created: {{ $mentorshipSessionViewModel->mentorshipSession->created_at->diffForHumans() }}
                     @endif
                     @if(($mentorshipSessionViewModel->status != null || $mentorshipSessionViewModel->mentorshipSession->created_at != null) &&
                         $mentorshipSessionViewModel->mentorshipSession->updated_at != null
                     )
-                    |
+                        |
                     @endif
                     @if($mentorshipSessionViewModel->mentorshipSession->updated_at != null)
-                    updated: {{ $mentorshipSessionViewModel->mentorshipSession->updated_at->diffForHumans() }}
+                        updated: {{ $mentorshipSessionViewModel->mentorshipSession->updated_at->diffForHumans() }}
                     @endif
                 </span>
+                </div>
             </div>
         </div>
     </a>
