@@ -8,6 +8,6 @@
         <a href="{{ route('showAllMentees') }}"> All Mentees </a>
     </li>
 @endif
-<li class="{{ (Route::current()->getName() == 'showAllMentorshipSessions') ? 'open' : '' }}">
-    <a href="{{ route('showAllMentorshipSessions') }}"> Mentorship Sessions </a>
+<li class="{{ (Route::current()->getName() == 'showMentorshipSessionsForAccountManager') ? 'open' : '' }}">
+    <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> My Mentorship Sessions </a>
 </li>

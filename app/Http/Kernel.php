@@ -47,6 +47,10 @@ class Kernel extends HttpKernel
 
         'can-create-mentorship-session' => [
             \App\Http\Middleware\CanCreateMentorshipSession::class
+        ],
+
+        'account-manager' => [
+            \App\Http\Middleware\IsAccountManager::class
         ]
     ];
 

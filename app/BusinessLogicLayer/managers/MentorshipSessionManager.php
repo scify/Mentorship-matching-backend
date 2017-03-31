@@ -130,6 +130,15 @@ class MentorshipSessionManager
         return $mentorshipSessionViewModels;
     }
 
+    public function getMentorshipSessionViewModelsForAccountManager($accountManagerId) {
+        $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForAccountManager($accountManagerId);
+        $mentorshipSessionViewModels = new Collection();
+        foreach ($mentorshipSessions as $mentorshipSession) {
+            $mentorshipSessionViewModels->add($this->getMentorshipSessionViewModel($mentorshipSession));
+        }
+        return $mentorshipSessionViewModels;
+    }
+
     /**
      * Delete a mentorship session from the DB
      *
