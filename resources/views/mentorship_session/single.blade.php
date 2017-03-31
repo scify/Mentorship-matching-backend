@@ -43,13 +43,13 @@
             <div class="col-md-12">
                 <span class="caption margin-top-5">
                     @if($mentorshipSessionViewModel->status != null)
-                        <span class="{{$mentorshipSessionViewModel->status->title}}"> {{$mentorshipSessionViewModel->status->description}}</span>
+                        <span id="sessionStatus" class="{{$mentorshipSessionViewModel->status->title}}">{{$mentorshipSessionViewModel->status->description}}</span>
                     @endif
                     @if($mentorshipSessionViewModel->status != null && $mentorshipSessionViewModel->mentorshipSession->created_at != null)
                     |
                     @endif
                     @if($mentorshipSessionViewModel->mentorshipSession->created_at != null)
-                    created: {{ $mentorshipSessionViewModel->mentorshipSession->created_at->diffForHumans() }}
+                            created: <span id="createdAt">{{ $mentorshipSessionViewModel->createdAtDiffForHumans }}</span>
                     @endif
                     @if(($mentorshipSessionViewModel->status != null || $mentorshipSessionViewModel->mentorshipSession->created_at != null) &&
                         $mentorshipSessionViewModel->mentorshipSession->updated_at != null
@@ -57,7 +57,7 @@
                     |
                     @endif
                     @if($mentorshipSessionViewModel->mentorshipSession->updated_at != null)
-                    updated: {{ $mentorshipSessionViewModel->mentorshipSession->updated_at->diffForHumans() }}
+                            updated: <span id="updatedAt">{{ $mentorshipSessionViewModel->updatedAtDiffForHumans }}</span>
                     @endif
                 </span>
             </div>
