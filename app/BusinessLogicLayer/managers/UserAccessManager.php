@@ -124,6 +124,32 @@ class UserAccessManager {
     }
 
     /**
+     * Checks if a given @see User can edit only the status of a session
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userHasAccessToOnlyEditStatusForMentorshipSessions(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        return $this->userHasRole($userRoles, [$this->ACCOUNT_MANAGER_ROLE_ID]);
+    }
+
+    /**
+     * Checks if a given @see User can edit whole session
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userHasAccessToCRUDMentorshipSessions(User $user) {
+        if($user == null)
+            return false;
+        $userRoles = $user->roles;
+        return $this->userHasRole($userRoles, [$this->ADMINISTRATOR_ROLE_ID]);
+    }
+
+    /**
      * Checks if a role (identified by role id) exists in a given collection of @see UserRole
      *
      * @param Collection $userRoles the user roles collection

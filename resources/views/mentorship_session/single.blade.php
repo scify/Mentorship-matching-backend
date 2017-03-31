@@ -1,6 +1,7 @@
 <li class="has-action-left singleItem col-md-12 matchMentorItem">
 
-    {{--@include('mentors.single-mentor-menu')--}}
+    @include('mentorship_session.single-mentorship-session-menu')
+
     <a href="javascript:void(0)" class="visible no-slide-left"
        data-matcherFullName="{{ $mentorshipSessionViewModel->matcher->first_name . " " . $mentorshipSessionViewModel->matcher->last_name }}"
        data-matcherId="{{ $mentorshipSessionViewModel->matcher->id }}" data-accountManagerId="{{ $mentorshipSessionViewModel->accountManager->id }}">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MentorshipSessionController extends Controller
 {
@@ -21,9 +22,10 @@ class MentorshipSessionController extends Controller
     public function index()
     {
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getAllMentorshipSessionsViewModel();
+        $loggedInUser = Auth::user();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'view all';
-        return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle'));
+        return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle', 'loggedInUser'));
     }
 
     /**

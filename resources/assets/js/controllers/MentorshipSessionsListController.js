@@ -2,7 +2,8 @@ window.MentorshipSessionsListController = function() {
 };
 
 window.MentorshipSessionsListController.prototype = function() {
-    var displaySessionInfoModalHandler = function() {
+    var mentorsAndMenteesListsCssCorrector,
+        displaySessionInfoModalHandler = function() {
             $("body").on("click", ".singleItem > .visible", function() {
                 var mentorName = $(this).find("#mentorPresetName").text();
                 var menteeName = $(this).find("#menteePresetName").text();
@@ -31,6 +32,8 @@ window.MentorshipSessionsListController.prototype = function() {
             });
         },
         init = function() {
+            mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
+            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses();
             displaySessionInfoModalHandler();
         };
     return {
