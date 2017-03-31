@@ -1,6 +1,6 @@
 @if($matchingMode)
     @if($loggedInUser->isMatcher() || $loggedInUser->userHasAccessToCRUDMentorshipSessions())
-        <a href="javascript: void(0);" class="hidden menu-action">
+        <a href="javascript:void(0)" class="hidden menu-action">
             <div class="matchMentorBtn"
                  data-toggle="modal"
                  data-userName="{{$menteeViewModel->mentee->first_name . ' ' . $menteeViewModel->mentee->last_name}}"
@@ -11,11 +11,11 @@
     @endif
 @else
     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-        <a href="javascript: void(0);"
+        <a href="javascript:void(0)"
            data-toggle="modal"
            data-userName="{{$menteeViewModel->mentee->first_name . $menteeViewModel->mentee->last_name}}"
            data-menteeId="{{$menteeViewModel->mentee->id}}"
-           class="deleteMentorBtn hidden menu-action"><i class="deleteIcon ion-android-delete"></i></a>
+           class="deleteMenteeBtn hidden menu-action"><i class="deleteIcon ion-android-delete"></i></a>
         <a href="{{route('showEditMenteeForm', $menteeViewModel->mentee->id)}}" class="hidden secondItem menu-action"><i class="editIcon ion-edit"></i></a>
     @elseif($loggedInUser->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
         <a href="javascript:void(0)" data-toggle="modal"

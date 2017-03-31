@@ -132,7 +132,7 @@ class MenteeController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
-            'loggedInUser' => Auth::user()
+            'loggedInUser' => Auth::user(), 'publicForm' => false
         ]);
     }
 

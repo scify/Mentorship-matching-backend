@@ -193,7 +193,7 @@ class MentorController extends Controller
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
             'companies' => $companies,
-            'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle
+            'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle, 'publicForm' => false
         ]);
     }
 
