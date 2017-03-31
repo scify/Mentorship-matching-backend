@@ -281,6 +281,8 @@
             menteesListController.init();
             var matchingController = new window.MatchingController();
             matchingController.init();
+            var mentorshipSessionsListController = new window.MentorshipSessionsListController();
+            mentorshipSessionsListController.init();
         });
     </script>
 @endsection
