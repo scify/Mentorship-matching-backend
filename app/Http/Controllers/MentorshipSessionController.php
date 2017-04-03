@@ -117,4 +117,19 @@ class MentorshipSessionController extends Controller
             'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
         ));
     }
+
+    public function showMentorshipSessionsForMatcher() {
+        $loggedInUser = Auth::user();
+        $userManager = new UserManager();
+        $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
+        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+        $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMatcher($loggedInUser->id);
+        $isCreatingNewSession = false;
+        $pageTitle = 'Sessions';
+        $pageSubTitle = 'my matches';
+        return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
+            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
+        ));
+    }
 }

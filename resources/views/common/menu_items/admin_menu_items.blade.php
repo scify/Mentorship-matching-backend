@@ -53,6 +53,16 @@
 <li class="{{ (Route::current()->getName() == 'showAllMentorshipSessions') ? 'open' : '' }}">
     <a href="{{ route('showAllMentorshipSessions') }}"> Mentorship Sessions </a>
 </li>
+@if($user->isAccountManager())
+    <li class="{{ (Route::current()->getName() == 'showMentorshipSessionsForAccountManager') ? 'open' : '' }}">
+        <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> My Mentorship Sessions </a>
+    </li>
+@endif
+@if($user->isMatcher())
+    <li class="{{ (Route::current()->getName() == 'showMatchesForMatcher') ? 'open' : '' }}">
+        <a href="{{ route('showMatchesForMatcher') }}">My Matches </a>
+    </li>
+@endif
 <li class="{{ (Route::current()->getName() == 'showAllReports') ? 'open' : '' }}">
     <a href="{{ route('showAllReports') }}"> Reports </a>
 </li>

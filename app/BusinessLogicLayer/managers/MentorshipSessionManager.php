@@ -105,33 +105,30 @@ class MentorshipSessionManager
      */
     public function getAllMentorshipSessionsViewModel() {
         $mentorshipSessions = $this->getAllMentorshipSessions();
-        $mentorshipSessionViewModels = new Collection();
-        foreach ($mentorshipSessions as $mentorshipSession) {
-            $mentorshipSessionViewModels->add($this->getMentorshipSessionViewModel($mentorshipSession));
-        }
-        return $mentorshipSessionViewModels;
+        return $this->getMentorssipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getMentorshipSessionViewModelsForMentor($mentorProfileId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForMentor($mentorProfileId);
-        $mentorshipSessionViewModels = new Collection();
-        foreach ($mentorshipSessions as $mentorshipSession) {
-            $mentorshipSessionViewModels->add($this->getMentorshipSessionViewModel($mentorshipSession));
-        }
-        return $mentorshipSessionViewModels;
+        return $this->getMentorssipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getMentorshipSessionViewModelsForMentee($menteeProfileId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForMentee($menteeProfileId);
-        $mentorshipSessionViewModels = new Collection();
-        foreach ($mentorshipSessions as $mentorshipSession) {
-            $mentorshipSessionViewModels->add($this->getMentorshipSessionViewModel($mentorshipSession));
-        }
-        return $mentorshipSessionViewModels;
+        return $this->getMentorssipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getMentorshipSessionViewModelsForAccountManager($accountManagerId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForAccountManager($accountManagerId);
+        return $this->getMentorssipSessionsViewModelsFromCollection($mentorshipSessions);
+    }
+
+    public function getMentorshipSessionViewModelsForMatcher($matcherId) {
+        $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForMatcher($matcherId);
+        return $this->getMentorssipSessionsViewModelsFromCollection($mentorshipSessions);
+    }
+
+    private function getMentorssipSessionsViewModelsFromCollection(Collection $mentorshipSessions) {
         $mentorshipSessionViewModels = new Collection();
         foreach ($mentorshipSessions as $mentorshipSession) {
             $mentorshipSessionViewModels->add($this->getMentorshipSessionViewModel($mentorshipSession));
