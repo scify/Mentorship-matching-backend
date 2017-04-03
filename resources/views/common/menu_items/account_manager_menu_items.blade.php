@@ -13,6 +13,6 @@
 </li>
 @if($user->isMatcher())
     <li class="{{ (Route::current()->getName() == 'showMatchesForMatcher') ? 'open' : '' }}">
-        <a href="{{ route('showMatchesForMatcher', $user->id) }}">My Matches </a>
+        <a href="{{ route('showMatchesForMatcher') }}">My Matches </a>
     </li>
 @endif

@@ -5,7 +5,7 @@
     <a href="{{ route('showAllMentees') }}">Mentees </a>
 </li>
 <li class="{{ (Route::current()->getName() == 'showMatchesForMatcher') ? 'open' : '' }}">
-    <a href="{{ route('showMatchesForMatcher', $user->id) }}">My Matches </a>
+    <a href="{{ route('showMatchesForMatcher) }}">My Matches </a>
 </li>
 <li class="{{ (Route::current()->getName() == 'showAllMentorshipSessions') ? 'open' : '' }}">
     <a href="{{ route('showAllMentorshipSessions') }}"> Mentorship Sessions </a>

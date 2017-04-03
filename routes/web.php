@@ -40,8 +40,6 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showEditUserForm');
     Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
     Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity','uses' => 'UserController@editUserCapacity']);
-
-    Route::get('matcher/{matcherId}/matches', ['as' => 'showMatchesForMatcher','uses' => 'MatcherController@showMatches']);
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
@@ -85,6 +83,7 @@ Route::group(['middleware' => ['auth', 'status-changer']], function () {
 
 Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], function () {
     Route::post('session/matchMentorWithMentee', 'MentorshipSessionController@create')->name('matchMentorWithMentee');
+    Route::get('sessions/myMatches', ['as' => 'showMatchesForMatcher','uses' => 'MentorshipSessionController@showMentorshipSessionsForMatcher']);
 });
 
 Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
