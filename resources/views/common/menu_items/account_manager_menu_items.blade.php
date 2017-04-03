@@ -11,3 +11,8 @@
 <li class="{{ (Route::current()->getName() == 'showMentorshipSessionsForAccountManager') ? 'open' : '' }}">
     <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> My Mentorship Sessions </a>
 </li>
+@if($user->isMatcher())
+    <li class="{{ (Route::current()->getName() == 'showMatchesForMatcher') ? 'open' : '' }}">
+        <a href="{{ route('showMatchesForMatcher', $user->id) }}">My Matches </a>
+    </li>
+@endif
