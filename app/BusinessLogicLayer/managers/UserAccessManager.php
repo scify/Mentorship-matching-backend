@@ -13,9 +13,8 @@ use App\Models\eloquent\User;
 use App\Models\eloquent\UserRole;
 use App\StorageLayer\UserStorage;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class UserAccessManager {
 
@@ -38,7 +37,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDSystemUsers(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
 
@@ -51,7 +50,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDMentorsAndMentees(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -63,7 +62,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDCompanies(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -75,7 +74,7 @@ class UserAccessManager {
     public function userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -87,7 +86,7 @@ class UserAccessManager {
     public function userIsAdmin(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -99,7 +98,7 @@ class UserAccessManager {
     public function userIsAccountManager(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -111,7 +110,7 @@ class UserAccessManager {
     public function userIsMatcher(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_matcher', $user, $this->MATCHER_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_matcher', $user, $this->MATCHER_ROLE_ID);
     }
 
     /**
@@ -123,7 +122,7 @@ class UserAccessManager {
     public function userHasAccessToOnlyEditStatusForMentorshipSessions(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -135,7 +134,7 @@ class UserAccessManager {
     public function userHasAccessToCRUDMentorshipSessions(User $user) {
         if($user == null)
             return false;
-        return $this->checkSessionOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -149,12 +148,12 @@ class UserAccessManager {
         return $userRoles->contains($roleId);
     }
 
-    private function checkSessionOrDBForRoleAndStore($roleKey, User $user, $roleId) {
-        $result = Session::get($roleKey);
+    private function checkCacheOrDBForRoleAndStore($roleKey, User $user, $roleId) {
+        $result = Cache::get($roleKey . $user->id);
         if($result == null) {
             $userRoles = $user->roles;
             $result = $this->userHasRole($userRoles, $roleId);
-            Session::put($roleKey, $result);
+            Cache::put($roleKey . $user->id, $result);
         }
         return $result;
     }
