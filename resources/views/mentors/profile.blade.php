@@ -275,8 +275,8 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var controller = new window.ProfileController();
-            controller.init();
+            var controller = new window.TabsHandler();
+            controller.init(".profilePage");
             var menteesListController = new window.MenteesListController();
             menteesListController.init();
             var matchingController = new window.MatchingController();

@@ -14,6 +14,8 @@
         $( document ).ready(function() {
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init();
+            var tabsHandler = new window.TabsHandler();
+            tabsHandler.init("#mentorshipSessionShowModal");
         });
     </script>
 @endsection

@@ -80,7 +80,8 @@ elixir(function(mix) {
             'resources/assets/js/FormController.js',
             'resources/assets/js/AvailabilityStatusChangeViewHandler.js',
             'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
-            'resources/assets/js/MentorsAndMenteesListsCssCorrector.js'
+            'resources/assets/js/MentorsAndMenteesListsCssCorrector.js',
+            'resources/assets/js/TabsHandler.js'
         ],
         'public/js/app.js' , './')
         .scripts([

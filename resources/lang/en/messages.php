@@ -85,5 +85,6 @@ return [
     'created_by' => 'Created by',
     'i_accept_the' => 'I accept the',
     'terms_and_conditions' => 'terms & conditions',
-    'status' => ['capitalF' => 'Status', 'lowerF' => 'status']
+    'status' => ['capitalF' => 'Status', 'lowerF' => 'status'],
+    'history' => 'History',
 ];
