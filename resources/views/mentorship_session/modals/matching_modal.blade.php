@@ -18,26 +18,26 @@
 
                 <div class="modal-body">
                     <div class="row margin-top-50">
-                        <div class="col-md-5 text-align-right">
+                        <div class="col-md-5 col-xs-5 text-align-right">
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-9 col-xs-9">
                                     @include('mentorship_session.modals.mentor_view')
                                     <h6>Mentor</h6>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-xs-3">
                                     <img class="matchingImg face-radius" src="{{ asset("/assets/img/mentor_default.png") }}" alt="Mentor profile image">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 col-xs-2">
                             <i class="matchingIcon ion-arrow-swap"></i>
                         </div>
-                        <div class="col-md-5 text-align-left">
+                        <div class="col-md-5 col-xs-5 text-align-left">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-xs-3">
                                     <img class="matchingImg face-radius" src="{{ asset("/assets/img/mentee_default.png") }}" alt="Mentor profile image">
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-9 col-xs-9">
                                     @include('mentorship_session.modals.mentee_view')
                                     <h6>Mentee</h6>
                                 </div>
@@ -48,10 +48,10 @@
                     <div class="row accountManagerSelector" @if($loggedInUser->userHasAccessToCRUDMentorshipSessions()
                         && isset($isCreatingNewSession) && !$isCreatingNewSession) style="margin-bottom: 0;" @endif>
                         <!-- Account manager -->
-                        <div class="col-md-3 margin-top-5">
+                        <div class="col-md-3 col-xs-3 margin-top-5">
                             <div class="selectorTitle">{{trans('messages.account_manager')}}</div>
                         </div>
-                        <div class="col-md-9 text-align-left">
+                        <div class="col-md-9 col-xs-9 text-align-left">
                             <select data-placeholder="Select an account manager for the session" name="account_manager_id" class="chosen-select">
                                 <option><!-- Empty option allows the placeholder to take effect. --><option>
                                 @foreach($accountManagers as $accountManager)
@@ -70,10 +70,10 @@
                     <div class="row sessionStatusSelector" @if($loggedInUser->userHasAccessToCRUDMentorshipSessions())
                         style="margin-top: 10px;" @endif>
                         <!-- Session Status -->
-                        <div class="col-md-3 margin-top-5">
+                        <div class="col-md-3 col-xs-3 margin-top-5">
                             <div class="selectorTitle">{{trans('messages.status.capitalF')}}</div>
                         </div>
-                        <div class="col-md-9 text-align-left">
+                        <div class="col-md-9 col-xs-9 text-align-left">
                             <select data-placeholder="Select a status for the session" name="status_id" class="chosen-select">
                                 <option><!-- Empty option allows the placeholder to take effect. --><option>
                                 @foreach($statuses as $status)
@@ -88,7 +88,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
+                    @if(isset($isCreatingNewSession) && !$isCreatingNewSession)
+                    <button type="submit" class="btn btn-flat btn-primary btn-success submitLink">Update Session</button>
+                    @else
                     <button type="submit" class="btn btn-flat btn-primary btn-success submitLink">Begin Session</button>
+                    @endif
                 </div>
             </form>
         </div><!--.modal-content-->

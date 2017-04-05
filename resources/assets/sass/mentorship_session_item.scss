@@ -18,6 +18,8 @@
   .modal-dialog {
     width: 45%;
     text-align: center;
+    max-height: 98%;
+    min-height: 500px;
   }
   .accountManagerSelector {
     margin-top: 50px;
@@ -34,6 +36,10 @@
       font-size: medium;
       margin-left: 15%;
     }
+  }
+  .modal-body {
+    overflow: visible;
+    max-height: 100%;
   }
 }
 
@@ -104,6 +110,14 @@
       -ms-transform: translateY(20%);
       transform: translateY(20%);
       top: 20%;
+    }
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  #matchMentorModal {
+    .modal-dialog {
+      width: 90%;
     }
   }
 }
