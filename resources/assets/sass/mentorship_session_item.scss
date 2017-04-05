@@ -73,6 +73,12 @@
 #mentorshipSessionShowModal {
   .modal-dialog {
     width: 700px;
+    max-height: 98%;
+    min-height: 500px;
+  }
+  .modal-body {
+    overflow: visible;
+    max-height: 100%;
   }
 }
 
@@ -118,6 +124,14 @@
   #matchMentorModal {
     .modal-dialog {
       width: 90%;
+    }
+  }
+}
+
+@media only screen and (max-width: 710px) {
+  #mentorshipSessionShowModal {
+    .modal-dialog {
+      width: 95%;
     }
   }
 }
