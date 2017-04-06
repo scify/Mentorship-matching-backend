@@ -161,7 +161,11 @@
             </div>
         </div>
     </div>
-    </div>
+    @include('mentorship_session.modals.show')
+    @include('mentorship_session.modals.matching_modal')
+    @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+        @include('mentorship_session.modals.delete')
+    @endif
 @endsection
 @section('additionalFooter')
     <script>
@@ -173,7 +177,8 @@
 
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init();
-            controller.init("#mentorshipSessionShowModal");
+            var tabsHandler = new window.TabsHandler();
+            tabsHandler.init("#mentorshipSessionShowModal");
         });
     </script>
 @endsection

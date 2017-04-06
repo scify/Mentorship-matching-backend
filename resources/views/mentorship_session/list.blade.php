@@ -6,8 +6,3 @@
         @endforeach
     </ul>
 </div>
-@include('mentorship_session.modals.show')
-@include('mentorship_session.modals.matching_modal')
-@if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-    @include('mentorship_session.modals.delete')
-@endif

@@ -63,10 +63,12 @@ class UserController extends Controller
             $accountManagers = $this->userManager->getAccountManagersWithRemainingCapacity();
             $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         }
+        $isCreatingNewSession = false;
         return view('users.profile', [
             'user' => $user, 'loggedInUser' => $loggedInUser,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
-            'accountManagers' => $accountManagers, 'statuses' => $statuses]);
+            'accountManagers' => $accountManagers, 'statuses' => $statuses,
+            'isCreatingNewSession' => $isCreatingNewSession]);
     }
 
     /**
