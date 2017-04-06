@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\CompanyManager;
+use App\BusinessLogicLayer\managers\MentorshipSessionManager;
+use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
 use App\BusinessLogicLayer\managers\UserIconManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
@@ -10,6 +12,7 @@ use App\BusinessLogicLayer\managers\MailManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,7 +53,20 @@ class UserController extends Controller
     {
         $user = $this->userManager->getUser($id);
         $loggedInUser = Auth::user();
-        return view('users.profile', ['user' => $user, 'loggedInUser' => $loggedInUser]);
+        $mentorshipSessionViewModels = new Collection();
+        $accountManagers = new Collection();
+        $statuses = new Collection();
+        if($loggedInUser->isAdmin() && $user->isAccountManager()) {
+            $mentorshipSessionManager = new MentorshipSessionManager();
+            $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+            $mentorshipSessionViewModels = $mentorshipSessionManager->getMentorshipSessionViewModelsForAccountManager($user->id);
+            $accountManagers = $this->userManager->getAccountManagersWithRemainingCapacity();
+            $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+        }
+        return view('users.profile', [
+            'user' => $user, 'loggedInUser' => $loggedInUser,
+            'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
+            'accountManagers' => $accountManagers, 'statuses' => $statuses]);
     }
 
     /**

@@ -36,7 +36,7 @@
                     @if($user->isMatcher())
                         <li><a data-href="matches" data-toggle="tab" class="btn-ripple">{{trans('messages.matches')}}</a></li>
                     @endif
-                    @if($user->isAccountManager())
+                    @if($loggedInUser->isAdmin() && $user->isAccountManager())
                         <li><a data-href="mentorship_sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
                     @endif
                 </ul>
@@ -147,19 +147,14 @@
                         </div>
                     </div>
                 @endif
-                @if($user->isAccountManager())
+                @if($loggedInUser->isAdmin() && $user->isAccountManager())
                     <div id="mentorship_sessions" class="tab-pane">
-                        <div class="col-md-6">
-                            <div class="panel">
-                                <div class="panel-heading">
-                                    <div class="panel-title"><h3>{{trans('messages.mentorship_sessions')}}</h3></div>
-                                </div><!--.panel-heading-->
-                                <div class="panel-body">
-                                    <div class="col-md-12">
-                                        No Mentorship sessions yet.
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-md-12">
+                            @if($mentorshipSessionViewModels->count() == 0)
+                                No Mentorship sessions yet.
+                            @else
+                                @include('mentorship_session.list')
+                            @endif
                         </div>
                     </div>
                 @endif
@@ -175,6 +170,10 @@
             controller.init(".profilePage");
             var userProfileController = new window.UserProfileController();
             userProfileController.init();
+
+            var mentorshipSessionsListController = new window.MentorshipSessionsListController();
+            mentorshipSessionsListController.init();
+            controller.init("#mentorshipSessionShowModal");
         });
     </script>
 @endsection

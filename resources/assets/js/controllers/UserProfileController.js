@@ -79,7 +79,7 @@ window.UserProfileController.prototype = function () {
             setTimeout(function(){$("#errorMsg").addClass('hidden'); }, 2000);
         },
         init = function () {
-            initTabs();
+            // initTabs();
             capacityEditBtnHandler();
             capacityEditSubmitHandler();
         };
