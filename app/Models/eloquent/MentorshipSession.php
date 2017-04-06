@@ -61,4 +61,11 @@ class MentorshipSession extends Model
     public function status() {
         return $this->hasOne(MentorshipSessionStatus::class, 'id', 'status_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function history() {
+        return $this->hasMany(MentorshipSessionHistory::class, 'mentorship_session_id', 'id');
+    }
 }

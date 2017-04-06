@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
 use App\BusinessLogicLayer\managers\UserManager;
+use App\Http\OperationResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
 
 class MentorshipSessionController extends Controller
 {
@@ -131,5 +133,19 @@ class MentorshipSessionController extends Controller
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
             'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
         ));
+    }
+
+    public function getHistoryForMentorshipSession(Request $request) {
+        $input = $request->all();
+        try {
+            $mentorshipSessionViewModel = $this->mentorshipSessionManager->getMentorshipSessionViewModel(
+                $this->mentorshipSessionManager->getMentorshipSession($input["mentorship_session_id"])
+            );
+            $history = $mentorshipSessionViewModel->mentorshipSession->history;
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+        return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentorship_session.modals.partials.history_timeline', compact('history'))));
     }
 }

@@ -87,6 +87,13 @@
                         </div>
                     </div>
                     <div id="history" class="tab-pane">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="timeline">
+                                </div>
+                                <div id="errorMsg" class="alert alert-danger stickyAlert margin-top-20 margin-bottom-20 margin-left-100 hidden" role="alert"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

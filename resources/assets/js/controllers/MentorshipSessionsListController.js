@@ -19,6 +19,11 @@ window.MentorshipSessionsListController.prototype = function() {
                 var createdAt = $(this).find("#createdAt").text();
                 var updatedAt = $(this).find("#updatedAt").text();
                 var $modal = $("#mentorshipSessionShowModal");
+                fetchSessionHistory.call(this);
+                $modal.find("#info").addClass("active");
+                $modal.find("#history").removeClass("active");
+                $modal.find(".nav-tabs > li").removeClass("active");
+                $modal.find(".nav-tabs > li").first().addClass("active");
                 $modal.modal("toggle");
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
@@ -36,6 +41,50 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.find("#createdAt").html(createdAt);
                 $modal.find("#updatedAt").html(updatedAt);
             });
+        },
+        fetchSessionHistory = function() {
+            var request = { "mentorship_session_id" : $(this).data("sessionid") };
+            console.log($(this).parents("#mentorshipSessionsList").data("fetch-session-history-url"));
+            $.ajax({
+                method: "GET",
+                url: $(this).parents("#mentorshipSessionsList").data("fetch-session-history-url"),
+                cache: false,
+                data: request,
+                beforeSend: function () {
+                    $("#mentorshipSessionShowModal #history .timeline").html("");
+                    $("#mentorshipSessionShowModal #history #errorMsg").html("");
+                    $("#mentorshipSessionShowModal #history #errorMsg").addClass('hidden');
+                    $('#mentorshipSessionShowModal #history .panel-body').append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                },
+                success: function(response) {
+                    $('.refresh-container').fadeOut(500, function() {
+                        $('.refresh-container').remove();
+                    });
+                    parseSuccessData(response);
+                },
+                error: function(xhr, status, errorThrown) {
+                    $('.refresh-container').fadeOut(500, function() {
+                        $('.refresh-container').remove();
+                    });
+                    $("#mentorshipSessionShowModal #history #errorMsg").removeClass('hidden');
+                    //The message added to Response object in Controller can be retrieved as following.
+                    $("#mentorshipSessionShowModal #history #errorMsg").html(errorThrown);
+                }
+            });
+        },
+        parseSuccessData = function(response) {
+            var responseObj = JSON.parse(response);
+            //if operation was unsuccessful
+            if (responseObj.status == 2) {
+                $("#mentorshipSessionShowModal #history .timeline").html("");
+                $("#mentorshipSessionShowModal #history #errorMsg").removeClass('hidden');
+                //The message added to Response object in Controller can be retrieved as following.
+                $("#mentorshipSessionShowModal #history #errorMsg").html(responseObj.data);
+            } else {
+                $("#mentorshipSessionShowModal #history #errorMsg").html("");
+                $("#mentorshipSessionShowModal #history #errorMsg").addClass('hidden');
+                $("#mentorshipSessionShowModal #history .timeline").html(responseObj.data);
+            }
         },
         editSessionModalHandler = function() {
             $("body").on("click", ".editSessionBtn", function() {

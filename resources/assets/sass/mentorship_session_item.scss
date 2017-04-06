@@ -82,6 +82,12 @@
     .tab-pane {
       padding-top: 20px;
     }
+    #history.tab-pane {
+      padding-top: 58px;
+      .panel {
+        margin: 0;
+      }
+    }
     .header-tabs.fixed {
       position: fixed;
       top: 60px;

@@ -88,6 +88,16 @@ class MentorshipSessionManager
     }
 
     /**
+     * Returns a @see MentorshipSession with corresponding id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getMentorshipSession($id) {
+        return $this->mentorshipSessionStorage->findMentorshipSessionById($id);
+    }
+
+    /**
      * Returns a mentorship session view model containing the mentorship session that is passed as a parameter
      *
      * @param MentorshipSession $mentorshipSession
