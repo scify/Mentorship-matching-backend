@@ -3,7 +3,7 @@ window.TabsHandler = function () {
 
 window.TabsHandler.prototype = function() {
     var initTabs = function($parentElement) {
-            $('a[data-toggle="tab"]').click(function (e) {
+            $($parentElement.find('a[data-toggle="tab"]')).click(function (e) {
                 e.preventDefault();
                 $parentElement.find('.tab-pane.active').removeClass('active');
                 $parentElement.find('.tab-content.active').removeClass('active');
