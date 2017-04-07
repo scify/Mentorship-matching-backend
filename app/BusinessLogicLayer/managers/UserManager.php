@@ -7,9 +7,11 @@ use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
+use App\StorageLayer\RawQueryStorage;
 use App\StorageLayer\RoleStorage;
 use App\StorageLayer\UserIconStorage;
 use App\StorageLayer\UserStorage;
+use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -214,6 +216,18 @@ class UserManager {
             $capacityToBeSaved = $existingCapacity;
         }
         $this->userStorage->saveAccountManagerCapacity($capacityToBeSaved);
+    }
+
+    public function getAllUsersWithMatchingPermissions() {
+        $userAccessManager = new UserAccessManager();
+        $rawQueryStorage = new RawQueryStorage();
+        $usersIds = $rawQueryStorage->performRawQuery("select distinct u.id from users as u join user_role as ur on 
+          u.id = ur.user_id where ur.role_id in (" . $userAccessManager->MATCHER_ROLE_ID . ", " .
+            $userAccessManager->ADMINISTRATOR_ROLE_ID . ")");
+        $users = $this->userStorage->getUsersFromIdsArray(
+            RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray($usersIds)
+        );
+        return $users;
     }
 
     /**

@@ -3,6 +3,7 @@ window.MentorshipSessionsListController = function() {
 
 window.MentorshipSessionsListController.prototype = function() {
     var mentorsAndMenteesListsCssCorrector,
+        mentorshipSessionsCriteria = {},
         sessionStatusId,
         sessionInfoModalHandler = function() {
             $("body").on("click", "#mentorshipSessionsList .singleItem > .visible", function() {
@@ -75,7 +76,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     $('.refresh-container').fadeOut(500, function() {
                         $('.refresh-container').remove();
                     });
-                    parseSuccessData(response);
+                    parseSuccessHistoryData(response);
                 },
                 error: function(xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -87,7 +88,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
             });
         },
-        parseSuccessData = function(response) {
+        parseSuccessHistoryData = function(response) {
             var responseObj = JSON.parse(response);
             //if operation was unsuccessful
             if (responseObj.status == 2) {
@@ -141,6 +142,84 @@ window.MentorshipSessionsListController.prototype = function() {
                 $comment.fadeIn("fast");
             });
         },
+        searchBtnHandler = function () {
+            $("#searchBtn").on("click", function () {
+                mentorshipSessionsCriteria.mentorName = $('input[name=mentorName]').val();
+                mentorshipSessionsCriteria.menteeName = $('input[name=menteeName]').val();
+                mentorshipSessionsCriteria.statusId = $('select[name=statusId]').val();
+                var dateRange = $('input[name=sessionStartedDatesRange]').val();
+                if (dateRange !== "") {
+                    var dates = dateRange.split(" - ");
+                    if(typeof dates === 'object' && dates.length === 2) {
+                        mentorshipSessionsCriteria.startedDateRange = dateRange;
+                    } else {
+                        toastr.error("Invalid dates inserted. Please fix them before you try searching.");
+                        return;
+                    }
+                }
+                mentorshipSessionsCriteria.accountManagerId = $('select[name=accountManagerId]').val();
+                mentorshipSessionsCriteria.matcherId = $('select[name=matcherId]').val();
+                getMentorshipSessionsByFilter();
+            });
+        },
+        clearSearchBtnHandler = function () {
+            $("#clearSearchBtn").on("click", function () {
+                $('input[name=mentorName]').val("");
+                $('input[name=menteeName]').val("");
+                $('select[name=statusId]').val(0).trigger("chosen:updated");
+                $('input[name=sessionStartedDatesRange]').val("");
+                $('select[name=accountManagerId]').val(0).trigger("chosen:updated");
+                $('select[name=matcherId]').val(0).trigger("chosen:updated");
+                // clear mentorshipSessionsCriteria object from all of its properties
+                for(var prop in mentorshipSessionsCriteria) {
+                    if(mentorshipSessionsCriteria.hasOwnProperty(prop)) {
+                        delete mentorshipSessionsCriteria[prop];
+                    }
+                }
+                getMentorshipSessionsByFilter();
+            });
+        },
+        getMentorshipSessionsByFilter = function () {
+            $.ajax({
+                method: "GET",
+                url: $(".filtersContainer").data("url"),
+                cache: false,
+                data: mentorshipSessionsCriteria,
+                beforeSend: function () {
+                    $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                },
+                success: function (response) {
+                    $('.refresh-container').fadeOut(500, function() {
+                        $('.refresh-container').remove();
+                    });
+                    parseSuccessSessionsData(response);
+                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorshipSessionsList");
+                },
+                error: function (xhr, status, errorThrown) {
+                    $('.refresh-container').fadeOut(500, function() {
+                        $('.refresh-container').remove();
+                    });
+                    console.log(xhr.responseText);
+                    $("#errorMsg").removeClass('hidden');
+                    //The message added to Response object in Controller can be retrieved as following.
+                    $("#errorMsg").html(errorThrown);
+                }
+            });
+        },
+        parseSuccessSessionsData = function(response) {
+            var responseObj = JSON.parse(response);
+            //if operation was unsuccessful
+            if (responseObj.status == 2) {
+                $("#errorMsg").removeClass('hidden');
+                $("#errorMsg").html(responseObj.data);
+                $("#mentorshipSessionsList").html("");
+            } else {
+                $("#mentorshipSessionsList").html("");
+                $("#errorMsg").addClass('hidden');
+                $("#mentorshipSessionsList").html(responseObj.data);
+                Pleasure.listenClickableCards();
+            }
+        },
         submitValidationHandler = function() {
             $("#matchMentorModal form").submit(function() {
                 var numberOfValidationErrors = 0;
@@ -169,11 +248,12 @@ window.MentorshipSessionsListController.prototype = function() {
             mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorshipSessionsList");
             initSelectInputs();
             sessionInfoModalHandler();
-
             editSessionModalHandler();
             deleteSessionModalHandler();
             submitValidationHandler();
             statusChangeHandler();
+            searchBtnHandler();
+            clearSearchBtnHandler();
         };
     return {
         init: init

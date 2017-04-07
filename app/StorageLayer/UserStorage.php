@@ -74,4 +74,8 @@ class UserStorage {
         ");
         return $result;
     }
+
+    public function getUsersFromIdsArray(array $ids) {
+        return User::whereIn('id', $ids)->get();
+    }
 }

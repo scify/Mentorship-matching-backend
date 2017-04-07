@@ -88,4 +88,5 @@ return [
     'status' => ['capitalF' => 'Status', 'lowerF' => 'status'],
     'history' => 'History',
     'session_status_change_reason' => 'Status Change Reason',
+    'session_started_between_dates' => 'Session created between',
 ];

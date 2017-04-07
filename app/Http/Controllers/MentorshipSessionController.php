@@ -27,6 +27,7 @@ class MentorshipSessionController extends Controller
     {
         $userManager = new UserManager();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
+        $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getAllMentorshipSessionsViewModel();
@@ -35,7 +36,7 @@ class MentorshipSessionController extends Controller
         $pageTitle = 'Sessions';
         $pageSubTitle = 'view all';
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
+            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers', 'matchers'
         ));
     }
 
@@ -147,5 +148,23 @@ class MentorshipSessionController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
         return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentorship_session.modals.partials.history_timeline', compact('history'))));
+    }
+
+    public function showMentorshipSessionsByCriteria(Request $request) {
+        $input = $request->all();
+        try {
+            $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsByCriteria($input);
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+
+        if($mentorshipSessionViewModels->count() == 0) {
+            $errorMessage = "No mentorship sessions found";
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        } else {
+            $loggedInUser = Auth::user();
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentorship_session.list', compact('mentorshipSessionViewModels', 'loggedInUser'))));
+        }
     }
 }

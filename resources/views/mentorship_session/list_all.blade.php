@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    @include('mentorship_session.filters')
     @include('mentorship_session.list')
     @include('mentorship_session.modals.show')
     @include('mentorship_session.modals.matching_modal')

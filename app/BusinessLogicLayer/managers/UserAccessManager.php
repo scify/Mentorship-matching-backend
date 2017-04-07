@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Cache;
 
 class UserAccessManager {
 
-    private $ADMINISTRATOR_ROLE_ID = 1;
-    private $MATCHER_ROLE_ID = 2;
+    public $ADMINISTRATOR_ROLE_ID = 1;
+    public $MATCHER_ROLE_ID = 2;
     public $ACCOUNT_MANAGER_ROLE_ID = 3;
 
     private $userStorage;

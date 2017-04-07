@@ -42,6 +42,7 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity','uses' => 'UserController@editUserCapacity']);
 
     Route::get('session/fetchHistory', 'MentorshipSessionController@getHistoryForMentorshipSession')->name('fetchSessionHistory');
+    Route::get('sessions/byCriteria', 'MentorshipSessionController@showMentorshipSessionsByCriteria')->name('filterMentorshipSessions');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {

@@ -18,9 +18,18 @@ var CustomFormsPickers = {
 	},
 
 	dateRangePickerRange: function () {
-		$('.bootstrap-daterangepicker-basic-range').daterangepicker(null, function(start, end, label) {
-			console.log(start.toISOString(), end.toISOString(), label);
+		$('.bootstrap-daterangepicker-basic-range').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+		}, function(start, end, label) {
+			// console.log(start.toISOString(), end.toISOString(), label);
 		});
+
+        $('.bootstrap-daterangepicker-basic-range').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+        });
 	},
 
 	dateRangePickerTime: function () {

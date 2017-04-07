@@ -44,4 +44,8 @@ class MentorshipSessionStorage
     public function getMentorshipSessionViewModelsForMatcher($matcherId) {
         return MentorshipSession::where(['matcher_id' => $matcherId])->orderBy('updated_at', 'desc')->get();
     }
+
+    public function getMentorshipSessionsFromIdsArray($filteredMentorshipSessionsIds) {
+        return MentorshipSession::whereIn('id', $filteredMentorshipSessionsIds)->get();
+    }
 }
