@@ -82,7 +82,7 @@ class MentorManager {
      * @param $id int the id of the mentor profile
      */
     public function editMentor(array $inputFields, $id) {
-        if(isset($inputFields['do_not_contact'])) {
+        if(isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = "";
         }
         if($inputFields['follow_up_date'] != "") {
@@ -97,14 +97,21 @@ class MentorManager {
 
         DB::transaction(function() use($mentor, $oldStatusId, $inputFields, $mentorStatusHistoryManager, $loggedInUser) {
             $mentor = $this->mentorStorage->saveMentor($mentor);
-            $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
-            $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
+            if(isset($inputFields['specialties'])) {
+                $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
+            }
+            if(isset($inputFields['industries'])) {
+                $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
+            }
             if($oldStatusId != $inputFields['status_id']) {
                 $mentorStatusHistoryManager->createMentorStatusHistory($mentor, $inputFields['status_id'],
-                    $inputFields['status_history_comment'], ($inputFields['follow_up_date'] != "") ?
+                    (isset($inputFields['status_history_comment'])) ? $inputFields['status_history_comment'] : "",
+                    ($inputFields['follow_up_date'] != "") ?
                         $inputFields['follow_up_date'] : null, $loggedInUser);
             }
-            $this->handleMentorCompany($mentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
+            if(isset($inputFields['company_id'])) {
+                $this->handleMentorCompany($mentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
+            }
         });
     }
 

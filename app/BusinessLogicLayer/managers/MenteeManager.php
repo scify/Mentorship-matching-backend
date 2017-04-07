@@ -58,7 +58,7 @@ class MenteeManager {
             $inputFields['creator_user_id'] = $loggedInUser->id;
         }
         $menteeProfile = new MenteeProfile();
-        $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields);
+        $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields, true);
 
         DB::transaction(function() use($menteeProfile, $inputFields) {
             $newMentee = $this->menteeStorage->saveMentee($menteeProfile);
@@ -68,13 +68,16 @@ class MenteeManager {
     /**
      * @param MenteeProfile $menteeProfile the instance
      * @param array $inputFields the array of input fields
+     * @param boolean checks whether a new mentee profile is created or not
      * @return MenteeProfile the instance with the fields assigned
      */
-    private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields) {
-        if(isset($inputFields['is_employed']))
-            $inputFields['is_employed'] = true;
-        else
-            $inputFields['is_employed'] = false;
+    private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields, $isNewMenteeProfile = false) {
+        if($isNewMenteeProfile) {
+            if (isset($inputFields['is_employed']))
+                $inputFields['is_employed'] = true;
+            else
+                $inputFields['is_employed'] = false;
+        }
         $menteeProfile->fill($inputFields);
         return $menteeProfile;
     }
@@ -86,6 +89,9 @@ class MenteeManager {
     }
 
     public function editMentee(array $inputFields, $id) {
+        if(isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
+            $inputFields['follow_up_date'] = "";
+        }
         if($inputFields['follow_up_date'] != "") {
             $dateArray = explode("/", $inputFields['follow_up_date']);
             $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
@@ -101,7 +107,8 @@ class MenteeManager {
             $this->menteeStorage->saveMentee($mentee);
             if($oldStatusId != $inputFields['status_id']) {
                 $menteeStatusHistoryManager->createMenteeStatusHistory($mentee, $inputFields['status_id'],
-                    $inputFields['status_history_comment'], ($inputFields['follow_up_date'] != "") ?
+                    (isset($inputFields['status_history_comment'])) ? $inputFields['status_history_comment'] : "",
+                    ($inputFields['follow_up_date'] != "") ?
                         $inputFields['follow_up_date'] : null, $loggedInUser);
             }
         });

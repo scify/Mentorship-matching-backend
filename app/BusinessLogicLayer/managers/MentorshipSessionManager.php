@@ -8,7 +8,6 @@
 
 namespace App\BusinessLogicLayer\managers;
 
-
 use App\Models\eloquent\MentorshipSession;
 use App\Models\viewmodels\MentorshipSessionViewModel;
 use App\StorageLayer\MentorshipSessionStorage;
@@ -25,6 +24,24 @@ class MentorshipSessionManager
     public function __construct() {
         $this->mentorshipSessionStorage = new MentorshipSessionStorage();
         $this->mentorshipSessionHistoryManager = new MentorshipSessionHistoryManager();
+    }
+
+    /**
+     * Sets mentor's and mentee's status id to not available and matched correspondingly.
+     * Used when a new session is created.
+     *
+     * @param $mentorProfileId @see MentorProfile's id
+     * @param $menteeProfileId @see MenteeProfile's id
+     */
+    private function setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($mentorProfileId, $menteeProfileId) {
+        $mentorManager = new MentorManager();
+        $menteeManager = new MenteeManager();
+        DB::transaction(function() use($mentorManager, $mentorProfileId, $menteeManager, $menteeProfileId) {
+            // INFO: mentor status id 2 means NOT available for mentorship
+            $mentorManager->editMentor(array('status_id' => 2), $mentorProfileId);
+            // INFO: mentee status id 2 means matched
+            $menteeManager->editMentee(array('status_id' => 2), $menteeProfileId);
+        });
     }
 
     /**
@@ -50,6 +67,7 @@ class MentorshipSessionManager
             $input['matcher_id'] = $loggedInUser->id;
         }
         $input['status_id'] = 1;
+        $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
         $mentorshipSession = new MentorshipSession();
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
 
