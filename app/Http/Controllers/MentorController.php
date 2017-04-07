@@ -8,6 +8,7 @@ use App\BusinessLogicLayer\managers\IndustryManager;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
+use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
 use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\ReferenceManager;
 use App\BusinessLogicLayer\managers\ResidenceManager;
@@ -102,11 +103,16 @@ class MentorController extends Controller
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentor($id);
         $loggedInUser = Auth::user();
+        $isCreatingNewSession = false;
+        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+        $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
             'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
             'educationLevels' => $educationLevels,
             'accountManagers' => $accountManagers,
             'loggedInUser' => $loggedInUser,
+            'isCreatingNewSession' => $isCreatingNewSession,
+            'statuses' => $statuses,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels]);
     }
 

@@ -177,8 +177,7 @@
 
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init();
-            var tabsHandler = new window.TabsHandler();
-            tabsHandler.init("#mentorshipSessionShowModal");
+            controller.init("#mentorshipSessionShowModal");
         });
     </script>
 @endsection

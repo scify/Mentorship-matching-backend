@@ -130,7 +130,7 @@ window.MenteesListController.prototype = function () {
         },
         init = function () {
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
-            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses();
+            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#menteesList");
             initSelectInputs();
             initAgeRangeSlider();
             initHandlers();

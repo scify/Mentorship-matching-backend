@@ -259,7 +259,7 @@
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
                         <div id="mentorship_sessions" class="tab-pane">
                             @if($mentorshipSessionViewModels->count() > 0)
-                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModels])
+                                @include('mentorship_session.list')
                             @else
                                 <h4 class="noSessionsMessage">No mentorship sessions to show.</h4>
                             @endif
@@ -283,6 +283,7 @@
             matchingController.init();
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init();
+            controller.init("#mentorshipSessionShowModal");
         });
     </script>
 @endsection
