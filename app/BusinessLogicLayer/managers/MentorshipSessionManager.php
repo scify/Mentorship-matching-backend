@@ -88,11 +88,11 @@ class MentorshipSessionManager
         $input['mentor_profile_id'] = $mentorshipSession->mentor_profile_id;
         $input['mentee_profile_id'] = $mentorshipSession->mentee_profile_id;
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
+        $comment = $input['comment'];
 
-        DB::transaction(function() use($mentorshipSession, $loggedInUser) {
+        DB::transaction(function() use($mentorshipSession, $loggedInUser, $comment) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
-            // todo: add comment
-            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, "");
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, $comment);
         });
     }
 

@@ -87,4 +87,5 @@ return [
     'terms_and_conditions' => 'terms & conditions',
     'status' => ['capitalF' => 'Status', 'lowerF' => 'status'],
     'history' => 'History',
+    'session_status_change_reason' => 'Status Change Reason',
 ];

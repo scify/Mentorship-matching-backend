@@ -3,6 +3,7 @@ window.MentorshipSessionsListController = function() {
 
 window.MentorshipSessionsListController.prototype = function() {
     var mentorsAndMenteesListsCssCorrector,
+        sessionStatusId,
         sessionInfoModalHandler = function() {
             $("body").on("click", ".singleItem > .visible", function() {
                 var mentorId = $(this).data("mentorid");
@@ -93,7 +94,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 var mentorName = $siblingVisibleAnchor.find("#mentorPresetName").text();
                 var menteeName = $siblingVisibleAnchor.find("#menteePresetName").text();
                 var accountManagerId = $siblingVisibleAnchor.data("accountmanagerid");
-                var sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
+                sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
                 var $modal = $("#matchMentorModal");
                 $modal.modal("toggle");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
@@ -112,6 +113,18 @@ window.MentorshipSessionsListController.prototype = function() {
                 var $modal = $("#deleteMentorshipSessionModal");
                 $modal.modal("toggle");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
+            });
+        },
+        statusChangeHandler = function () {
+            var $comment = $(".sessionStatusChangeComment");
+            $("select[name=status_id]").change(function() {
+                // if the value is set to the original value, don't do anything
+                if($(this).val() == sessionStatusId) {
+                    $comment.fadeOut("fast");
+                    $comment.find("textarea").val("");
+                    return;
+                }
+                $comment.fadeIn("fast");
             });
         },
         submitValidationHandler = function() {
@@ -145,6 +158,7 @@ window.MentorshipSessionsListController.prototype = function() {
             editSessionModalHandler();
             deleteSessionModalHandler();
             submitValidationHandler();
+            statusChangeHandler();
         };
     return {
         init: init

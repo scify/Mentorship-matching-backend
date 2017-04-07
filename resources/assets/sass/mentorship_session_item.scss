@@ -31,7 +31,15 @@
   }
   .sessionStatusSelector {
     margin-top: 50px;
-    margin-bottom: 200px;
+    //margin-bottom: 200px;
+    .selectorTitle {
+      font-size: medium;
+      margin-left: 15%;
+    }
+  }
+  .sessionStatusChangeComment {
+    margin-top: 50px;
+    //margin-bottom: 200px;
     .selectorTitle {
       font-size: medium;
       margin-left: 15%;

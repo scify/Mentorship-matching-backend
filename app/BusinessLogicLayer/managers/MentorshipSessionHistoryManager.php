@@ -25,7 +25,7 @@ class MentorshipSessionHistoryManager
     public function createMentorshipSessionStatusHistory(MentorshipSession $mentorshipSession, User $loggedInUser, $comment) {
         $mentorshipSessionHistory = new MentorshipSessionHistory();
         $mentorshipSessionHistory->mentorship_session_id = $mentorshipSession->id;
-        $mentorshipSessionHistory->user_id = ($loggedInUser != null) ? $loggedInUser->id : null;
+        $mentorshipSessionHistory->user_id = $loggedInUser->id;
         $mentorshipSessionHistory->status_id = $mentorshipSession->status_id;
         $mentorshipSessionHistory->comment = $comment;
         $this->mentorshipSessionHistoryStorage->saveMentorshipSessionHistory($mentorshipSessionHistory);
