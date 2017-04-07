@@ -5,7 +5,7 @@ window.MentorshipSessionsListController.prototype = function() {
     var mentorsAndMenteesListsCssCorrector,
         sessionStatusId,
         sessionInfoModalHandler = function() {
-            $("body").on("click", ".singleItem > .visible", function() {
+            $("body").on("click", "#mentorshipSessionsList .singleItem > .visible", function() {
                 var mentorId = $(this).data("mentorid");
                 var mentorName = $(this).find("#mentorPresetName").text();
                 var menteeId = $(this).data("menteeid");
@@ -28,16 +28,30 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.modal("toggle");
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
-                $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
+                var mentorUrlAttr = $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url"));
+                console.log(mentorUrlAttr);
+                if(mentorUrlAttr.length !== 0) {
+                    $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
+                }
+
                 var $menteeFullName = $modal.find("#menteeFullName");
                 $menteeFullName.html(menteeName);
-                $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
+                var menteeUrlAttr = $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url"));
+                if(menteeUrlAttr.length !== 0) {
+                    $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
+                }
                 var $accountManagerNameAnchor = $modal.find("#accountManagerName");
                 $accountManagerNameAnchor.html(accountManagerName);
-                $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url").replace("id", accountManagerId));
+                var accountManagerUrlAttr = $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url"));
+                if(accountManagerUrlAttr.length !== 0) {
+                    $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url").replace("id", accountManagerId));
+                }
                 var $matcherNameAnchor = $modal.find("#matcherName");
                 $matcherNameAnchor.html(matcherName);
-                $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url").replace("id", matcherId));
+                var matcherUrlAttr = $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url"));
+                if(matcherUrlAttr.length !== 0) {
+                    $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url").replace("id", matcherId));
+                }
                 $modal.find("#sessionStatus").addClass(sessionStatusClass).html(sessionStatus);
                 $modal.find("#createdAt").html(createdAt);
                 $modal.find("#updatedAt").html(updatedAt);
@@ -152,9 +166,10 @@ window.MentorshipSessionsListController.prototype = function() {
         },
         init = function() {
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
-            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses();
+            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorshipSessionsList");
             initSelectInputs();
             sessionInfoModalHandler();
+
             editSessionModalHandler();
             deleteSessionModalHandler();
             submitValidationHandler();
