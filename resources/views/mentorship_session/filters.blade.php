@@ -48,6 +48,17 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-2 filterName">Session completed</div>
+            <div class="col-md-6">
+                <div class="inputer">
+                    <div class="input-wrapper">
+                        <input type="text" class="form-control bootstrap-daterangepicker-basic-range"
+                               name="sessionCompletedDatesRange" placeholder="{{trans('messages.session_completed_between_dates')}}" value="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-2 filterName">Account Manager</div>
             <div class="col-md-4">
                 <select data-placeholder="Choose account manager" name="accountManagerId" id="accountManagersSelect" class="chosen-select">
