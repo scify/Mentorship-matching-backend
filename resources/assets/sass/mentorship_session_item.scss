@@ -90,12 +90,6 @@
     .tab-pane {
       padding-top: 20px;
     }
-    #history.tab-pane {
-      padding-top: 58px;
-      .panel {
-        margin: 0;
-      }
-    }
     .header-tabs.fixed {
       position: fixed;
       top: 60px;
@@ -103,6 +97,12 @@
       z-index: 1100;
       height: 61px;
       left: 0;
+    }
+    #history.tab-pane {
+      padding-top: 58px;
+      .panel {
+        margin: 0;
+      }
     }
     .nav-tabs {
       border: none;

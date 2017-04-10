@@ -291,7 +291,6 @@ class MentorshipSessionManager
                 $dbQuery .= "and ";
             }
             $dbQuery .= "ms.matcher_id = " . $filters['matcherId'] . " ";
-            $whereClauseExists = true;
         }
         $filteredMentorshipSessionsIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)

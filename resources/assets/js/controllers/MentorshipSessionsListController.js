@@ -59,7 +59,6 @@ window.MentorshipSessionsListController.prototype = function() {
         },
         fetchSessionHistory = function() {
             var request = { "mentorship_session_id" : $(this).data("sessionid") };
-            console.log($(this).parents("#mentorshipSessionsList").data("fetch-session-history-url"));
             $.ajax({
                 method: "GET",
                 url: $(this).parents("#mentorshipSessionsList").data("fetch-session-history-url"),
