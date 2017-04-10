@@ -5,8 +5,8 @@ window.MentorshipSessionsListController.prototype = function() {
     var mentorsAndMenteesListsCssCorrector,
         mentorshipSessionsCriteria = {},
         sessionStatusId,
-        sessionInfoModalHandler = function() {
-            $("body").on("click", "#mentorshipSessionsList .singleItem > .visible", function() {
+        sessionInfoModalHandler = function(parentDiv) {
+            $("body").on("click", parentDiv + " #mentorshipSessionsList .singleItem > .visible", function() {
                 var mentorId = $(this).data("mentorid");
                 var mentorName = $(this).find("#mentorPresetName").text();
                 var menteeId = $(this).data("menteeid");
@@ -142,7 +142,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 $comment.fadeIn("fast");
             });
         },
-        searchBtnHandler = function () {
+        searchBtnHandler = function (parentDiv) {
             $("#searchBtn").on("click", function () {
                 mentorshipSessionsCriteria.mentorName = $('input[name=mentorName]').val();
                 mentorshipSessionsCriteria.menteeName = $('input[name=menteeName]').val();
@@ -159,10 +159,10 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
                 mentorshipSessionsCriteria.accountManagerId = $('select[name=accountManagerId]').val();
                 mentorshipSessionsCriteria.matcherId = $('select[name=matcherId]').val();
-                getMentorshipSessionsByFilter();
+                getMentorshipSessionsByFilter(parentDiv);
             });
         },
-        clearSearchBtnHandler = function () {
+        clearSearchBtnHandler = function (parentDiv) {
             $("#clearSearchBtn").on("click", function () {
                 $('input[name=mentorName]').val("");
                 $('input[name=menteeName]').val("");
@@ -176,10 +176,10 @@ window.MentorshipSessionsListController.prototype = function() {
                         delete mentorshipSessionsCriteria[prop];
                     }
                 }
-                getMentorshipSessionsByFilter();
+                getMentorshipSessionsByFilter(parentDiv);
             });
         },
-        getMentorshipSessionsByFilter = function () {
+        getMentorshipSessionsByFilter = function (parentDiv) {
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
@@ -193,7 +193,7 @@ window.MentorshipSessionsListController.prototype = function() {
                         $('.refresh-container').remove();
                     });
                     parseSuccessSessionsData(response);
-                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorshipSessionsList");
+                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + "#mentorshipSessionsList");
                 },
                 error: function (xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -243,17 +243,17 @@ window.MentorshipSessionsListController.prototype = function() {
                 width: '100%'
             });
         },
-        init = function() {
+        init = function(parentDiv) {
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
-            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorshipSessionsList");
+            mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
             initSelectInputs();
-            sessionInfoModalHandler();
+            sessionInfoModalHandler(parentDiv);
             editSessionModalHandler();
             deleteSessionModalHandler();
             submitValidationHandler();
             statusChangeHandler();
-            searchBtnHandler();
-            clearSearchBtnHandler();
+            searchBtnHandler(parentDiv);
+            clearSearchBtnHandler(parentDiv);
         };
     return {
         init: init

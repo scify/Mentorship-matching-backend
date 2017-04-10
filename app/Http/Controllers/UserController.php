@@ -53,26 +53,37 @@ class UserController extends Controller
     {
         $user = $this->userManager->getUser($id);
         $loggedInUser = Auth::user();
-        $mentorshipSessionViewModels = new Collection();
+        $mentorshipSessionViewModelsForAccManager = new Collection();
+        $mentorshipSessionViewModelsForMatcher = new Collection();
         $accountManagers = new Collection();
         $statuses = new Collection();
-        if($loggedInUser->isAdmin() && $user->isAccountManager()) {
+        if($loggedInUser->isAdmin()) {
             $mentorshipSessionManager = new MentorshipSessionManager();
-            $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
-            $mentorshipSessionViewModels = $mentorshipSessionManager->getMentorshipSessionViewModelsForAccountManager($user->id);
-            $accountManagers = $this->userManager->getAccountManagersWithRemainingCapacity();
-            $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+            if($user->isAccountManager() || $user->isMatcher()) {
+                $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+                $accountManagers = $this->userManager->getAccountManagersWithRemainingCapacity();
+                $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+            }
+            if($user->isAccountManager()) {
+                $mentorshipSessionViewModelsForAccManager = $mentorshipSessionManager->getMentorshipSessionViewModelsForAccountManager($user->id);
+            }
+            if($user->isMatcher()) {
+                $mentorshipSessionViewModelsForMatcher = $mentorshipSessionManager->getMentorshipSessionViewModelsForMatcher($user->id);
+            }
+
+
         }
         $isCreatingNewSession = false;
         return view('users.profile', [
             'user' => $user, 'loggedInUser' => $loggedInUser,
-            'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
+            'mentorshipSessionViewModelsForAccManager' => $mentorshipSessionViewModelsForAccManager,
+            'mentorshipSessionViewModelsForMatcher' => $mentorshipSessionViewModelsForMatcher,
             'accountManagers' => $accountManagers, 'statuses' => $statuses,
             'isCreatingNewSession' => $isCreatingNewSession]);
     }
 
     /**
-     * Show the form for creating a new user.
+     * Show the form for creating a new user.cd
      *
      * @return \Illuminate\Http\Response
      */
