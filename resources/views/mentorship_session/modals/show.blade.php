@@ -13,7 +13,7 @@
                 </div>
                 <div class="tab-content without-border">
                     <div id="info" class="tab-pane active">
-                        <div class="row margin-top-50">
+                        <div class="row margin-top-50 margin-bottom-20">
                             <div class="col-md-5 col-xs-5 text-align-right">
                                 <div class="row">
                                     <div class="col-md-9 col-xs-9">
