@@ -15,13 +15,14 @@
             </div>
             @if($loggedInUser->isAccountManager())
                 <div id="pending_mentorship_sessions">
-                    <h4>PENDING MENTORSHIP SESSIONS:</h4>
-                    @if($mentorshipSessionViewModelsForAccManager->count() == 0)
-                        No pending Mentorship sessions.
-                    @else
-                        @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForAccManager])
-                    @endif
-                </div>
+                    <div class="note note-warning note-left-striped">
+                        <h4>PENDING MENTORSHIP SESSIONS</h4>
+                        @if($mentorshipSessionViewModelsForAccManager->count() == 0)
+                            No pending Mentorship sessions.
+                        @else
+                            @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForAccManager])
+                        @endif
+                    </div>
                 </div>
             @endif
         </div>
