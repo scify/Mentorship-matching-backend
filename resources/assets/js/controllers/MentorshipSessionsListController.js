@@ -30,7 +30,6 @@ window.MentorshipSessionsListController.prototype = function() {
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
                 var mentorUrlAttr = $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url"));
-                console.log(mentorUrlAttr);
                 if(mentorUrlAttr.length !== 0) {
                     $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
                 }
