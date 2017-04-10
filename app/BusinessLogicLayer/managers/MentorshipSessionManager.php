@@ -156,9 +156,8 @@ class MentorshipSessionManager
     }
 
     public function getPendingMentorshipSessionViewModelsForAccountManager($accountManagerId) {
-        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $mentorshipSessions = $this->mentorshipSessionStorage->
-            getMentorshipSessionViewModelsForAccountManagerByStatusId($accountManagerId, $mentorshipSessionStatusManager->MENTORSHIP_SESSION_STATUS_PENDING);
+            getMentorshipSessionViewModelsForAccountManagerByStatusId($accountManagerId, MentorshipSessionStatuses::getPendingSessionStatus());
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 

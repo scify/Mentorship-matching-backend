@@ -13,7 +13,6 @@ use App\StorageLayer\MentorshipSessionStatusStorage;
 class MentorshipSessionStatusManager
 {
     private $mentorshipSessionStatusStorage;
-    public $MENTORSHIP_SESSION_STATUS_PENDING = 1;
 
     public function __construct() {
         $this->mentorshipSessionStatusStorage = new MentorshipSessionStatusStorage();
