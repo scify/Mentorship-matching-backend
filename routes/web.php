@@ -24,7 +24,7 @@ Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
 Route::group([ 'middleware' => 'auth' ], function () {
 
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
-    Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+    Route::get('/dashboard', 'UserController@showDashboardForUser')->name('dashboard');
 
 
 
