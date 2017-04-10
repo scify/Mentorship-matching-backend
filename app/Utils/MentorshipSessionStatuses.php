@@ -40,4 +40,8 @@ class MentorshipSessionStatuses
         );
         return $completedSessionStatuses;
     }
+
+    public static function getPendingSessionStatus() {
+        return self::$statuses['pending'];
+    }
 }
