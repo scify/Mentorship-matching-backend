@@ -26,9 +26,38 @@
                 </div>
             @endif
         </div>
+        @if($loggedInUser->isMatcher())
+            <div class="col-md-6">
+                <div id="availableMentorsList">
+                    <div class="note note-success note-top-striped">
+                        <h4>MENTORS AVAILABLE FOR MATCHING</h4>
+                        @if($mentorViewModels->count() == 0)
+                            No mentors available.
+                        @else
+                            @include('mentors.list', ['mentorViewModels' => $mentorViewModels])
+                            @include('mentors.modals', ['statuses' => $mentorStatuses])
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="availableMenteesList">
+                    <div class="note note-success note-top-striped">
+                        <h4>MENTEES AVAILABLE FOR MATCHING</h4>
+                        @if($mentorViewModels->count() == 0)
+                            No mentees available.
+                        @else
+                            @include('mentees.list', ['menteeViewModels' => $menteeViewModels])
+                            @include('mentees.modals', ['statuses' => $menteeStatuses])
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
+
     </div>
     @include('mentorship_session.modals.show')
-    @include('mentorship_session.modals.matching_modal')
+    @include('mentorship_session.modals.matching_modal', ['statuses' => $mentorshipSessionStatuses])
     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
         @include('mentorship_session.modals.delete')
     @endif
@@ -37,10 +66,22 @@
     <script>
         $( document ).ready(function() {
             var controller = new window.TabsHandler();
+            controller.init("#mentorshipSessionShowModal");
 
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init("#pending_mentorship_sessions");
-            controller.init("#mentorshipSessionShowModal");
+
+            var mentorsListController = new window.MentorsListController();
+            mentorsListController.init();
+
+            var menteesListController = new window.MenteesListController();
+            menteesListController.init();
+
+            @if($loggedInUser->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
+                var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
+                availabilityStatusChangeHandler.init("#availableMentorsList");
+                availabilityStatusChangeHandler.init("#availableMenteesList");
+            @endif
         });
     </script>
 @endsection

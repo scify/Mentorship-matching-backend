@@ -45,4 +45,9 @@ class MentorStorage {
     public function deleteMentor($mentor) {
         $mentor->delete();
     }
+
+    public function getMentorProfilesWithStatusId($statusId) {
+        return MentorProfile::where(['status_id' => $statusId])
+            ->orderBy('last_name')->orderBy('first_name')->get();
+    }
 }

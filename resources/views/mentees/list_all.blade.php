@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
-    @include('mentees.filters')
-    @include('mentees.list')
-    @include('mentees.modals')
+    <div id="allMentees">
+        @include('mentees.filters')
+        @include('mentees.list')
+        @include('mentees.modals')
+    </div>
 @endsection
 
 @section('additionalFooter')
@@ -13,7 +15,7 @@
 
             @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
             var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
-            availabilityStatusChangeHandler.init();
+            availabilityStatusChangeHandler.init("#allMentees");
             @endif
         });
     </script>

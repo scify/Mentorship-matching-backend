@@ -34,6 +34,16 @@ class MenteeManager {
      */
     public function getAllMenteeViewModels() {
         $mentees = $this->menteeStorage->getAllMenteeProfiles();
+        return $this->getMenteeViewModelsFromCollection($mentees);
+    }
+
+    public function getAvailableMenteeViewModels() {
+        $menteeStatusManager = new MenteeStatusManager();
+        $mentees = $this->menteeStorage->getMenteeProfilesWithStatusId($menteeStatusManager->MENTEE_AVAILABLE_ID);
+        return $this->getMenteeViewModelsFromCollection($mentees);
+    }
+
+    private function getMenteeViewModelsFromCollection(Collection $mentees) {
         $menteeViewModels = new Collection();
         foreach ($mentees as $mentee) {
             $menteeViewModels->add($this->getMenteeViewModel($mentee));

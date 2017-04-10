@@ -48,6 +48,16 @@ class MentorManager {
      */
     public function getAllMentorViewModels() {
         $mentors = $this->mentorStorage->getAllMentorProfiles();
+        return $this->getMentorViewModelsFromCollection($mentors);
+    }
+
+    public function getAvailableMentorViewModels() {
+        $mentorStatusManager = new MentorStatusManager();
+        $mentors = $this->mentorStorage->getMentorProfilesWithStatusId($mentorStatusManager->MENTOR_AVAILABLE_ID);
+        return $this->getMentorViewModelsFromCollection($mentors);
+    }
+
+    private function getMentorViewModelsFromCollection(Collection $mentors) {
         $mentorViewModels = new Collection();
         foreach ($mentors as $mentor) {
             $mentorViewModels->add($this->getMentorViewModel($mentor));
@@ -389,4 +399,5 @@ class MentorManager {
                 ($input['follow_up_date'] != "") ? $input['follow_up_date'] : null, $loggedInUser);
         });
     }
+
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row">
+    <div class="row" id="createMentor">
         <div class="col-md-12">
             <div class="panel">
                 @if(!$publicForm)
@@ -371,7 +371,7 @@
             var controller = new FormController();
             controller.init();
             var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
-            availabilityStatusChangeHandler.init();
+            availabilityStatusChangeHandler.init("#createMentor");
         });
     </script>
 @endsection

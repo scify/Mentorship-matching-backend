@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\CompanyManager;
+use App\BusinessLogicLayer\managers\MenteeManager;
+use App\BusinessLogicLayer\managers\MenteeStatusManager;
+use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
+use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\UserIconManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
@@ -29,12 +33,27 @@ class UserController extends Controller
     public function showDashboardForUser() {
         $loggedInUser = Auth::user();
         $mentorshipSessionViewModelsForAccManager = new Collection();
+        $mentorViewModels = new Collection();
+        $menteeViewModels = new Collection();
+        $mentorStatuses = new Collection();
+        $menteeStatuses = new Collection();
+        $mentorshipSessionStatuses = new Collection();
         if($loggedInUser->isAccountManager()) {
             $mentorshipSessionManager = new MentorshipSessionManager();
             $mentorshipSessionViewModelsForAccManager = $mentorshipSessionManager->getPendingMentorshipSessionViewModelsForAccountManager($loggedInUser->id);
             $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
             $accountManagers = $this->userManager->getAccountManagersWithRemainingCapacity();
-            $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+            $mentorshipSessionStatuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+        }
+        if($loggedInUser->isMatcher()) {
+            $mentorManager = new MentorManager();
+            $mentorStatusManager = new MentorStatusManager();
+            $menteeManager = new MenteeManager();
+            $menteeStatusManager = new MenteeStatusManager();
+            $mentorViewModels = $mentorManager->getAvailableMentorViewModels();
+            $mentorStatuses = $mentorStatusManager->getAllMentorStatuses();
+            $menteeViewModels = $menteeManager->getAvailableMenteeViewModels();
+            $menteeStatuses = $menteeStatusManager->getAllMenteeStatuses();
         }
         $isCreatingNewSession = false;
         return view('home.dashboard', [
@@ -42,7 +61,12 @@ class UserController extends Controller
             'pageSubTitle' => 'welcome',
             'mentorshipSessionViewModelsForAccManager' =>$mentorshipSessionViewModelsForAccManager,
             'loggedInUser' => $loggedInUser,
-            'accountManagers' => $accountManagers, 'statuses' => $statuses,
+            'accountManagers' => $accountManagers,
+            'mentorshipSessionStatuses' => $mentorshipSessionStatuses,
+            'mentorStatuses' => $mentorStatuses,
+            'mentorViewModels' =>$mentorViewModels,
+            'menteeStatuses' => $menteeStatuses,
+            'menteeViewModels' =>$menteeViewModels,
             'isCreatingNewSession' => $isCreatingNewSession]);
     }
 
