@@ -38,4 +38,8 @@ class MentorStorage {
     public function getMentorsFromIdsArray($filteredMentorIds) {
         return MentorProfile::whereIn('id', $filteredMentorIds)->get();
     }
+
+    public function deleteMentor($mentor) {
+        $mentor->delete();
+    }
 }

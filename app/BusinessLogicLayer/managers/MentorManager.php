@@ -190,8 +190,10 @@ class MentorManager {
      * @param $mentorId int the id
      */
     public function deleteMentor($mentorId) {
-        $mentor = $this->getMentor($mentorId);
-        $mentor->delete();
+        DB::transaction(function() use($mentorId) {
+            $mentor = $this->getMentor($mentorId);
+            $this->mentorStorage->deleteMentor($mentor);
+        });
     }
 
     /**
