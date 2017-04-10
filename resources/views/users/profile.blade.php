@@ -133,27 +133,22 @@
                 </div>
                 @if($user->isMatcher())
                     <div id="matches" class="tab-pane">
-                        <div class="col-md-6">
-                            <div class="panel">
-                                <div class="panel-heading">
-                                    <div class="panel-title"><h3>{{trans('messages.matches')}}</h3></div>
-                                </div><!--.panel-heading-->
-                                <div class="panel-body">
-                                    <div class="col-md-12">
-                                        You haven't performed any matches yet.
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-md-12">
+                            @if($mentorshipSessionViewModelsForMatcher->count() == 0)
+                                You haven't performed any matches yet.
+                            @else
+                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForMatcher])
+                            @endif
                         </div>
                     </div>
                 @endif
                 @if($loggedInUser->isAdmin() && $user->isAccountManager())
                     <div id="mentorship_sessions" class="tab-pane">
                         <div class="col-md-12">
-                            @if($mentorshipSessionViewModels->count() == 0)
+                            @if($mentorshipSessionViewModelsForAccManager->count() == 0)
                                 No Mentorship sessions yet.
                             @else
-                                @include('mentorship_session.list')
+                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForAccManager])
                             @endif
                         </div>
                     </div>
@@ -176,7 +171,8 @@
             userProfileController.init();
 
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
-            mentorshipSessionsListController.init();
+            mentorshipSessionsListController.init("#matches");
+            mentorshipSessionsListController.init("#mentorship_sessions");
             controller.init("#mentorshipSessionShowModal");
         });
     </script>

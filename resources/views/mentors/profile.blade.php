@@ -282,7 +282,7 @@
             var matchingController = new window.MatchingController();
             matchingController.init();
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
-            mentorshipSessionsListController.init();
+            mentorshipSessionsListController.init("#mentorship_sessions");
             controller.init("#mentorshipSessionShowModal");
         });
     </script>
