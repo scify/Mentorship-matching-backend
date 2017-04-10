@@ -18,7 +18,7 @@ class MentorStorage {
     }
 
     public function getAllMentorProfiles() {
-        return MentorProfile::orderBy('updated_at', 'desc')->get();
+        return MentorProfile::orderBy('last_name')->orderBy('first_name')->get();
     }
 
     public function getMentorProfileById($id) {
@@ -26,17 +26,20 @@ class MentorStorage {
     }
 
     public function getMentorsByCompanyId($companyId) {
-        return MentorProfile::where(['company_id' => $companyId])->get();
+        return MentorProfile::where(['company_id' => $companyId])
+            ->orderBy('last_name')->orderBy('first_name')->get();
     }
 
     public function getMentorsThatMatchGivenNameOrEmail($searchQuery) {
         return MentorProfile::where('first_name', 'like', '%' . $searchQuery . '%')
             ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
-            ->orWhere('email', 'like', '%' . $searchQuery . '%')->get();
+            ->orWhere('email', 'like', '%' . $searchQuery . '%')
+            ->orderBy('last_name')->orderBy('first_name')->get();
     }
 
     public function getMentorsFromIdsArray($filteredMentorIds) {
-        return MentorProfile::whereIn('id', $filteredMentorIds)->get();
+        return MentorProfile::whereIn('id', $filteredMentorIds)
+            ->orderBy('last_name')->orderBy('first_name')->get();
     }
 
     public function deleteMentor($mentor) {
