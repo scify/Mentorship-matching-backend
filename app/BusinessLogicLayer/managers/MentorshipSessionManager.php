@@ -12,6 +12,7 @@ use App\Models\eloquent\MentorshipSession;
 use App\Models\viewmodels\MentorshipSessionViewModel;
 use App\StorageLayer\MentorshipSessionStorage;
 use App\StorageLayer\RawQueryStorage;
+use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -225,6 +226,7 @@ class MentorshipSessionManager
             $start = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
             $dateArray = explode("/", $dateRange[1]);
             $end = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
+            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
             $dbQuery .= "inner join  
             (select msh.mentorship_session_id ,
                     msh.status_id, msh.created_at as LastSessionStatus from 
@@ -235,7 +237,7 @@ class MentorshipSessionManager
                     from mentorship_session_history as msh
                     group by mentorship_session_id
                ) LastSessionHistoryRecord on LastSessionHistoryRecord.last_mentorship_session_history_id = msh.id
-                where msh.status_id  in (9, 10) 
+                where msh.status_id  in (" . implode(",", $mentorshipSessionStatuses::getCompletedSessionStatuses()) . ") 
             and (msh.created_at >= date(\"" . $start . "\") and msh.created_at <= date(\"" . $end . "\"))
             ) as completed_sessions on ms.id = completed_sessions.mentorship_session_id ";
         }
