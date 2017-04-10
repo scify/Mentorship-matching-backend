@@ -203,7 +203,7 @@ window.MentorshipSessionsListController.prototype = function() {
                         $('.refresh-container').remove();
                     });
                     parseSuccessSessionsData(response);
-                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + "#mentorshipSessionsList");
+                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
                 },
                 error: function (xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
