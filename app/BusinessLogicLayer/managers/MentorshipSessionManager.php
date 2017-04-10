@@ -154,6 +154,13 @@ class MentorshipSessionManager
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
+    public function getPendingMentorshipSessionViewModelsForAccountManager($accountManagerId) {
+        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+        $mentorshipSessions = $this->mentorshipSessionStorage->
+            getMentorshipSessionViewModelsForAccountManagerByStatusId($accountManagerId, $mentorshipSessionStatusManager->MENTORSHIP_SESSION_STATUS_PENDING);
+        return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
+    }
+
     public function getMentorshipSessionViewModelsForMatcher($matcherId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForMatcher($matcherId);
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
@@ -298,4 +305,5 @@ class MentorshipSessionManager
         );
         return $this->mentorshipSessionStorage->getMentorshipSessionsFromIdsArray($filteredMentorshipSessionsIds);
     }
+
 }

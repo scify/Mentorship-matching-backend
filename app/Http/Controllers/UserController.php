@@ -26,6 +26,26 @@ class UserController extends Controller
         $this->userManager = new UserManager();
     }
 
+    public function showDashboardForUser() {
+        $loggedInUser = Auth::user();
+        $mentorshipSessionViewModelsForAccManager = new Collection();
+        if($loggedInUser->isAccountManager()) {
+            $mentorshipSessionManager = new MentorshipSessionManager();
+            $mentorshipSessionViewModelsForAccManager = $mentorshipSessionManager->getPendingMentorshipSessionViewModelsForAccountManager($loggedInUser->id);
+            $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+            $accountManagers = $this->userManager->getAccountManagersWithRemainingCapacity();
+            $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+        }
+        $isCreatingNewSession = false;
+        return view('home.dashboard', [
+            'pageTitle' => 'Dashboard',
+            'pageSubTitle' => 'welcome',
+            'mentorshipSessionViewModelsForAccManager' =>$mentorshipSessionViewModelsForAccManager,
+            'loggedInUser' => $loggedInUser,
+            'accountManagers' => $accountManagers, 'statuses' => $statuses,
+            'isCreatingNewSession' => $isCreatingNewSession]);
+    }
+
     /**
      * Display all users.
      *
