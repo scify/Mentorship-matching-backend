@@ -211,7 +211,35 @@ class MentorshipSessionManager
         $whereClauseExists = false;
         $dbQuery = "select distinct ms.id from mentorship_session as ms left outer join mentor_profile as 
           mentor on mentor.id = ms.mentor_profile_id left outer join mentee_profile as mentee on 
-          mentee.id = ms.mentee_profile_id where ";
+          mentee.id = ms.mentee_profile_id ";
+        if(isset($filters['completedDateRange']) && $filters['completedDateRange'] != "") {
+            $dateRange = explode(" - ", $filters['completedDateRange']);
+            $dateArray = explode("/", $dateRange[0]);
+            $start = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
+            $dateArray = explode("/", $dateRange[1]);
+            $end = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
+            $dbQuery .= "inner join  
+            (select msh.mentorship_session_id ,
+                    msh.status_id, msh.created_at as LastSessionStatus from 
+                mentorship_session_history msh inner join
+            (
+                select mentorship_session_id, 
+                        max(id) as last_mentorship_session_history_id
+                    from mentorship_session_history as msh
+                    group by mentorship_session_id
+               ) LastSessionHistoryRecord on LastSessionHistoryRecord.last_mentorship_session_history_id = msh.id
+                where msh.status_id  in (9, 10) 
+            and (msh.created_at >= date(\"" . $start . "\") and msh.created_at <= date(\"" . $end . "\"))
+            ) as completed_sessions on ms.id = completed_sessions.mentorship_session_id ";
+        }
+        if((isset($filters['mentorName']) && $filters['mentorName'] !== "") ||
+            (isset($filters['menteeName']) && $filters['menteeName'] !== "") ||
+            (isset($filters['statusId']) && $filters['statusId'] !== "") ||
+            (isset($filters['startedDateRange']) && $filters['startedDateRange'] !== "") ||
+            (isset($filters['accountManagerId']) && $filters['accountManagerId'] !== "") ||
+            (isset($filters['matcherId']) && $filters['matcherId'] !== "")) {
+            $dbQuery .= "where ";
+        }
         if(isset($filters['mentorName']) && $filters['mentorName'] != "") {
             $dbQuery .= "(mentor.first_name like '%" . $filters['mentorName'] . "%' or mentor.last_name like '%" . $filters['mentorName'] . "%') ";
             $whereClauseExists = true;

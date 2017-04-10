@@ -89,4 +89,5 @@ return [
     'history' => 'History',
     'session_status_change_reason' => 'Status Change Reason',
     'session_started_between_dates' => 'Session created between',
+    'session_completed_between_dates' => 'Session completed between',
 ];

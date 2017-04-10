@@ -157,6 +157,16 @@ window.MentorshipSessionsListController.prototype = function() {
                         return;
                     }
                 }
+                dateRange = $('input[name=sessionCompletedDatesRange]').val();
+                if (dateRange !== "") {
+                    var dates = dateRange.split(" - ");
+                    if(typeof dates === 'object' && dates.length === 2) {
+                        mentorshipSessionsCriteria.completedDateRange = dateRange;
+                    } else {
+                        toastr.error("Invalid dates inserted. Please fix them before you try searching.");
+                        return;
+                    }
+                }
                 mentorshipSessionsCriteria.accountManagerId = $('select[name=accountManagerId]').val();
                 mentorshipSessionsCriteria.matcherId = $('select[name=matcherId]').val();
                 getMentorshipSessionsByFilter();
@@ -168,6 +178,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 $('input[name=menteeName]').val("");
                 $('select[name=statusId]').val(0).trigger("chosen:updated");
                 $('input[name=sessionStartedDatesRange]').val("");
+                $('input[name=sessionCompletedDatesRange]').val("");
                 $('select[name=accountManagerId]').val(0).trigger("chosen:updated");
                 $('select[name=matcherId]').val(0).trigger("chosen:updated");
                 // clear mentorshipSessionsCriteria object from all of its properties
