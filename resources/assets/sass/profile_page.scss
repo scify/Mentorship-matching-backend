@@ -15,6 +15,13 @@
     }
   }
 
+  @media only screen and (max-width : 980px) {
+    .match-tab-label {
+      float: right;
+      position: unset !important;
+    }
+  }
+
   .page-header {
     height: 100%;
     padding: 50px;
@@ -92,5 +99,10 @@
 
   #successMsg {
     width: 100%;
+  }
+
+  .match-tab-label {
+    position: absolute;
+    right: 0;
   }
 }

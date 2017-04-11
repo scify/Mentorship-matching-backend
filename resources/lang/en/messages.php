@@ -90,4 +90,5 @@ return [
     'session_status_change_reason' => 'Status change reason',
     'session_started_between_dates' => 'Session created between',
     'session_completed_between_dates' => 'Session completed between',
+    'match' => 'Match',
 ];

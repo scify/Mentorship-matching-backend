@@ -33,7 +33,7 @@
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
                     <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.info')}}</a></li>
                     <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.specialties')}} & {{trans('messages.skills.capitalF')}}</a></li>
-                    <li><a data-href="matching" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions')}}</a></li>
+                    <li class="match-tab-label"><a data-href="matching" data-toggle="tab" class="btn-ripple">{{trans('messages.match')}}</a></li>
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
                         <li><a data-href="mentorship_sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions_history')}}</a></li>
                     @endif

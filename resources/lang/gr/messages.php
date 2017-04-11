@@ -85,5 +85,6 @@ return [
     'created_by' => 'Created by',
     'i_accept_the' => 'Αποδέχομαι τους',
     'terms_and_conditions' => 'όρους χρήσης',
-    'status' => ['capitalF' => 'Status', 'lowerF' => 'status']
+    'status' => ['capitalF' => 'Status', 'lowerF' => 'status'],
+    'match' => 'Ταίριαξε',
 ];
