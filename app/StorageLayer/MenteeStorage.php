@@ -34,4 +34,9 @@ class MenteeStorage {
     public function getMenteesFromIdsArray($filteredMenteeIds) {
         return MenteeProfile::whereIn('id', $filteredMenteeIds)->orderBy('last_name')->orderBy('first_name')->get();
     }
+
+    public function getMenteeProfilesWithStatusId($statusId) {
+        return MenteeProfile::where(['status_id' => $statusId])
+            ->orderBy('last_name')->orderBy('first_name')->get();
+    }
 }

@@ -6,6 +6,7 @@ use App\StorageLayer\MenteeStatusStorage;
 
 class MenteeStatusManager {
 
+    public $MENTEE_AVAILABLE_ID = 1;
     private $menteeStatusStorage;
 
     public function __construct() {

@@ -3,10 +3,10 @@ window.AvailabilityStatusChangeViewHandler = function() {
 
 window.AvailabilityStatusChangeViewHandler.prototype = (function(){
     var dateFieldDisplayConditions,
-        statusChangeHandler = function() {
-            var $followUpDate = $("#status-change-follow-up-date");
-            var $comment = $("#status-change-comment");
-            $("select[name=status_id]").change(function() {
+        statusChangeHandler = function(parentDiv) {
+            var $followUpDate = $(parentDiv+ " #status-change-follow-up-date");
+            var $comment = $(parentDiv + " #status-change-comment");
+            $(parentDiv).find("select[name=status_id]").change(function() {
                 $followUpDate.fadeOut("fast");
                 $followUpDate.find("input").val("");
                 var originalStatusId = $(this).data("original-value");
@@ -29,16 +29,16 @@ window.AvailabilityStatusChangeViewHandler.prototype = (function(){
             });
 
         },
-        doNotContactHandler = function() {
-            $("input[name=do_not_contact]").on("ifChecked", function() {
-                var $followUpDateInput = $("#status-change-follow-up-date").find("input");
+        doNotContactHandler = function(parentDiv) {
+            $(parentDiv).find("input[name=do_not_contact]").on("ifChecked", function() {
+                var $followUpDateInput = $(parentDiv + " #status-change-follow-up-date").find("input");
                 $followUpDateInput.val("");
             });
         },
-        init = function() {
-            dateFieldDisplayConditions = $("select[name=status_id]").data("enable-follow-up-date").split(",");
-            statusChangeHandler();
-            doNotContactHandler();
+        init = function(parentDiv) {
+            dateFieldDisplayConditions = $(parentDiv).find("select[name=status_id]").data("enable-follow-up-date").split(",");
+            statusChangeHandler(parentDiv);
+            doNotContactHandler(parentDiv);
         };
     return {
         init: init
