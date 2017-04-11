@@ -39,7 +39,7 @@ window.MenteesListController.prototype = function () {
                     $("input[name=only_never_matched]").parent().hasClass("checked");
                 menteesCriteria.displayOnlyExternallySubscribed =
                     $('input[name=only_externally_subscribed]').parent().hasClass("checked");
-                getMenteesByFilter();
+                getMenteesByFilter.call(this);
             });
         },
         clearSearchBtnHandler = function() {
@@ -61,17 +61,19 @@ window.MenteesListController.prototype = function () {
                         delete menteesCriteria[prop];
                     }
                 }
-                getMenteesByFilter();
+                getMenteesByFilter.call(this);
             });
         },
         getMenteesByFilter = function() {
+            // button pressed that triggered this function
+            var self = this;
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
                 cache: false,
                 data: menteesCriteria,
                 beforeSend: function () {
-                    $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                    $(self).parents('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
                 },
                 success: function (response) {
                     $('.refresh-container').fadeOut(500, function() {

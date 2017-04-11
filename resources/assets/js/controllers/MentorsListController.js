@@ -41,7 +41,7 @@ window.MentorsListController.prototype = function () {
                 mentorsCriteria.availabilityId = $('select[name=availability]').val();
                 mentorsCriteria.residenceId = $('select[name=residence]').val();
                 mentorsCriteria.displayOnlyExternallySubscribed = $('input[name=only_externally_subscribed]').parent().hasClass("checked");
-                getMentorsByFilter();
+                getMentorsByFilter.call(this);
             });
         },
         clearSearchBtnHandler = function () {
@@ -59,17 +59,19 @@ window.MentorsListController.prototype = function () {
                         delete mentorsCriteria[prop];
                     }
                 }
-                getMentorsByFilter();
+                getMentorsByFilter.call(this);
             });
         },
         getMentorsByFilter = function () {
+            // button pressed that triggered this function
+            var self = this;
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
                 cache: false,
                 data: mentorsCriteria,
                 beforeSend: function () {
-                    $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                    $(self).parents('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
                 },
                 success: function (response) {
                     $('.refresh-container').fadeOut(500, function() {
