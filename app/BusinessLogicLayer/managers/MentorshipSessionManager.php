@@ -78,6 +78,15 @@ class MentorshipSessionManager
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
             $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, "");
         });
+
+        // emails account manager
+        $accountManager = $mentorshipSession->account_manager;
+        (new MailManager())->sendEmailToSpecificEmail(
+            'emails.session-invitation',
+            ['id' => $accountManager->id, 'email' => $accountManager->email, 'mentorshipSessionId' => $mentorshipSession->id],
+            'Job Pairs | You have been invited to manage a new mentorship session',
+            $accountManager->email
+        );
     }
 
     /**

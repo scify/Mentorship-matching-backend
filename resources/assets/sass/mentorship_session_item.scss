@@ -14,35 +14,19 @@
   }
 }
 
-#matchMentorModal {
+#matchMentorModal, #matchMentorModalEdit {
   .modal-dialog {
     width: 60%;
     text-align: center;
     max-height: 98%;
     min-height: 500px;
   }
-  .accountManagerSelector {
+  .accountManagerSelector, .sessionStatusSelector, .sessionStatusChangeComment {
     margin-top: 50px;
-    margin-bottom: 170px;
     .selectorTitle {
       font-size: medium;
       margin-left: 15%;
-    }
-  }
-  .sessionStatusSelector {
-    margin-top: 50px;
-    //margin-bottom: 200px;
-    .selectorTitle {
-      font-size: medium;
-      margin-left: 15%;
-    }
-  }
-  .sessionStatusChangeComment {
-    margin-top: 50px;
-    //margin-bottom: 200px;
-    .selectorTitle {
-      font-size: medium;
-      margin-left: 15%;
+      margin-top: -5px;
     }
   }
   .modal-body {
@@ -112,7 +96,7 @@
   }
 }
 
-#mentorshipSessionShowModal, #matchMentorModal {
+#mentorshipSessionShowModal, #matchMentorModal, #matchMentorModalEdit {
   .name-anchor {
     color: rgba(0, 0, 0, 0.87);
 
@@ -151,7 +135,7 @@
 }
 
 @media only screen and (max-width: 1100px) {
-  #matchMentorModal {
+  #matchMentorModal, #matchMentorModalEdit {
     .modal-dialog {
       width: 90%;
     }

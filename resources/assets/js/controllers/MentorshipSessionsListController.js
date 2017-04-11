@@ -108,7 +108,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 var menteeName = $siblingVisibleAnchor.find("#menteePresetName").text();
                 var accountManagerId = $siblingVisibleAnchor.data("accountmanagerid");
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
-                var $modal = $("#matchMentorModal");
+                var $modal = $("#matchMentorModalEdit");
                 $modal.modal("toggle");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
                 $modal.find("#mentorFullName").html(mentorName);

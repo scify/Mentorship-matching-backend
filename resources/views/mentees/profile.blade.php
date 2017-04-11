@@ -254,7 +254,8 @@
             </div>
         </div>
     </div>
-    @include('mentorship_session.modals.matching_modal', ['menteeViewModel' => $menteeViewModel])
+    @include('mentorship_session.modals.matching_modal_create', ['menteeViewModel' => $menteeViewModel])
+    @include('mentorship_session.modals.matching_modal_edit', ['menteeViewModel' => $menteeViewModel])
     @include('mentorship_session.modals.show')
 @endsection
 @section('additionalFooter')

@@ -23,6 +23,10 @@ Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
 
 Route::get('set-status-available/{id}/{email}', 'MentorController@makeMentorAvailableAgain')->name('setMentorStatusAvailable');
 
+Route::get('accept-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSession@acceptToManageMentorshipSession')->name('acceptToManageMentorshipSession');
+
+Route::get('reject-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSession@rejectToManageMentorshipSession')->name('rejectToManageMentorshipSession');
+
 Route::group([ 'middleware' => 'auth' ], function () {
 
     Route::get('/', 'UserController@showDashboardForUser')->name('home');

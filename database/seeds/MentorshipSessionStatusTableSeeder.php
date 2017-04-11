@@ -27,6 +27,7 @@ class MentorshipSessionStatusTableSeeder extends Seeder
             array('id'=> 11, 'title' => 'follow_up_sent', 'description' => 'Completed - Follow up sent'),
             array('id'=> 12, 'title' => 'cancelled_mentee', 'description' => 'Cancelled by mentee'),
             array('id'=> 13, 'title' => 'cancelled_mentor', 'description' => 'Cancelled by mentor'),
+            array('id'=> 14, 'title' => 'cancelled_acc_man', 'description' => 'Cancelled by account manager'),
         ));
     }
 }

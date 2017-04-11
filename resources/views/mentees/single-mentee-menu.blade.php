@@ -13,7 +13,7 @@
     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
         <a href="javascript:void(0)"
            data-toggle="modal"
-           data-userName="{{$menteeViewModel->mentee->first_name . $menteeViewModel->mentee->last_name}}"
+           data-userName="{{$menteeViewModel->mentee->first_name . ' ' . $menteeViewModel->mentee->last_name}}"
            data-menteeId="{{$menteeViewModel->mentee->id}}"
            class="deleteMenteeBtn hidden menu-action"><i class="deleteIcon ion-android-delete"></i></a>
         <a href="{{route('showEditMenteeForm', $menteeViewModel->mentee->id)}}" class="hidden secondItem menu-action"><i class="editIcon ion-edit"></i></a>

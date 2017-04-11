@@ -269,7 +269,8 @@
             </div>
         </div>
     </div>
-    @include('mentorship_session.modals.matching_modal', ['mentorViewModel' => $mentorViewModel])
+    @include('mentorship_session.modals.matching_modal_create', ['mentorViewModel' => $mentorViewModel])
+    @include('mentorship_session.modals.matching_modal_edit', ['mentorViewModel' => $mentorViewModel])
     @include('mentorship_session.modals.show')
 @endsection
 @section('additionalFooter')
