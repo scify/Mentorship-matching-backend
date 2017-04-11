@@ -8,7 +8,6 @@ use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
 
 class MentorshipSessionController extends Controller
 {

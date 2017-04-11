@@ -326,4 +326,26 @@ class MentorController extends Controller
         }
         return redirect(route("showAllMentors"));
     }
+
+    /**
+     * Sets mentor's status id to available
+     *
+     * @param $id int The mentor's id
+     * @param $email string The mentor's email
+     * @return \Illuminate\View\View
+     */
+    public function makeMentorAvailableAgain($id, $email) {
+        try {
+            $mentor = $this->mentorManager->getMentor($id);
+            if ($mentor->email === $email) {
+                $this->mentorManager->editMentor(['status_id' => 1], $id);
+                return view('mentors.changed-availability-status')->with(['message_success' => 'Your status has been successfully changed']);
+            } else {
+                return view('mentors.changed-availability-status')->with(['message_failure' => 'Mentor not found']);
+            }
+        } catch(\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return view('mentors.changed-availability-status')->with(['message_failure' => $errorMessage]);
+        }
+    }
 }

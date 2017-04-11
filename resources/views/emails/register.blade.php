@@ -3,7 +3,7 @@
     <h1 style="text-align: center; font-size: 26px; margin-top: 15px; margin-bottom: 10px;">Job Pairs</h1>
     <p style="text-align: center;">Your account at Job Pairs BackOffice has been created</p>
     <p style="text-align: center;">You can login here:
-        <a href="{{ url('/login') }}">{{ url("/login") }}</a>
+        <a href="{{ url('/login') }}" style="color: #555;">{{ url("/login") }}</a>
     </p>
     <div style="display: table; margin-left: auto; margin-right: auto; margin-top: 40px; margin-bottom: 40px;">
         <div style="display: table-row;">

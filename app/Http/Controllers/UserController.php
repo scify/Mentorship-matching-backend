@@ -152,7 +152,7 @@ class UserController extends Controller
             // send email with login credentials
             (new MailManager())->sendEmailToSpecificEmail('emails.register', 
                 array('email' => $input['email'], 'password' => $input['password']), 
-                'Your account has been created',
+                'Job Pairs | Your account has been created',
                 $input['email']
             );
         }  catch (\Exception $e) {

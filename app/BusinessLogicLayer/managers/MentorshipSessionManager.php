@@ -14,7 +14,6 @@ use App\StorageLayer\MentorshipSessionStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -98,6 +97,16 @@ class MentorshipSessionManager
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
             $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, $comment);
         });
+
+        // if status is a completed status, send email to the mentor to ask if should be available for a new session
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCompletedSessionStatuses()) !== false) {
+            $mentor = (new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
+            (new MailManager())->sendEmailToSpecificEmail('emails.reactivate-mentor',
+                ['id' => $mentor->id, 'email' => $mentor->email], 'Job Pairs | Mentorship session completed',
+                $mentor->email
+            );
+        }
     }
 
     /**

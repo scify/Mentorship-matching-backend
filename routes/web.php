@@ -21,6 +21,8 @@ Route::post('mentor/create', 'MentorController@create')->name('createMentor');
 Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
 Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
 
+Route::get('set-status-available/{id}/{email}', 'MentorController@makeMentorAvailableAgain')->name('setMentorStatusAvailable');
+
 Route::group([ 'middleware' => 'auth' ], function () {
 
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
