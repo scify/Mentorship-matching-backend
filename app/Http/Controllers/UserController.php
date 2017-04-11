@@ -38,6 +38,7 @@ class UserController extends Controller
         $mentorStatuses = new Collection();
         $menteeStatuses = new Collection();
         $mentorshipSessionStatuses = new Collection();
+        $accountManagers = new Collection();
         if($loggedInUser->isAccountManager()) {
             $mentorshipSessionManager = new MentorshipSessionManager();
             $mentorshipSessionViewModelsForAccManager = $mentorshipSessionManager->getPendingMentorshipSessionViewModelsForAccountManager($loggedInUser->id);

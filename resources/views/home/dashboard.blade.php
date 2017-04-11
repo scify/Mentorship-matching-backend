@@ -24,6 +24,11 @@
                         @endif
                     </div>
                 </div>
+                @include('mentorship_session.modals.show')
+                @include('mentorship_session.modals.matching_modal', ['statuses' => $mentorshipSessionStatuses])
+                @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                    @include('mentorship_session.modals.delete')
+                @endif
             @endif
         </div>
         @if($loggedInUser->isMatcher())
@@ -56,11 +61,7 @@
         @endif
 
     </div>
-    @include('mentorship_session.modals.show')
-    @include('mentorship_session.modals.matching_modal', ['statuses' => $mentorshipSessionStatuses])
-    @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
-        @include('mentorship_session.modals.delete')
-    @endif
+
 @endsection
 @section('additionalFooter')
     <script>
