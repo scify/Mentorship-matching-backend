@@ -16,7 +16,7 @@
 
 #matchMentorModal {
   .modal-dialog {
-    width: 45%;
+    width: 60%;
     text-align: center;
     max-height: 98%;
     min-height: 500px;
@@ -48,6 +48,9 @@
   .modal-body {
     overflow: visible;
     max-height: 100%;
+  }
+  .selectorTitle {
+    text-align: right;
   }
 }
 
@@ -81,12 +84,11 @@
 #mentorshipSessionShowModal {
   .modal-dialog {
     width: 45%;
-    /* max-height: 98%; */
+    max-height: 98%;
     min-height: 600px;
   }
   .modal-body {
-    overflow: visible;
-    max-height: 100%;
+    overflow: auto;
     .tab-pane {
       padding-top: 20px;
     }

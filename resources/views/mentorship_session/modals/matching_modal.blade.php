@@ -56,11 +56,11 @@
                                 <option><!-- Empty option allows the placeholder to take effect. --><option>
                                 @foreach($accountManagers as $accountManager)
                                     {{--showing only account managers that have a positive remaining capacity--}}
-                                    @if($accountManager->remainingCapacity > 0)
-                                        <option value="{{$accountManager->id}}" {{old('account_manager_id') == $accountManager->id ? 'selected' : ''}}>
-                                            {{$accountManager->first_name}} {{$accountManager->last_name}} - capacity: {{$accountManager->capacity}} (remaining: {{$accountManager->remainingCapacity}})
-                                        </option>
-                                    @endif
+                                    <option value="{{$accountManager->id}}"
+                                            {{old('account_manager_id') == $accountManager->id ? 'selected' : ''}}
+                                            {{$accountManager->remainingCapacity == 0 ? 'disabled' : ''}}>
+                                        {{$accountManager->first_name}} {{$accountManager->last_name}} - capacity: {{$accountManager->capacity}} (remaining: {{$accountManager->remainingCapacity}})
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
