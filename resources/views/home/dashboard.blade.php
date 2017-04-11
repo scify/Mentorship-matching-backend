@@ -34,27 +34,39 @@
         @if($loggedInUser->isMatcher())
             <div class="col-md-6">
                 <div id="availableMentorsList">
-                    <div class="note note-success note-top-striped">
-                        <h4>MENTORS AVAILABLE FOR MATCHING</h4>
-                        @if($mentorViewModels->count() == 0)
-                            No mentors available.
-                        @else
-                            @include('mentors.list', ['mentorViewModels' => $mentorViewModels])
-                            @include('mentors.modals', ['statuses' => $mentorStatuses])
-                        @endif
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>MENTORS AVAILABLE FOR MATCHING</h4>
+                            </div>
+                        </div><!--.panel-heading-->
+                        <div class="panel-body bg-color-light-grey">
+                            @if($mentorViewModels->count() == 0)
+                                No mentors available.
+                            @else
+                                @include('mentors.list', ['mentorViewModels' => $mentorViewModels])
+                                @include('mentors.modals', ['statuses' => $mentorStatuses])
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div id="availableMenteesList">
-                    <div class="note note-success note-top-striped">
-                        <h4>MENTEES AVAILABLE FOR MATCHING</h4>
-                        @if($mentorViewModels->count() == 0)
-                            No mentees available.
-                        @else
-                            @include('mentees.list', ['menteeViewModels' => $menteeViewModels])
-                            @include('mentees.modals', ['statuses' => $menteeStatuses])
-                        @endif
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>MENTEES AVAILABLE FOR MATCHING</h4>
+                            </div>
+                        </div><!--.panel-heading-->
+                        <div class="panel-body bg-color-light-grey">
+                            @if($mentorViewModels->count() == 0)
+                                No mentees available.
+                            @else
+                                @include('mentees.list', ['menteeViewModels' => $menteeViewModels])
+                                @include('mentees.modals', ['statuses' => $menteeStatuses])
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,10 +90,10 @@
             var menteesListController = new window.MenteesListController();
             menteesListController.init();
 
-            @if($loggedInUser->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
-                var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
-                availabilityStatusChangeHandler.init("#availableMentorsList");
-                availabilityStatusChangeHandler.init("#availableMenteesList");
+                    @if($loggedInUser->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
+            var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
+            availabilityStatusChangeHandler.init("#availableMentorsList");
+            availabilityStatusChangeHandler.init("#availableMenteesList");
             @endif
         });
     </script>
