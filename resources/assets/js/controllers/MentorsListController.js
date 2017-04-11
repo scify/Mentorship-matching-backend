@@ -76,7 +76,7 @@ window.MentorsListController.prototype = function () {
                         $('.refresh-container').remove();
                     });
                     parseSuccessData(response);
-                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses();
+                    mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorsList");
                 },
                 error: function (xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
