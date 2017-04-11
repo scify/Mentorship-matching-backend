@@ -18,7 +18,7 @@ class MenteeStorage {
     }
 
     public function getAllMenteeProfiles() {
-        return MenteeProfile::orderBy('last_name')->orderBy('first_name')->get();
+        return MenteeProfile::orderBy('created_at')->get();
     }
 
     public function getMenteeProfileById($id) {
@@ -28,15 +28,15 @@ class MenteeStorage {
     public function getMenteesThatMatchGivenNameOrEmail($searchQuery) {
         return MenteeProfile::where('first_name', 'like', '%' . $searchQuery . '%')
             ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
-            ->orWhere('email', 'like', '%' . $searchQuery . '%')->orderBy('last_name')->orderBy('first_name')->get();
+            ->orWhere('email', 'like', '%' . $searchQuery . '%')->orderBy('created_at')->get();
     }
 
     public function getMenteesFromIdsArray($filteredMenteeIds) {
-        return MenteeProfile::whereIn('id', $filteredMenteeIds)->orderBy('last_name')->orderBy('first_name')->get();
+        return MenteeProfile::whereIn('id', $filteredMenteeIds)->orderBy('created_at')->get();
     }
 
     public function getMenteeProfilesWithStatusId($statusId) {
         return MenteeProfile::where(['status_id' => $statusId])
-            ->orderBy('last_name')->orderBy('first_name')->get();
+            ->orderBy('created_at')->get();
     }
 }
