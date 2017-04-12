@@ -62,6 +62,17 @@
             </div><!--.col-md-6-->
         </div>
         <div class="row">
+            <div class="col-md-2 filterName">Completed sessions</div>
+            <div class="col-md-4">
+                <select data-placeholder="Choose number of completed sessions" name="completedSessionsCount" id="completedSessionsCountSelect" class="chosen-select">
+                    <option><!-- Empty option allows the placeholder to take effect. --><option>
+                    @for($i = 0; $i < 5; $i++)
+                        <option value="{{  $i + 1 }}">@if($i === 4) {{ $i . "+" }} @else {{ $i + 1 }} @endif completed @if($i === 0) session @else sessions @endif</option>
+                    @endfor
+                </select>
+            </div><!--.col-md-6-->
+        </div>
+        <div class="row">
             <div class="col-md-2 filterName">
                 <label for="only-externally-subscribed">Subscribed from external form</label>
             </div>

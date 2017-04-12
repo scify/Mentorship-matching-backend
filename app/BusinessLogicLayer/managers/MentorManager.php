@@ -14,6 +14,7 @@ use App\Models\eloquent\MentorProfile;
 use App\Models\viewmodels\MentorViewModel;
 use App\StorageLayer\MentorStorage;
 use App\StorageLayer\RawQueryStorage;
+use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -287,13 +288,24 @@ class MentorManager {
             (!isset($filters['companyId'])  || $filters['companyId'] === "") &&
             (!isset($filters['availabilityId'])  || $filters['availabilityId'] === "") &&
             (!isset($filters['residenceId'])  || $filters['residenceId'] === "") &&
+            (!isset($filters['completedSessionsCount']) || $filters['completedSessionsCount'] === "") &&
             (!isset($filters['displayOnlyExternallySubscribed'])  || $filters['displayOnlyExternallySubscribed'] === 'false')) {
             return $this->mentorStorage->getAllMentorProfiles();
         }
         $whereClauseExists = false;
         $dbQuery = "select distinct mp.id 
             from mentor_profile as mp 
-            left outer join mentor_specialty as ms on mp.id = ms.mentor_profile_id where ";
+            left outer join mentor_specialty as ms on mp.id = ms.mentor_profile_id ";
+        if(isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
+            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+            $dbQuery .= "left outer join
+			(
+				select count(*) as completed_sessions_count, mentor_profile_id from mentorship_session
+				where status_id in (" . implode(",", $mentorshipSessionStatuses::getCompletedSessionStatuses()) . ")
+				group by mentor_profile_id
+			) as completed_sessions on mp.id=completed_sessions.mentor_profile_id ";
+        }
+        $dbQuery .= "where ";
         if(isset($filters['mentorName']) && $filters['mentorName'] != "") {
             $dbQuery .= "(mp.first_name like '%" . $filters['mentorName'] . "%' or mp.last_name like '%" . $filters['mentorName'] . "%') ";
             $whereClauseExists = true;
@@ -347,6 +359,20 @@ class MentorManager {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.residence_id = " . $filters['residenceId'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
+            if(intval($filters['completedSessionsCount']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            if($filters['completedSessionsCount'] < 5) {
+                $dbQuery .= "completed_sessions.completed_sessions_count = " . $filters['completedSessionsCount'] . " ";
+            } else {
+                $dbQuery .= "completed_sessions.completed_sessions_count >= " . $filters['completedSessionsCount'] . " ";
+            }
             $whereClauseExists = true;
         }
         if(isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
