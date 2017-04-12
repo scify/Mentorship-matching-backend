@@ -141,6 +141,21 @@ class MentorshipSessionManager
                 )) !== false) {
             $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
         }
+
+        // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
+        if($mentorshipSession->status_id === $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
+            $mentor = $mentorshipSession->mentor;//(new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
+            $mentee = $mentorshipSession->mentee;//(new MenteeManager())->getMentee($mentorshipSession->mentee_profile_id);
+            $mailManager = new MailManager();
+            // send mail to mentor
+            $mailManager->sendEmailToSpecificEmail('emails.invite-mentor',
+                ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
+                'Job Pairs | You have been matched with a mentee', $mentor->email);
+            // send mail to mentee
+            $mailManager->sendEmailToSpecificEmail('emails.invite-mentee',
+                ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
+                'Job Pairs | You have been matched with a mentor', $mentee->email);
+        }
     }
 
     /**
@@ -347,6 +362,78 @@ class MentorshipSessionManager
             (new RawQueryStorage())->performRawQuery($dbQuery)
         );
         return $this->mentorshipSessionStorage->getMentorshipSessionsFromIdsArray($filteredMentorshipSessionsIds);
+    }
+
+    /**
+     * A mentor or a mentee accepts a new session invitation
+     *
+     * @param $mentorshipSessionId string The @see MentorshipSession id
+     * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
+     * @param $id string The id of the person that responded
+     * @param $email string The email address of the person responded
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email) {
+        $statusToSet = -1;
+        $invitedPerson = null;
+        $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
+        if($role === 'mentee') {
+            $invitedPerson = $mentorshipSession->mentee;
+            // if mentor hasn't yet responded set to mentee is available, else set to started
+            if($mentorshipSession->status_id === 2)
+                $statusToSet = 3;
+            else if($mentorshipSession->status_id === 4)
+                $statusToSet = 5;
+        } else if($role === 'mentor') {
+            $invitedPerson = $mentorshipSession->mentor;
+            // if mentee hasn't yet responded set to mentor is available, else set to started
+            if($mentorshipSession->status_id === 2)
+                $statusToSet = 4;
+            else if($mentorshipSession->status_id === 3)
+                $statusToSet = 5;
+        }
+        if($statusToSet !== -1 && $invitedPerson->id == $id && $invitedPerson->email === $email) {
+            $this->editMentorshipSession([
+                'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId
+            ]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * A mentor or a mentee declines a new session invitation
+     *
+     * @param $mentorshipSessionId string The @see MentorshipSession id
+     * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
+     * @param $id string The id of the person that responded
+     * @param $email string The email address of the person responded
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email) {
+        $statusToSet = -1;
+        $invitedPerson = null;
+        $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
+        if($role === 'mentee') {
+            $invitedPerson = $mentorshipSession->mentee;
+            // set to cancelled by mentee if mentor has accepted or not responded yet
+            if(in_array($mentorshipSession->status_id, [2, 4]) !== false)
+                $statusToSet = 12;
+        } else if($role === 'mentor') {
+            $invitedPerson = $mentorshipSession->mentor;
+            // set to cancelled by mentor if mentee has accepted or not responded yet
+            if(in_array($mentorshipSession->status_id, [2, 3]) !== false)
+                $statusToSet = 13;
+        }
+        if($statusToSet !== -1 && $invitedPerson->id == $id && $invitedPerson->email === $email) {
+            $this->editMentorshipSession([
+                'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId
+            ]);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

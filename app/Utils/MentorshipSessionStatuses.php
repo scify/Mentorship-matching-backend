@@ -54,4 +54,8 @@ class MentorshipSessionStatuses
         );
         return $cancelledSessionStatuses;
     }
+
+    public static function getIntroductionSentSessionStatus() {
+        return self::$statuses['introduction_sent'];
+    }
 }

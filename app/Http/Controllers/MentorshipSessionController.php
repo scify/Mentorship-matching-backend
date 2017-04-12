@@ -239,4 +239,68 @@ class MentorshipSessionController extends Controller
             ]);
         }
     }
+
+    /**
+     * Triggered when a mentor or a mentee accepts a new session invitation
+     *
+     * @param $mentorshipSessionId string The @see MentorshipSession id
+     * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
+     * @param $id string The id of the person that responded
+     * @param $email string The email address of the person responded
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email) {
+        $viewTitle = "Response to Session Invitation";
+        try {
+            if($this->mentorshipSessionManager->acceptMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
+                return view('common.response-to-email')->with([
+                    'message_success' => 'You have successfully accepted the session invitation',
+                    'title' => $viewTitle
+                ]);
+            } else {
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'You are not permitted to respond to this invitation',
+                    'title' => $viewTitle
+                ]);
+            }
+        } catch(\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return view('common.response-to-email')->with([
+                'message_failure' => $errorMessage,
+                'title' => $viewTitle
+            ]);
+        }
+    }
+
+    /**
+     * Triggered when a mentor or a mentee declines a new session invitation
+     *
+     * @param $mentorshipSessionId string The @see MentorshipSession id
+     * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
+     * @param $id string The id of the person that responded
+     * @param $email string The email address of the person responded
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email) {
+        $viewTitle = "Response to Session Invitation";
+        try {
+            if($this->mentorshipSessionManager->declineMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
+                return view('common.response-to-email')->with([
+                    'message_success' => 'You have successfully declined the session invitation',
+                    'title' => $viewTitle
+                ]);
+            } else {
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'You are not permitted to respond to this invitation',
+                    'title' => $viewTitle
+                ]);
+            }
+        } catch(\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return view('common.response-to-email')->with([
+                'message_failure' => $errorMessage,
+                'title' => $viewTitle
+            ]);
+        }
+    }
 }
