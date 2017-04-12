@@ -217,7 +217,7 @@ class MentorshipSessionController extends Controller
         try {
             $mentorshipSession = $this->mentorshipSessionManager->getMentorshipSession($mentorshipSessionId);
             $accountManager = $mentorshipSession->account_manager;
-            if($accountManager->id == $id && $accountManager->email == $email/* && $mentorshipSession->status_id == 1*/) {
+            if($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
                 $this->mentorshipSessionManager->editMentorshipSession([
                     'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
                 ]);
