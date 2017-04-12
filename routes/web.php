@@ -25,7 +25,7 @@ Route::get('set-status-available/{id}/{email}', 'MentorController@makeMentorAvai
 
 Route::get('accept-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@acceptToManageMentorshipSession')->name('acceptToManageMentorshipSession');
 
-Route::get('reject-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@rejectToManageMentorshipSession')->name('rejectToManageMentorshipSession');
+Route::get('decline-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@declineToManageMentorshipSession')->name('declineToManageMentorshipSession');
 
 Route::group([ 'middleware' => 'auth' ], function () {
 

@@ -205,14 +205,14 @@ class MentorshipSessionController extends Controller
     }
 
     /**
-     * Triggered when an account manager is rejecting an invitation to manage a new session
+     * Triggered when an account manager is declining an invitation to manage a new session
      *
      * @param $mentorshipSessionId int The session's id that will be accepted
      * @param $id int The session's account manager id
      * @param $email string The account manager's email
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function rejectToManageMentorshipSession($mentorshipSessionId, $id, $email) {
+    public function declineToManageMentorshipSession($mentorshipSessionId, $id, $email) {
         $viewTitle = "Manage Mentorship Session";
         try {
             $mentorshipSession = $this->mentorshipSessionManager->getMentorshipSession($mentorshipSessionId);
@@ -222,7 +222,7 @@ class MentorshipSessionController extends Controller
                     'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
                 ]);
                 return view('common.response-to-email')->with([
-                    'message_success' => 'You have successfully rejected the session',
+                    'message_success' => 'You have declined to manage the session',
                     'title' => $viewTitle
                 ]);
             } else {
