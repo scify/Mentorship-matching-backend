@@ -261,14 +261,15 @@
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var controller = new window.TabsHandler();
-            controller.init(".profilePage");
+            var tabsHandler = new window.TabsHandler();
+            tabsHandler.init(".profilePage");
             var mentorsListController = new window.MentorsListController();
             mentorsListController.init();
             var matchingController = new window.MatchingController();
             matchingController.init();
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init("#mentorship_sessions");
+            tabsHandler.init("#mentorshipSessionShowModal");
         });
     </script>
 @endsection

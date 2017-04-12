@@ -76,7 +76,7 @@
     .tab-pane {
       padding-top: 20px;
     }
-    .header-tabs.fixed {
+    .header-tabs, .header-tabs.fixed {
       position: fixed;
       top: 60px;
       width: 100%;

@@ -29,11 +29,9 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.modal("toggle");
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
-                var mentorUrlAttr = $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url"));
-                if(mentorUrlAttr.length !== 0) {
+                if($mentorFullName.parent("a").length === 1) {
                     $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
                 }
-
                 var $menteeFullName = $modal.find("#menteeFullName");
                 $menteeFullName.html(menteeName);
                 var menteeUrlAttr = $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url"));
