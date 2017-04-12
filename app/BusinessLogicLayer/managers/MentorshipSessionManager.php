@@ -100,7 +100,7 @@ class MentorshipSessionManager
         $input['mentor_profile_id'] = $mentorshipSession->mentor_profile_id;
         $input['mentee_profile_id'] = $mentorshipSession->mentee_profile_id;
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
-        $comment = $input['comment'];
+        $comment = isset($input['comment'])? $input['comment'] : "";
 
         DB::transaction(function() use($mentorshipSession, $loggedInUser, $comment) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
@@ -109,6 +109,7 @@ class MentorshipSessionManager
 
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        // TODO: use only one status of completed statuses to send an email?
         if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCompletedSessionStatuses()) !== false) {
             $mentor = (new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
             (new MailManager())->sendEmailToSpecificEmail('emails.reactivate-mentor',

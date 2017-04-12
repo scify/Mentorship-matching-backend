@@ -167,4 +167,77 @@ class MentorshipSessionController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentorship_session.list', compact('mentorshipSessionViewModels', 'loggedInUser'))));
         }
     }
+
+    /**
+     * Triggered when an account manager is accepting an invitation to manage a new session
+     *
+     * @param $mentorshipSessionId int The session's id that will be accepted
+     * @param $id int The session's account manager id
+     * @param $email string The account manager's email
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function acceptToManageMentorshipSession($mentorshipSessionId, $id, $email) {
+        $viewTitle = "Manage Mentorship Session";
+        try {
+            $mentorshipSession = $this->mentorshipSessionManager->getMentorshipSession($mentorshipSessionId);
+            $accountManager = $mentorshipSession->account_manager;
+            if($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
+                $this->mentorshipSessionManager->editMentorshipSession([
+                    'status_id' => 2, 'mentorship_session_id' => $mentorshipSessionId
+                ]);
+                return view('common.response-to-email')->with([
+                    'message_success' => 'You have successfully accepted to manage the session',
+                    'title' => $viewTitle
+                ]);
+            } else {
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'You are not permitted to manage this session',
+                    'title' => $viewTitle
+                ]);
+            }
+        } catch(\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return view('common.response-to-email')->with([
+                'message_failure' => $errorMessage,
+                'title' => $viewTitle
+            ]);
+        }
+    }
+
+    /**
+     * Triggered when an account manager is rejecting an invitation to manage a new session
+     *
+     * @param $mentorshipSessionId int The session's id that will be accepted
+     * @param $id int The session's account manager id
+     * @param $email string The account manager's email
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function rejectToManageMentorshipSession($mentorshipSessionId, $id, $email) {
+        $viewTitle = "Manage Mentorship Session";
+        try {
+            $mentorshipSession = $this->mentorshipSessionManager->getMentorshipSession($mentorshipSessionId);
+            $accountManager = $mentorshipSession->account_manager;
+            if($accountManager->id == $id && $accountManager->email == $email/* && $mentorshipSession->status_id == 1*/) {
+                $this->mentorshipSessionManager->editMentorshipSession([
+                    'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
+                ]);
+                // TODO: change mentor and mentee statuses to available
+                return view('common.response-to-email')->with([
+                    'message_success' => 'You have successfully rejected the session',
+                    'title' => $viewTitle
+                ]);
+            } else {
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'You are not permitted to manage this session',
+                    'title' => $viewTitle
+                ]);
+            }
+        } catch(\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return view('common.response-to-email')->with([
+                'message_failure' => $errorMessage,
+                'title' => $viewTitle
+            ]);
+        }
+    }
 }

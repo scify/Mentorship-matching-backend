@@ -13,21 +13,24 @@ class MentorshipSessionStatuses
 {
     private static $statuses = array(
         'pending' => 1,
-        'available_mentee' => 2,
-        'available_mentor' => 3,
-        'started' => 4,
-        'first_meeting' => 5,
-        'second_meeting' => 6,
-        'third_meeting' => 7,
-        'fourth_meeting' => 8,
-        'evaluation_sent' => 9,
-        'follow_up_sent' => 10,
-        'cancelled' => 11
+        'introduction_sent' => 2,
+        'available_mentee' => 3,
+        'available_mentor' => 4,
+        'started' => 5,
+        'first_meeting' => 6,
+        'second_meeting' => 7,
+        'third_meeting' => 8,
+        'fourth_meeting' => 9,
+        'evaluation_sent' => 10,
+        'follow_up_sent' => 11,
+        'cancelled_mentee' => 12,
+        'cancelled_mentor' => 13,
+        'cancelled_acc_man' => 14
     );
 
     public static function getActiveSessionStatuses() {
         $activeSessionStatuses = array(
-            self::$statuses['pending'], self::$statuses['available_mentee'], self::$statuses['available_mentor'],
+            /*self::$statuses['pending'], self::$statuses['available_mentee'], self::$statuses['available_mentor'],*/
             self::$statuses['started'], self::$statuses['first_meeting'], self::$statuses['second_meeting'],
             self::$statuses['third_meeting'], self::$statuses['fourth_meeting']
         );

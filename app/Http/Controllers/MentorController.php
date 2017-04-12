@@ -333,17 +333,27 @@ class MentorController extends Controller
      * @return \Illuminate\View\View
      */
     public function makeMentorAvailableAgain($id, $email) {
+        $viewTitle = "Availability Status Change";
         try {
             $mentor = $this->mentorManager->getMentor($id);
             if ($mentor->email === $email) {
                 $this->mentorManager->editMentor(['status_id' => 1], $id);
-                return view('mentors.changed-availability-status')->with(['message_success' => 'Your status has been successfully changed']);
+                return view('common.response-to-email')->with([
+                    'message_success' => 'Your status has been successfully changed',
+                    'title' => $viewTitle
+                ]);
             } else {
-                return view('mentors.changed-availability-status')->with(['message_failure' => 'Mentor not found']);
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'Mentor not found',
+                    'title' => $viewTitle
+                ]);
             }
         } catch(\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
-            return view('mentors.changed-availability-status')->with(['message_failure' => $errorMessage]);
+            return view('common.response-to-email')->with([
+                'message_failure' => $errorMessage,
+                'title' => $viewTitle
+            ]);
         }
     }
 }

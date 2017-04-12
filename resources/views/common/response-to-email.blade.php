@@ -8,7 +8,7 @@
                 </div><!--.panel-heading-->
 
                 <div id="pane-login" class="panel-body active">
-                    <h2>Availability Status Change</h2>
+                    <h2>{{ $title }}</h2>
                     @if(isset($message_success))
                     <div class="alert alert-success">
                         <h4><i class="icon fa fa-check"> </i>
