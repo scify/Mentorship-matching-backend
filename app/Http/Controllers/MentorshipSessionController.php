@@ -30,12 +30,11 @@ class MentorshipSessionController extends Controller
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getAllMentorshipSessionsViewModel();
-        $isCreatingNewSession = false;
         $loggedInUser = Auth::user();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'view all';
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers', 'matchers'
+            'loggedInUser', 'statuses', 'accountManagers', 'matchers'
         ));
     }
 
@@ -112,11 +111,10 @@ class MentorshipSessionController extends Controller
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForAccountManager($loggedInUser->id);
-        $isCreatingNewSession = false;
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my mentorhsip sessions';
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
+            'loggedInUser', 'statuses', 'accountManagers'
         ));
     }
 
@@ -127,11 +125,10 @@ class MentorshipSessionController extends Controller
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMatcher($loggedInUser->id);
-        $isCreatingNewSession = false;
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my matches';
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'isCreatingNewSession', 'statuses', 'accountManagers'
+            'loggedInUser', 'statuses', 'accountManagers'
         ));
     }
 

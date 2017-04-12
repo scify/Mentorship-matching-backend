@@ -34,20 +34,17 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
                 var $menteeFullName = $modal.find("#menteeFullName");
                 $menteeFullName.html(menteeName);
-                var menteeUrlAttr = $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url"));
-                if(menteeUrlAttr.length !== 0) {
+                if($menteeFullName.parent("a").length === 1) {
                     $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
                 }
                 var $accountManagerNameAnchor = $modal.find("#accountManagerName");
                 $accountManagerNameAnchor.html(accountManagerName);
-                var accountManagerUrlAttr = $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url"));
-                if(accountManagerUrlAttr.length !== 0) {
+                if($accountManagerNameAnchor.length !== 0) {
                     $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url").replace("id", accountManagerId));
                 }
                 var $matcherNameAnchor = $modal.find("#matcherName");
                 $matcherNameAnchor.html(matcherName);
-                var matcherUrlAttr = $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url"));
-                if(matcherUrlAttr.length !== 0) {
+                if($matcherNameAnchor.length !== 0) {
                     $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url").replace("id", matcherId));
                 }
                 $modal.find("#sessionStatus").addClass(sessionStatusClass).html(sessionStatus);

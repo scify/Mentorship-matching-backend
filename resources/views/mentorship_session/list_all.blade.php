@@ -4,8 +4,8 @@
     <div id="mentorship_session_list">
         @include('mentorship_session.list')
     </div>
-    @include('mentorship_session.modals.show')
-    @include('mentorship_session.modals.matching_modal_edit')
+    @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
+    @include('mentorship_session.modals.matching_modal_edit', ['isCreatingNewSession' => false])
     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
         @include('mentorship_session.modals.delete')
     @endif

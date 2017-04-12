@@ -56,7 +56,6 @@ class UserController extends Controller
             $menteeViewModels = $menteeManager->getAvailableMenteeViewModels();
             $menteeStatuses = $menteeStatusManager->getAllMenteeStatuses();
         }
-        $isCreatingNewSession = false;
         return view('home.dashboard', [
             'pageTitle' => 'Dashboard',
             'pageSubTitle' => 'welcome',
@@ -67,8 +66,7 @@ class UserController extends Controller
             'mentorStatuses' => $mentorStatuses,
             'mentorViewModels' =>$mentorViewModels,
             'menteeStatuses' => $menteeStatuses,
-            'menteeViewModels' =>$menteeViewModels,
-            'isCreatingNewSession' => $isCreatingNewSession]);
+            'menteeViewModels' =>$menteeViewModels]);
     }
 
     /**
@@ -118,13 +116,11 @@ class UserController extends Controller
 
 
         }
-        $isCreatingNewSession = false;
         return view('users.profile', [
             'user' => $user, 'loggedInUser' => $loggedInUser,
             'mentorshipSessionViewModelsForAccManager' => $mentorshipSessionViewModelsForAccManager,
             'mentorshipSessionViewModelsForMatcher' => $mentorshipSessionViewModelsForMatcher,
-            'accountManagers' => $accountManagers, 'statuses' => $statuses,
-            'isCreatingNewSession' => $isCreatingNewSession]);
+            'accountManagers' => $accountManagers, 'statuses' => $statuses]);
     }
 
     /**

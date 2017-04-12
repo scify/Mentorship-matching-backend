@@ -269,22 +269,22 @@
             </div>
         </div>
     </div>
-    @include('mentorship_session.modals.matching_modal_create', ['mentorViewModel' => $mentorViewModel])
-    @include('mentorship_session.modals.matching_modal_edit', ['mentorViewModel' => $mentorViewModel])
-    @include('mentorship_session.modals.show')
+    @include('mentorship_session.modals.matching_modal_create', ['mentorViewModel' => $mentorViewModel, 'isCreatingNewSession' => true])
+    @include('mentorship_session.modals.matching_modal_edit', ['mentorViewModel' => $mentorViewModel, 'isCreatingNewSession' => false])
+    @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
 @endsection
 @section('additionalFooter')
     <script>
         $( document ).ready(function() {
-            var controller = new window.TabsHandler();
-            controller.init(".profilePage");
+            var tabsHandler = new window.TabsHandler();
+            tabsHandler.init(".profilePage");
             var menteesListController = new window.MenteesListController();
             menteesListController.init();
             var matchingController = new window.MatchingController();
             matchingController.init();
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init("#mentorship_sessions");
-            controller.init("#mentorshipSessionShowModal");
+            tabsHandler.init("#mentorshipSessionShowModal");
         });
     </script>
 @endsection

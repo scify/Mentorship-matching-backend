@@ -244,7 +244,7 @@
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
                         <div id="mentorship_sessions" class="tab-pane">
                             @if($mentorshipSessionViewModels->count() > 0)
-                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModels])
+                                @include('mentorship_session.list')
                             @else
                                 <h4 class="noSessionsMessage">No mentorship sessions to show.</h4>
                             @endif
@@ -254,9 +254,9 @@
             </div>
         </div>
     </div>
-    @include('mentorship_session.modals.matching_modal_create', ['menteeViewModel' => $menteeViewModel])
-    @include('mentorship_session.modals.matching_modal_edit', ['menteeViewModel' => $menteeViewModel])
-    @include('mentorship_session.modals.show')
+    @include('mentorship_session.modals.matching_modal_create', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => true])
+    @include('mentorship_session.modals.matching_modal_edit', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => false])
+    @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
 @endsection
 @section('additionalFooter')
     <script>
