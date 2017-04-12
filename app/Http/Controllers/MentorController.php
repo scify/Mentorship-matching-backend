@@ -326,7 +326,7 @@ class MentorController extends Controller
     }
 
     /**
-     * Sets mentor's status id to available
+     * When mentor wants to be available for new sessions after a completed session
      *
      * @param $id int The mentor's id
      * @param $email string The mentor's email
@@ -335,9 +335,7 @@ class MentorController extends Controller
     public function makeMentorAvailableAgain($id, $email) {
         $viewTitle = "Availability Status Change";
         try {
-            $mentor = $this->mentorManager->getMentor($id);
-            if ($mentor->email === $email) {
-                $this->mentorManager->editMentor(['status_id' => 1], $id);
+            if($this->mentorManager->makeMentorAvailable($id, $email)) {
                 return view('common.response-to-email')->with([
                     'message_success' => 'Your status has been successfully changed',
                     'title' => $viewTitle

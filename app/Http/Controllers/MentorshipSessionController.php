@@ -179,12 +179,7 @@ class MentorshipSessionController extends Controller
     public function acceptToManageMentorshipSession($mentorshipSessionId, $id, $email) {
         $viewTitle = "Manage Mentorship Session";
         try {
-            $mentorshipSession = $this->mentorshipSessionManager->getMentorshipSession($mentorshipSessionId);
-            $accountManager = $mentorshipSession->account_manager;
-            if($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
-                $this->mentorshipSessionManager->editMentorshipSession([
-                    'status_id' => 2, 'mentorship_session_id' => $mentorshipSessionId
-                ]);
+            if($this->mentorshipSessionManager->acceptToManageMentorshipSession($mentorshipSessionId, $id, $email)) {
                 return view('common.response-to-email')->with([
                     'message_success' => 'You have successfully accepted to manage the session',
                     'title' => $viewTitle
@@ -215,12 +210,7 @@ class MentorshipSessionController extends Controller
     public function declineToManageMentorshipSession($mentorshipSessionId, $id, $email) {
         $viewTitle = "Manage Mentorship Session";
         try {
-            $mentorshipSession = $this->mentorshipSessionManager->getMentorshipSession($mentorshipSessionId);
-            $accountManager = $mentorshipSession->account_manager;
-            if($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
-                $this->mentorshipSessionManager->editMentorshipSession([
-                    'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
-                ]);
+            if($this->mentorshipSessionManager->declineToManageMentorshipSession($mentorshipSessionId, $id, $email)) {
                 return view('common.response-to-email')->with([
                     'message_success' => 'You have declined to manage the session',
                     'title' => $viewTitle

@@ -400,4 +400,20 @@ class MentorManager {
         });
     }
 
+    /**
+     * Sets mentor's status id to available
+     *
+     * @param $id int The mentor's id
+     * @param $email string The mentor's email
+     * @return bool Whether succeeded or not
+     */
+    public function makeMentorAvailable($id, $email) {
+        $mentor = $this->getMentor($id);
+        if ($mentor->email === $email) {
+            $this->editMentor(['status_id' => 1], $id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

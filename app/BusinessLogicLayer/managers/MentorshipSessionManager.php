@@ -127,7 +127,7 @@ class MentorshipSessionManager
 
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-        if($mentorshipSession->status_id === $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
+        if($mentorshipSession->status_id == $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
             $mentor = (new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
             (new MailManager())->sendEmailToSpecificEmail('emails.reactivate-mentor',
                 ['id' => $mentor->id, 'email' => $mentor->email], 'Job Pairs | Mentorship session completed',
@@ -144,8 +144,8 @@ class MentorshipSessionManager
 
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
         if($mentorshipSession->status_id === $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
-            $mentor = $mentorshipSession->mentor;//(new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
-            $mentee = $mentorshipSession->mentee;//(new MenteeManager())->getMentee($mentorshipSession->mentee_profile_id);
+            $mentor = $mentorshipSession->mentor;
+            $mentee = $mentorshipSession->mentee;
             $mailManager = new MailManager();
             // send mail to mentor
             $mailManager->sendEmailToSpecificEmail('emails.invite-mentor',
@@ -365,13 +365,55 @@ class MentorshipSessionManager
     }
 
     /**
+     * An account manager is accepting an invitation to manage a new session
+     *
+     * @param $mentorshipSessionId int The session's id that will be accepted
+     * @param $id int The session's account manager id
+     * @param $email string The account manager's email
+     * @return bool Whether succeeded or not
+     */
+    public function acceptToManageMentorshipSession($mentorshipSessionId, $id, $email) {
+        $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
+        $accountManager = $mentorshipSession->account_manager;
+        if($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
+            $this->editMentorshipSession([
+                'status_id' => 2, 'mentorship_session_id' => $mentorshipSessionId
+            ]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * An account manager is declining an invitation to manage a new session
+     *
+     * @param $mentorshipSessionId int The session's id that will be accepted
+     * @param $id int The session's account manager id
+     * @param $email string The account manager's email
+     * @return bool Whether succeeded or not
+     */
+    public function declineToManageMentorshipSession($mentorshipSessionId, $id, $email) {
+        $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
+        $accountManager = $mentorshipSession->account_manager;
+        if($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
+            $this->editMentorshipSession([
+                'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
+            ]);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * A mentor or a mentee accepts a new session invitation
      *
      * @param $mentorshipSessionId string The @see MentorshipSession id
      * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
      * @param $id string The id of the person that responded
      * @param $email string The email address of the person responded
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return bool Whether succeeded or not
      */
     public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email) {
         $statusToSet = -1;
@@ -409,7 +451,7 @@ class MentorshipSessionManager
      * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
      * @param $id string The id of the person that responded
      * @param $email string The email address of the person responded
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return bool Whether succeeded or not
      */
     public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email) {
         $statusToSet = -1;
