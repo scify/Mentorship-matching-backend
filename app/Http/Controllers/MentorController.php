@@ -28,6 +28,9 @@ class MentorController extends Controller
     private $specialtyManager;
     private $industryManager;
     private $residenceManager;
+    private $educationLevelManager;
+    private $universityManager;
+    private $companyManager;
     private $referenceManager;
     private $mentorStatusManager;
     private $mentorshipSessionManager;
@@ -37,6 +40,9 @@ class MentorController extends Controller
         $this->industryManager = new IndustryManager();
         $this->mentorManager = new MentorManager();
         $this->residenceManager = new ResidenceManager();
+        $this->educationLevelManager = new EducationLevelManager();
+        $this->universityManager = new UniversityManager();
+        $this->companyManager = new CompanyManager();
         $this->referenceManager = new ReferenceManager();
         $this->mentorStatusManager = new MentorStatusManager();
         $this->mentorshipSessionManager = new MentorshipSessionManager();
@@ -51,7 +57,7 @@ class MentorController extends Controller
         $mentorViewModels = $this->mentorManager->getAllMentorViewModels();
         $loggedInUser = Auth::user();
         $specialties = $this->specialtyManager->getAllSpecialties();
-        $companies = (new CompanyManager())->getAllCompanies();
+        $companies = $this->companyManager->getAllCompanies();
         $statuses = $this->mentorStatusManager->getAllMentorStatuses();
         $residences = $this->residenceManager->getAllResidences();
         return view('mentors.list_all', [
@@ -93,13 +99,11 @@ class MentorController extends Controller
     public function showProfile($id)
     {
         $menteeManager = new MenteeManager();
-        $universityManager = new UniversityManager();
-        $educationLevelManager = new EducationLevelManager();
         $userManager = new UserManager();
         $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
         $menteeViewModels = $menteeManager->getAllMenteeViewModels();
-        $universities = $universityManager->getAllUniversities();
-        $educationLevels = $educationLevelManager->getAllEducationLevels();
+        $universities = $this->universityManager->getAllUniversities();
+        $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentor($id);
         $loggedInUser = Auth::user();
@@ -140,7 +144,6 @@ class MentorController extends Controller
             }
         }
 
-        $companyManager = new CompanyManager();
         $mentor = new MentorProfile();
         $mentorSpecialtiesIds = array();
         $mentorIndustriesIds = array();
@@ -150,7 +153,9 @@ class MentorController extends Controller
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
         $references = $this->referenceManager->getAllReferences();
-        $companies = $companyManager->getAllCompanies();
+        $companies = $this->companyManager->getAllCompanies();
+        $universities = $this->universityManager->getAllUniversities();
+        $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $mentorStatuses = $this->mentorStatusManager->getMentorStatusesForMentorCreation();
 
         return view('mentors.forms.create_edit', [
@@ -161,6 +166,7 @@ class MentorController extends Controller
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
+            'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies, 'references' => $references,
             'mentorStatuses' => $mentorStatuses, 'publicForm' => $publicForm
         ]);
@@ -178,7 +184,6 @@ class MentorController extends Controller
     {
         $pageTitle = 'Edit mentor';
 
-        $companyManager = new CompanyManager();
         $mentor = $this->mentorManager->getMentor($id);
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
@@ -186,7 +191,9 @@ class MentorController extends Controller
         $references = $this->referenceManager->getAllReferences();
         $mentorSpecialtiesIds = $this->specialtyManager->getMentorSpecialtiesIds($mentor);
         $mentorIndustriesIds = $this->industryManager->getMentorIndustriesIds($mentor);
-        $companies = $companyManager->getAllCompanies();
+        $companies = $this->companyManager->getAllCompanies();
+        $universities = $this->universityManager->getAllUniversities();
+        $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $mentorStatuses = $this->mentorStatusManager->getAllMentorStatuses();
 
         $formTitle = 'Edit mentor';
@@ -196,6 +203,7 @@ class MentorController extends Controller
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
+            'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies,
             'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle, 'publicForm' => false
         ]);
@@ -217,6 +225,8 @@ class MentorController extends Controller
             'residence_id' => 'required',
             'reference_id' => 'required',
             'address'        => 'required',
+            'education_level_id' => 'required',
+            'university_id' => 'required',
             'company_id' => 'required',
             'company_sector' => 'required',
             'job_position' => 'required',
@@ -261,6 +271,8 @@ class MentorController extends Controller
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
             'address'        => 'required',
+            'education_level_id' => 'required',
+            'university_id' => 'required',
             'company_id' => 'required',
             'company_sector' => 'required',
             'job_position' => 'required',

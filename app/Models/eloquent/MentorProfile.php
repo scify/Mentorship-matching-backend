@@ -22,6 +22,7 @@ class MentorProfile extends Model
     protected $fillable = ['first_name', 'last_name', 'year_of_birth', 'address',
         'residence_id', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'company_name', 'company_sector', 'job_position', 'job_experience_years',
+        'education_level_id', 'university_id',
         'university_name', 'university_department_name', 'skills', 'reference_id',
         'status_id', 'company_id', 'creator_user_id'
     ];
@@ -98,4 +99,18 @@ class MentorProfile extends Model
 //    public function sessions() {
 //        return $this->belongsToMany(MentorshipSession::class);
 //    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function university() {
+        return $this->hasOne(University::class, 'id', 'university_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function educationLevel() {
+        return $this->hasOne(EducationLevel::class, 'id', 'education_level_id');
+    }
 }

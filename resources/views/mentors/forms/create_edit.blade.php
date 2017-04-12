@@ -187,6 +187,29 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <!-- Education Level -->
+                                        <div class="margin-bottom-5 selecterTitle">{{trans('messages.education_level')}}</div>
+                                        <select data-placeholder="select" name="education_level_id" class="chosen-select">
+                                            <option><!-- Empty option allows the placeholder to take effect. --><option>
+                                            @foreach($educationLevels as $educationLevel)
+                                                <option value="{{$educationLevel->id}}" {{$mentor['education_level_id'] == $educationLevel->id ?
+                                                    'selected' : ''}}>{{$educationLevel->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <!-- University -->
+                                        <div class="margin-bottom-5 selecterTitle">{{trans('messages.university')}}</div>
+                                        <select data-placeholder="select" name="university_id" class="chosen-select" data-show-name-on-id="12">
+                                            <option><!-- Empty option allows the placeholder to take effect. --><option>
+                                            @foreach($universities as $university)
+                                                <option value="{{$university->id}}" {{$mentor['university_id'] == $university->id ? 'selected' : ''}}>{{$university->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row universityName" style="display: none;">
+                                    <div class="col-md-6">
                                         <!-- University -->
                                         <div class="{{ $errors->first('university_name')?'has-error has-feedback':'' }}">
                                             <div class="inputer floating-label">
@@ -200,6 +223,8 @@
 
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <!-- University Department -->
                                         <div class="{{ $errors->first('university_department_name')?'has-error has-feedback':'' }}">
@@ -372,6 +397,8 @@
             controller.init();
             var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
             availabilityStatusChangeHandler.init("#createMentor");
+            var universityHandler = new UniversityHandler();
+            universityHandler.initHandler();
         });
     </script>
 @endsection

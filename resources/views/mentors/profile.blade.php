@@ -150,10 +150,17 @@
                                                 <div class="col-md-9">{{$mentorViewModel->mentor->job_experience_years}}</div>
                                             </div><!--.row-->
                                         @endif
+                                        @if($mentorViewModel->mentor->education_level_id != null)
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.education_level')}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->educationLevel->name}}</div>
+                                            </div><!--.row-->
+                                        @endif
                                         @if($mentorViewModel->mentor->university_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.university')}}</div>
-                                                <div class="col-md-9">{{$mentorViewModel->mentor->university->name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->university->name}}
+                                                    @if(!empty($mentorViewModel->mentor->university_name)) ({{ $mentorViewModel->mentor->university_name }}) @endif</div>
                                             </div><!--.row-->
                                         @endif
                                         @if($mentorViewModel->mentor->university_department_name != null)
