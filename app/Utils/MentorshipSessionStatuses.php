@@ -47,4 +47,11 @@ class MentorshipSessionStatuses
     public static function getPendingSessionStatus() {
         return self::$statuses['pending'];
     }
+
+    public static function getCancelledSessionStatuses() {
+        $cancelledSessionStatuses = array(
+            self::$statuses['cancelled_mentee'], self::$statuses['cancelled_mentor'], self::$statuses['cancelled_acc_man']
+        );
+        return $cancelledSessionStatuses;
+    }
 }

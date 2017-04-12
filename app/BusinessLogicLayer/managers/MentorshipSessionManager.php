@@ -48,6 +48,24 @@ class MentorshipSessionManager
     }
 
     /**
+     * Sets mentor's and mentee's status id to available.
+     * Used when a session is completed or cancelled.
+     *
+     * @param $mentorProfileId @see MentorProfile's id
+     * @param $menteeProfileId @see MenteeProfile's id
+     */
+    private function setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorProfileId, $menteeProfileId) {
+        $mentorManager = new MentorManager();
+        $menteeManager = new MenteeManager();
+        DB::transaction(function() use($mentorManager, $mentorProfileId, $menteeManager, $menteeProfileId) {
+            // INFO: mentor status id 1 means available for mentorship
+            $mentorManager->editMentor(array('status_id' => 1), $mentorProfileId);
+            // INFO: mentee status id 1 means available
+            $menteeManager->editMentee(array('status_id' => 1), $menteeProfileId);
+        });
+    }
+
+    /**
      * Returns a mentorship session object filled with input passed as array
      *
      * @param MentorshipSession $mentorshipSession
@@ -109,13 +127,19 @@ class MentorshipSessionManager
 
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-        // TODO: use only one status of completed statuses to send an email?
-        if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCompletedSessionStatuses()) !== false) {
+        if($mentorshipSession->status_id === $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
             $mentor = (new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
             (new MailManager())->sendEmailToSpecificEmail('emails.reactivate-mentor',
                 ['id' => $mentor->id, 'email' => $mentor->email], 'Job Pairs | Mentorship session completed',
                 $mentor->email
             );
+        }
+
+        // if status is completed or cancelled, change the mentor and mentee statuses back to available
+        if(array_search($mentorshipSession->status_id, array_merge(
+            $mentorshipSessionStatuses::getCompletedSessionStatuses(), $mentorshipSessionStatuses::getCancelledSessionStatuses()
+                )) !== false) {
+            $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
         }
     }
 

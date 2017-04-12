@@ -221,7 +221,6 @@ class MentorshipSessionController extends Controller
                 $this->mentorshipSessionManager->editMentorshipSession([
                     'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
                 ]);
-                // TODO: change mentor and mentee statuses to available
                 return view('common.response-to-email')->with([
                     'message_success' => 'You have successfully rejected the session',
                     'title' => $viewTitle
