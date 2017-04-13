@@ -42,6 +42,7 @@ window.MentorsListController.prototype = function () {
                 mentorsCriteria.residenceId = $('select[name=residence]').val();
                 mentorsCriteria.completedSessionsCount = $('select[name=completedSessionsCount]').val();
                 mentorsCriteria.displayOnlyExternallySubscribed = $('input[name=only_externally_subscribed]').parent().hasClass("checked");
+                mentorsCriteria.displayOnlyAvailableWithCancelledSessions = $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
                 getMentorsByFilter.call(this);
             });
         },
@@ -55,6 +56,7 @@ window.MentorsListController.prototype = function () {
                 $('select[name=residence]').val(0).trigger("chosen:updated");
                 $('select[name=completedSessionsCount]').val(0).trigger("chosen:updated");
                 $('input[name=only_externally_subscribed]').iCheck('uncheck');
+                $('input[name=available_with_cancelled_session]').iCheck('uncheck');
                 // clear mentorsCriteria object from all of its properties
                 for(var prop in mentorsCriteria) {
                     if(mentorsCriteria.hasOwnProperty(prop)) {

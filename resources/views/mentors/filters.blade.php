@@ -81,6 +81,14 @@
                     <input type="checkbox" name="only_externally_subscribed" id="only-externally-subscribed">
                 </div>
             </div>
+            <div class="col-md-2 filterName">
+                <label for="available-with-cancelled-session">Mentors with cancelled last session</label>
+            </div>
+            <div class="col-md-4">
+                <div class="icheckbox">
+                    <input type="checkbox" name="available_with_cancelled_session" id="available-with-cancelled-session">
+                </div>
+            </div>
         </div>
         <div class="form-buttons">
             <div class="row">

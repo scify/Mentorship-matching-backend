@@ -289,7 +289,9 @@ class MentorManager {
             (!isset($filters['availabilityId'])  || $filters['availabilityId'] === "") &&
             (!isset($filters['residenceId'])  || $filters['residenceId'] === "") &&
             (!isset($filters['completedSessionsCount']) || $filters['completedSessionsCount'] === "") &&
-            (!isset($filters['displayOnlyExternallySubscribed'])  || $filters['displayOnlyExternallySubscribed'] === 'false')) {
+            (!isset($filters['displayOnlyExternallySubscribed'])  || $filters['displayOnlyExternallySubscribed'] === 'false') &&
+            (!isset($filters['displayOnlyAvailableWithCancelledSessions'])  || $filters['displayOnlyAvailableWithCancelledSessions'] === 'false')
+        ) {
             return $this->mentorStorage->getAllMentorProfiles();
         }
         $whereClauseExists = false;
@@ -304,6 +306,12 @@ class MentorManager {
 				where status_id in (" . implode(",", $mentorshipSessionStatuses::getCompletedSessionStatuses()) . ")
 				group by mentor_profile_id
 			) as completed_sessions on mp.id=completed_sessions.mentor_profile_id ";
+        }
+        if(isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === "true") {
+            $dbQuery .= "left outer join mentorship_session as mses on mses.mentor_profile_id = mp.id
+                left outer join
+                (select max(id) as last_session_id from mentorship_session group by mentor_profile_id) 
+                as last_sessions on last_sessions.last_session_id = mses.id ";
         }
         $dbQuery .= "where ";
         if(isset($filters['mentorName']) && $filters['mentorName'] != "") {
@@ -380,6 +388,14 @@ class MentorManager {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.creator_user_id is null ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+            $dbQuery .= "mses.status_id in (" . implode(",", $mentorshipSessionStatuses::getCancelledSessionStatuses()) . ") ";
         }
         $filteredMentorIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)
