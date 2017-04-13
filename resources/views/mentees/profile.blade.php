@@ -143,7 +143,6 @@
                                                 <div class="col-md-3 formElementName">{{trans('messages.university')}}</div>
                                                 <div class="col-md-9">{{$menteeViewModel->mentee->university->name}}
                                                     @if(!empty($menteeViewModel->mentee->university_name)) ({{ $menteeViewModel->mentee->university_name }}) @endif</div>
-                                                </div>
                                             </div><!--.row-->
                                         @endif
                                         @if($menteeViewModel->mentee->university_department_name != null)
