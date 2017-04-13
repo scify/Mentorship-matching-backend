@@ -112,6 +112,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     $modal.find("select[name=account_manager_id]").val(accountManagerId).trigger("chosen:updated");
                 }
                 $modal.find("select[name=status_id]").val(sessionStatusId).trigger("chosen:updated");
+                displayCorrectlyStatusesAccordingToPreselectedStatus($modal.find("select[name=status_id]"));
             });
         },
         deleteSessionModalHandler = function() {
@@ -122,6 +123,22 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.modal("toggle");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
             });
+        },
+        displayCorrectlyStatusesAccordingToPreselectedStatus = function($select) {
+            $select.find("option").attr("style", "");
+            // if status is pending, introduction_sent, mentee_available or mentor_available
+            // (NOTE: it means that the id is smaller than the id of started status which is 4)
+            // omit statuses after started and up to completed_followup
+            if(parseInt(sessionStatusId) < 4) {
+                for(var i = 6; i <= 11; i++) {
+                    $select.find("option[value=" + i + "]").css("display", "none");
+                }
+            } else { // else, omit statuses between pending and mentor_available
+                for(var i = 1; i <= 4; i++) {
+                    $select.find("option[value=" + i + "]").css("display", "none");
+                }
+            }
+            $select.trigger("chosen:updated");
         },
         statusChangeHandler = function () {
             var $comment = $(".sessionStatusChangeComment");
