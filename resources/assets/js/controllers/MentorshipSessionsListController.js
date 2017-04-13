@@ -152,6 +152,49 @@ window.MentorshipSessionsListController.prototype = function() {
                 $comment.fadeIn("fast");
             });
         },
+        deleteSessionHistory = function(historyId) {
+            var $tokenElement = $("#history input[name=_token]");
+            var $self = $(this);
+            $.ajax({
+                method: 'POST',
+                url: $tokenElement.data("delete-history-url"),
+                data: {'_token': $tokenElement.val(), 'sessionHistoryId': historyId},
+                success: function(response) {
+                    var responseObj = JSON.parse(response);
+                    if (responseObj.status == 2) {
+                        toastr.error(responseObj.data);
+                        $("#history .frame:visible .delete-from-timeline").remove();
+                        $self.fadeIn("slow");
+                    } else {
+                        toastr.success(responseObj.data);
+                    }
+                },
+                error: function(xhr, status, errorThrown) {
+                    console.log(xhr.responseText);
+                    toastr.error(errorThrown);
+                }
+            });
+        },
+        deleteHistoryHandler = function () {
+            $("#mentorshipSessionShowModal").on("click", ".delete-from-timeline", function() {
+                var historyId = $(this).parent().data("history-id");
+                deleteSessionHistory.call($(this).parents(".frame"), historyId);
+                var $allVisibleTimelineFrames = $("#history .frame:visible");
+                // if there are 2 or more visible frames and the second one from the bottom doesn't have the
+                // delete-from-timeline button and the user logged in is either the one that made the item's history
+                // or is an admin, add it to that element
+                if($allVisibleTimelineFrames.length > 1 &&
+                    ($($allVisibleTimelineFrames.get($allVisibleTimelineFrames.length - 2)).data("user-created-history") ===
+                    $("#history input[name=_token]").data("auth-user-id") ||
+                    parseInt($("#history input[name=_token]").data("user-is-admin")) === 1) &&
+                    $($allVisibleTimelineFrames.get($allVisibleTimelineFrames.length - 2)).find(".delete-from-timeline").length === 0) {
+                    $($allVisibleTimelineFrames.get($allVisibleTimelineFrames.length - 2)).find(".timeline-bubble").prepend(
+                        this.outerHTML
+                    );
+                }
+                $(this).parents(".frame").fadeOut("slow");
+            });
+        },
         searchBtnHandler = function (parentDiv) {
             $("#searchBtn").on("click", function () {
                 mentorshipSessionsCriteria.mentorName = $('input[name=mentorName]').val();
@@ -275,6 +318,7 @@ window.MentorshipSessionsListController.prototype = function() {
             statusChangeHandler();
             searchBtnHandler(parentDiv);
             clearSearchBtnHandler(parentDiv);
+            deleteHistoryHandler();
         };
     return {
         init: init

@@ -30,4 +30,8 @@ class MentorshipSessionHistoryManager
         $mentorshipSessionHistory->comment = $comment;
         $this->mentorshipSessionHistoryStorage->saveMentorshipSessionHistory($mentorshipSessionHistory);
     }
+
+    public function deleteMentorshipSessionStatusHistory(array $input) {
+        $this->mentorshipSessionHistoryStorage->deleteMentorshipSessionHistory($input['sessionHistoryId']);
+    }
 }

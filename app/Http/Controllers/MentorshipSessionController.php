@@ -146,7 +146,8 @@ class MentorshipSessionController extends Controller
         if($history->count() === 0) {
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', ['errorMessage' => 'No history found'])));
         } else {
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String)view('mentorship_session.modals.partials.history_timeline', compact('history'))));
+            $loggedInUser = Auth::user();
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String)view('mentorship_session.modals.partials.history_timeline', compact('history', 'loggedInUser'))));
         }
     }
 

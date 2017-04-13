@@ -89,6 +89,15 @@
       .panel {
         margin: 0;
       }
+      .timeline .frame .delete-from-timeline {
+        float: left;
+      }
+      .timeline .frame:nth-child(2n) .delete-from-timeline {
+        float: right
+      }
+      .delete-from-timeline {
+        padding-top: 2px;
+      }
     }
     .nav-tabs {
       border: none;

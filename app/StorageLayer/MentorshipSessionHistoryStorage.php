@@ -16,4 +16,8 @@ class MentorshipSessionHistoryStorage
     public function saveMentorshipSessionHistory(MentorshipSessionHistory $mentorshipSessionHistory) {
         return $mentorshipSessionHistory->save();
     }
+
+    public function deleteMentorshipSessionHistory($mentorshipSessionHistoryId) {
+        MentorshipSessionHistory::find($mentorshipSessionHistoryId)->delete();
+    }
 }

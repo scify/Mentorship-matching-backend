@@ -53,6 +53,8 @@ Route::group([ 'middleware' => 'auth' ], function () {
 
     Route::get('session/fetchHistory', 'MentorshipSessionController@getHistoryForMentorshipSession')->name('fetchSessionHistory');
     Route::get('sessions/byCriteria', 'MentorshipSessionController@showMentorshipSessionsByCriteria')->name('filterMentorshipSessions');
+
+    Route::post('delete-history-item', 'MentorshipSessionHistoryController@deleteSessionHistoryItem')->name('deleteSessionHistoryItem');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
