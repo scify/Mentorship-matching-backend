@@ -40,6 +40,7 @@ return [
     'job_experience_years' => 'Job Experience years',
     'education_level' => 'Education Level',
     'university' => 'University',
+    'university_name' => 'University name',
     'university_department' => 'University department',
     'specialty_form_description' => 'In which specialty would you like to do Job Pairing?',
     'mentor_industry_form_description' => 'Specifically:',

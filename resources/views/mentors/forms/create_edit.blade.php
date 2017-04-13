@@ -208,7 +208,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row universityName" style="display: none;">
+                                <div class="row universityName" @if(empty($mentor['university_name'])) style="display: none;" @endif>
                                     <div class="col-md-6">
                                         <!-- University -->
                                         <div class="{{ $errors->first('university_name')?'has-error has-feedback':'' }}">
@@ -216,7 +216,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="university_name"
                                                            value="{{ old('university_name') != '' ? old('university_name') : $mentor['university_name']}}">
-                                                    <label for="email">{{trans('messages.university')}}</label>
+                                                    <label for="email">{{trans('messages.university_name')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('university_name') }}</span>

@@ -68,7 +68,7 @@ class MenteeManager {
             $inputFields['creator_user_id'] = $loggedInUser->id;
         }
         $menteeProfile = new MenteeProfile();
-        $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields, true);
+        $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields);
 
         DB::transaction(function() use($menteeProfile, $inputFields) {
             $newMentee = $this->menteeStorage->saveMentee($menteeProfile);
@@ -81,13 +81,11 @@ class MenteeManager {
      * @param boolean checks whether a new mentee profile is created or not
      * @return MenteeProfile the instance with the fields assigned
      */
-    private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields, $isNewMenteeProfile = false) {
-        if($isNewMenteeProfile) {
-            if (isset($inputFields['is_employed']))
-                $inputFields['is_employed'] = true;
-            else
-                $inputFields['is_employed'] = false;
-        }
+    private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields) {
+        if (isset($inputFields['is_employed']))
+            $inputFields['is_employed'] = true;
+        else
+            $inputFields['is_employed'] = false;
         $menteeProfile->fill($inputFields);
         return $menteeProfile;
     }
