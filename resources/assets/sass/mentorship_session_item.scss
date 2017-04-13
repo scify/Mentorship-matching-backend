@@ -107,15 +107,15 @@
   }
 }
 
-.started {
+.started, .first_meeting, .second_meeting, .third_meeting, .fourth_meeting {
   color: $brand-success !important;
 }
 
-.pending, .available_mentee, .available_mentor, .first_meeting, .second_meeting, .third_meeting, .fourth_meeting {
+.pending, .available_mentee, .available_mentor {
   color: $brand-warning !important;
 }
 
-.evaluation_sent, .follow_up_sent, .cancelled {
+.evaluation_sent, .follow_up_sent, .cancelled_mentee, .cancelled_mentor, .cancelled_acc_man {
   color: $brand-danger !important;
 }
 
