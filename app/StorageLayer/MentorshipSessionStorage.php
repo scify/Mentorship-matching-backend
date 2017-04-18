@@ -9,6 +9,7 @@
 namespace App\StorageLayer;
 
 use App\Models\eloquent\MentorshipSession;
+use App\Utils\MentorshipSessionStatuses;
 
 class MentorshipSessionStorage
 {
@@ -51,5 +52,15 @@ class MentorshipSessionStorage
 
     public function getMentorshipSessionsFromIdsArray($filteredMentorshipSessionsIds) {
         return MentorshipSession::whereIn('id', $filteredMentorshipSessionsIds)->get();
+    }
+
+    public function getAllActiveMentorshipSessions() {
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getActiveSessionStatuses())->get();
+    }
+
+    public function getAllCompletedMentorshipSessions() {
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getCompletedSessionStatuses())->get();
     }
 }

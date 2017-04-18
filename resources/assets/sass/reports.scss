@@ -1,0 +1,12 @@
+.report-value {
+  color: #FBAE25;
+  font-weight: bold;
+  font-size: 34px;
+  line-height: 1;
+}
+
+@media only screen and (max-width: 991px) {
+  .report-value {
+    margin: 10px 0 25px;
+  }
+}

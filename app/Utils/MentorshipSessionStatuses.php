@@ -30,9 +30,9 @@ class MentorshipSessionStatuses
 
     public static function getActiveSessionStatuses() {
         $activeSessionStatuses = array(
-            self::$statuses['pending'], self::$statuses['available_mentee'], self::$statuses['available_mentor'],
-            self::$statuses['started'], self::$statuses['first_meeting'], self::$statuses['second_meeting'],
-            self::$statuses['third_meeting'], self::$statuses['fourth_meeting']
+            self::$statuses['pending'], self::$statuses['introduction_sent'], self::$statuses['available_mentee'],
+            self::$statuses['available_mentor'], self::$statuses['started'], self::$statuses['first_meeting'],
+            self::$statuses['second_meeting'], self::$statuses['third_meeting'], self::$statuses['fourth_meeting']
         );
         return $activeSessionStatuses;
     }

@@ -478,4 +478,21 @@ class MentorshipSessionManager
         }
     }
 
+    /**
+     * Returns all the currently active sessions
+     *
+     * @return mixed
+     */
+    public function getAllActiveMentorshipSessions() {
+        return $this->mentorshipSessionStorage->getAllActiveMentorshipSessions();
+    }
+
+    /**
+     * Returns all the completed sessions
+     *
+     * @return mixed
+     */
+    public function getAllCompletedMentorshipSessions() {
+        return $this->mentorshipSessionStorage->getAllCompletedMentorshipSessions();
+    }
 }

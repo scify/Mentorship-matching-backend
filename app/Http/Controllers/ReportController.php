@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\BusinessLogicLayer\managers\MenteeManager;
+use App\BusinessLogicLayer\managers\MentorManager;
+use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 
 class ReportController extends Controller
 {
+    private $menteeManager;
+    private $mentorManager;
+    private $mentorshipSessionManager;
+
+    public function __construct() {
+        $this->menteeManager = new MenteeManager();
+        $this->mentorManager = new MentorManager();
+        $this->mentorshipSessionManager = new MentorshipSessionManager();
+    }
+
     /**
      * Display all reports.
      *
@@ -13,13 +25,16 @@ class ReportController extends Controller
      */
     public function showAllReports()
     {
-        return view('reports.index', [
-            'pageTitle' => 'Reports'
-        ]);
-
-//        $mentees = $this->menteeManager->getAllMentees();
-//        $loggedInUser = Auth::user();
-//        $page_title = 'All mentees';
-//        return view('mentees.list_all', ['mentees' => $mentees, 'loggedInUser' => $loggedInUser, 'page_title' => $page_title]);
+        $pageTitle = 'Reports';
+        $menteesCount = $this->menteeManager->getAllMentees()->count();
+        $mentorsCount = $this->mentorManager->getAllMentors()->count();
+        $mentorshipSessionsCount = $this->mentorshipSessionManager->getAllMentorshipSessions()->count();
+        $activeSessionsCount = $this->mentorshipSessionManager->getAllActiveMentorshipSessions()->count();
+        $completedSessionsCount = $this->mentorshipSessionManager->getAllCompletedMentorshipSessions()->count();
+        return view('reports.index', compact(
+                'pageTitle', 'menteesCount', 'mentorsCount', 'mentorshipSessionsCount', 'activeSessionsCount',
+                'completedSessionsCount'
+            )
+        );
     }
 }
