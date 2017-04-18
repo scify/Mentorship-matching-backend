@@ -157,7 +157,7 @@
         </div>
     </div>
     @include('mentorship_session.modals.show')
-    @include('mentorship_session.modals.matching_modal')
+    @include('mentorship_session.modals.matching_modal_edit')
     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
         @include('mentorship_session.modals.delete')
     @endif

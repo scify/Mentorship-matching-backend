@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 @include('mentorship_session.modals.show')
-                @include('mentorship_session.modals.matching_modal', ['statuses' => $mentorshipSessionStatuses])
+                @include('mentorship_session.modals.matching_modal_edit', ['statuses' => $mentorshipSessionStatuses])
                 @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
                     @include('mentorship_session.modals.delete')
                 @endif

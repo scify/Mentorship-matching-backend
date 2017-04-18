@@ -1,6 +1,6 @@
 @if($matchingMode)
     @if($loggedInUser->isMatcher() || $loggedInUser->userHasAccessToCRUDMentorshipSessions())
-        <a href="javascript: void(0);" class="hidden menu-action">
+        <a href="javascript:void(0)" class="hidden menu-action">
             <div class="matchMenteeBtn"
                  data-toggle="modal"
                  data-userName="{{$mentorViewModel->mentor->first_name . " " . $mentorViewModel->mentor->last_name}}"
