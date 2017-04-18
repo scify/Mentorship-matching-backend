@@ -18,6 +18,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 var $sessionStatus = $(this).find("#sessionStatus");
                 var sessionStatus = $sessionStatus.text();
                 var sessionStatusClass = $sessionStatus.attr("class");
+                var sessionComment = $(this).data("generalcomment");
                 var createdAt = $(this).find("#createdAt").text();
                 var updatedAt = $(this).find("#updatedAt").text();
                 var $modal = $("#mentorshipSessionShowModal");
@@ -48,6 +49,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url").replace("id", matcherId));
                 }
                 $modal.find("#sessionStatus").addClass(sessionStatusClass).html(sessionStatus);
+                $modal.find("#sessionComment").html(sessionComment);
                 $modal.find("#createdAt").html(createdAt);
                 $modal.find("#updatedAt").html(updatedAt);
             });
@@ -99,15 +101,27 @@ window.MentorshipSessionsListController.prototype = function() {
             $("body").on("click", ".editSessionBtn", function() {
                 var $siblingVisibleAnchor = $(this).siblings("a.visible");
                 var sessionId = $siblingVisibleAnchor.data("sessionid");
+                var mentorId = $siblingVisibleAnchor.data("mentorid");
                 var mentorName = $siblingVisibleAnchor.find("#mentorPresetName").text();
+                var menteeId = $siblingVisibleAnchor.data("menteeid");
                 var menteeName = $siblingVisibleAnchor.find("#menteePresetName").text();
                 var accountManagerId = $siblingVisibleAnchor.data("accountmanagerid");
+                var generalComment = $siblingVisibleAnchor.data("generalcomment");
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
                 var $modal = $("#matchMentorModalEdit");
                 $modal.modal("toggle");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
-                $modal.find("#mentorFullName").html(mentorName);
-                $modal.find("#menteeFullName").html(menteeName);
+                var $mentorFullName = $modal.find("#mentorFullName");
+                $mentorFullName.html(mentorName);
+                if($mentorFullName.parent("a").length === 1) {
+                    $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
+                }
+                var $menteeFullName = $modal.find("#menteeFullName");
+                $menteeFullName.html(menteeName);
+                if($menteeFullName.parent("a").length === 1) {
+                    $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
+                }
+                $modal.find("textarea[name=general_comment]").text(generalComment);
                 if($modal.find("select[name=account_manager_id]").length > 0) {
                     $modal.find("select[name=account_manager_id]").val(accountManagerId).trigger("chosen:updated");
                 }

@@ -24,19 +24,20 @@ window.MatchingController.prototype = function () {
                 $('#mentorFullName').html(mentorFullName);
             });
         },
-        submitValidationHandler = function() {
-            $("#matchMentorModal form").submit(function() {
-                // if an account manager is not set, display error message and do not submit
-                if($(this).find("select[name=account_manager_id]").val() === "") {
-                    toastr.error("Please select an account manager from the list.");
-                    return false;
-                }
-            });
-        },
+        // TODO: this could lead to a possible bug -> this function is also defined in MentorshipSessionsListController.js and commented here because on ment{or/ee}s' profiles was called twice
+        // submitValidationHandler = function() {
+        //     $("#matchMentorModal form").submit(function() {
+        //         // if an account manager is not set, display error message and do not submit
+        //         if($(this).find("select[name=account_manager_id]").val() === "") {
+        //             toastr.error("Please select an account manager from the list.");
+        //             return false;
+        //         }
+        //     });
+        // },
         initHandlers = function() {
             matchMentorButtonHandler();
             matchMenteeButtonHandler();
-            submitValidationHandler();
+            // submitValidationHandler();
         },
         init = function () {
             initHandlers();

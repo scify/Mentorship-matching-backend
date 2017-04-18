@@ -92,4 +92,5 @@ return [
     'session_started_between_dates' => 'Session created between',
     'session_completed_between_dates' => 'Session completed between',
     'match' => 'Match',
+    'general_comment' => 'General Comment',
 ];

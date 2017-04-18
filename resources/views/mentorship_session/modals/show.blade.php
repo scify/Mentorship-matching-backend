@@ -68,6 +68,15 @@
                             </div>
                         </div>
                         <div class="row">
+                            <!-- Comment -->
+                            <div class="col-md-3 col-xs-3 text-right">
+                                <span class="caption">Comment:</span>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <span class="caption"><span id="sessionComment"></span></span>
+                            </div>
+                        </div>
+                        <div class="row">
                             <!-- Created at -->
                             <div class="col-md-3 col-xs-3 text-right">
                                 <span class="caption">Session Initialized:</span>

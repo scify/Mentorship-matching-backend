@@ -21,13 +21,19 @@
     max-height: 98%;
     min-height: 500px;
   }
-  .accountManagerSelector, .sessionStatusSelector, .sessionStatusChangeComment {
-    margin-top: 50px;
+  .accountManagerSelector, .sessionStatusSelector, .sessionStatusChangeComment, .generalCommentWrapper {
+    margin-top: 15px;
     .selectorTitle {
       font-size: medium;
       margin-left: 15%;
       margin-top: -5px;
     }
+    .inputer {
+      margin-bottom: 0;
+    }
+  }
+  .accountManagerSelector {
+    margin-top: 50px;
   }
   .modal-body {
     overflow: visible;
@@ -35,6 +41,9 @@
   }
   .selectorTitle {
     text-align: right;
+  }
+  textarea {
+    margin-top: -5px;
   }
 }
 

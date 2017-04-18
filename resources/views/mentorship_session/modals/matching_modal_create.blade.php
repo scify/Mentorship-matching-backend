@@ -56,6 +56,19 @@
                         </div>
                     </div>
                     @endif
+                    <div class="row generalCommentWrapper">
+                        <!-- General comment -->
+                        <div class="col-md-3 col-xs-3 margin-top-5">
+                            <div class="selectorTitle">{{trans('messages.general_comment')}}</div>
+                        </div>
+                        <div class="col-md-9 col-xs-9 text-align-left">
+                            <div class="inputer">
+                                <div class="input-wrapper">
+                                    <textarea class="form-control js-auto-size" rows="2" name="general_comment" placeholder="Insert a comment for the session"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
