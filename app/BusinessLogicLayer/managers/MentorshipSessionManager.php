@@ -495,4 +495,44 @@ class MentorshipSessionManager
     public function getAllCompletedMentorshipSessions() {
         return $this->mentorshipSessionStorage->getAllCompletedMentorshipSessions();
     }
+
+    /**
+     * Returns the last active session view model
+     *
+     * @param $id integer The mentor's profile id
+     * @return mixed
+     */
+    public function getCurrentMentorshipSessionViewModelForMentor($id) {
+        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentor_profile_id 
+                        from mentorship_session group by mentor_profile_id)
+                        as last_session where mentor_profile_id = $id";
+        $rawQueryStorage = new RawQueryStorage();
+        $results = $rawQueryStorage->performRawQuery($dbQuery);
+        if(!empty($results)) {
+            $lastSessionId = $rawQueryStorage->performRawQuery($dbQuery)[0]->last_session_id;
+            return collect([new MentorshipSessionViewModel($this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId))]);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns the last active session view model
+     *
+     * @param $id integer The mentee's profile id
+     * @return mixed
+     */
+    public function getCurrentMentorshipSessionViewModelForMentee($id) {
+        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentee_profile_id 
+                        from mentorship_session group by mentee_profile_id)
+                        as last_session where mentee_profile_id = $id";
+        $rawQueryStorage = new RawQueryStorage();
+        $results = $rawQueryStorage->performRawQuery($dbQuery);
+        if(!empty($results)) {
+            $lastSessionId = $rawQueryStorage->performRawQuery($dbQuery)[0]->last_session_id;
+            return collect([new MentorshipSessionViewModel($this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId))]);
+        } else {
+            return null;
+        }
+    }
 }

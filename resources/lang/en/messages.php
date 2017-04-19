@@ -93,4 +93,5 @@ return [
     'session_completed_between_dates' => 'Session completed between',
     'match' => 'Match',
     'general_comment' => 'General Comment',
+    'current_session' => 'Current session',
 ];

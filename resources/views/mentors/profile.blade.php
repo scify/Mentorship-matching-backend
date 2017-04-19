@@ -35,6 +35,7 @@
                     <li><a data-href="skills" data-toggle="tab" class="btn-ripple">{{trans('messages.specialties')}} & {{trans('messages.skills.capitalF')}}</a></li>
                     <li class="match-tab-label"><a data-href="matching" data-toggle="tab" class="btn-ripple">{{trans('messages.match')}}</a></li>
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
+                        <li><a data-href="current_session" data-toggle="tab" class="btn-ripple">{{trans('messages.current_session')}}</a></li>
                         <li><a data-href="mentorship_sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions_history')}}</a></li>
                     @endif
                 </ul>
@@ -264,6 +265,13 @@
                         @include('mentees.list')
                     </div>
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
+                        <div id="current_session" class="tab-pane">
+                            @if(!empty($currentSessionViewModel))
+                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $currentSessionViewModel])
+                            @else
+                                <h4 class="noSessionsMessage">No active mentorship session found.</h4>
+                            @endif
+                        </div>
                         <div id="mentorship_sessions" class="tab-pane">
                             @if($mentorshipSessionViewModels->count() > 0)
                                 @include('mentorship_session.list')
@@ -290,6 +298,7 @@
             var matchingController = new window.MatchingController();
             matchingController.init();
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
+            mentorshipSessionsListController.init("#current_session");
             mentorshipSessionsListController.init("#mentorship_sessions");
             tabsHandler.init("#mentorshipSessionShowModal");
         });

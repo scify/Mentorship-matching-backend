@@ -811,3 +811,8 @@
 .nav-tabs > li {
   cursor: pointer;
 }
+
+/* on current session we don't need to show the number of found sessions (it would be just one always) */
+#current_session .resultsTitle {
+  display: none;
+}

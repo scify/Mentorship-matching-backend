@@ -194,12 +194,14 @@ class MenteeController extends Controller
         $accountManagers = (new UserManager())->getAccountManagersWithRemainingCapacity();
         $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
         $mentorViewModels = (new MentorManager())->getAllMentorViewModels();
+        $currentSessionViewModel = $this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentee($id);
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentee($id);
         $loggedInUser = Auth::user();
         return view('mentees.profile', ['menteeViewModel' => $menteeViewModel, 'loggedInUser' => $loggedInUser,
             'specialties' => $specialties, 'companies' => $companies, 'statuses' => $statuses,
             'residences' => $residences, 'accountManagers' => $accountManagers, 'mentorViewModels' => $mentorViewModels,
-            'mentorshipSessionViewModels' => $mentorshipSessionViewModels
+            'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
+            'currentSessionViewModel' => $currentSessionViewModel
         ]);
     }
 
