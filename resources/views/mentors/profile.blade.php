@@ -191,7 +191,9 @@
                                                         <span class="timeline-date">{{$historyItem->created_at->format('d / m / Y')}}</span>
                                                         <div class="timeline-bubble">
                                                             <h4 class="{{$historyItem->status->status}}">{{$historyItem->status->description}}</h4>
-                                                            <p>Comment: {{$historyItem->comment}}</p>
+                                                            @if(!empty($historyItem->comment))
+                                                                <p>Comment: {{$historyItem->comment}}</p>
+                                                            @endif
                                                             @if($historyItem->follow_up_date != null)
                                                                 <p>Follow up date: {{ \Carbon\Carbon::parse($historyItem->follow_up_date)->format('d / m / Y')}}</p>
                                                             @endif
