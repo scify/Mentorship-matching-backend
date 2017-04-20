@@ -828,3 +828,12 @@
   color: #1b1d1e;
   font-size: 16px;
 }
+
+.disabled-tab {
+  a {
+    cursor: not-allowed;
+  }
+  a:hover, a:focus {
+    color: #fff !important;
+  }
+}
