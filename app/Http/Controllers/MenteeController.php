@@ -160,7 +160,8 @@ class MenteeController extends Controller
             'specialty_experience' => 'required',
             'specialty_id' => 'required',
             'expectations' => 'required',
-            'career_goals' => 'required'
+            'career_goals' => 'required',
+            'cv_file' => 'file',
         ]);
 
         $input = $request->all();
@@ -232,7 +233,8 @@ class MenteeController extends Controller
             'specialty_experience' => 'required',
             'specialty_id' => 'required',
             'expectations' => 'required',
-            'career_goals' => 'required'
+            'career_goals' => 'required',
+            'cv_file' => 'file',
         ]);
 
         $input = $request->all();
