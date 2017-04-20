@@ -101,7 +101,7 @@ class MentorController extends Controller
         $menteeManager = new MenteeManager();
         $userManager = new UserManager();
         $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
-        $menteeViewModels = $menteeManager->getAllMenteeViewModels();
+        $availableMenteeViewModels = $menteeManager->getAvailableMenteeViewModels();
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
@@ -111,7 +111,7 @@ class MentorController extends Controller
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
-            'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
+            'availableMenteeViewModels' => $availableMenteeViewModels, 'universities' => $universities,
             'educationLevels' => $educationLevels,
             'accountManagers' => $accountManagers,
             'loggedInUser' => $loggedInUser,

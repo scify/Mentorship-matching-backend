@@ -29,7 +29,11 @@
                 <ul class="nav nav-tabs tabs-active-text-white tabs-active-border-yellow">
                     <li class="active"><a data-href="details" data-toggle="tab" class="btn-ripple">{{trans('messages.profile_information')}}</a></li>
                     <li><a data-href="availability" data-toggle="tab" class="btn-ripple">{{trans('messages.availability')}}</a></li>
-                    <li class="match-tab-label"><a data-href="matching" data-toggle="tab" class="btn-ripple">{{trans('messages.match')}}</a></li>
+                    <li class="match-tab-label @if($menteeViewModel->mentee->status_id != 1) disabled-tab @endif">
+                        <a data-href="matching" @if($menteeViewModel->mentee->status_id != 1) onclick="event.stopPropagation();" @else data-toggle="tab" @endif class="btn-ripple">
+                            {{trans('messages.match')}}
+                        </a>
+                    </li>
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
                         <li><a data-href="current_session" data-toggle="tab" class="btn-ripple">{{trans('messages.current_session')}}</a></li>
                         <li><a data-href="mentorship_sessions" data-toggle="tab" class="btn-ripple">{{trans('messages.mentorship_sessions_history')}}</a></li>
