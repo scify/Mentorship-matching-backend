@@ -87,8 +87,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row sessionStatusChangeComment" @if($loggedInUser->userHasAccessToCRUDMentorshipSessions())
-                        style="margin-top: 10px; display: none;" @endif>
+                    <div class="row sessionStatusChangeComment"
+                    @if($loggedInUser->userHasAccessToCRUDMentorshipSessions()
+                        || $loggedInUser->userHasAccessToOnlyEditStatusForMentorshipSessions())
+                        style="margin-top: 10px;"
+                    @endif>
                         <!-- Session Status Change Comment -->
                         <div class="col-md-3 col-xs-3 margin-top-5">
                             <div class="selectorTitle">{{trans('messages.session_status_change_reason')}}</div>

@@ -6,7 +6,7 @@
     </div>
     @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
     @include('mentorship_session.modals.matching_modal_edit', ['isCreatingNewSession' => false])
-    @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+    @if($loggedInUser->userHasAccessToCRUDMentorshipSessions())
         @include('mentorship_session.modals.delete')
     @endif
 @endsection

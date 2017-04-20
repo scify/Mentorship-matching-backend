@@ -265,8 +265,13 @@
             </div>
         </div>
     </div>
-    @include('mentorship_session.modals.matching_modal_create', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => true])
-    @include('mentorship_session.modals.matching_modal_edit', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => false])
+    @if($loggedInUser->userHasAccessToCRUDMentorshipSessions())
+        @include('mentorship_session.modals.matching_modal_create', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => true])
+        @include('mentorship_session.modals.matching_modal_edit', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => false])
+        @include('mentorship_session.modals.delete')
+    @elseif($loggedInUser->userHasAccessToOnlyEditStatusForMentorshipSessions())
+        @include('mentorship_session.modals.matching_modal_edit', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => false])
+    @endif
     @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
 @endsection
 @section('additionalFooter')

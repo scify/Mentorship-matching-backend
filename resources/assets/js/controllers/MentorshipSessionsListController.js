@@ -97,8 +97,8 @@ window.MentorshipSessionsListController.prototype = function() {
                 $("#mentorshipSessionShowModal #history .timeline").html(responseObj.data);
             }
         },
-        editSessionModalHandler = function() {
-            $("body").on("click", ".editSessionBtn", function() {
+        editSessionModalHandler = function(parentDiv) {
+            $("body").on("click", parentDiv + " .editSessionBtn", function() {
                 var $siblingVisibleAnchor = $(this).siblings("a.visible");
                 var sessionId = $siblingVisibleAnchor.data("sessionid");
                 var mentorId = $siblingVisibleAnchor.data("mentorid");
@@ -110,6 +110,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
                 var $modal = $("#matchMentorModalEdit");
                 $modal.modal("toggle");
+                $modal.find(".sessionStatusChangeComment").css("display", "none");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
@@ -129,8 +130,9 @@ window.MentorshipSessionsListController.prototype = function() {
                 displayCorrectlyStatusesAccordingToPreselectedStatus($modal.find("select[name=status_id]"));
             });
         },
-        deleteSessionModalHandler = function() {
-            $("body").on("click", ".deleteSessionBtn", function () {
+        deleteSessionModalHandler = function(parentDiv) {
+            $("body").on("click", parentDiv + " .deleteSessionBtn", function () {
+                console.log("Called with: " + parentDiv + " .deleteSessionBtn");
                 var $siblingVisibleAnchor = $(this).siblings("a.visible");
                 var sessionId = $siblingVisibleAnchor.data("sessionid");
                 var $modal = $("#deleteMentorshipSessionModal");
@@ -326,8 +328,8 @@ window.MentorshipSessionsListController.prototype = function() {
             mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
             initSelectInputs();
             sessionInfoModalHandler(parentDiv);
-            editSessionModalHandler();
-            deleteSessionModalHandler();
+            editSessionModalHandler(parentDiv);
+            deleteSessionModalHandler(parentDiv);
             submitValidationHandler();
             statusChangeHandler();
             searchBtnHandler(parentDiv);

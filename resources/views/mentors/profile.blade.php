@@ -296,8 +296,13 @@
             </div>
         </div>
     </div>
-    @include('mentorship_session.modals.matching_modal_create', ['mentorViewModel' => $mentorViewModel, 'isCreatingNewSession' => true])
-    @include('mentorship_session.modals.matching_modal_edit', ['mentorViewModel' => $mentorViewModel, 'isCreatingNewSession' => false])
+    @if($loggedInUser->userHasAccessToCRUDMentorshipSessions())
+        @include('mentorship_session.modals.matching_modal_create', ['mentorViewModel' => $mentorViewModel, 'isCreatingNewSession' => true])
+        @include('mentorship_session.modals.matching_modal_edit', ['mentorViewModel' => $mentorViewModel, 'isCreatingNewSession' => false])
+        @include('mentorship_session.modals.delete')
+    @elseif($loggedInUser->userHasAccessToOnlyEditStatusForMentorshipSessions())
+        @include('mentorship_session.modals.matching_modal_edit', ['mentorViewModel' => $mentorViewModel, 'isCreatingNewSession' => false])
+    @endif
     @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
 @endsection
 @section('additionalFooter')
