@@ -497,7 +497,7 @@ class MentorshipSessionManager
     }
 
     /**
-     * Returns the last active session view model
+     * Returns the last session view model
      *
      * @param $id integer The mentor's profile id
      * @return mixed
@@ -517,7 +517,7 @@ class MentorshipSessionManager
     }
 
     /**
-     * Returns the last active session view model
+     * Returns the last session view model
      *
      * @param $id integer The mentee's profile id
      * @return mixed
