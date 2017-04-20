@@ -477,11 +477,21 @@ class MentorManager {
      */
     public function makeMentorAvailable($id, $email) {
         $mentor = $this->getMentor($id);
-        if ($mentor->email === $email) {
-            $this->editMentor(['status_id' => 1], $id);
-            return true;
+        $mentorshipSessionManager = new MentorshipSessionManager();
+        $currentSession = $mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($mentor->id);
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        if($mentor->email === $email) {
+            // mentor shouldn't be already available or participating in an active session
+            if($mentor->status_id !== 1 && $currentSession != null
+            && array_search($currentSession[0]->mentorshipSession->status_id,
+                $mentorshipSessionStatuses::getActiveSessionStatuses()) === false
+            ) {
+                $this->editMentor(['status_id' => 1], $id);
+                return "SUCCESS";
+            }
+            return "NO_PERMISSION";
         } else {
-            return false;
+            return "NOT_FOUND";
         }
     }
 }

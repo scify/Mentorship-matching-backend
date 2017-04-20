@@ -354,14 +354,20 @@ class MentorController extends Controller
     public function makeMentorAvailableAgain($id, $email) {
         $viewTitle = "Availability Status Change";
         try {
-            if($this->mentorManager->makeMentorAvailable($id, $email)) {
+            $resultStatusCode = $this->mentorManager->makeMentorAvailable($id, $email);
+            if($resultStatusCode === "SUCCESS") {
                 return view('common.response-to-email')->with([
                     'message_success' => 'Your status has been successfully changed',
                     'title' => $viewTitle
                 ]);
-            } else {
+            } else if($resultStatusCode === "NOT_FOUND") {
                 return view('common.response-to-email')->with([
                     'message_failure' => 'Mentor not found',
+                    'title' => $viewTitle
+                ]);
+            } else {
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'You have no permission to do that',
                     'title' => $viewTitle
                 ]);
             }
