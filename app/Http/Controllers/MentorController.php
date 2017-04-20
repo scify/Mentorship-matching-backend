@@ -238,7 +238,8 @@ class MentorController extends Controller
             'skills' => 'required',
             'specialties' => 'required',
             'industries' => 'required',
-            'status_id' => 'required'
+            'status_id' => 'required',
+            'cv_file' => 'file',
         ]);
 
         $input = $request->all();
@@ -285,7 +286,8 @@ class MentorController extends Controller
             'skills' => 'required',
             'specialties' => 'required',
             'industries' => 'required',
-            'status_id' => 'required'
+            'status_id' => 'required',
+            'cv_file' => 'file',
         ]);
 
         $input = $request->all();

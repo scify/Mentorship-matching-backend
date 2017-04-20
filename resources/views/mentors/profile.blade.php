@@ -170,6 +170,16 @@
                                                 <div class="col-md-9">{{$mentorViewModel->mentor->university_department_name}}</div>
                                             </div><!--.row-->
                                         @endif
+                                        @if(!empty($mentorViewModel->mentor->cv_file_name))
+                                            <div class="formRow row">
+                                                <div class="col-md-3 formElementName">{{trans('messages.cv')}}</div>
+                                                <div class="col-md-9">
+                                                    <a href="{{ url('/') . '/uploads/cv_files/' . $mentorViewModel->mentor->cv_file_name}}" target="_blank">
+                                                        {{$mentorViewModel->mentor->cv_file_name}}
+                                                    </a>
+                                                </div>
+                                            </div><!--.row-->
+                                        @endif
                                     </div>
                                 </div><!--.panel-->
                             </div>

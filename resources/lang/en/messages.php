@@ -94,4 +94,6 @@ return [
     'match' => 'Match',
     'general_comment' => 'General Comment',
     'current_session' => 'Current session',
+    'upload_cv' => 'Upload a CV',
+    'cv' => 'Curriculum vitae',
 ];
