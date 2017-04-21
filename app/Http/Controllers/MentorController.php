@@ -245,7 +245,9 @@ class MentorController extends Controller
         $input = $request->all();
 
         try {
-            $this->mentorManager->createMentor($input);
+            // checks if cv is valid and passes it as a parameter
+            $this->mentorManager->createMentor($input,
+                ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? $request->cv_file : null);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();

@@ -86,17 +86,16 @@ class MentorManager {
      * Creates a @see MentorProfile resource
      *
      * @param array $inputFields the fields to assign to the mentor
+     * @param UploadedFile $cv_file the uploaded cv
      */
-    public function createMentor(array $inputFields) {
+    public function createMentor(array $inputFields, UploadedFile $cv_file) {
         $loggedInUser = Auth::user();
         if($loggedInUser != null)
             $inputFields['creator_user_id'] = $loggedInUser->id;
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])){
-            if (($inputFields['cv_file'])->isValid()) {
-                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-                $inputFields['cv_file_name'] = $fileName;
-            }
+        if(!empty($cv_file)){
+            $fileName = $this->saveCVFile($cv_file, $inputFields['email']);
+            $inputFields['cv_file_name'] = $fileName;
         }
         $mentorProfile = new MentorProfile();
         $mentorProfile = $this->assignInputFieldsToMentorProfile($mentorProfile, $inputFields);
@@ -114,8 +113,9 @@ class MentorManager {
      *
      * @param array $inputFields the fields to assign to the mentor
      * @param $id int the id of the mentor profile
+     * @param UploadedFile $cv_file the uploaded cv
      */
-    public function editMentor(array $inputFields, $id) {
+    public function editMentor(array $inputFields, $id, UploadedFile $cv_file) {
         if(isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = "";
         }
@@ -124,11 +124,9 @@ class MentorManager {
             $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
         }
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])) {
-            if(($inputFields['cv_file'])->isValid()) {
-                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-                $inputFields['cv_file_name'] = $fileName;
-            }
+        if(!empty($cv_file)){
+            $fileName = $this->saveCVFile($cv_file, $inputFields['email']);
+            $inputFields['cv_file_name'] = $fileName;
         }
         $mentor = $this->getMentor($id);
         $oldStatusId = $mentor->status_id;
