@@ -84,9 +84,11 @@ class MenteeManager {
             $inputFields['creator_user_id'] = $loggedInUser->id;
         }
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && ($inputFields['cv_file'])->isValid()) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-            $inputFields['cv_file_name'] = $fileName;
+        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])) {
+            if(($inputFields['cv_file'])->isValid()) {
+                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+                $inputFields['cv_file_name'] = $fileName;
+            }
         }
         $menteeProfile = new MenteeProfile();
         $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields);
@@ -126,9 +128,11 @@ class MenteeManager {
             $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
         }
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && ($inputFields['cv_file'])->isValid()) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-            $inputFields['cv_file_name'] = $fileName;
+        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])) {
+            if(($inputFields['cv_file'])->isValid()) {
+                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+                $inputFields['cv_file_name'] = $fileName;
+            }
         }
         $mentee = $this->getMentee($id);
         $oldStatusId = $mentee->status_id;

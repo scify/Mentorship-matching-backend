@@ -92,9 +92,11 @@ class MentorManager {
         if($loggedInUser != null)
             $inputFields['creator_user_id'] = $loggedInUser->id;
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && ($inputFields['cv_file'])->isValid()) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-            $inputFields['cv_file_name'] = $fileName;
+        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])){
+            if (($inputFields['cv_file'])->isValid()) {
+                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+                $inputFields['cv_file_name'] = $fileName;
+            }
         }
         $mentorProfile = new MentorProfile();
         $mentorProfile = $this->assignInputFieldsToMentorProfile($mentorProfile, $inputFields);
@@ -122,9 +124,11 @@ class MentorManager {
             $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
         }
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && ($inputFields['cv_file'])->isValid()) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-            $inputFields['cv_file_name'] = $fileName;
+        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])) {
+            if(($inputFields['cv_file'])->isValid()) {
+                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+                $inputFields['cv_file_name'] = $fileName;
+            }
         }
         $mentor = $this->getMentor($id);
         $oldStatusId = $mentor->status_id;
