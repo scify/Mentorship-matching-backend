@@ -5,6 +5,7 @@ window.MentorshipSessionsListController.prototype = function() {
     var mentorsAndMenteesListsCssCorrector,
         mentorshipSessionsCriteria = {},
         sessionStatusId,
+        isFirstInit = true, // checks whether the init function runs for the first time or not
         sessionInfoModalHandler = function(parentDiv) {
             $("body").on("click", parentDiv + " #mentorshipSessionsList .singleItem > .visible", function() {
                 var mentorId = $(this).data("mentorid");
@@ -301,19 +302,19 @@ window.MentorshipSessionsListController.prototype = function() {
             }
         },
         submitValidationHandler = function() {
-            $("#matchMentorModal form").submit(function() {
+            $("#matchMentorModal form, #matchMentorModalEdit form").submit(function() {
                 var numberOfValidationErrors = 0;
                 // if an account manager exists and is not set, display error message and do not submit
-                if($(this).find("select[name=account_manager_id]").length > 0 && $(this).find("select[name=account_manager_id]").val() === "") {
+                if ($(this).find("select[name=account_manager_id]").length > 0 && $(this).find("select[name=account_manager_id]").val() === "") {
                     toastr.error("Please select an account manager from the list.");
                     numberOfValidationErrors++;
                 }
                 // if a session status is not set, display error message and do not submit
-                if($(this).find("select[name=status_id]").val() === "") {
+                if ($(this).find("select[name=status_id]").val() === "") {
                     toastr.error("Please select a session status from the list.");
                     numberOfValidationErrors++;
                 }
-                if(numberOfValidationErrors > 0) {
+                if (numberOfValidationErrors > 0) {
                     return false;
                 }
             });
@@ -326,14 +327,21 @@ window.MentorshipSessionsListController.prototype = function() {
         init = function(parentDiv) {
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
             mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
-            initSelectInputs();
             sessionInfoModalHandler(parentDiv);
             editSessionModalHandler(parentDiv);
             deleteSessionModalHandler(parentDiv);
-            submitValidationHandler();
-            statusChangeHandler();
             searchBtnHandler(parentDiv);
             clearSearchBtnHandler(parentDiv);
+            // run only once this function
+            if(isFirstInit) {
+                initNonParentSpecificHandlers();
+                isFirstInit = false;
+            }
+        },
+        initNonParentSpecificHandlers = function() {
+            initSelectInputs();
+            submitValidationHandler();
+            statusChangeHandler();
             deleteHistoryHandler();
         };
     return {
