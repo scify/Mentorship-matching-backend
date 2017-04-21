@@ -55,7 +55,7 @@
 
 
   .secondItem {
-    right:65px !important;
+    left: 65px !important;
   }
 
   .editIcon {
@@ -72,11 +72,14 @@
 }
 
 .list-material.has-hidden > .twoActionButtons:hover a.visible {
-  -webkit-transform: translate3d(-125px, 0, 0);
-  transform: translate3d(-125px, 0, 0);
+  -webkit-transform: translate3d(130px, 0, 0);
+  transform: translate3d(130px, 0, 0);
 }
 
-
+.list-material > li a.hidden {
+  right: unset;
+  left: 0;
+}
 
 .list-material.has-hidden > li:hover a.no-slide-left {
   -webkit-transform: none;
@@ -101,4 +104,9 @@
 /* Transition to a bigger shadow on hover */
 .singleItem:hover {
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.list-material.has-hidden > li:hover a.visible {
+  -webkit-transform: translate3d(65px, 0, 0);
+  transform: translate3d(65px, 0, 0);
 }
