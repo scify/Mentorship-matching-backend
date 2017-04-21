@@ -7,7 +7,6 @@ window.MatchingController.prototype = function () {
                 e.stopPropagation();
                 var menteeId = $(this).attr("data-menteeId");
                 var menteeFullName = $(this).attr("data-userName");
-                console.log(menteeId);
                 $('#matchMentorModal').modal('toggle');
                 $('#matchMentorModal').find('input[name="mentee_profile_id"]').val(menteeId);
                 $('#menteeFullName').html(menteeFullName);
@@ -18,7 +17,6 @@ window.MatchingController.prototype = function () {
                 e.stopPropagation();
                 var mentorId = $(this).attr("data-mentorId");
                 var mentorFullName = $(this).attr("data-userName");
-                console.log(mentorId);
                 $('#matchMentorModal').modal('toggle');
                 $('#matchMentorModal').find('input[name="mentor_profile_id"]').val(mentorId);
                 $('#mentorFullName').html(mentorFullName);

@@ -14,7 +14,6 @@ window.UsersListController.prototype = function () {
             $("#searchBtn").on("click", function (e) {
                 var roleId = $('select[name=user_role]').val();
                 var userName = $('input[name=userName]').val();
-                console.log("search triggered for role: " + roleId + " and name: " + userName);
                 getUsersByFilter(roleId, userName);
             });
         },
@@ -38,7 +37,6 @@ window.UsersListController.prototype = function () {
             $("body").on("click", ".deactivateUserBtn", function (e) {
                 e.stopPropagation();
                 var userId = $(this).attr("data-userId");
-                console.log(userId);
                 $('#deactivateUserModal').modal('toggle');
                 $('#deactivateUserModal').find('input[name="user_id"]').val(userId);
             });

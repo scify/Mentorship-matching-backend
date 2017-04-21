@@ -133,7 +133,6 @@ window.MentorshipSessionsListController.prototype = function() {
         },
         deleteSessionModalHandler = function(parentDiv) {
             $("body").on("click", parentDiv + " .deleteSessionBtn", function () {
-                console.log("Called with: " + parentDiv + " .deleteSessionBtn");
                 var $siblingVisibleAnchor = $(this).siblings("a.visible");
                 var sessionId = $siblingVisibleAnchor.data("sessionid");
                 var $modal = $("#deleteMentorshipSessionModal");

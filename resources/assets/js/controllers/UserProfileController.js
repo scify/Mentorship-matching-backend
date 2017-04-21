@@ -12,8 +12,6 @@ window.UserProfileController.prototype = function () {
             $("#capacityEditSubmitBtn").click(function(){
                 var newCapacity = $('input[name=capacity]').val();
                 var userId = $(this).attr("data-userId");
-                console.log("userId: " + userId);
-                console.log("newCapacity: " + newCapacity);
                 if(newCapacity < 0) {
                     parseErrorData("Capacity cannot be less than 0.");
                     return;
@@ -46,7 +44,6 @@ window.UserProfileController.prototype = function () {
         },
         parseSuccessData = function(response, newCapacity) {
             var responseObj = JSON.parse(response);
-            console.log(responseObj);
             //if operation was unsuccessful
             if (responseObj.status == 2) {
                 $(".loader").addClass('hidden');
