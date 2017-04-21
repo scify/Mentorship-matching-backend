@@ -78,17 +78,15 @@ class MenteeManager {
         return $fullFileName;
     }
 
-    public function createMentee(array $inputFields) {
+    public function createMentee(array $inputFields, $isCvFileExistent) {
         $loggedInUser = Auth::user();
         if($loggedInUser != null) {
             $inputFields['creator_user_id'] = $loggedInUser->id;
         }
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])) {
-            if(($inputFields['cv_file'])->isValid()) {
-                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-                $inputFields['cv_file_name'] = $fileName;
-            }
+        if($isCvFileExistent){
+            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+            $inputFields['cv_file_name'] = $fileName;
         }
         $menteeProfile = new MenteeProfile();
         $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields);
@@ -119,7 +117,7 @@ class MenteeManager {
         return $mentee;
     }
 
-    public function editMentee(array $inputFields, $id) {
+    public function editMentee(array $inputFields, $id, $isCvFileExistent) {
         if(isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = "";
         }
@@ -128,11 +126,9 @@ class MenteeManager {
             $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
         }
         // store the file and put the file's name to the DB
-        if(isset($inputFields['cv_file']) && !empty($inputFields['cv_file'])) {
-            if(($inputFields['cv_file'])->isValid()) {
-                $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
-                $inputFields['cv_file_name'] = $fileName;
-            }
+        if($isCvFileExistent){
+            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+            $inputFields['cv_file_name'] = $fileName;
         }
         $mentee = $this->getMentee($id);
         $oldStatusId = $mentee->status_id;

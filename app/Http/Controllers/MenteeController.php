@@ -167,7 +167,8 @@ class MenteeController extends Controller
         $input = $request->all();
 
         try {
-            $this->menteeManager->createMentee($input);
+            $this->menteeManager->createMentee($input,
+                ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();
@@ -239,7 +240,8 @@ class MenteeController extends Controller
 
         $input = $request->all();
         try {
-            $this->menteeManager->editMentee($input, $id);
+            $this->menteeManager->editMentee($input, $id,
+                ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();

@@ -245,9 +245,9 @@ class MentorController extends Controller
         $input = $request->all();
 
         try {
-            // checks if cv is valid and passes it as a parameter
+            // checks if cv is valid and pass a parameter that shows if a cv file exists
             $this->mentorManager->createMentor($input,
-                ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? $request->cv_file : null);
+                ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();
@@ -294,7 +294,8 @@ class MentorController extends Controller
 
         $input = $request->all();
         try {
-            $this->mentorManager->editMentor($input, $id);
+            $this->mentorManager->editMentor($input, $id,
+                ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back()->withInput();
