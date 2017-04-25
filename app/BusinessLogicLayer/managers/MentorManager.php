@@ -97,6 +97,7 @@ class MentorManager {
             $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
             $inputFields['cv_file_name'] = $fileName;
         }
+        $inputFields['company_id'] = $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']);
         $mentorProfile = new MentorProfile();
         $mentorProfile = $this->assignInputFieldsToMentorProfile($mentorProfile, $inputFields);
 
