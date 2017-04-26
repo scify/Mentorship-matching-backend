@@ -131,6 +131,9 @@ class MentorManager {
         }
         $mentor = $this->getMentor($id);
         $oldStatusId = $mentor->status_id;
+        if(isset($inputFields['company_id'])) {
+            $inputFields['company_id'] = $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']);
+        }
         $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);
         $mentorStatusHistoryManager = new MentorStatusHistoryManager();
         $loggedInUser = Auth::user();
@@ -150,7 +153,7 @@ class MentorManager {
                         $inputFields['follow_up_date'] : null, $loggedInUser);
             }
             if(isset($inputFields['company_id'])) {
-                $this->handleMentorCompany($mentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
+                $this->handleMentorCompany($mentor, $inputFields['company_id']);
             }
         });
     }
@@ -232,6 +235,8 @@ class MentorManager {
     public function deleteMentor($mentorId) {
         DB::transaction(function() use($mentorId) {
             $mentor = $this->getMentor($mentorId);
+            $mentor->company_id = null;
+            $this->mentorStorage->saveMentor($mentor);
             $this->mentorStorage->deleteMentor($mentor);
         });
     }
