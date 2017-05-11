@@ -241,6 +241,9 @@ class MentorshipSessionManager
         DB::transaction(function() use($input) {
             $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
             $this->mentorshipSessionStorage->deleteMentorshipSession($mentorshipSession);
+            //mentor and mentee should become available again
+            $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorshipSession->mentor->id, $mentorshipSession->mentee->id);
+            //reduce the active mentorship sessions for account manager?
         });
     }
 
@@ -400,6 +403,8 @@ class MentorshipSessionManager
             $this->editMentorshipSession([
                 'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
             ]);
+            //mentor and mentee should become available again
+            $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorshipSession->mentor->id, $mentorshipSession->mentee->id);
             return true;
         } else {
             return false;
@@ -472,6 +477,8 @@ class MentorshipSessionManager
             $this->editMentorshipSession([
                 'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId
             ]);
+            //mentor and mentee should become available again
+            $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorshipSession->mentor->id, $mentorshipSession->mentee->id);
             return true;
         } else {
             return false;
