@@ -509,8 +509,12 @@ class MentorshipSessionManager
         $rawQueryStorage = new RawQueryStorage();
         $results = $rawQueryStorage->performRawQuery($dbQuery);
         if(!empty($results)) {
-            $lastSessionId = $rawQueryStorage->performRawQuery($dbQuery)[0]->last_session_id;
-            return collect([new MentorshipSessionViewModel($this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId))]);
+            $lastSessionId = $results[0]->last_session_id;
+            $lastMentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId);
+            if($lastMentorshipSession != null)
+                return collect([new MentorshipSessionViewModel($lastMentorshipSession)]);
+            else
+                return null;
         } else {
             return null;
         }
@@ -529,8 +533,12 @@ class MentorshipSessionManager
         $rawQueryStorage = new RawQueryStorage();
         $results = $rawQueryStorage->performRawQuery($dbQuery);
         if(!empty($results)) {
-            $lastSessionId = $rawQueryStorage->performRawQuery($dbQuery)[0]->last_session_id;
-            return collect([new MentorshipSessionViewModel($this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId))]);
+            $lastSessionId = $results[0]->last_session_id;
+            $lastMentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId);
+            if($lastMentorshipSession != null)
+                return collect([new MentorshipSessionViewModel($lastMentorshipSession)]);
+            else
+                return null;
         } else {
             return null;
         }

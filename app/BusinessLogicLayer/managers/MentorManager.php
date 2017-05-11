@@ -116,7 +116,7 @@ class MentorManager {
      * @param $id int the id of the mentor profile
      * @param $isCvFileExistent boolean it defines whether the cv file exists or not
      */
-    public function editMentor(array $inputFields, $id, $isCvFileExistent) {
+    public function editMentor(array $inputFields, $id, $isCvFileExistent = false) {
         if(isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = "";
         }

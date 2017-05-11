@@ -90,7 +90,7 @@
 }
 
 .content .alert {
-  z-index: 100000;
+  z-index: 1000;
 }
 
 .page-header {
@@ -306,7 +306,6 @@
   right: 100px;
   position: absolute;
   width: auto;
-  z-index: 1;
 }
 
 .navbar{

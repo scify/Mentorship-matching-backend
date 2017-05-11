@@ -117,7 +117,7 @@ class MenteeManager {
         return $mentee;
     }
 
-    public function editMentee(array $inputFields, $id, $isCvFileExistent) {
+    public function editMentee(array $inputFields, $id, $isCvFileExistent = false) {
         if(isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = "";
         }
