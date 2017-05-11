@@ -68,7 +68,8 @@ class UserStorage {
 									where msh.status_id  in (" . implode(",", $mentorshipSessionStatuses::getActiveSessionStatuses()) . ")
 
                                 ) as NonCompletedSessions on ms.id = NonCompletedSessions.mentorship_session_id
-                            group by ms.account_manager_id
+                            where ms.deleted_at is not null 
+                            group by ms.account_manager_id 
                          ) as activeAccountManagerSessions on activeAccountManagerSessions.account_manager_id = ur.user_id
             where ur.role_id = 3 
         ");
