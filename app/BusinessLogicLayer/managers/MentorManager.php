@@ -12,6 +12,7 @@ namespace App\BusinessLogicLayer\managers;
 use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
 use App\Models\viewmodels\MentorViewModel;
+use App\Notifications\MentorRegistered;
 use App\StorageLayer\MentorStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
@@ -103,6 +104,8 @@ class MentorManager {
 
         DB::transaction(function() use($mentorProfile, $inputFields) {
             $newMentor = $this->mentorStorage->saveMentor($mentorProfile);
+            //send welcome email to mentor
+            $newMentor->notify(new MentorRegistered());
             $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
             $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
             $this->handleMentorCompany($newMentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
