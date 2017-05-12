@@ -718,7 +718,7 @@
 
 .companyCard {
   .card {
-    height: 300px;
+    height: 320px;
     overflow-y: auto;
   }
 }
@@ -789,6 +789,26 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+    }
+  }
+}
+
+.companyCard {
+  .tab-content {
+    height: 250px;
+  }
+  .card-footer {
+    height: 65px;
+    position: relative;
+
+    .companyAccManager {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+
+      h6 {
+        margin-bottom: 0;
+      }
     }
   }
 }

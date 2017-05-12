@@ -77,11 +77,13 @@
         </div><!--.card-body-->
         <div class="card-footer">
             @if($companyViewModel->company->accountManager != null)
-                <div class="companyAttrsList"><b>{{trans('messages.company_account_manager')}}: </b>
+                <div class="companyAccManager"><b>{{trans('messages.company_account_manager')}}: </b>
                     <a href="{{route('showUserProfile', $companyViewModel->company->accountManager->id)}}">{{$companyViewModel->company->accountManager->first_name . ' ' . $companyViewModel->company->accountManager->last_name}}</a>
                 </div>
             @else
-                <h6>{{trans('messages.company_no_account_manager')}}</h6>
+                <div class="companyAccManager">
+                    <h6>{{trans('messages.company_no_account_manager')}}</h6>
+                </div>
             @endif
         </div><!--.card-footer-->
     </div><!--.card-->
