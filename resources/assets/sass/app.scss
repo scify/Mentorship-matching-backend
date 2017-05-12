@@ -777,6 +777,22 @@
   font-size: smaller;
 }
 
+.card-user {
+  .card-body {
+    height: 180px;
+  }
+  .card-footer {
+    height: 65px;
+    position: relative;
+    
+    .roles {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
 /* change mentor / mentee status modal */
 #editMentorStatusModal, #editMenteeStatusModal {
   .btn-primary {
