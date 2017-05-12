@@ -4,10 +4,11 @@ namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class MenteeProfile extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Notifiable;
     /**
      * The table associated with the model.
      *
