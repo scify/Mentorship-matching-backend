@@ -372,7 +372,7 @@
                                         </div>
                                     </div>
                                 @elseif($loggedInUser->isAdmin())
-                                    <div class="row margin-top-10">
+                                    <div class="row margin-top-40">
                                         <!-- CV upload -->
                                         <div class="col-md-2">
                                             <div class="file-input-label">
