@@ -92,7 +92,7 @@ class CompanyManager {
                 if($accountManagerId != $company->account_manager_id) {
                     $userManager = new UserManager();
                     $user = $userManager->getUser($accountManagerId);
-                    $this->setAccountManagerToCompany($user, $accountManagerId);
+                    $this->setAccountManagerToCompany($user, $company->id);
                 }
             }
         }
