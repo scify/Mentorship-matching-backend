@@ -290,7 +290,7 @@ class MentorController extends Controller
             'specialties' => 'required',
             'industries' => 'required',
             'status_id' => 'required',
-            'cv_file' => 'file',
+            'cv_file' => 'file|mimes:pdf|max:10000',
         ]);
 
         $input = $request->all();

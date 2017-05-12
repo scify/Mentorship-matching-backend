@@ -393,7 +393,7 @@
                                 <!-- CV upload -->
                                 <div class="col-md-2">
                                     <div class="file-input-label">
-                                        <label for="cv_file">{{trans('messages.upload_cv')}}:</label>
+                                        <label for="cv_file">{{trans('messages.upload_cv')}} (.pdf):</label>
                                     </div>
                                 </div>
                                 <div class="col-md-10">

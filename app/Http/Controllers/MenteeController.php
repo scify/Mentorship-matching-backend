@@ -236,7 +236,7 @@ class MenteeController extends Controller
             'specialty_id' => 'required',
             'expectations' => 'required',
             'career_goals' => 'required',
-            'cv_file' => 'file',
+            'cv_file' => 'file|mimes:pdf|max:10000',
         ]);
 
         $input = $request->all();
