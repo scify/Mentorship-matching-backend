@@ -105,6 +105,7 @@ class MentorshipSessionManager
             'Job Pairs | You have been invited to manage a new mentorship session',
             $accountManager->email
         );
+
     }
 
     /**
@@ -114,6 +115,8 @@ class MentorshipSessionManager
      */
     public function editMentorshipSession(array $input) {
         $loggedInUser = Auth::user();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+
         $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
         $input['mentor_profile_id'] = $mentorshipSession->mentor_profile_id;
         $input['mentee_profile_id'] = $mentorshipSession->mentee_profile_id;
@@ -126,7 +129,7 @@ class MentorshipSessionManager
         });
 
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
             $mentor = (new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
             (new MailManager())->sendEmailToSpecificEmail('emails.reactivate-mentor',
@@ -143,7 +146,7 @@ class MentorshipSessionManager
         }
 
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
-        if($mentorshipSession->status_id === $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
+        if($mentorshipSession->status_id == $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
             $mentor = $mentorshipSession->mentor;
             $mentee = $mentorshipSession->mentee;
             $mailManager = new MailManager();
