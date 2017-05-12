@@ -104,8 +104,9 @@ class MentorManager {
 
         DB::transaction(function() use($mentorProfile, $inputFields) {
             $newMentor = $this->mentorStorage->saveMentor($mentorProfile);
-            //send welcome email to mentor
-            $newMentor->notify(new MentorRegistered());
+            //send welcome email to mentor, if the sign up was made through the public form
+            if($inputFields['public_form'] == "true")
+                $newMentor->notify(new MentorRegistered());
             $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
             $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
             $this->handleMentorCompany($newMentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));

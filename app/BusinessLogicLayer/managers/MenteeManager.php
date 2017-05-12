@@ -4,6 +4,7 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MenteeProfile;
 use App\Models\viewmodels\MenteeViewModel;
+use App\Notifications\MenteeRegistered;
 use App\StorageLayer\MenteeStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
@@ -93,6 +94,8 @@ class MenteeManager {
 
         DB::transaction(function() use($menteeProfile, $inputFields) {
             $newMentee = $this->menteeStorage->saveMentee($menteeProfile);
+            if($inputFields['public_form'] == "true")
+                $newMentee->notify(new MenteeRegistered());
         });
     }
 

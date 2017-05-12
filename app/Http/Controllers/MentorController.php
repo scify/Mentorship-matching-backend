@@ -240,6 +240,7 @@ class MentorController extends Controller
             'industries' => 'required',
             'status_id' => 'required',
             'cv_file' => 'file',
+            'public_form' => 'required'
         ]);
 
         $input = $request->all();

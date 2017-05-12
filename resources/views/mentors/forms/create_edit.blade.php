@@ -398,6 +398,7 @@
                                         </div>
                                     </div>
                                 @endif
+                                <input name="public_form" type="hidden" value="{{ $loggedInUser == null ? 'true' : 'false'  }}">
                                 <div class="row">
                                     <div class="col-md-12 submitBtnContainer margin-top-100">
                                         <button type="button" class="btn btn-flat-primary">
