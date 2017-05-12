@@ -7,7 +7,7 @@
         </div><!--.timeline-badge-->
         <span class="timeline-date">@if($historyItem->created_at != null){{$historyItem->created_at->format('d / m / Y')}}@endif</span>
         <div class="timeline-bubble" data-history-id="{{ $historyItem->id }}">
-            @if($loop->last && ($historyItem->user_id === $loggedInUser->id || $loggedInUser->isAdmin()))
+            @if($loop->first && ($historyItem->user_id === $loggedInUser->id || $loggedInUser->isAdmin()))
             <button type="button" class="close delete-from-timeline" aria-label="Delete"><span aria-hidden="true">&times;</span></button>
             @endif
             <h4 class="{{$historyItem->status->title}}">{{$historyItem->status->description}}</h4>

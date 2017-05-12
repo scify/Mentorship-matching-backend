@@ -66,6 +66,6 @@ class MentorshipSession extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function history() {
-        return $this->hasMany(MentorshipSessionHistory::class, 'mentorship_session_id', 'id');
+        return $this->hasMany(MentorshipSessionHistory::class, 'mentorship_session_id', 'id')->orderBy('updated_at', 'desc');
     }
 }
