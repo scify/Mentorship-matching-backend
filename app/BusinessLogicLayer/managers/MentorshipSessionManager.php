@@ -246,7 +246,6 @@ class MentorshipSessionManager
             $this->mentorshipSessionStorage->deleteMentorshipSession($mentorshipSession);
             //mentor and mentee should become available again
             $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorshipSession->mentor->id, $mentorshipSession->mentee->id);
-            //reduce the active mentorship sessions for account manager?
         });
     }
 
