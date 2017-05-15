@@ -33,6 +33,7 @@ class UserController extends Controller
     public function showDashboardForUser() {
         $loggedInUser = Auth::user();
         $mentorshipSessionViewModelsForAccManager = new Collection();
+        $mentorshipSessionsNumForAccManager = 0;
         $mentorViewModels = new Collection();
         $menteeViewModels = new Collection();
         $mentorStatuses = new Collection();
@@ -42,6 +43,7 @@ class UserController extends Controller
         if($loggedInUser->isAccountManager()) {
             $mentorshipSessionManager = new MentorshipSessionManager();
             $mentorshipSessionViewModelsForAccManager = $mentorshipSessionManager->getPendingMentorshipSessionViewModelsForAccountManager($loggedInUser->id);
+            $mentorshipSessionsNumForAccManager = $mentorshipSessionManager->getActiveMentorshipSessionsNumForAccountManager($loggedInUser->id);
             $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
             $accountManagers = $this->userManager->getAccountManagersWithRemainingCapacity();
             $mentorshipSessionStatuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
@@ -66,6 +68,7 @@ class UserController extends Controller
             'mentorStatuses' => $mentorStatuses,
             'mentorViewModels' =>$mentorViewModels,
             'menteeStatuses' => $menteeStatuses,
+            'mentorshipSessionsNumForAccManager' => $mentorshipSessionsNumForAccManager,
             'menteeViewModels' =>$menteeViewModels]);
     }
 

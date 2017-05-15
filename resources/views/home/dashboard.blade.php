@@ -3,16 +3,6 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="panel">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <h4>NOTIFICATIONS</h4>
-                    </div>
-                </div><!--.panel-heading-->
-                <div class="panel-body">
-                    [todo: Usefull shortcuts and notifications can be displayed here]
-                </div>
-            </div>
             @if($loggedInUser->isAccountManager())
                 <div id="pending_mentorship_sessions">
                     <div class="note note-warning note-left-striped">
@@ -29,6 +19,17 @@
                 @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
                     @include('mentorship_session.modals.delete')
                 @endif
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h4>YOUR MENTORSHIP SESSIONS</h4>
+                    </div>
+                </div><!--.panel-heading-->
+                <div class="panel-body">
+                    You manage {{ $mentorshipSessionsNumForAccManager }} mentorship sessions. <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> Click here </a> to view them.
+                </div>
+            </div>
             @endif
         </div>
         @if($loggedInUser->isMatcher())

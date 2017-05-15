@@ -43,7 +43,9 @@ class MentorshipSessionStorage
     }
 
     public function getMentorshipSessionViewModelsForAccountManagerByStatusId($accountManagerId, $mentorshipSessionStatusId) {
-        return MentorshipSession::where(['account_manager_id' => $accountManagerId, 'status_id' => $mentorshipSessionStatusId])->orderBy('updated_at', 'desc')->get();
+        return MentorshipSession::where(['account_manager_id' => $accountManagerId])
+            ->whereIn('status_id', $mentorshipSessionStatusId)
+            ->orderBy('updated_at', 'desc')->get();
     }
 
     public function getMentorshipSessionViewModelsForMatcher($matcherId) {
