@@ -33,8 +33,10 @@ class MentorshipSessionController extends Controller
         $loggedInUser = Auth::user();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'view all';
+        $displayAccountManagerFilter = true;
+        $displayMatcherFilter = true;
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'statuses', 'accountManagers', 'matchers'
+            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'displayAccountManagerFilter', 'displayMatcherFilter'
         ));
     }
 
@@ -114,8 +116,10 @@ class MentorshipSessionController extends Controller
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my mentorship sessions';
+        $displayAccountManagerFilter = false;
+        $displayMatcherFilter = true;
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'statuses', 'accountManagers', 'matchers'
+            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'displayAccountManagerFilter', 'displayMatcherFilter'
         ));
     }
 
@@ -129,8 +133,10 @@ class MentorshipSessionController extends Controller
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my matches';
+        $displayAccountManagerFilter = true;
+        $displayMatcherFilter = false;
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'statuses', 'accountManagers', 'matchers'
+            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'displayAccountManagerFilter', 'displayMatcherFilter'
         ));
     }
 

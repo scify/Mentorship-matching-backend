@@ -59,26 +59,34 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2 filterName">Account Manager</div>
-            <div class="col-md-4">
-                <select data-placeholder="Choose account manager" name="accountManagerId" id="accountManagersSelect" class="chosen-select">
-                    <option><!-- Empty option allows the placeholder to take effect. --><option>
-                    @foreach($accountManagers as $accountManager)
-                        <option value="{{$accountManager->id}}">{{$accountManager->first_name . " " .
-                            $accountManager->last_name}}</option>
-                    @endforeach
-                </select>
-            </div><!--.col-md-6-->
-            <div class="col-md-2 filterName">Matcher</div>
-            <div class="col-md-4">
-                <select data-placeholder="Choose matcher" name="matcherId" id="matcherSelect" class="chosen-select">
-                    <option><!-- Empty option allows the placeholder to take effect. --><option>
-                    @foreach($matchers as $matcher)
-                        <option value="{{$matcher->id}}">{{$matcher->first_name . " " .
+            @if(isset($displayAccountManagerFilter))
+                @if($displayAccountManagerFilter)
+                    <div class="col-md-2 filterName">Account Manager</div>
+                    <div class="col-md-4">
+                        <select data-placeholder="Choose account manager" name="accountManagerId" id="accountManagersSelect" class="chosen-select">
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
+                            @foreach($accountManagers as $accountManager)
+                                <option value="{{$accountManager->id}}">{{$accountManager->first_name . " " .
+                                    $accountManager->last_name}}</option>
+                            @endforeach
+                        </select>
+                    </div><!--.col-md-6-->
+                @endif
+            @endif
+            @if(isset($displayMatcherFilter))
+                @if($displayMatcherFilter)
+                    <div class="col-md-2 filterName">Matcher</div>
+                    <div class="col-md-4">
+                        <select data-placeholder="Choose matcher" name="matcherId" id="matcherSelect" class="chosen-select">
+                            <option><!-- Empty option allows the placeholder to take effect. --><option>
+                            @foreach($matchers as $matcher)
+                                <option value="{{$matcher->id}}">{{$matcher->first_name . " " .
                             $matcher->last_name}}</option>
-                    @endforeach
-                </select>
-            </div><!--.col-md-6-->
+                            @endforeach
+                        </select>
+                    </div><!--.col-md-6-->
+                @endif
+            @endif
         </div>
         <div class="form-buttons">
             <div class="row">

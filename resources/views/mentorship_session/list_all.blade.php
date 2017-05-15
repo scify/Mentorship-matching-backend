@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    @include('mentorship_session.filters')
+    @include('mentorship_session.filters', ['displayAccountManagerFilter' => $displayAccountManagerFilter, 'displayMatcherFilter' => $displayMatcherFilter])
     <div id="mentorship_session_list">
         @include('mentorship_session.list')
     </div>
