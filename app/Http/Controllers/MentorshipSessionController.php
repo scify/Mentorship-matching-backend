@@ -59,9 +59,10 @@ class MentorshipSessionController extends Controller
             $this->mentorshipSessionManager->createMentorshipSession($input);
         } catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+            return back();
         }
         session()->flash('flash_message_success', 'Mentorship session created');
-        return back();
+        return $this->showMentorshipSessionsForMatcher();
     }
 
     /**
@@ -81,9 +82,10 @@ class MentorshipSessionController extends Controller
             $this->mentorshipSessionManager->editMentorshipSession($input);
         } catch(\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+            return back();
         }
         session()->flash('flash_message_success', 'Mentorship session updated');
-        return back();
+        return $this->showMentorshipSessionsForMatcher();
     }
 
     /**
