@@ -12,12 +12,16 @@
                 @endif
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12 col-lg-8">
+                        @if($publicForm)
+                            <div class="col-lg-2">
+                            </div>
+                        @endif
+                        <div class="col-lg-8">
                             <form class="jobPairsForm noInputStyles" method="POST"
                                   action="{{($mentor->id == null ? route('createMentor') : route('editMentor', $mentor->id))}}"
                                   enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                @if($loggedInUser != null)
+                                @if($loggedInUser != null && !$publicForm)
                                     @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
                                         <div class="row">
                                             <div class="col-md-6">
@@ -398,12 +402,14 @@
                                         </div>
                                     </div>
                                 @endif
-                                <input name="public_form" type="hidden" value="{{ $loggedInUser == null ? 'true' : 'false'  }}">
+                                <input name="public_form" type="hidden" value="{{ $publicForm  }}">
                                 <div class="row">
                                     <div class="col-md-12 submitBtnContainer margin-top-100">
-                                        <button type="button" class="btn btn-flat-primary">
-                                            <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllMentors') }}">{{trans('messages.cancel_btn')}}</a>
-                                        </button>
+                                        @if(!$publicForm)
+                                            <button type="button" class="btn btn-flat-primary">
+                                                <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllMentors') }}">{{trans('messages.cancel_btn')}}</a>
+                                            </button>
+                                        @endif
                                         <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple margin-left-10">
                                             {{($mentor->id == null ? trans('messages.create_btn') : trans('messages.edit_btn'))}}
                                         </button>
@@ -411,6 +417,10 @@
                                 </div>
                             </form>
                         </div>
+                        @if($publicForm)
+                            <div class="col-lg-2">
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

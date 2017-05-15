@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <!-- Header -->
+@if( !isset($publicForm))
+    @php($publicForm = false)
+@endif
 @include('common.header.header')
-@if(Auth::check())
+@if(Auth::check() && !$publicForm)
     @include('common.header.navbarVertical', ['user' => \Illuminate\Support\Facades\Auth::user()])
 @endif
 {{--@include('common.header.navbarHorizontal')--}}
-<body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
+<body class="page-header-fixed {{ $publicForm == true ? 'publicForm':'' }}" data-url="{!! URL::to('/') !!}">
 <div class="content">
     <!-- Main content -->
 
@@ -52,7 +55,7 @@
 
 </div>
 <!-- Footer -->
-@if(Auth::check())
+@if(Auth::check() && !$publicForm)
     @include('common.sidebar', ['user' => \Illuminate\Support\Facades\Auth::user()])
 @endif
 @include('common.footer')

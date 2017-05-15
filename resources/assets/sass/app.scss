@@ -884,3 +884,34 @@
 .profilePage a.cv-btn:hover, .profilePage a.cv-btn:focus {
   color: #fff;
 }
+
+.publicForm {
+
+  margin: 0;
+
+  .content {
+    background-color: white;
+  }
+
+  #createMentor {
+    .panel:before {
+      display: none;
+    }
+
+    .alert {
+      position: relative;
+      top:0;
+    }
+  }
+
+  #createMentee {
+    .panel:before {
+      display: none;
+    }
+
+    .alert {
+      position: relative;
+      top: 0;
+    }
+  }
+}

@@ -144,6 +144,7 @@ class MenteeController extends Controller
      */
     public function create(Request $request)
     {
+
         $this->validate($request, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -177,9 +178,10 @@ class MenteeController extends Controller
 
         session()->flash('flash_message_success', 'Mentee created');
         //if logged in user created the mentee, return to "all mentors" page
-        if(Auth::user() != null)
+        if(Auth::user() != null && !$input['public_form'])
             return redirect()->route('showAllMentees');
-        return back();
+        else
+            return back();
 
     }
 

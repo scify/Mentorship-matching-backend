@@ -12,7 +12,11 @@
         @endif
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-12 col-lg-8">
+                @if($publicForm)
+                    <div class="col-lg-2">
+                    </div>
+                @endif
+                <div class="col-lg-8">
                     <form class="jobPairsForm noInputStyles" method="POST"
                           action="{{($mentee->id == null ? route('createMentee') : route('editMentee', $mentee->id))}}"
                           enctype="multipart/form-data">
@@ -415,19 +419,48 @@
                                 </div>
                             </div>
                         @endif
-                        <input name="public_form" type="hidden" value="{{ $loggedInUser == null ? 'true' : 'false'  }}">
+                        <input name="public_form" type="hidden" value="{{ $publicForm  }}">
                         <div class="row">
                             <div class="col-md-12 submitBtnContainer margin-top-100">
-                                <button type="button" class="btn btn-flat-primary">
-                                    <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllMentees') }}">{{trans('messages.cancel_btn')}}</a>
-                                </button>
+                                @if(!$publicForm)
+                                    <button type="button" class="btn btn-flat-primary">
+                                        <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllMentees') }}">{{trans('messages.cancel_btn')}}</a>
+                                    </button>
+                                @endif
                                 <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple margin-left-10">
                                     {{($mentee->id == null ? trans('messages.create_btn') : trans('messages.edit_btn'))}}
                                 </button>
+                                @if($publicForm)
+                                    @if(session('flash_message_success'))
+                                        <div class="alert alert-success alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h4><i class="icon fa fa-check"></i> {{ session('flash_message_success') }}</h4>
+                                        </div>
+                                    @endif
+
+                                    @if(session('flash_message_failure'))
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h4><i class="icon fa fa-ban"></i> {{ session('flash_message_failure') }}</h4>
+                                        </div>
+                                    @endif
+                                    @if (count($errors) > 0)
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            @foreach ($errors->all() as $error)
+                                                <h4><i class="icon fa fa-ban"></i> {{ $error }}</h4>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @endif
                             </div>
                         </div>
                     </form>
                 </div>
+                @if($publicForm)
+                    <div class="col-lg-2">
+                    </div>
+                @endif
             </div>
         </div>
     </div>
