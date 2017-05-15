@@ -51,7 +51,7 @@
     </li>
 @endif
 <li class="{{ (Route::current()->getName() == 'showAllMentorshipSessions') ? 'open' : '' }}">
-    <a href="{{ route('showAllMentorshipSessions') }}"> Mentorship Sessions </a>
+    <a href="{{ route('showAllMentorshipSessions') }}">All Mentorship Sessions </a>
 </li>
 @if($user->isAccountManager())
     <li class="{{ (Route::current()->getName() == 'showMentorshipSessionsForAccountManager') ? 'open' : '' }}">
