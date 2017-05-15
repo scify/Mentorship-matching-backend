@@ -4,16 +4,14 @@
     <div class="row">
         <div class="col-md-12">
             @if($loggedInUser->isAccountManager())
-                <div id="pending_mentorship_sessions">
-                    <div class="note note-warning note-left-striped">
-                        <h4>PENDING MENTORSHIP SESSIONS</h4>
-                        @if($mentorshipSessionViewModelsForAccManager->count() == 0)
-                            No pending Mentorship sessions.
-                        @else
+                @if($mentorshipSessionViewModelsForAccManager->count() > 0)
+                    <div id="pending_mentorship_sessions">
+                        <div class="note note-warning note-left-striped">
+                            <h4>PENDING MENTORSHIP SESSIONS</h4>
                             @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForAccManager])
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @endif
                 @include('mentorship_session.modals.show')
                 @include('mentorship_session.modals.matching_modal_edit', ['statuses' => $mentorshipSessionStatuses])
                 @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
@@ -27,7 +25,11 @@
                     </div>
                 </div><!--.panel-heading-->
                 <div class="panel-body">
-                    You manage {{ $mentorshipSessionsNumForAccManager }} mentorship sessions. <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> Click here </a> to view them.
+                    @if($mentorshipSessionViewModelsForAccManager->count() == 0)
+                        You dont have any mentorship sessions assigned. You can view all sessions <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> here. </a>
+                    @else
+                        You manage {{ $mentorshipSessionsNumForAccManager }} mentorship sessions. <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> Click here </a> to view them.
+                    @endif
                 </div>
             </div>
             @endif

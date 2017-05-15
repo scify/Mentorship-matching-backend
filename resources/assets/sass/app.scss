@@ -893,11 +893,11 @@
     background-color: white;
   }
 
-  #createMentor {
-    :before {
-      display: none;
-    }
+  .panel:before {
+    display: none;
+  }
 
+  #createMentor {
     .alert {
       position: relative;
       top:0;
@@ -905,9 +905,6 @@
   }
 
   #createMentee {
-    :before {
-      display: none;
-    }
 
     .alert {
       position: relative;
