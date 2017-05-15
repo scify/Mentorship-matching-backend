@@ -894,7 +894,7 @@
   }
 
   #createMentor {
-    .panel:before {
+    :before {
       display: none;
     }
 
@@ -905,7 +905,7 @@
   }
 
   #createMentee {
-    .panel:before {
+    :before {
       display: none;
     }
 
