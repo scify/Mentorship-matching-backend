@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="row dashboard">
         <div class="col-md-12">
             @if($loggedInUser->isAccountManager())
                 @if($mentorshipSessionViewModelsForAccManager->count() > 0)
