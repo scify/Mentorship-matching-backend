@@ -71,6 +71,7 @@ class MenteeController extends Controller
     public function showCreateForm(Request $request)
     {
         $input = $request->all();
+        $language = "en";
         if(isset($input['lang'])) {
             $language = $request['lang'];
             App::setLocale($language);
@@ -104,7 +105,7 @@ class MenteeController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
-            'loggedInUser' => Auth::user(),'publicForm' => $publicForm
+            'loggedInUser' => Auth::user(),'publicForm' => $publicForm, 'language' => $language
         ]);
     }
 
@@ -117,7 +118,7 @@ class MenteeController extends Controller
     public function showEditForm($id)
     {
         $mentee = $this->menteeManager->getMentee($id);
-
+        $language = "en";
         $specialties = $this->specialtyManager->getAllSpecialties();
         $residences = $this->residenceManager->getAllResidences();
         $references = $this->referenceManager->getAllReferences();
@@ -132,7 +133,7 @@ class MenteeController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
-            'loggedInUser' => Auth::user(), 'publicForm' => false
+            'loggedInUser' => Auth::user(), 'publicForm' => false, 'language' => $language
         ]);
     }
 
@@ -144,6 +145,11 @@ class MenteeController extends Controller
      */
     public function create(Request $request)
     {
+        $input = $request->all();
+        if(isset($input['lang'])) {
+            $language = $request['lang'];
+            App::setLocale($language);
+        }
 
         $this->validate($request, [
             'first_name' => 'required|max:255',
@@ -164,9 +170,7 @@ class MenteeController extends Controller
             'career_goals' => 'required',
             'cv_file' => 'file|mimes:pdf|max:10000',
             'public_form' => 'required'
-        ]);
-
-        $input = $request->all();
+        ], $this->messages());
 
         try {
             $this->menteeManager->createMentee($input,
@@ -183,6 +187,27 @@ class MenteeController extends Controller
         else
             return back();
 
+    }
+
+    public function messages()
+    {
+        return [
+            'first_name.required' => trans('messages.first_name.required'),
+            'last_name.required' => trans('messages.last_name.required'),
+            'residence_id.required' => trans('messages.residence_id.required'),
+            'email.required' => trans('messages.email.required'),
+            'year_of_birth.required' => trans('messages.year_of_birth.required'),
+            'reference_id.required' => trans('messages.reference_id.required'),
+            'address.required' => trans('messages.address.required'),
+            'education_level_id.required' => trans('messages.education_level_id.required'),
+            'university_id.required' => trans('messages.university_id.required'),
+            'university_department_name.required' => trans('messages.university_department_name.required'),
+            'university_graduation_year.required' => trans('messages.university_graduation_year.required'),
+            'expectations.required' => trans('messages.expectations.required'),
+            'job_experience_years.required' => trans('messages.job_experience_years.required'),
+            'career_goals.required' => trans('messages.career_goals.required'),
+            'specialty_id.required' => trans('messages.specialty.required')
+        ];
     }
 
     /**
@@ -221,6 +246,12 @@ class MenteeController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $input = $request->all();
+        if(isset($input['lang'])) {
+            $language = $request['lang'];
+            App::setLocale($language);
+        }
+
         $this->validate($request, [
             'follow_up_date' => 'max:10|min:8',
             'first_name' => 'required|max:255',
@@ -239,9 +270,8 @@ class MenteeController extends Controller
             'expectations' => 'required',
             'career_goals' => 'required',
             'cv_file' => 'file|mimes:pdf|max:10000',
-        ]);
+        ], $this->messages());
 
-        $input = $request->all();
         try {
             $this->menteeManager->editMentee($input, $id,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);

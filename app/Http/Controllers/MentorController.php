@@ -130,6 +130,7 @@ class MentorController extends Controller
     public function showCreateForm(Request $request)
     {
         $input = $request->all();
+        $language = "en";
         if(isset($input['lang'])) {
             $language = $request['lang'];
             App::setLocale($language);
@@ -171,7 +172,7 @@ class MentorController extends Controller
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
             'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies, 'references' => $references,
-            'mentorStatuses' => $mentorStatuses, 'publicForm' => $publicForm
+            'mentorStatuses' => $mentorStatuses, 'publicForm' => $publicForm, 'language' => $language
         ]);
     }
 
@@ -186,7 +187,7 @@ class MentorController extends Controller
     public function showEditForm($id)
     {
         $pageTitle = 'Edit mentor';
-
+        $language = "en";
         $mentor = $this->mentorManager->getMentor($id);
         $specialties = $this->specialtyManager->getAllSpecialties();
         $industries = $this->industryManager->getAllIndustries();
@@ -208,7 +209,7 @@ class MentorController extends Controller
             'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
             'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies,
-            'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle, 'publicForm' => false
+            'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle, 'publicForm' => false, 'language' => $language
         ]);
     }
 
@@ -220,6 +221,14 @@ class MentorController extends Controller
      */
     public function create(Request $request)
     {
+
+        $input = $request->all();
+
+        if(isset($input['lang'])) {
+            $language = $request['lang'];
+            App::setLocale($language);
+        }
+
         $this->validate($request, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -241,9 +250,8 @@ class MentorController extends Controller
             'status_id' => 'required',
             'cv_file' => 'file|mimes:pdf|max:10000',
             'public_form' => 'required'
-        ]);
+        ], $this->messages());
 
-        $input = $request->all();
 
         try {
             // checks if cv is valid and pass a parameter that shows if a cv file exists
@@ -262,6 +270,29 @@ class MentorController extends Controller
 
     }
 
+    public function messages()
+    {
+        return [
+            'first_name.required' => trans('messages.first_name.required'),
+            'last_name.required' => trans('messages.last_name.required'),
+            'residence_id.required' => trans('messages.residence_id.required'),
+            'email.required' => trans('messages.email.required'),
+            'year_of_birth.required' => trans('messages.year_of_birth.required'),
+            'reference_id.required' => trans('messages.reference_id.required'),
+            'address.required' => trans('messages.address.required'),
+            'education_level_id.required' => trans('messages.education_level_id.required'),
+            'university_id.required' => trans('messages.university_id.required'),
+            'company_id.required' => trans('messages.company_id.required'),
+            'company_sector.required' => trans('messages.company_sector.required'),
+            'job_position.required' => trans('messages.job_position.required'),
+            'job_experience_years.required' => trans('messages.job_experience_years.required'),
+            'skills.required' => trans('messages.skills.required'),
+            'specialties.required' => trans('messages.specialties.required'),
+            'industries.required' => trans('messages.industries.required'),
+            'status_id.required' => trans('messages.status_id.required')
+        ];
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -271,6 +302,12 @@ class MentorController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $input = $request->all();
+        if(isset($input['lang'])) {
+            $language = $request['lang'];
+            App::setLocale($language);
+        }
+
         $this->validate($request, [
             'follow_up_date' => 'max:10|min:8',
             'first_name' => 'required|max:255',
@@ -291,9 +328,8 @@ class MentorController extends Controller
             'industries' => 'required',
             'status_id' => 'required',
             'cv_file' => 'file|mimes:pdf|max:10000',
-        ]);
+        ], $this->messages());
 
-        $input = $request->all();
         try {
             $this->mentorManager->editMentor($input, $id,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
