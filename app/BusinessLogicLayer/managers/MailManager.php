@@ -17,4 +17,10 @@ class MailManager
             $message->to($receiverEmail)->subject($subject);
         });
     }
+
+    public function sendEmailToSpecificEmailWithCC($viewName, $parameters, $subject, $receiverEmail, array $ccEmail) {
+        Mail::send($viewName, $parameters, function($message) use ($subject, $receiverEmail, $ccEmail) {
+            $message->to($receiverEmail)->subject($subject)->cc($ccEmail);
+        });
+    }
 }

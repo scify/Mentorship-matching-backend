@@ -151,13 +151,13 @@ class MentorshipSessionManager
             $mentee = $mentorshipSession->mentee;
             $mailManager = new MailManager();
             // send mail to mentor
-            $mailManager->sendEmailToSpecificEmail('emails.invite-mentor',
+            $mailManager->sendEmailToSpecificEmailWithCC('emails.invite-mentor',
                 ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-                'Job Pairs | You have been matched with a mentee', $mentor->email);
+                'Job Pairs | You have been matched with a mentee', $mentor->email, $mentorshipSession->account_manager->email);
             // send mail to mentee
-            $mailManager->sendEmailToSpecificEmail('emails.invite-mentee',
+            $mailManager->sendEmailToSpecificEmailWithCC('emails.invite-mentee',
                 ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-                'Job Pairs | You have been matched with a mentor', $mentee->email);
+                'Job Pairs | You have been matched with a mentor', $mentee->email, $mentorshipSession->account_manager->email);
         }
     }
 
