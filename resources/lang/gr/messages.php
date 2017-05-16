@@ -100,7 +100,7 @@ return [
     'company_sector.required' => 'Υποχρεωτικό πεδίο',
     'job_position.required' => 'Υποχρεωτικό πεδίο',
     'job_experience_years.required' => 'Υποχρεωτικό πεδίο',
-    'skills.required' => 'Υποχρεωτικό πεδίο',
+    'skills.required' => 'Οι δεξιότητες είναι υποχρεωτικό πεδίο',
     'specialties.required' => 'Υποχρεωτικό πεδίο',
     'industries.required' => 'Υποχρεωτικό πεδίο',
     'status_id.required' => 'Υποχρεωτικό πεδίο',

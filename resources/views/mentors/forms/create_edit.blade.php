@@ -140,7 +140,7 @@
                                                 <div class="input-wrapper">
                                                     <input required type="text" class="form-control" name="address"
                                                            value="{{ old('address') != '' ? old('address') : $mentor['address']}}">
-                                                    <label for="email">{{trans('messages.address')}}</label>
+                                                    <label for="address">{{trans('messages.address')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('address') }}</span>
@@ -168,7 +168,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="phone"
                                                            value="{{ old('phone') != '' ? old('phone') : $mentor['phone']}}">
-                                                    <label for="email">{{trans('messages.phone')}}</label>
+                                                    <label for="phone">{{trans('messages.phone')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -182,7 +182,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="cell_phone"
                                                            value="{{ old('cell_phone') != '' ? old('cell_phone') : $mentor['cell_phone']}}">
-                                                    <label for="email">{{trans('messages.cell_phone')}}</label>
+                                                    <label for="cell_phone">{{trans('messages.cell_phone')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('cell_phone') }}</span>
@@ -223,7 +223,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="university_name"
                                                            value="{{ old('university_name') != '' ? old('university_name') : $mentor['university_name']}}">
-                                                    <label for="email">{{trans('messages.university_name')}}</label>
+                                                    <label for="university_name">{{trans('messages.university_name')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('university_name') }}</span>
@@ -239,7 +239,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="university_department_name"
                                                            value="{{ old('university_department_name') != '' ? old('university_department_name') : $mentor['university_department_name']}}">
-                                                    <label for="email">{{trans('messages.university_department')}}</label>
+                                                    <label for="university_department_name">{{trans('messages.university_department')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('university_department_name') }}</span>
@@ -266,7 +266,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="company_sector"
                                                            value="{{ old('company_sector') != '' ? old('company_sector') : $mentor['company_sector']}}">
-                                                    <label for="email">{{trans('messages.company_sector')}}</label>
+                                                    <label for="company_sector">{{trans('messages.company_sector')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('company_sector') }}</span>
@@ -296,7 +296,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="job_position"
                                                            value="{{ old('job_position') != '' ? old('job_position') : $mentor['job_position']}}">
-                                                    <label for="email">{{trans('messages.job_position')}}</label>
+                                                    <label for="job_position">{{trans('messages.job_position')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('job_position') }}</span>
@@ -310,7 +310,7 @@
                                                 <div class="input-wrapper">
                                                     <input type="text" class="form-control" name="job_experience_years"
                                                            value="{{ old('job_experience_years') != '' ? old('job_experience_years') : $mentor['job_experience_years']}}">
-                                                    <label for="email">{{trans('messages.job_experience_years')}}</label>
+                                                    <label for="job_experience_years">{{trans('messages.job_experience_years')}}</label>
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('job_experience_years') }}</span>

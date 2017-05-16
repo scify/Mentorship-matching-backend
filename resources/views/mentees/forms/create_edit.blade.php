@@ -167,7 +167,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="phone"
                                                    value="{{ old('phone') != '' ? old('phone') : $mentee['phone']}}">
-                                            <label for="email">{{trans('messages.phone')}}</label>
+                                            <label for="phone">{{trans('messages.phone')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('phone') }}</span>
@@ -181,7 +181,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="cell_phone"
                                                    value="{{ old('cell_phone') != '' ? old('cell_phone') : $mentee['cell_phone']}}">
-                                            <label for="email">{{trans('messages.cell_phone')}}</label>
+                                            <label for="cell_phone">{{trans('messages.cell_phone')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('cell_phone') }}</span>
@@ -222,7 +222,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="university_name"
                                                    value="{{ old('university_name') != '' ? old('university_name') : $mentee['university_name']}}">
-                                            <label for="email">{{trans('messages.university_name')}}</label>
+                                            <label for="university_name">{{trans('messages.university_name')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('university_name') }}</span>
@@ -238,7 +238,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="university_department_name"
                                                    value="{{ old('university_department_name') != '' ? old('university_department_name') : $mentee['university_department_name']}}">
-                                            <label for="email">{{trans('messages.university_department')}}</label>
+                                            <label for="university_department_name">{{trans('messages.university_department')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('university_department_name') }}</span>
@@ -252,7 +252,7 @@
                                         <div class="input-wrapper">
                                             <input type="number" class="form-control" name="university_graduation_year"
                                                    value="{{ old('university_graduation_year') != '' ? old('university_graduation_year') : $mentee['university_graduation_year']}}">
-                                            <label for="email">{{trans('messages.university_graduation_year')}}</label>
+                                            <label for="university_graduation_year">{{trans('messages.university_graduation_year')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('university_graduation_year') }}</span>
@@ -268,7 +268,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="linkedin_url"
                                                    value="{{ old('linkedin_url') != '' ? old('linkedin_url') : $mentee['linkedin_url']}}">
-                                            <label for="email">{{trans('messages.linkedin')}}</label>
+                                            <label for="linkedin_url">{{trans('messages.linkedin')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('linkedin_url') }}</span>
@@ -292,7 +292,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="job_description"
                                                    value="{{ old('job_description') != '' ? old('job_description') : $mentee['job_description']}}">
-                                            <label for="email">{{trans('messages.job_description_form')}}</label>
+                                            <label for="job_description">{{trans('messages.job_description_form')}}</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('job_description') }}</span>
@@ -358,9 +358,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 inputer {{ $errors->first('skills')?'has-error has-feedback':'' }}">
+                            <div class="col-md-12">
                                 <!-- Career goals -->
-                                <div class="{{ $errors->first('skills')?'has-error has-feedback':'' }}">
+                                <div class="inputer {{ $errors->first('skills')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
                                             <textarea required class="form-control js-auto-size" rows="2" name="skills">{{ old('skills') != '' ? old('skills') : $mentee['skills']}}</textarea>

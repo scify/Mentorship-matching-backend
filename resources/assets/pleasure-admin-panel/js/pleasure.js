@@ -342,10 +342,12 @@ var Pleasure = {
 		// Find input and textarea elements with "inputer" class
 		$('.inputer').on('keyup', function () {
 			var $formControl = $(this).find('.form-control');
-			if($formControl.val().length > 0)
-				$formControl.addClass('valid');
-			else
-				$formControl.removeClass('valid');
+			if($formControl.val() !== undefined) {
+                if ($formControl.val().length > 0)
+                    $formControl.addClass('valid');
+                else
+                    $formControl.removeClass('valid');
+            }
 		});
 
 		// Add initial valid
