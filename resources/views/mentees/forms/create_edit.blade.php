@@ -81,7 +81,7 @@
                                 <div class="{{ $errors->first('first_name')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input type="text" class="form-control" name="first_name" value="{{ old('first_name') != '' ? old('first_name') : $mentee['first_name']}}">
+                                            <input required type="text" class="form-control" name="first_name" value="{{ old('first_name') != '' ? old('first_name') : $mentee['first_name']}}">
                                             <label for="first_name">{{trans('messages.first_name')}}</label>
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@
                                 <div class="{{ $errors->first('last_name')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input type="text" class="form-control" name="last_name" value="{{ old('last_name') != '' ? old('last_name') : $mentee['last_name']}}">
+                                            <input required type="text" class="form-control" name="last_name" value="{{ old('last_name') != '' ? old('last_name') : $mentee['last_name']}}">
                                             <label for="last_name">{{trans('messages.last_name')}}</label>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                                 <div class="{{ $errors->first('email')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input type="email" class="form-control" name="email"
+                                            <input required type="email" class="form-control" name="email"
                                                    value="{{ old('email') != '' ? old('email') : $mentee['email']}}">
                                             <label for="email">{{trans('messages.email')}}</label>
                                         </div>
@@ -119,10 +119,10 @@
                             </div>
                             <div class="col-md-6">
                                 <!-- Year of birth -->
-                                <div class="{{ $errors->first('year_of_birth')?'has-error has-feedback':'' }}">
+                                <div class="{{ $errors->has('year_of_birth')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input type="number" class="form-control" name="year_of_birth"
+                                            <input required type="number" class="form-control" name="year_of_birth"
                                                    value="{{ old('year_of_birth') != '' ? old('year_of_birth') : $mentee['year_of_birth']}}">
                                             <label for="year_of_birth">{{trans('messages.year_of_birth')}}</label>
                                         </div>
@@ -137,7 +137,7 @@
                                 <div class="{{ $errors->first('address')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input type="text" class="form-control" name="address"
+                                            <input required type="text" class="form-control" name="address"
                                                    value="{{ old('address') != '' ? old('address') : $mentee['address']}}">
                                             <label for="email">{{trans('messages.address')}}</label>
                                         </div>
@@ -146,7 +146,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 inputer {{ $errors->first('residence_id')?'has-error has-feedback':'' }}">
                                 <!-- Residence Area -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.residence')}}</div>
                                 <select data-placeholder="select" name="residence_id" class="chosen-select">
@@ -155,6 +155,7 @@
                                         <option value="{{$residence->id}}" {{$mentee['residence_id'] == $residence->id ? 'selected' : ''}}>{{$residence->name}}</option>
                                     @endforeach
                                 </select>
+                                <span class="help-block">{{ $errors->first('residence_id') }}</span>
                             </div>
 
                         </div>
@@ -189,7 +190,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 inputer {{ $errors->first('education_level_id')?'has-error has-feedback':'' }}">
                                 <!-- Education Level -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.education_level')}}</div>
                                 <select data-placeholder="select" name="education_level_id" class="chosen-select">
@@ -199,8 +200,9 @@
                                                     'selected' : ''}}>{{$educationLevel->name}}</option>
                                     @endforeach
                                 </select>
+                                <span class="help-block">{{ $errors->first('education_level_id') }}</span>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 inputer {{ $errors->first('university_id')?'has-error has-feedback':'' }}">
                                 <!-- University -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.university')}}</div>
                                 <select data-placeholder="select" name="university_id" class="chosen-select" data-show-name-on-id="12">
@@ -209,6 +211,7 @@
                                         <option value="{{$university->id}}" {{$mentee['university_id'] == $university->id ? 'selected' : ''}}>{{$university->name}}</option>
                                     @endforeach
                                 </select>
+                                <span class="help-block">{{ $errors->first('university_id') }}</span>
                             </div>
                         </div>
                         <div class="row universityName" @if(empty($mentee['university_name'])) style="display: none;" @endif>
@@ -298,14 +301,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 inputer {{ $errors->first('specialty_id')?'has-error has-feedback':'' }}">
                                 <div class="selecterTitle form-full-row">{{trans('messages.specialty_form_description')}}</div>
                                 <select data-placeholder="{{trans('messages.choose_specialties')}}" name="specialty_id" class="chosen-select">
                                     @foreach($specialties as $specialty)
                                         <option value="{{$specialty->id}}" {{$specialty->id == $mentee['specialty_id']? 'selected':''}}>{{$specialty->name}}</option>
                                     @endforeach
                                 </select>
-                                <span class="help-block">{{ $errors->first('skills') }}</span>
+                                <span class="help-block">{{ $errors->first('specialty_id') }}</span>
                             </div> <!-- Specialty -->
                         </div>
                         <div class="row">
@@ -325,7 +328,7 @@
 
                         <div class="row">
 
-                            <div class="col-md-12">
+                            <div class="col-md-12 inputer {{ $errors->first('expectations')?'has-error has-feedback':'' }}">
                                 <!-- Expectations -->
                                 <div class="{{ $errors->first('expectations')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
@@ -340,7 +343,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 inputer {{ $errors->first('career_goals')?'has-error has-feedback':'' }}">
                                 <!-- Career goals -->
                                 <div class="{{ $errors->first('career_goals')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
@@ -355,12 +358,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 inputer {{ $errors->first('skills')?'has-error has-feedback':'' }}">
                                 <!-- Career goals -->
                                 <div class="{{ $errors->first('skills')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea class="form-control js-auto-size" rows="2" name="skills">{{ old('skills') != '' ? old('skills') : $mentee['skills']}}</textarea>
+                                            <textarea required class="form-control js-auto-size" rows="2" name="skills">{{ old('skills') != '' ? old('skills') : $mentee['skills']}}</textarea>
                                             <label for="skills">{{trans('messages.skills.capitalAll')}}</label>
                                         </div>
                                     </div>
@@ -370,7 +373,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 inputer {{ $errors->first('reference_id')?'has-error has-feedback':'' }}">
                                 <!-- Reference (where did you hear about us) -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.reference_form')}}</div>
                                 <select data-placeholder="select" name="reference_id" class="chosen-select">
@@ -379,6 +382,7 @@
                                         <option value="{{$reference->id}}" {{$mentee['reference_id'] == $reference->id ? 'selected' : ''}}>{{$reference->name}}</option>
                                     @endforeach
                                 </select>
+                                <span class="help-block">{{ $errors->first('reference_id') }}</span>
                             </div>
                         </div>
                         @if($loggedInUser == null)
@@ -442,14 +446,6 @@
                                         <div class="alert alert-danger alert-dismissable">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                             <h4><i class="icon fa fa-ban"></i> {{ session('flash_message_failure') }}</h4>
-                                        </div>
-                                    @endif
-                                    @if (count($errors) > 0)
-                                        <div class="alert alert-danger alert-dismissable">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            @foreach ($errors->all() as $error)
-                                                <h4><i class="icon fa fa-ban"></i> {{ $error }}</h4>
-                                            @endforeach
                                         </div>
                                     @endif
                                 @endif
