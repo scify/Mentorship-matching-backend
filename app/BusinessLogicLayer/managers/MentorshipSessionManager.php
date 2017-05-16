@@ -201,13 +201,21 @@ class MentorshipSessionManager
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
+    public function getMentorshipSessionsCountForMentor($mentorProfileId) {
+        return $this->mentorshipSessionStorage->getMentorshipSessionsForMentor($mentorProfileId)->count();
+    }
+
+    public function getMentorshipSessionsCountForMentee($menteeProfileId) {
+        return $this->mentorshipSessionStorage->getMentorshipSessionsForMentee($menteeProfileId)->count();
+    }
+
     public function getMentorshipSessionViewModelsForMentor($mentorProfileId) {
-        $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForMentor($mentorProfileId);
+        $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionsForMentor($mentorProfileId);
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getMentorshipSessionViewModelsForMentee($menteeProfileId) {
-        $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForMentee($menteeProfileId);
+        $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionsForMentee($menteeProfileId);
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
@@ -557,4 +565,5 @@ class MentorshipSessionManager
             return null;
         }
     }
+
 }

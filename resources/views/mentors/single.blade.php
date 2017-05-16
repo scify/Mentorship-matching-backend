@@ -36,7 +36,7 @@
                     @if($mentorViewModel->mentor->status != null)
                         <span class="{{$mentorViewModel->mentor->status->status}}"> {{$mentorViewModel->mentor->status->description}}</span>
                     @endif
-                    | 3 mentor sessions
+                    | {{ $mentorViewModel->numberOfTotalSessions }} total sessions
                     @if($mentorViewModel->mentor->created_at!= null)
                         | joined: {{$mentorViewModel->mentor->created_at->diffForHumans()}}
                     @endif

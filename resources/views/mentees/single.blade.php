@@ -28,7 +28,7 @@
                 </span>
                 <span class="caption margin-top-5">
                     <span class="{{$menteeViewModel->mentee->is_employed ? 'green' : 'red'}}"> {{$menteeViewModel->mentee->is_employed ? 'Employed' : 'Unemployed'}}</span>
-                    | 3 mentee sessions
+                    | {{ $menteeViewModel->numberOfTotalSessions }} total sessions
                     @if($menteeViewModel->mentee->created_at!= null)
                         | joined: {{$menteeViewModel->mentee->created_at->diffForHumans()}}
                     @endif

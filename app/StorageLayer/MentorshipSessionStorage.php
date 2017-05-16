@@ -26,11 +26,11 @@ class MentorshipSessionStorage
         return MentorshipSession::orderBy('updated_at', 'desc')->get();
     }
 
-    public function getMentorshipSessionViewModelsForMentor($mentorProfileId) {
+    public function getMentorshipSessionsForMentor($mentorProfileId) {
         return MentorshipSession::where(['mentor_profile_id' => $mentorProfileId])->orderBy('updated_at', 'desc')->get();
     }
 
-    public function getMentorshipSessionViewModelsForMentee($menteeProfileId) {
+    public function getMentorshipSessionsForMentee($menteeProfileId) {
         return MentorshipSession::where(['mentee_profile_id' => $menteeProfileId])->orderBy('updated_at', 'desc')->get();
     }
 
