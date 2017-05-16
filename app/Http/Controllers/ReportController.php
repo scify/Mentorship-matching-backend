@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
+use App\BusinessLogicLayer\managers\UserManager;
 
 class ReportController extends Controller
 {
@@ -31,9 +32,13 @@ class ReportController extends Controller
         $mentorshipSessionsCount = $this->mentorshipSessionManager->getAllMentorshipSessions()->count();
         $activeSessionsCount = $this->mentorshipSessionManager->getAllActiveMentorshipSessions()->count();
         $completedSessionsCount = $this->mentorshipSessionManager->getAllCompletedMentorshipSessions()->count();
+        $userManager = new UserManager();
+        $adminsCount = $userManager->getAllAdmnins()->count();
+        $accountManagersCount = $userManager->getAllAccountManagers()->count();
+        $matchersCount = $userManager->getAllMatchers()->count();
         return view('reports.index', compact(
                 'pageTitle', 'menteesCount', 'mentorsCount', 'mentorshipSessionsCount', 'activeSessionsCount',
-                'completedSessionsCount'
+                'completedSessionsCount', 'adminsCount', 'accountManagersCount', 'matchersCount'
             )
         );
     }

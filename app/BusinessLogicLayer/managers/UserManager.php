@@ -300,4 +300,16 @@ class UserManager {
     public function filterUsersByNameAndEmail($searchQuery) {
         return $this->userStorage->getUsersThatMatchGivenNameOrEmail($searchQuery);
     }
+
+    public function getAllAdmnins() {
+        $userAccessManager = new UserAccessManager();
+        $adminRole = $this->userRoleManager->getRoleById($userAccessManager->ADMINISTRATOR_ROLE_ID);
+        return $adminRole->users;
+    }
+
+    public function getAllMatchers() {
+        $userAccessManager = new UserAccessManager();
+        $matcherRole = $this->userRoleManager->getRoleById($userAccessManager->MATCHER_ROLE_ID);
+        return $matcherRole->users;
+    }
 }
