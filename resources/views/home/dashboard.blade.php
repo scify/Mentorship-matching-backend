@@ -74,6 +74,12 @@
                 </div>
             </div>
         @endif
+        @if($loggedInUser->isAdmin())
+            <div class="col-md-12">
+                <h5>QUICK STATISTICS</h5>
+                @include('reports.platform_reports')
+            </div>
+        @endif
 
     </div>
 
