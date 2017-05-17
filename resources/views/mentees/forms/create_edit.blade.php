@@ -423,7 +423,7 @@
                                 </div>
                             </div>
                         @endif
-                        <input name="public_form" type="hidden" value="{{ $publicForm  }}">
+                        <input name="public_form" type="hidden" value="{{ $publicForm ? 'true' : 'false'  }}">
                         <input name="lang" type="hidden" value="{{ $language  }}">
                         <div class="row">
                             <div class="col-md-12 submitBtnContainer margin-top-100">
