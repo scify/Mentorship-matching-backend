@@ -101,7 +101,7 @@ Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], functi
     Route::get('sessions/myMatches', ['as' => 'showMatchesForMatcher','uses' => 'MentorshipSessionController@showMentorshipSessionsForMatcher']);
 });
 
-Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
+Route::group(['middleware' => ['auth', 'admin', 'account-manager'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
     Route::get('sessions/all', 'MentorshipSessionController@index')->name('showAllMentorshipSessions');
 });
 
