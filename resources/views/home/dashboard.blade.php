@@ -4,11 +4,11 @@
     <div class="row dashboard">
         <div class="col-md-12">
             @if($loggedInUser->isAccountManager())
-                @if($mentorshipSessionViewModelsForAccManager->count() > 0)
+                @if($pendingMentorshipSessionViewModelsForAccManager->count() > 0)
                     <div id="pending_mentorship_sessions">
                         <div class="note note-warning note-left-striped">
                             <h4>PENDING MENTORSHIP SESSIONS</h4>
-                            @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForAccManager])
+                            @include('mentorship_session.list', ['mentorshipSessionViewModels' => $pendingMentorshipSessionViewModelsForAccManager])
                         </div>
                     </div>
                 @endif
@@ -25,10 +25,10 @@
                     </div>
                 </div><!--.panel-heading-->
                 <div class="panel-body">
-                    @if($mentorshipSessionViewModelsForAccManager->count() == 0)
-                        You dont have any mentorship sessions assigned. You can view all sessions <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> here. </a>
+                    @if($pendingMentorshipSessionViewModelsForAccManager->count() == 0)
+                        You dont have any active mentorship sessions assigned. You can view all the sessions you have participated in <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> here. </a>
                     @else
-                        You manage {{ $mentorshipSessionsNumForAccManager }} mentorship sessions. <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> Click here </a> to view them.
+                        You currently manage {{ $mentorshipSessionsNumForAccManager }} mentorship sessions. <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> Click here </a> to view them.
                     @endif
                 </div>
             </div>
