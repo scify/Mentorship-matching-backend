@@ -85,7 +85,7 @@ class MentorshipSessionController extends Controller
             return back();
         }
         session()->flash('flash_message_success', 'Mentorship session updated');
-        return $this->showMentorshipSessionsForMatcher();
+        return redirect()->route('dashboard');
     }
 
     /**
