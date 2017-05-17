@@ -426,7 +426,7 @@
                         <input name="public_form" type="hidden" value="{{ $publicForm ? 'true' : 'false'  }}">
                         <input name="lang" type="hidden" value="{{ $language  }}">
                         <div class="row">
-                            <div class="col-md-12 submitBtnContainer margin-top-100">
+                            <div class="col-md-12 submitBtnContainer margin-top-60">
                                 @if(!$publicForm)
                                     <button type="button" class="btn btn-flat-primary">
                                         <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllMentees') }}">{{trans('messages.cancel_btn')}}</a>

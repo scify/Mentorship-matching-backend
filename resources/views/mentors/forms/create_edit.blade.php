@@ -409,13 +409,13 @@
                                 <input name="public_form" type="hidden" value="{{ $publicForm ? true : false  }}">
                                 <input name="lang" type="hidden" value="{{ $language  }}">
                                 <div class="row">
-                                    <div class="col-md-12 submitBtnContainer margin-top-100">
+                                    <div class="col-md-12 submitBtnContainer margin-top-60">
                                         @if(!$publicForm)
                                             <button type="button" class="btn btn-flat-primary">
                                                 <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllMentors') }}">{{trans('messages.cancel_btn')}}</a>
                                             </button>
                                         @endif
-                                        <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple margin-left-10">
+                                        <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple {{ !$publicForm ? 'margin-left-10' : '' }}">
                                             {{($mentor->id == null ? trans('messages.create_btn') : trans('messages.edit_btn'))}}
                                         </button>
                                         @if($publicForm)
