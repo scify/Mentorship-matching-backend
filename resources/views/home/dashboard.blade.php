@@ -26,7 +26,7 @@
                 </div><!--.panel-heading-->
                 <div class="panel-body">
                     @if($pendingMentorshipSessionViewModelsForAccManager->count() == 0)
-                        You dont have any active mentorship sessions assigned. You can view all the sessions you have participated in <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> here. </a>
+                        You dont have any pending mentorship sessions assigned. You can view all the sessions you participate in <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> here. </a>
                     @else
                         You currently manage {{ $mentorshipSessionsNumForAccManager }} mentorship sessions. <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> Click here </a> to view them.
                     @endif
