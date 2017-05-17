@@ -17,12 +17,12 @@
         // display properly the pickers and their labels
         $("input.bootstrap-daterangepicker-basic").addClass("valid");
 
-//        setTimeout(function(){
-//            /*Close any flash message after some time*/
-//            $(".alert-dismissable").fadeTo(4000, 500).slideUp(500, function(){
-//                $(".alert-dismissable").alert('close');
-//            });
-//        }, 4000);
+        setTimeout(function(){
+            /*Close any flash message after some time*/
+            $(".alert-dismissable").fadeTo(4000, 500).slideUp(500, function(){
+                $(".alert-dismissable").alert('close');
+            });
+        }, 4000);
 
         (new SearchController()).init();
     });
