@@ -341,6 +341,7 @@ class MenteeController extends Controller
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
+        session()->flash('flash_message_success', 'Mentee status updated');
         return redirect(route("showAllMentees"));
     }
 }
