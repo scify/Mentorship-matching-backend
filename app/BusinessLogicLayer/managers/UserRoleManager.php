@@ -14,6 +14,7 @@ use App\Models\eloquent\UserRole;
 use App\StorageLayer\RoleStorage;
 use App\StorageLayer\UserRoleStorage;
 use Illuminate\Database\Eloquent\Collection;
+use Mockery\Exception;
 
 class UserRoleManager {
 
@@ -29,8 +30,14 @@ class UserRoleManager {
         return $this->userRoleStorage->getUserRoles();
     }
 
-    public function assignRolesToUser(User $user, array $userRoles) {
+    public function assignRolesToUser(User $user, array $userRoles, array $inputFields) {
+        $userAccessManager = new UserAccessManager();
         foreach ($userRoles as $userRole) {
+            if($userRole['id'] == $userAccessManager->ACCOUNT_MANAGER_ROLE_ID) {
+                if(!isset($inputFields['capacity']) || $inputFields['capacity'] == 0 || $inputFields['capacity'] == "") {
+                    throw new Exception("Capacity not set for account manager");
+                }
+            }
             $this->createNewRoleForUser($user, $userRole['id']);
         }
     }

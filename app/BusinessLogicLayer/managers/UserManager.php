@@ -47,7 +47,7 @@ class UserManager {
 
         DB::transaction(function() use($newUser, $inputFields) {
             $newUser = $this->userStorage->saveUser($newUser);
-            $this->userRoleManager->assignRolesToUser($newUser, $inputFields['user_roles']);
+            $this->userRoleManager->assignRolesToUser($newUser, $inputFields['user_roles'], $inputFields);
         });
         if($newUser->isAccountManager()) {
             $this->accountManagerDetails($newUser, $inputFields);
@@ -123,6 +123,9 @@ class UserManager {
         //may have changed it's roles
         $user = $this->getUser($id);
         if($user->isAccountManager()) {
+            if(!isset($inputFields['capacity']) && $inputFields['capacity'] == 0) {
+                throw new Exception("Capacity not set for account manager");
+            }
             $this->accountManagerDetails($user, $inputFields);
         }
 
