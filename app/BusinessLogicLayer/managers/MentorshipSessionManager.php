@@ -17,6 +17,7 @@ use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Exception;
 
 class MentorshipSessionManager
 {
@@ -81,25 +82,47 @@ class MentorshipSessionManager
      * Creates a new mentorship session in DB
      *
      * @param array $input
+     * @throws Exception
      */
     public function createMentorshipSession(array $input) {
         $loggedInUser = Auth::user();
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
         if($loggedInUser != null) {
             $input['matcher_id'] = $loggedInUser->id;
+        } else {
+            throw new Exception("Not logged in user");
         }
-        $input['status_id'] = MentorshipSessionStatuses::$statuses['pending'];
+        // set the current (most recent) status id for the mentorship session
+        // if matcher id same as account manager id, the most recent is "invitation to mentee and mentor sent"
+        // otherwise the most recent is "assigned to account manager"
+        if($input['account_manager_id'] == $input['matcher_id']) {
+            $input['status_id'] = MentorshipSessionStatuses::$statuses['introduction_sent'];
+        } else {
+            $input['status_id'] = MentorshipSessionStatuses::$statuses['pending'];
+        }
 
-        $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
         $mentorshipSession = new MentorshipSession();
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
 
-        DB::transaction(function() use($mentorshipSession, $loggedInUser) {
+        DB::transaction(function() use($mentorshipSession, $loggedInUser, $input) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
-            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, "");
-        });
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['pending'], $loggedInUser, "");
+            $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
+            // if matcher id same as account manager id, pass both "assigned to acc manager"
+            // and "emailed mentee and mentor to confirm availability" statuses
+            // and then send first email to mentee
+            if($input['account_manager_id'] == $input['matcher_id']) {
+                $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, "");
+                $this->inviteMenteeToMentorshipSession($mentorshipSession);
+            } else {
+                // else email account manager
+                $this->inviteAccountManagerToMentorshipSession($mentorshipSession);
+            }
 
-        // emails account manager
+        });
+    }
+
+
+    private function inviteAccountManagerToMentorshipSession(MentorshipSession $mentorshipSession) {
         $accountManager = $mentorshipSession->account_manager;
         (new MailManager())->sendEmailToSpecificEmail(
             'emails.session-invitation',
@@ -107,7 +130,22 @@ class MentorshipSessionManager
             'Job Pairs | You have been invited to manage a new mentorship session',
             $accountManager->email
         );
+    }
 
+    private function inviteMenteeToMentorshipSession(MentorshipSession $mentorshipSession) {
+        $mentor = $mentorshipSession->mentor;
+        $mentee = $mentorshipSession->mentee;
+        (new MailManager())->sendEmailToSpecificEmailWithCC('emails.invite-mentee',
+            ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
+            'Job Pairs | You have been matched with a mentor', $mentee->email, [$mentorshipSession->account_manager->email]);
+    }
+
+    private function inviteMentorToMentorshipSession(MentorshipSession $mentorshipSession) {
+        $mentor = $mentorshipSession->mentor;
+        $mentee = $mentorshipSession->mentee;
+        (new MailManager())->sendEmailToSpecificEmailWithCC('emails.invite-mentor',
+            ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
+            'Job Pairs | You have been matched with a mentee', $mentor->email, [$mentorshipSession->account_manager->email]);
     }
 
     /**
@@ -127,7 +165,7 @@ class MentorshipSessionManager
 
         DB::transaction(function() use($mentorshipSession, $loggedInUser, $comment) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
-            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $loggedInUser, $comment);
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $mentorshipSession->status_id, $loggedInUser, $comment);
         });
 
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
@@ -150,18 +188,12 @@ class MentorshipSessionManager
         }
 
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
+        // TODO: send only to mentee first
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
-            $mentor = $mentorshipSession->mentor;
-            $mentee = $mentorshipSession->mentee;
-            $mailManager = new MailManager();
             // send mail to mentor
-            $mailManager->sendEmailToSpecificEmailWithCC('emails.invite-mentor',
-                ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-                'Job Pairs | You have been matched with a mentee', $mentor->email, [$mentorshipSession->account_manager->email]);
+            $this->inviteMentorToMentorshipSession($mentorshipSession);
             // send mail to mentee
-            $mailManager->sendEmailToSpecificEmailWithCC('emails.invite-mentee',
-                ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-                'Job Pairs | You have been matched with a mentor', $mentee->email, [$mentorshipSession->account_manager->email]);
+            $this->inviteMenteeToMentorshipSession($mentorshipSession);
         }
     }
 
