@@ -36,7 +36,7 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
     Route::get('/dashboard', 'UserController@showDashboardForUser')->name('dashboard');
 
-
+    Route::get('/testemail', 'HomeController@testEmail')->name('testemail');
 
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
