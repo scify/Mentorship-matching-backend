@@ -35,7 +35,7 @@ class UserController extends Controller
         $loggedInUser = Auth::user();
         $pendingMentorshipSessionViewModelsForAccManager = new Collection();
         $mentorshipSessionsNumForAccManager = 0;
-        $mentorViewModels = new Collection();
+        $availableMentorsViewModels = new Collection();
         $menteeViewModels = new Collection();
         $mentorStatuses = new Collection();
         $menteeStatuses = new Collection();
@@ -62,7 +62,7 @@ class UserController extends Controller
             $mentorStatusManager = new MentorStatusManager();
             $menteeManager = new MenteeManager();
             $menteeStatusManager = new MenteeStatusManager();
-            $mentorViewModels = $mentorManager->getAvailableMentorViewModels();
+            $availableMentorsViewModels = $mentorManager->getAvailableMentorViewModels();
             $mentorStatuses = $mentorStatusManager->getAllMentorStatuses();
             $menteeViewModels = $menteeManager->getAvailableMenteeViewModels();
             $menteeStatuses = $menteeStatusManager->getAllMenteeStatuses();
@@ -89,7 +89,7 @@ class UserController extends Controller
             'accountManagers' => $accountManagers,
             'mentorshipSessionStatuses' => $mentorshipSessionStatuses,
             'mentorStatuses' => $mentorStatuses,
-            'mentorViewModels' =>$mentorViewModels,
+            'availableMentorsViewModels' =>$availableMentorsViewModels,
             'menteeStatuses' => $menteeStatuses,
             'mentorshipSessionsNumForAccManager' => $mentorshipSessionsNumForAccManager,
             'menteeViewModels' =>$menteeViewModels,
