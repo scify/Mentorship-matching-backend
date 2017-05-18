@@ -2,6 +2,7 @@
 
 namespace App\StorageLayer;
 
+use App\BusinessLogicLayer\managers\UserAccessManager;
 use App\Models\eloquent\AccountManagerCapacity;
 use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
@@ -45,6 +46,7 @@ class UserStorage {
 
     public function getAccountManagersWithRemainingCapacity() {
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $userAccessManager = new UserAccessManager();
         $rawQueryStorage = new RawQueryStorage();
         $result = $rawQueryStorage->performRawQuery("
            select u.*, ur.user_id, capacity, (capacity - IFNULL(total_active_sessions,0)) as remainingCapacity from 
@@ -68,10 +70,10 @@ class UserStorage {
 									where msh.status_id  in (" . implode(",", $mentorshipSessionStatuses::getActiveSessionStatuses()) . ")
 
                                 ) as NonCompletedSessions on ms.id = NonCompletedSessions.mentorship_session_id
-                            where ms.deleted_at is not null 
+                            where ms.deleted_at is null 
                             group by ms.account_manager_id 
                          ) as activeAccountManagerSessions on activeAccountManagerSessions.account_manager_id = ur.user_id
-            where ur.role_id = 3 
+            where ur.role_id = $userAccessManager->ACCOUNT_MANAGER_ROLE_ID 
         ");
         return $result;
     }
