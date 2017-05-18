@@ -190,10 +190,10 @@ class MentorshipSessionManager
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
         // TODO: send only to mentee first
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
-            // send mail to mentor
-            $this->inviteMentorToMentorshipSession($mentorshipSession);
             // send mail to mentee
             $this->inviteMenteeToMentorshipSession($mentorshipSession);
+        } elseif ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses['available_mentee']) {
+            $this->inviteMentorToMentorshipSession($mentorshipSession);
         }
     }
 
@@ -477,18 +477,15 @@ class MentorshipSessionManager
         $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
         if($role === 'mentee') {
             $invitedPerson = $mentorshipSession->mentee;
-            // if mentor hasn't yet responded set to mentee is available, else set to started
-            if($mentorshipSession->status_id === 2)
-                $statusToSet = 3;
-            else if($mentorshipSession->status_id === 4)
-                $statusToSet = 5;
+            // this is the case when the mentee is available
+            if($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['introduction_sent'])
+                $statusToSet = MentorshipSessionStatuses::$statuses['available_mentee'];
+
         } else if($role === 'mentor') {
             $invitedPerson = $mentorshipSession->mentor;
-            // if mentee hasn't yet responded set to mentor is available, else set to started
-            if($mentorshipSession->status_id === 2)
-                $statusToSet = 4;
-            else if($mentorshipSession->status_id === 3)
-                $statusToSet = 5;
+            // this is the case when mentor is available
+            if($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['available_mentee'])
+                $statusToSet = MentorshipSessionStatuses::$statuses['available_mentor'];
         }
         if($statusToSet !== -1 && $invitedPerson->id == $id && $invitedPerson->email === $email) {
             $this->editMentorshipSession([
