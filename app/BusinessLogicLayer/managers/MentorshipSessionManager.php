@@ -84,10 +84,12 @@ class MentorshipSessionManager
      */
     public function createMentorshipSession(array $input) {
         $loggedInUser = Auth::user();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
         if($loggedInUser != null) {
             $input['matcher_id'] = $loggedInUser->id;
         }
-        $input['status_id'] = 1;
+        $input['status_id'] = MentorshipSessionStatuses::$statuses['pending'];
+
         $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
         $mentorshipSession = new MentorshipSession();
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
@@ -143,6 +145,8 @@ class MentorshipSessionManager
             $mentorshipSessionStatuses::getCompletedSessionStatuses(), $mentorshipSessionStatuses::getCancelledSessionStatuses()
                 )) !== false) {
             $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
+        } else {
+            $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
         }
 
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee

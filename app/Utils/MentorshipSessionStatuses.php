@@ -11,7 +11,7 @@ namespace App\Utils;
 
 class MentorshipSessionStatuses
 {
-    private static $statuses = array(
+    public static $statuses = array(
         'pending' => 1,
         'introduction_sent' => 2,
         'available_mentee' => 3,
