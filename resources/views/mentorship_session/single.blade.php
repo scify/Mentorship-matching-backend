@@ -7,8 +7,12 @@
        data-matcherId="{{ $mentorshipSessionViewModel->matcher->id }}" data-accountManagerId="{{ $mentorshipSessionViewModel->accountManager->id }}"
        data-sessionId="{{ $mentorshipSessionViewModel->mentorshipSession->id }}" data-mentorId="{{ $mentorshipSessionViewModel->mentorViewModel->mentor->id }}"
        data-menteeId="{{ $mentorshipSessionViewModel->menteeViewModel->mentee->id }}" data-sessionStatusId="{{ $mentorshipSessionViewModel->mentorshipSession->status_id }}"
-       data-generalComment="{{ $mentorshipSessionViewModel->mentorshipSession->general_comment }}">
+       data-generalComment="{{ $mentorshipSessionViewModel->mentorshipSession->general_comment }}"
+       data-actionRequired='{{ $mentorshipSessionViewModel->status->action_required }}'>
         <div class="row mentorshipSessionInfo">
+            @if($mentorshipSessionViewModel->status->action_required != null)
+                <p class="actionRequiredMessage">Action required. <br> If you are the account manager, edit this session to continue.</p>
+            @endif
             <div class="col-md-8 centeredVertically">
                 <div class="col-md-5 col-xs-5 text-align-right">
                     <div class="row">

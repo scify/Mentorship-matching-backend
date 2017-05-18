@@ -100,8 +100,10 @@ window.MentorshipSessionsListController.prototype = function() {
         },
         editSessionModalHandler = function(parentDiv) {
             $("body").on("click", parentDiv + " .editSessionBtn", function() {
+
                 var $siblingVisibleAnchor = $(this).siblings("a.visible");
                 var sessionId = $siblingVisibleAnchor.data("sessionid");
+                var actionRequired = $siblingVisibleAnchor.data("actionrequired");
                 var mentorId = $siblingVisibleAnchor.data("mentorid");
                 var mentorName = $siblingVisibleAnchor.find("#mentorPresetName").text();
                 var menteeId = $siblingVisibleAnchor.data("menteeid");
@@ -110,9 +112,16 @@ window.MentorshipSessionsListController.prototype = function() {
                 var generalComment = $siblingVisibleAnchor.data("generalcomment");
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
                 var $modal = $("#matchMentorModalEdit");
+                $modal.find(".actionRequiredWrapper").addClass("hidden");
                 $modal.modal("toggle");
                 $modal.find(".sessionStatusChangeComment").css("display", "none");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
+                console.log("action required: " + actionRequired);
+                if(actionRequired !== undefined && actionRequired !== "") {
+                    $modal.find(".actionRequiredWrapper").removeClass("hidden");
+                    $modal.find("#actionRequired").html(actionRequired);
+                }
+
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
                 if($mentorFullName.parent("a").length === 1) {

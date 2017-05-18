@@ -14,13 +14,21 @@
   }
 }
 
+.actionRequiredMessage {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 12px;
+  color: $brand-danger;
+}
+
 #matchMentorModal, #matchMentorModalEdit {
   .modal-dialog {
     text-align: center;
     max-height: 98%;
     min-height: 500px;
   }
-  .accountManagerSelector, .sessionStatusSelector, .sessionStatusChangeComment, .generalCommentWrapper {
+  .accountManagerSelector, .sessionStatusSelector, .sessionStatusChangeComment, .generalCommentWrapper, .actionRequiredWrapper {
     margin-top: 15px;
     .selectorTitle {
       font-size: medium;
@@ -29,6 +37,11 @@
     }
     .inputer {
       margin-bottom: 0;
+    }
+  }
+  .actionRequiredWrapper {
+    .selectorTitle {
+      font-weight: bold;
     }
   }
   .accountManagerSelector {
@@ -43,6 +56,10 @@
   }
   textarea {
     margin-top: -5px;
+  }
+
+  #actionRequired {
+    font-size: initial;
   }
 }
 

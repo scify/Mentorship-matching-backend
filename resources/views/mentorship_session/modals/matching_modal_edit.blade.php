@@ -57,7 +57,18 @@
                         </div>
                     </div>
                     @endif
-                    <div class="row generalCommentWrapper">
+                    <div class="row actionRequiredWrapper hidden">
+                        <!-- Action Required -->
+                        <div class="col-md-3 col-xs-3 margin-top-5">
+                            <div class="selectorTitle">Action Required</div>
+                        </div>
+                        <div class="col-md-9 col-xs-9 text-align-left">
+                            <div class="inputer">
+                                <p id="actionRequired"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row generalCommentWrapper margin-top-10 margin-bottom-10">
                         <!-- General comment -->
                         <div class="col-md-3 col-xs-3 margin-top-5">
                             <div class="selectorTitle">{{trans('messages.general_comment')}}</div>
