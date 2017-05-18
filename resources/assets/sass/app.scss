@@ -5,6 +5,13 @@
 // Variables
 @import "variables";
 
+
+.alert {
+  .icon {
+    width: 25px;
+    height: 25px;
+  }
+}
 .nav-user {
   display: none;
 }
