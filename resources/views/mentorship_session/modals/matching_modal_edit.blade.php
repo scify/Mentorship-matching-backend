@@ -49,7 +49,7 @@
                                     {{--showing only account managers that have a positive remaining capacity--}}
                                     <option value="{{$accountManager->id}}"
                                             {{old('account_manager_id') == $accountManager->id ? 'selected' : ''}}
-                                            {{!$accountManager->remainingCapacity >= 0 ? 'disabled' : ''}}>
+                                            {{$accountManager->remainingCapacity <= 0 ? 'disabled' : ''}}>
                                         {{$accountManager->first_name}} {{$accountManager->last_name}} - capacity: {{$accountManager->capacity}} (remaining: {{$accountManager->remainingCapacity}})
                                     </option>
                                 @endforeach
