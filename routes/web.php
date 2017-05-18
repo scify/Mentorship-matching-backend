@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['a
 });
 
 Route::group(['middleware' => ['auth', 'account-manager']], function () {
+    Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
     Route::post('session/update', 'MentorshipSessionController@update')->name('updateMentorshipSession');
     Route::get('sessions/mySessions', 'MentorshipSessionController@showMentorshipSessionsForAccountManager')->name('showMentorshipSessionsForAccountManager');
 });

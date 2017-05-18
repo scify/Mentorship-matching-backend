@@ -65,6 +65,22 @@ class MentorshipSessionController extends Controller
         return redirect()->route('showMatchesForMatcher');
     }
 
+    public function sendInviteToMentee(Request $request) {
+        $this->validate($request, [
+            'session_id' => 'required|numeric'
+        ]);
+        $input = $request->all();
+        try {
+            $this->mentorshipSessionManager->inviteMentee($input['session_id']);
+        }
+        catch (\Exception $e) {
+                session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+                return back();
+            }
+        session()->flash('flash_message_success', 'Mentee invited');
+        return redirect()->back();
+    }
+
     /**
      * Update the specified resource in storage.
      *

@@ -98,6 +98,14 @@ window.MentorshipSessionsListController.prototype = function() {
                 $("#mentorshipSessionShowModal #history .timeline").html(responseObj.data);
             }
         },
+        manuallyUpdateStatusHandler = function ($modal) {
+            console.log("click handler");
+            $("body").on("click", ".manuallyUpdateSession", function() {
+                console.log("click");
+                $modal.find(".sendInvitationMailsContainer").addClass("hidden");
+                $modal.find(".updateSessionBtnContainer").removeClass("hidden");
+            });
+        },
         editSessionModalHandler = function(parentDiv) {
             $("body").on("click", parentDiv + " .editSessionBtn", function() {
 
@@ -112,14 +120,26 @@ window.MentorshipSessionsListController.prototype = function() {
                 var generalComment = $siblingVisibleAnchor.data("generalcomment");
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
                 var $modal = $("#matchMentorModalEdit");
+                manuallyUpdateStatusHandler($modal);
                 $modal.find(".actionRequiredWrapper").addClass("hidden");
+                $modal.find(".updateSessionBtnContainer").addClass("hidden");
+                $modal.find(".sendInvitationMailsContainer").addClass("hidden");
+
                 $modal.modal("toggle");
                 $modal.find(".sessionStatusChangeComment").css("display", "none");
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
-                console.log("action required: " + actionRequired);
                 if(actionRequired !== undefined && actionRequired !== "") {
                     $modal.find(".actionRequiredWrapper").removeClass("hidden");
                     $modal.find("#actionRequired").html(actionRequired);
+                }
+                console.log("sessionStatusId: " + sessionStatusId);
+                if(sessionStatusId === 1 || sessionStatusId === "1") {
+                    $modal.find(".sendInvitationMailsContainer").removeClass("hidden");
+                    var _href = $modal.find(".confirmAvailabilityBtn").attr("href");
+                    console.log("href: " + _href);
+                    $modal.find(".confirmAvailabilityBtn").attr("href", _href + "?session_id=" + sessionId);
+                } else {
+                    $modal.find(".updateSessionBtnContainer").removeClass("hidden");
                 }
 
                 var $mentorFullName = $modal.find("#mentorFullName");

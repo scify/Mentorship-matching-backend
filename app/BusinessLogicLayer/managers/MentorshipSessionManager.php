@@ -598,4 +598,15 @@ class MentorshipSessionManager
         }
     }
 
+    public function inviteMentee($mentorshipSessionId) {
+        $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
+        $loggedInUser = Auth::user();
+        DB::transaction(function() use($mentorshipSession, $loggedInUser) {
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, "Mentee invited from account manager");
+            $mentorshipSession->status_id = MentorshipSessionStatuses::$statuses['introduction_sent'];
+            $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
+            $this->inviteMenteeToMentorshipSession($mentorshipSession);
+        });
+    }
+
 }

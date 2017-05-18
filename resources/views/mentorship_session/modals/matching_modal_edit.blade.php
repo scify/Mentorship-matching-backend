@@ -118,8 +118,15 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-flat btn-primary btn-success submitLink">Update Session</button>
+                    <div class="updateSessionBtnContainer hidden">
+                        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-flat btn-primary btn-success submitLink">Update Session</button>
+                    </div>
+                    <div class="sendInvitationMailsContainer hidden">
+                        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
+                        <a href="{{route('sendInviteToMentee')}}" class="confirmAvailabilityBtn btn btn-flat btn-primary btn-success submitLink">Confirm availability</a>
+                        <div class="manuallyUpdateSessionContainer">or <a href="javascript:void(0)" class="manuallyUpdateSession">manually update status</a></div>
+                    </div>
                 </div>
             </form>
         </div><!--.modal-content-->
