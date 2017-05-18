@@ -188,7 +188,6 @@ class MentorshipSessionManager
         }
 
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
-        // TODO: send only to mentee first
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
             // send mail to mentee
             $this->inviteMenteeToMentorshipSession($mentorshipSession);
