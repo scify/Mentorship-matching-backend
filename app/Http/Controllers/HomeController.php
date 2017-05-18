@@ -25,10 +25,11 @@ class HomeController extends Controller
             throw new Exception("No email parameter");
         }
         $email = $input['email'];
+
         if($email != "" && $email != null) {
             (new MailManager())->sendEmailToSpecificEmail(
                 'emails.test',
-                ['email' => $email],
+                [],
                 'Job Pairs | Test',
                 $email
             );
