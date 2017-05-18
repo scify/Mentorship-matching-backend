@@ -247,7 +247,6 @@ class MentorController extends Controller
             'skills' => 'required',
             'specialties' => 'required',
             'industries' => 'required',
-            'status_id' => 'required',
             'cv_file' => 'file|mimes:pdf|max:10000',
             'public_form' => 'required'
         ], $this->messages());
