@@ -7,7 +7,7 @@
                 @if($pendingMentorshipSessionViewModelsForAccManager->count() > 0)
                     <div id="pending_mentorship_sessions">
                         <div class="note note-warning note-left-striped">
-                            <h4>PENDING MENTORSHIP SESSIONS</h4>
+                            <h4>RECENTLY ASSIGNED MENTORSHIP SESSIONS</h4>
                             @include('mentorship_session.list', ['mentorshipSessionViewModels' => $pendingMentorshipSessionViewModelsForAccManager])
                         </div>
                     </div>
