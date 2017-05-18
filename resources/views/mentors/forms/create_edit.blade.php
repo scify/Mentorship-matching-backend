@@ -379,33 +379,32 @@
                                             </div>
                                         </div>
                                     </div>
-                                @elseif($loggedInUser->isAdmin())
-                                    <div class="row margin-top-40">
-                                        <!-- CV upload -->
-                                        <div class="col-md-2">
-                                            <div class="file-input-label">
-                                                <label for="cv_file">{{trans('messages.upload_cv')}} (.pdf):</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                <span class="btn btn-orange btn-file">
-                                                    <span class="fileinput-new">Select file</span>
-                                                    <span class="fileinput-exists">Change</span>
-                                                    <input type="file" name="cv_file">
-                                                </span>
-                                                <span class="fileinput-filename">
-                                                    @if(!empty($mentor['cv_file_name']))
-                                                        <a href="{{ url('/') . '/uploads/cv_files/' . $mentor['cv_file_name']}}" target="_blank">
-                                                            {{ $mentor['cv_file_name'] }}
-                                                        </a>
-                                                    @endif
-                                                </span>
-                                                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
-                                            </div>
+                                @endif
+                                <div class="row margin-top-40">
+                                    <!-- CV upload -->
+                                    <div class="col-md-2">
+                                        <div class="file-input-label">
+                                            <label for="cv_file">{{trans('messages.upload_cv')}} (.pdf):</label>
                                         </div>
                                     </div>
-                                @endif
+                                    <div class="col-md-10">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <span class="btn btn-orange btn-file">
+                                                <span class="fileinput-new">Select file</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="cv_file">
+                                            </span>
+                                            <span class="fileinput-filename">
+                                                @if(!empty($mentor['cv_file_name']))
+                                                    <a href="{{ url('/') . '/uploads/cv_files/' . $mentor['cv_file_name']}}" target="_blank">
+                                                        {{ $mentor['cv_file_name'] }}
+                                                    </a>
+                                                @endif
+                                            </span>
+                                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <input name="public_form" type="hidden" value="{{ $publicForm ? 'true' : 'false'  }}">
                                 <input name="lang" type="hidden" value="{{ $language  }}">
                                 <div class="row">
