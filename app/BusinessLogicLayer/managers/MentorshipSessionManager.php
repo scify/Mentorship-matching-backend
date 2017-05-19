@@ -127,7 +127,7 @@ class MentorshipSessionManager
         (new MailManager())->sendEmailToSpecificEmail(
             'emails.session-invitation',
             ['id' => $accountManager->id, 'email' => $accountManager->email, 'mentorshipSessionId' => $mentorshipSession->id],
-            'Job Pairs | You have been invited to manage a new mentorship session',
+            'Job Pairs | You have been invited to manage a new mentorship session | Session: ' . $mentorshipSession->id,
             $accountManager->email
         );
     }
@@ -137,7 +137,7 @@ class MentorshipSessionManager
         $mentee = $mentorshipSession->mentee;
         (new MailManager())->sendEmailToSpecificEmailWithCC('emails.invite-mentee',
             ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-            'Job Pairs | You have been matched with a mentor', $mentee->email, [$mentorshipSession->account_manager->email]);
+            'Job Pairs | You have been matched with a mentor | Session: ' . $mentorshipSession->id, $mentee->email, [$mentorshipSession->account_manager->email]);
     }
 
     private function inviteMentorToMentorshipSession(MentorshipSession $mentorshipSession) {
@@ -145,7 +145,7 @@ class MentorshipSessionManager
         $mentee = $mentorshipSession->mentee;
         (new MailManager())->sendEmailToSpecificEmailWithCC('emails.invite-mentor',
             ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-            'Job Pairs | You have been matched with a mentee', $mentor->email, [$mentorshipSession->account_manager->email]);
+            'Job Pairs | You have been matched with a mentee | Session: ' . $mentorshipSession->id, $mentor->email, [$mentorshipSession->account_manager->email]);
     }
 
     /**
