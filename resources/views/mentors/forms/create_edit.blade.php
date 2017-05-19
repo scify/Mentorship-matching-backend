@@ -33,7 +33,7 @@
                             </div>
                         @endif
                         <div class="col-lg-8">
-                            <div class="requiredExplanation margin-bottom-10">(<span class="requiredIcon">*</span> {{trans('messages.mentee_status')}})</div>
+                            <div class="requiredExplanation margin-bottom-10">(<span class="requiredIcon">*</span> {{trans('messages.required_field')}})</div>
                             <form class="jobPairsForm noInputStyles" method="POST"
                                   action="{{($mentor->id == null ? route('createMentor') : route('editMentor', $mentor->id))}}"
                                   enctype="multipart/form-data">
