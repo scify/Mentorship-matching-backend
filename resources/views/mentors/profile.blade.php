@@ -277,7 +277,7 @@
                     </div>
                     <div id="matching" class="tab-pane">
                         @include('mentees.filters')
-                        @include('mentees.list', ['menteeViewModels' => $availableMenteeViewModels])
+                        @include('mentees.list', ['menteeViewModels' => $availableMenteeViewModels, 'menteesCount' => $availableMenteeViewModels->count()])
                     </div>
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
                         <div id="current_session" class="tab-pane">

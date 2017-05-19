@@ -18,8 +18,10 @@ use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class MentorController extends Controller
 {
@@ -54,7 +56,7 @@ class MentorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showAllMentors() {
-        $mentorViewModels = $this->mentorManager->getAllMentorViewModels();
+        $mentorViewModels = $this->paginate($this->mentorManager->getAllMentorViewModels())->setPath('all');
         $loggedInUser = Auth::user();
         $specialties = $this->specialtyManager->getAllSpecialties();
         $companies = $this->companyManager->getAllCompanies();
@@ -72,11 +74,56 @@ class MentorController extends Controller
         ]);
     }
 
+
+    /**
+     * Display all mentors.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showAllMentorsWithFilters(Request $request) {
+        $mentorViewModels = $this->paginate($request->session()->get('mentors'))->setPath('allWithFilters');
+        $loggedInUser = Auth::user();
+        $specialties = $this->specialtyManager->getAllSpecialties();
+        $companies = $this->companyManager->getAllCompanies();
+        $statuses = $this->mentorStatusManager->getAllMentorStatuses();
+        $residences = $this->residenceManager->getAllResidences();
+        return view('mentors.list_all', [
+            'pageTitle' => 'Mentors',
+            'pageSubTitle' => 'view all',
+            'mentorViewModels' => $mentorViewModels,
+            'loggedInUser' => $loggedInUser,
+            'specialties' => $specialties,
+            'companies' => $companies,
+            'statuses' => $statuses,
+            'residences' => $residences
+        ]);
+    }
+
+    protected function paginate($items, $perPage = 10) {
+        //Get current page form url e.g. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        //Slice the collection to get the items to display in current page
+        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+
+        //Create our paginator and pass it to the view
+        return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
+    }
+
     public function showMentorsByCriteria(Request $request) {
         $input = $request->all();
 
         try {
-            $mentorViewModels = $this->mentorManager->getMentorViewModelsByCriteria($input);
+            if(Route::currentRouteName() == "showAllMentors") {
+                $mentorViewModelsData = $this->mentorManager->getMentorViewModelsByCriteria($input);
+                $mentorViewModels = $this->paginate($mentorViewModelsData)->setPath('allWithFilters');
+                $request->session()->put('mentors', $mentorViewModelsData);
+                $mentorsCount = $mentorViewModels->total();
+            } else {
+                $mentorViewModels = $this->mentorManager->getMentorViewModelsByCriteria($input);
+                $mentorsCount = $mentorViewModels->count();
+            }
         }  catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
@@ -87,7 +134,7 @@ class MentorController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentorViewModels', 'loggedInUser'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentorViewModels', 'loggedInUser', 'mentorsCount'))));
         }
     }
 

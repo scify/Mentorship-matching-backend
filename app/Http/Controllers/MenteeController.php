@@ -17,6 +17,7 @@ use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,7 +50,7 @@ class MenteeController extends Controller
      */
     public function showAllMentees()
     {
-        $menteeViewModels = $this->menteeManager->getAllMenteeViewModels();
+        $menteeViewModels = $this->paginate($this->menteeManager->getAllMenteeViewModels())->setPath('all');
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $statuses = $this->menteeStatusManager->getAllMenteeStatuses();
@@ -60,6 +61,17 @@ class MenteeController extends Controller
             'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'statuses' => $statuses,
             'loggedInUser' => $loggedInUser]);
+    }
+
+    protected function paginate($items, $perPage = 10) {
+        //Get current page form url e.g. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        //Slice the collection to get the items to display in current page
+        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+
+        //Create our paginator and pass it to the view
+        return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
     }
 
     /**
@@ -224,7 +236,7 @@ class MenteeController extends Controller
         $accountManagers = (new UserManager())->getAccountManagersWithRemainingCapacity();
         $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
         $mentorManager = new MentorManager();
-        $availableMentorViewModels = $mentorManager->getAvailableMentorViewModels();
+        $availableMentorViewModels = $this->paginate($mentorManager->getAvailableMentorViewModels(), 500)->setPath('all');
         $currentSessionViewModel = $this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentee($id);
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentee($id);
         $loggedInUser = Auth::user();
@@ -308,10 +320,38 @@ class MenteeController extends Controller
         return back();
     }
 
+    /**
+     * Display all mentors.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showAllMenteesWithFilters(Request $request) {
+        $menteeViewModels = $this->paginate($request->session()->get('mentees'))->setPath('allWithFilters');
+        $universities = $this->universityManager->getAllUniversities();
+        $educationLevels = $this->educationLevelManager->getAllEducationLevels();
+        $statuses = $this->menteeStatusManager->getAllMenteeStatuses();
+        $loggedInUser = Auth::user();
+        $page_title = 'All mentees';
+        return view('mentees.list_all', [
+            'pageTitle' => $page_title,
+            'menteeViewModels' => $menteeViewModels, 'universities' => $universities,
+            'educationLevels' => $educationLevels, 'statuses' => $statuses,
+            'loggedInUser' => $loggedInUser]);
+    }
+
     public function showMenteesByCriteria(Request $request) {
         $input = $request->all();
         try {
-            $menteeViewModels = $this->menteeManager->getMenteeViewModelsByCriteria($input);
+            if(Route::currentRouteName() == "showAllMentees") {
+                $menteeViewModelsData = $this->menteeManager->getMenteeViewModelsByCriteria($input);
+                $menteeViewModels = $this->paginate($menteeViewModelsData)->setPath('allWithFilters');
+                $request->session()->put('mentees', $menteeViewModelsData);
+                $menteesCount = $menteeViewModels->total();
+            } else {
+                $menteeViewModels = $this->menteeManager->getMenteeViewModelsByCriteria($input);
+                $menteesCount = $menteeViewModels->count();
+            }
         }  catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
@@ -322,7 +362,7 @@ class MenteeController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentees.list', compact('menteeViewModels', 'loggedInUser'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentees.list', compact('menteeViewModels', 'loggedInUser', 'menteesCount'))));
         }
     }
 

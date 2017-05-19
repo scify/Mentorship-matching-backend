@@ -253,7 +253,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 mentorshipSessionsCriteria.menteeName = $('input[name=menteeName]').val();
                 mentorshipSessionsCriteria.statusId = $('select[name=statusId]').val();
                 var dateRange = $('input[name=sessionStartedDatesRange]').val();
-                if (dateRange !== "") {
+                if (dateRange !== "" && dateRange != undefined) {
                     var dates = dateRange.split(" - ");
                     if(typeof dates === 'object' && dates.length === 2) {
                         mentorshipSessionsCriteria.startedDateRange = dateRange;

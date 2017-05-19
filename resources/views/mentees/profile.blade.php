@@ -258,7 +258,7 @@
                     </div>
                     <div id="matching" class="tab-pane">
                         @include('mentors.filters')
-                        @include('mentors.list', ['mentorViewModels' => $availableMentorViewModels])
+                        @include('mentors.list', ['mentorViewModels' => $availableMentorViewModels, 'mentorsCount' => $availableMentorViewModels->count()])
                     </div>
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
                         <div id="current_session" class="tab-pane">
@@ -302,6 +302,10 @@
             mentorshipSessionsListController.init("#current_session");
             mentorshipSessionsListController.init("#mentorship_sessions");
             tabsHandler.init("#mentorshipSessionShowModal");
+
+            // set tha "available" status as pre selected
+            $("#availabilitySelect").val(1);
+            $("#availabilitySelect").trigger("chosen:updated");
         });
     </script>
 @endsection
