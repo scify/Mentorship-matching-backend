@@ -99,11 +99,13 @@ window.MentorshipSessionsListController.prototype = function() {
             }
         },
         manuallyUpdateStatusHandler = function ($modal) {
-            console.log("click handler");
             $("body").on("click", ".manuallyUpdateSession", function() {
-                console.log("click");
                 $modal.find(".sendInvitationMailsContainer").addClass("hidden");
                 $modal.find(".updateSessionBtnContainer").removeClass("hidden");
+                $modal.find(".sessionStatusSelector").removeClass("hidden");
+                $modal.find(".sessionStatusChangeComment").removeClass("hidden");
+                $modal.find(".generalCommentWrapper").removeClass("hidden");
+                $modal.find(".actionRequiredWrapper").addClass("hidden");
             });
         },
         editSessionModalHandler = function(parentDiv) {
@@ -124,6 +126,9 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.find(".actionRequiredWrapper").addClass("hidden");
                 $modal.find(".updateSessionBtnContainer").addClass("hidden");
                 $modal.find(".sendInvitationMailsContainer").addClass("hidden");
+                $modal.find(".sessionStatusSelector").addClass("hidden");
+                $modal.find(".sessionStatusChangeComment").addClass("hidden");
+                $modal.find(".generalCommentWrapper").addClass("hidden");
 
                 $modal.modal("toggle");
                 $modal.find(".sessionStatusChangeComment").css("display", "none");
@@ -136,9 +141,11 @@ window.MentorshipSessionsListController.prototype = function() {
                 if(sessionStatusId === 1 || sessionStatusId === "1") {
                     $modal.find(".sendInvitationMailsContainer").removeClass("hidden");
                     var _href = $modal.find(".confirmAvailabilityBtn").attr("href");
-                    console.log("href: " + _href);
                     $modal.find(".confirmAvailabilityBtn").attr("href", _href + "?session_id=" + sessionId);
                 } else {
+                    $modal.find(".generalCommentWrapper").removeClass("hidden");
+                    $modal.find(".sessionStatusSelector").removeClass("hidden");
+                    $modal.find(".sessionStatusChangeComment").removeClass("hidden");
                     $modal.find(".updateSessionBtnContainer").removeClass("hidden");
                 }
 
