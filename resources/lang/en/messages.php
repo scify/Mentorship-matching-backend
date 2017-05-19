@@ -117,5 +117,6 @@ return [
     'university_graduation_year.required' => 'Required field',
     'expectations.required' => 'Required field',
     'career_goals.required' => 'Required field',
-    'specialty.required' => 'Required field'
+    'specialty.required' => 'Required field',
+    'required_field' => 'Required field'
 ];

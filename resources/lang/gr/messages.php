@@ -108,5 +108,6 @@ return [
     'university_graduation_year.required' => 'Υποχρεωτικό πεδίο',
     'expectations.required' => 'Υποχρεωτικό πεδίο',
     'career_goals.required' => 'Οι στόχοι είναι ποχρεωτικό πεδίο',
-    'specialty.required' => 'Η ειδικότητα είναι πεδίο'
+    'specialty.required' => 'Η ειδικότητα είναι πεδίο',
+    'required_field' => 'Υποχρεωτικό πεδίο'
 ];
