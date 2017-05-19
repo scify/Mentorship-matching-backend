@@ -92,7 +92,7 @@ return [
     'last_name.required' => 'Το επίθετο είναι υποχρεωτικό',
     'email.required' => 'Το email είναι υποχρεωτικό',
     'year_of_birth.required' => 'Το έτος γέννησης είναι υποχρεωτικό',
-    'reference_id.required' => 'Υποχρεωτικό πεδίο',
+    'reference_id.required' => 'Από πού μάθατε για το Job Pairs? ',
     'address.required' => 'Η διεύθυνση είναι υποχρεωτική',
     'education_level_id.required' => 'Το επίπεδο μόρφωσης είναι υποχρεωτικό',
     'university_id.required' => 'Το πανεπιστήμιο είναι ποχρεωτικό πεδίο',
@@ -107,6 +107,6 @@ return [
     'university_department_name.required' => 'Το τμήμα του πανεπιστημίου είναι υποχρεωτικό πεδίο',
     'university_graduation_year.required' => 'Υποχρεωτικό πεδίο',
     'expectations.required' => 'Υποχρεωτικό πεδίο',
-    'career_goals.required' => 'Υποχρεωτικό πεδίο',
-    'specialty.required' => 'Υποχρεωτικό πεδίο'
+    'career_goals.required' => 'Οι στόχοι είναι ποχρεωτικό πεδίο',
+    'specialty.required' => 'Η ειδικότητα είναι πεδίο'
 ];
