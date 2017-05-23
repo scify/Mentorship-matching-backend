@@ -319,7 +319,7 @@ class UserManager {
     public function getAdminEmails() {
         $allAdminEmails = array();
         foreach ($this->getAllAdmnins() as $admin) {
-            array_push($allAdminEmails, $admin);
+            array_push($allAdminEmails, $admin->email);
         }
         return $allAdminEmails;
     }
