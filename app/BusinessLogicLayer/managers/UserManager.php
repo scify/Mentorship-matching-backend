@@ -315,4 +315,12 @@ class UserManager {
         $matcherRole = $this->userRoleManager->getRoleById($userAccessManager->MATCHER_ROLE_ID);
         return $matcherRole->users;
     }
+
+    public function getAdminEmails() {
+        $allAdminEmails = array();
+        foreach ($this->getAllAdmnins() as $admin) {
+            array_push($allAdminEmails, $admin->email);
+        }
+        return $allAdminEmails;
+    }
 }

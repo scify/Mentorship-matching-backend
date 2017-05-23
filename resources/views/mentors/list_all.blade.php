@@ -2,10 +2,9 @@
 @section('content')
     <div id="allMentors">
         @include('mentors.filters')
-        @include('mentors.list', ['mentorsCount' => $mentorViewModels->total()])
+        @include('mentors.list')
         @include('mentors.modals')
     </div>
-    {{ $mentorViewModels->links() }}
 @endsection
 
 

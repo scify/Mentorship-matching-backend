@@ -56,7 +56,7 @@ class MentorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showAllMentors() {
-        $mentorViewModels = $this->paginate($this->mentorManager->getAllMentorViewModels())->setPath('all');
+        $mentorViewModels = $this->mentorManager->paginateMentors($this->mentorManager->getAllMentorViewModels())->setPath('#');
         $loggedInUser = Auth::user();
         $specialties = $this->specialtyManager->getAllSpecialties();
         $companies = $this->companyManager->getAllCompanies();
@@ -75,55 +75,14 @@ class MentorController extends Controller
     }
 
 
-    /**
-     * Display all mentors.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function showAllMentorsWithFilters(Request $request) {
-        $mentorViewModels = $this->paginate($request->session()->get('mentors'))->setPath('allWithFilters');
-        $loggedInUser = Auth::user();
-        $specialties = $this->specialtyManager->getAllSpecialties();
-        $companies = $this->companyManager->getAllCompanies();
-        $statuses = $this->mentorStatusManager->getAllMentorStatuses();
-        $residences = $this->residenceManager->getAllResidences();
-        return view('mentors.list_all', [
-            'pageTitle' => 'Mentors',
-            'pageSubTitle' => 'view all',
-            'mentorViewModels' => $mentorViewModels,
-            'loggedInUser' => $loggedInUser,
-            'specialties' => $specialties,
-            'companies' => $companies,
-            'statuses' => $statuses,
-            'residences' => $residences
-        ]);
-    }
 
-    protected function paginate($items, $perPage = 10) {
-        //Get current page form url e.g. &page=1
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
-        //Slice the collection to get the items to display in current page
-        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
-
-        //Create our paginator and pass it to the view
-        return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
-    }
 
     public function showMentorsByCriteria(Request $request) {
         $input = $request->all();
 
         try {
-            if(Route::currentRouteName() == "showAllMentors") {
-                $mentorViewModelsData = $this->mentorManager->getMentorViewModelsByCriteria($input);
-                $mentorViewModels = $this->paginate($mentorViewModelsData)->setPath('allWithFilters');
-                $request->session()->put('mentors', $mentorViewModelsData);
-                $mentorsCount = $mentorViewModels->total();
-            } else {
-                $mentorViewModels = $this->mentorManager->getMentorViewModelsByCriteria($input);
-                $mentorsCount = $mentorViewModels->count();
-            }
+            $mentorViewModelsData = $this->mentorManager->getMentorViewModelsByCriteria($input);
+            $mentorViewModels = $this->mentorManager->paginateMentors($mentorViewModelsData)->setPath('#');
         }  catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
@@ -134,7 +93,7 @@ class MentorController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentorViewModels', 'loggedInUser', 'mentorsCount'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentorViewModels', 'loggedInUser'))));
         }
     }
 
@@ -148,7 +107,7 @@ class MentorController extends Controller
         $menteeManager = new MenteeManager();
         $userManager = new UserManager();
         $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
-        $availableMenteeViewModels = $menteeManager->getAvailableMenteeViewModels();
+        $availableMenteeViewModels = $menteeManager->paginateMentees($menteeManager->getAvailableMenteeViewModels());
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
@@ -310,11 +269,16 @@ class MentorController extends Controller
             return back()->withInput();
         }
 
-        session()->flash('flash_message_success', 'Mentor created');
+
         //if logged in user created the mentee, return to "all mentors" page
-        if(Auth::user() != null && !$input['public_form'])
+        if(Auth::user() != null && !$input['public_form']) {
+            session()->flash('flash_message_success', 'Mentor created');
             return redirect()->route('showAllMentors');
-        return back();
+        } else {
+            session()->flash('flash_message_success', trans("messages.mentor_created_public"));
+            return back();
+        }
+
 
     }
 

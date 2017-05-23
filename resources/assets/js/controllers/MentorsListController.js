@@ -5,6 +5,7 @@ window.MentorsListController.prototype = function () {
 
     var mentorsAndMenteesListsCssCorrector,
         mentorsCriteria = {},
+        pageNum = 1,
         deleteMentorBtnHandler = function () {
             $("body").on("click", ".deleteMentorBtn", function (e) {
                 e.stopPropagation();
@@ -23,6 +24,17 @@ window.MentorsListController.prototype = function () {
                 $editMentorStatusModal.find('input[name="mentor_id"]').val(mentorId);
                 $editMentorStatusModal.find('select[name="status_id"]').attr("data-original-value", originalStatusId);
                 $editMentorStatusModal.find('select[name="status_id"]').val(originalStatusId).trigger("chosen:updated");
+            });
+        },
+        paginateMentorsBtnHandler = function () {
+            $("body").on("click", "#mentorsList .pagination a", function (e) {
+                e.preventDefault();
+                var page = $(this).html();
+                console.log(page);
+                pageNum = page;
+                if(!$(this).parent().hasClass("active")) {
+                    $("#mentorsFilters").find("#searchBtn").trigger("click");
+                }
             });
         },
         initializeHandlers = function() {
@@ -69,6 +81,7 @@ window.MentorsListController.prototype = function () {
         getMentorsByFilter = function () {
             // button pressed that triggered this function
             var self = this;
+            mentorsCriteria.page = pageNum;
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
@@ -76,12 +89,14 @@ window.MentorsListController.prototype = function () {
                 data: mentorsCriteria,
                 beforeSend: function () {
                     $(self).parents('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                    $("#mentorsBottomLoader").removeClass("invisible");
                 },
                 success: function (response) {
                     $('.refresh-container').fadeOut(500, function() {
                         $('.refresh-container').remove();
                     });
                     parseSuccessData(response);
+                    $("#mentorsBottomLoader").addClass("invisible");
                     mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorsList");
                 },
                 error: function (xhr, status, errorThrown) {
@@ -92,6 +107,7 @@ window.MentorsListController.prototype = function () {
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
                     $("#errorMsg").html(errorThrown);
+                    $("#mentorsBottomLoader").addClass("invisible");
                 }
             });
         },
@@ -143,6 +159,7 @@ window.MentorsListController.prototype = function () {
             initializeHandlers();
             initSelectInputs();
             initAgeRangeSlider();
+            paginateMentorsBtnHandler();
         };
     return {
         init: init

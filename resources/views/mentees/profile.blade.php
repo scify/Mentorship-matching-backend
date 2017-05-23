@@ -258,7 +258,7 @@
                     </div>
                     <div id="matching" class="tab-pane">
                         @include('mentors.filters')
-                        @include('mentors.list', ['mentorViewModels' => $availableMentorViewModels, 'mentorsCount' => $availableMentorViewModels->count()])
+                        @include('mentors.list', ['mentorViewModels' => $availableMentorViewModels])
                     </div>
                     @if($loggedInUser->isAccountManager() || $loggedInUser->isAdmin())
                         <div id="current_session" class="tab-pane">

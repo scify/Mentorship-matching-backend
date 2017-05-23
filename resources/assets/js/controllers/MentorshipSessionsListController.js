@@ -264,7 +264,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     }
                 }
                 dateRange = $('input[name=sessionCompletedDatesRange]').val();
-                if (dateRange !== "") {
+                if (dateRange !== "" && dateRange !== undefined) {
                     var dates = dateRange.split(" - ");
                     if(typeof dates === 'object' && dates.length === 2) {
                         mentorshipSessionsCriteria.completedDateRange = dateRange;

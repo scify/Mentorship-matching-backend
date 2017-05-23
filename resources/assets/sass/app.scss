@@ -13,6 +13,10 @@
   }
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .requiredIcon {
   color: $brand-danger;
 }

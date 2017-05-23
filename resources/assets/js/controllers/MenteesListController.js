@@ -4,6 +4,7 @@ window.MenteesListController = function () {
 window.MenteesListController.prototype = function () {
     var mentorsAndMenteesListsCssCorrector,
         menteesCriteria = {},
+        pageNum = 1,
         deleteMenteeBtnHandler = function () {
             $("body").on("click", ".deleteMenteeBtn", function (e) {
                 e.stopPropagation();
@@ -22,6 +23,17 @@ window.MenteesListController.prototype = function () {
                 $editMenteeStatusModal.find('input[name="mentee_id"]').val(menteeId);
                 $editMenteeStatusModal.find('select[name="status_id"]').attr("data-original-value", originalStatusId);
                 $editMenteeStatusModal.find('select[name="status_id"]').val(originalStatusId).trigger("chosen:updated");
+            });
+        },
+        paginateMenteesBtnHandler = function () {
+            $("body").on("click", "#menteesList .pagination a", function (e) {
+                e.preventDefault();
+                var page = $(this).html();
+                console.log(page);
+                pageNum = page;
+                if(!$(this).parent().hasClass("active")) {
+                    $("#menteesFilters").find("#searchBtn").trigger("click");
+                }
             });
         },
         searchBtnHandler = function () {
@@ -67,6 +79,7 @@ window.MenteesListController.prototype = function () {
         getMenteesByFilter = function() {
             // button pressed that triggered this function
             var self = this;
+            menteesCriteria.page = pageNum;
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
@@ -74,6 +87,7 @@ window.MenteesListController.prototype = function () {
                 data: menteesCriteria,
                 beforeSend: function () {
                     $(self).parents('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                    $("#menteesBottomLoader").removeClass("invisible");
                 },
                 success: function (response) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -81,6 +95,7 @@ window.MenteesListController.prototype = function () {
                     });
                     parseSuccessData(response);
                     mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#menteesList");
+                    $("#menteesBottomLoader").addClass("invisible");
                 },
                 error: function (xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -90,6 +105,7 @@ window.MenteesListController.prototype = function () {
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
                     $("#errorMsg").html(errorThrown);
+                    $("#menteesBottomLoader").addClass("invisible");
                 }
             });
         },
@@ -136,6 +152,7 @@ window.MenteesListController.prototype = function () {
             initSelectInputs();
             initAgeRangeSlider();
             initHandlers();
+            paginateMenteesBtnHandler();
         };
     return {
         init: init
