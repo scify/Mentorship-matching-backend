@@ -51,6 +51,8 @@ window.MenteesListController.prototype = function () {
                     $("input[name=only_never_matched]").parent().hasClass("checked");
                 menteesCriteria.displayOnlyExternallySubscribed =
                     $('input[name=only_externally_subscribed]').parent().hasClass("checked");
+                menteesCriteria.displayOnlyAvailableWithCancelledSessions =
+                    $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
                 getMenteesByFilter.call(this);
             });
         },
@@ -67,6 +69,7 @@ window.MenteesListController.prototype = function () {
                 $('input[name=only_active_sessions]').iCheck('uncheck');
                 $('input[name=only_never_matched]').iCheck('uncheck');
                 $('input[name=only_externally_subscribed]').iCheck('uncheck');
+                $('input[name=available_with_cancelled_session]').iCheck('uncheck');
                 // clear MenteesCriteria object from all of its properties
                 for(var prop in menteesCriteria) {
                     if(menteesCriteria.hasOwnProperty(prop)) {
