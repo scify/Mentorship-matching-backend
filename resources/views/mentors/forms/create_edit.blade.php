@@ -167,7 +167,7 @@
                                     <div class="col-md-6 inputer {{ $errors->first('residence_id')?'has-error has-feedback':'' }}">
                                         <!-- Residence Area -->
                                         <div class="margin-bottom-5 selecterTitle">{{trans('messages.residence')}} <span class="requiredIcon">*</span></div>
-                                        <select data-placeholder="select" name="residence_id" class="chosen-select" required="required">
+                                        <select data-placeholder="select" name="residence_id" class="chosen-select">
                                             <option><!-- Empty option allows the placeholder to take effect. --><option>
                                             @foreach($residences as $residence)
                                                 <option value="{{$residence->id}}" {{$mentor['residence_id'] == $residence->id || old('residence_id') == $residence->id ? 'selected' : ''}}>{{$residence->name}}</option>
