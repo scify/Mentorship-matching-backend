@@ -465,6 +465,9 @@
     </div>
 @endsection
 @section('additionalFooter')
+    @if($publicForm)
+        <script src="{{asset(elixir('js/iframe-contentWindow.js'))}}"></script>
+    @endif
     <script>
         $( document ).ready(function() {
             var controller = new FormController();

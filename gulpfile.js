@@ -92,7 +92,10 @@ elixir(function(mix) {
         ], 'public/js/controllers.js')
         .scripts([
             'resources/assets/js/AuthPage.js'
-        ], 'public/js/auth.js');
+        ], 'public/js/auth.js')
+        .scripts([
+            'node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js'
+        ], 'public/js/iframe-contentWindow.js', './');
 
 
     //the parameter is relative to the public directory
