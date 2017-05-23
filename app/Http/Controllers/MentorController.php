@@ -111,9 +111,12 @@ class MentorController extends Controller
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
-        $currentSessionViewModel = $this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($id);
-        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentor($id);
-        $mentorshipSessionsCount = $mentorshipSessionViewModels->count();
+        $currentSessionViewModel = $this->mentorshipSessionManager
+            ->paginateMentorshipSessions($this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($id))->setPath("#");
+        $mentorshipSessionViewModels = $this->mentorshipSessionManager
+            ->paginateMentorshipSessions($this->mentorshipSessionManager
+            ->getMentorshipSessionViewModelsForMentor($id), 100)->setPath("#");
+
         $loggedInUser = Auth::user();
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
@@ -124,8 +127,7 @@ class MentorController extends Controller
             'loggedInUser' => $loggedInUser,
             'statuses' => $statuses,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
-            'currentSessionViewModel' => $currentSessionViewModel,
-            'mentorshipSessionsCount' => $mentorshipSessionsCount
+            'currentSessionViewModel' => $currentSessionViewModel
         ]);
     }
 
@@ -255,7 +257,7 @@ class MentorController extends Controller
             'skills' => 'required',
             'specialties' => 'required',
             'industries' => 'required',
-            'cv_file' => 'file|mimes:pdf|max:10000',
+            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
             'public_form' => 'required'
         ], $this->messages());
 
@@ -339,7 +341,7 @@ class MentorController extends Controller
             'specialties' => 'required',
             'industries' => 'required',
             'status_id' => 'required',
-            'cv_file' => 'file|mimes:pdf|max:10000',
+            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
         ], $this->messages());
 
         try {

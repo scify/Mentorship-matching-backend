@@ -508,7 +508,7 @@ class MentorManager {
         }
     }
 
-    public function paginateMentors($items, $perPage = 2) {
+    public function paginateMentors($items, $perPage = 10) {
         //Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 

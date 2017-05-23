@@ -4,6 +4,7 @@ window.MentorshipSessionsListController = function() {
 window.MentorshipSessionsListController.prototype = function() {
     var mentorsAndMenteesListsCssCorrector,
         mentorshipSessionsCriteria = {},
+        pageNum = 1,
         sessionStatusId,
         isFirstInit = true, // checks whether the init function runs for the first time or not
         sessionInfoModalHandler = function(parentDiv) {
@@ -97,6 +98,17 @@ window.MentorshipSessionsListController.prototype = function() {
                 $("#mentorshipSessionShowModal #history #errorMsg").addClass('hidden');
                 $("#mentorshipSessionShowModal #history .timeline").html(responseObj.data);
             }
+        },
+        paginateMentorshipSessionsBtnHandler = function (parentDiv) {
+            $("body").on("click", parentDiv + " #mentorshipSessionsList .pagination a", function (e) {
+                e.preventDefault();
+                var page = $(this).html();
+                console.log(page);
+                pageNum = page;
+                if(!$(this).parent().hasClass("active")) {
+                    $("#mentorshipSessionsFilters").find("#searchBtn").trigger("click");
+                }
+            });
         },
         manuallyUpdateStatusHandler = function ($modal) {
             $("body").on("click", ".manuallyUpdateSession", function() {
@@ -298,6 +310,7 @@ window.MentorshipSessionsListController.prototype = function() {
             });
         },
         getMentorshipSessionsByFilter = function (parentDiv) {
+            mentorshipSessionsCriteria.page = pageNum;
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
@@ -305,13 +318,15 @@ window.MentorshipSessionsListController.prototype = function() {
                 data: mentorshipSessionsCriteria,
                 beforeSend: function () {
                     $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
+                    $(parentDiv + " #mentorshipSessionsBottomLoader").removeClass("invisible");
                 },
                 success: function (response) {
                     $('.refresh-container').fadeOut(500, function() {
                         $('.refresh-container').remove();
                     });
-                    parseSuccessSessionsData(response);
+                    parseSuccessSessionsData(response, parentDiv);
                     mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
+                    $(parentDiv + " #mentorshipSessionsBottomLoader").addClass("invisible");
                 },
                 error: function (xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -321,20 +336,22 @@ window.MentorshipSessionsListController.prototype = function() {
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
                     $("#errorMsg").html(errorThrown);
+                    $(parentDiv + " #mentorshipSessionsBottomLoader").addClass("invisible");
                 }
             });
         },
-        parseSuccessSessionsData = function(response) {
+        parseSuccessSessionsData = function(response, parentDiv) {
             var responseObj = JSON.parse(response);
+            console.log(parentDiv);
             //if operation was unsuccessful
             if (responseObj.status == 2) {
-                $("#errorMsg").removeClass('hidden');
-                $("#errorMsg").html(responseObj.data);
-                $("#mentorshipSessionsList").html("");
+                $(parentDiv).find("#errorMsg").removeClass('hidden');
+                $(parentDiv).find("#errorMsg").html(responseObj.data);
+                $(parentDiv).find("#mentorshipSessionsList").html("");
             } else {
-                $("#mentorshipSessionsList").html("");
-                $("#errorMsg").addClass('hidden');
-                $("#mentorshipSessionsList").html(responseObj.data);
+                $(parentDiv).find("#mentorshipSessionsList").html("");
+                $(parentDiv).find("#errorMsg").addClass('hidden');
+                $(parentDiv).find("#mentorshipSessionsList").html(responseObj.data);
                 Pleasure.listenClickableCards();
             }
         },
@@ -409,6 +426,7 @@ window.MentorshipSessionsListController.prototype = function() {
             });
         },
         init = function(parentDiv) {
+        console.log(parentDiv);
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
             mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
             sessionInfoModalHandler(parentDiv);
@@ -421,6 +439,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 initNonParentSpecificHandlers();
                 isFirstInit = false;
             }
+            paginateMentorshipSessionsBtnHandler(parentDiv);
         },
         initNonParentSpecificHandlers = function() {
             initSelectInputs();

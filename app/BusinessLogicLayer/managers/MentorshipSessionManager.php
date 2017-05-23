@@ -15,6 +15,7 @@ use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use League\Flysystem\Exception;
@@ -619,6 +620,17 @@ class MentorshipSessionManager
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
             $this->inviteMenteeToMentorshipSession($mentorshipSession);
         });
+    }
+
+    public function paginateMentorshipSessions($items, $perPage = 10) {
+        //Get current page form url e.g. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        //Slice the collection to get the items to display in current page
+        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+
+        //Create our paginator and pass it to the view
+        return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
     }
 
 }

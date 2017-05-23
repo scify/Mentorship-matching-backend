@@ -169,7 +169,7 @@ class MenteeController extends Controller
             'specialty_id' => 'required',
             'expectations' => 'required',
             'career_goals' => 'required',
-            'cv_file' => 'file|mimes:pdf|max:10000',
+            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
             'public_form' => 'required'
         ], $this->messages());
 
@@ -230,17 +230,19 @@ class MenteeController extends Controller
         $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
         $mentorManager = new MentorManager();
         $availableMentorViewModels = $mentorManager->paginateMentors($mentorManager->getAvailableMentorViewModels())->setPath('#');
-        $currentSessionViewModel = $this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentee($id);
-        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentee($id);
-        $mentorshipSessionsCount = $mentorshipSessionViewModels->count();
+        $currentSessionViewModel = $this->mentorshipSessionManager
+            ->paginateMentorshipSessions($this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentee($id))->setPath("#");
+        $mentorshipSessionViewModels = $this->mentorshipSessionManager
+            ->paginateMentorshipSessions($this->mentorshipSessionManager
+            ->getMentorshipSessionViewModelsForMentee($id), 100)->setPath("#");
+
         $loggedInUser = Auth::user();
         return view('mentees.profile', ['menteeViewModel' => $menteeViewModel, 'loggedInUser' => $loggedInUser,
             'specialties' => $specialties, 'companies' => $companies, 'statuses' => $statuses,
             'residences' => $residences, 'accountManagers' => $accountManagers,
             'availableMentorViewModels' => $availableMentorViewModels,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
-            'currentSessionViewModel' => $currentSessionViewModel,
-            'mentorshipSessionsCount' => $mentorshipSessionsCount
+            'currentSessionViewModel' => $currentSessionViewModel
         ]);
     }
 
@@ -276,7 +278,7 @@ class MenteeController extends Controller
             'specialty_id' => 'required',
             'expectations' => 'required',
             'career_goals' => 'required',
-            'cv_file' => 'file|mimes:pdf|max:10000',
+            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
         ], $this->messages());
 
         try {
