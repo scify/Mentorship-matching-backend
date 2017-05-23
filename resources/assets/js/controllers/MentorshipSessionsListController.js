@@ -251,7 +251,8 @@ window.MentorshipSessionsListController.prototype = function() {
             $("#searchBtn").on("click", function () {
                 mentorshipSessionsCriteria.mentorName = $('input[name=mentorName]').val();
                 mentorshipSessionsCriteria.menteeName = $('input[name=menteeName]').val();
-                mentorshipSessionsCriteria.statusId = $('select[name=statusId]').val();
+                mentorshipSessionsCriteria.startStatusId = $('select[name=startStatusId]').val();
+                mentorshipSessionsCriteria.endStatusId = $('select[name=endStatusId]').val();
                 var dateRange = $('input[name=sessionStartedDatesRange]').val();
                 if (dateRange !== "" && dateRange != undefined) {
                     var dates = dateRange.split(" - ");
@@ -281,7 +282,8 @@ window.MentorshipSessionsListController.prototype = function() {
             $("#clearSearchBtn").on("click", function () {
                 $('input[name=mentorName]').val("");
                 $('input[name=menteeName]').val("");
-                $('select[name=statusId]').val(0).trigger("chosen:updated");
+                $('select[name=startStatusId]').val(0).trigger("chosen:updated");
+                $('select[name=endStatusId]').val(0).trigger("chosen:updated");
                 $('input[name=sessionStartedDatesRange]').val("");
                 $('input[name=sessionCompletedDatesRange]').val("");
                 $('select[name=accountManagerId]').val(0).trigger("chosen:updated");
@@ -336,6 +338,53 @@ window.MentorshipSessionsListController.prototype = function() {
                 Pleasure.listenClickableCards();
             }
         },
+        displayPermittedValuesForEndSessionStatus = function(selectedStartStatusId) {
+            $("select[name=endStatusId] option").each(function() {
+                var currentOptionValue = parseInt($(this).val());
+                // display previously hidden options
+                $(this).css("display", "");
+                // if value is not permitted, hide option
+                if (currentOptionValue < selectedStartStatusId) {
+                    $(this).css("display", "none");
+                }
+            });
+        },
+        startSessionStatusRangeHandler = function() {
+            $("select[name=startStatusId]").change(function() {
+                var selectedStartStatusId = parseInt($("select[name=startStatusId]").val());
+                var preselectedEndStatusId = parseInt($("select[name=endStatusId]").val());
+                displayPermittedValuesForEndSessionStatus(selectedStartStatusId);
+                // trigger update
+                console.log(preselectedEndStatusId);
+                if (preselectedEndStatusId < selectedStartStatusId || isNaN(preselectedEndStatusId)) {
+                    $("select[name=endStatusId]").val(selectedStartStatusId);
+                }
+                $("select[name=endStatusId]").trigger("chosen:updated");
+            });
+        },
+        displayPermittedValuesForStartSessionStatus = function(selectedEndStatusId) {
+            $("select[name=startStatusId] option").each(function() {
+                var currentOptionValue = parseInt($(this).val());
+                // display previously hidden options
+                $(this).css("display", "");
+                // if value is not permitted, hide option
+                if (currentOptionValue > selectedEndStatusId) {
+                    $(this).css("display", "none");
+                }
+            });
+        },
+        endSessionStatusRangeHandler = function() {
+            $("select[name=endStatusId]").change(function() {
+                var selectedEndStatusId = parseInt($("select[name=endStatusId]").val());
+                var preselectedStartStatusId = parseInt($("select[name=startStatusId]").val());
+                displayPermittedValuesForStartSessionStatus(selectedEndStatusId);
+                // trigger update
+                if (preselectedStartStatusId > selectedEndStatusId || isNaN(preselectedStartStatusId)) {
+                    $("select[name=startStatusId]").val(selectedEndStatusId);
+                }
+                $("select[name=startStatusId]").trigger("chosen:updated");
+            });
+        },
         submitValidationHandler = function() {
             $("#matchMentorModal form, #matchMentorModalEdit form").submit(function() {
                 var numberOfValidationErrors = 0;
@@ -378,6 +427,8 @@ window.MentorshipSessionsListController.prototype = function() {
             submitValidationHandler();
             statusChangeHandler();
             deleteHistoryHandler();
+            startSessionStatusRangeHandler();
+            endSessionStatusRangeHandler();
         };
     return {
         init: init

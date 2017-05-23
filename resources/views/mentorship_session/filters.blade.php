@@ -26,9 +26,18 @@
             </div><!--.col-md-6-->
         </div>
         <div class="row">
-            <div class="col-md-2 filterName">Session status</div>
+            <div class="col-md-2 filterName">Status start range</div>
             <div class="col-md-4">
-                <select data-placeholder="Choose session status" name="statusId" id="statusesSelect" class="chosen-select">
+                <select data-placeholder="Choose session status" name="startStatusId" id="startStatusesSelect" class="chosen-select">
+                    <option><!-- Empty option allows the placeholder to take effect. --><option>
+                    @foreach($statuses as $status)
+                        <option value="{{$status->id}}">{{$status->description}}</option>
+                    @endforeach
+                </select>
+            </div><!--.col-md-6-->
+            <div class="col-md-2 filterName">Status end range</div>
+            <div class="col-md-4">
+                <select data-placeholder="Choose session status" name="endStatusId" id="endStatusesSelect" class="chosen-select">
                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                     @foreach($statuses as $status)
                         <option value="{{$status->id}}">{{$status->description}}</option>

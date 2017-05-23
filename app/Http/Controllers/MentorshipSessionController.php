@@ -197,7 +197,7 @@ class MentorshipSessionController extends Controller
     public function showMentorshipSessionsByCriteria(Request $request) {
         $input = $request->all();
         try {
-            if(Route::currentRouteName() == "showAllMentorshipSessions") {
+            if(\Route::currentRouteName() == "showAllMentorshipSessions") {
                 $mentorshipSessionsViewModelsData = $this->mentorshipSessionManager->getMentorshipSessionViewModelsByCriteria($input);
                 $mentorshipSessionViewModels = $this->paginate($mentorshipSessionsViewModelsData)->setPath('allWithFilters');
                 $request->session()->put('mentorshipSessions', $mentorshipSessionsViewModelsData);
