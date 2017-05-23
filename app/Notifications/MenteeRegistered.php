@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\BusinessLogicLayer\managers\UserManager;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,6 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class MenteeRegistered extends Notification
 {
     use Queueable;
+    private $userManager;
 
     /**
      * Create a new notification instance.
@@ -18,7 +20,7 @@ class MenteeRegistered extends Notification
      */
     public function __construct()
     {
-        //
+        $this->userManager = new UserManager();
     }
 
     /**
@@ -56,7 +58,7 @@ class MenteeRegistered extends Notification
             ->line('')
             ->line('Με εξαιρετική εκτίμηση,')
             ->line('')
-            ->line('Η ομάδα του Job-Pairs');
+            ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'))->cc($this->userManager->getAdminEmails());
     }
 
     /**
