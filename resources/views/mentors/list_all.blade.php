@@ -5,7 +5,6 @@
         @include('mentors.list', ['mentorsCount' => $mentorViewModels->total()])
         @include('mentors.modals')
     </div>
-    {{ $mentorViewModels->links() }}
 @endsection
 
 

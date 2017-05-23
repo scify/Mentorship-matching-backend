@@ -240,7 +240,7 @@ class MenteeController extends Controller
         $accountManagers = (new UserManager())->getAccountManagersWithRemainingCapacity();
         $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
         $mentorManager = new MentorManager();
-        $availableMentorViewModels = $this->paginate($mentorManager->getAvailableMentorViewModels(), 500)->setPath('all');
+        $availableMentorViewModels = $mentorManager->paginateMentors($mentorManager->getAvailableMentorViewModels())->setPath('#');
         $currentSessionViewModel = $this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentee($id);
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentee($id);
         $mentorshipSessionsCount = $mentorshipSessionViewModels->count();
