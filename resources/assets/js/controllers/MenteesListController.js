@@ -38,7 +38,6 @@ window.MenteesListController.prototype = function () {
         },
         searchBtnHandler = function () {
             $("#searchBtn").on("click", function () {
-                pageNum = 1;
                 menteesCriteria.menteeName = $("input[name=mentee_name]").val();
                 menteesCriteria.ageRange = $("input[name=age]").val();
                 menteesCriteria.educationLevel = $("select[name=education_level]").val();

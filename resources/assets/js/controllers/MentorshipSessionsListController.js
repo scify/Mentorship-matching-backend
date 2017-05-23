@@ -99,8 +99,8 @@ window.MentorshipSessionsListController.prototype = function() {
                 $("#mentorshipSessionShowModal #history .timeline").html(responseObj.data);
             }
         },
-        paginateMentorshipSessionsBtnHandler = function () {
-            $("body").on("click", "#mentorshipSessionsList .pagination a", function (e) {
+        paginateMentorshipSessionsBtnHandler = function (parentDiv) {
+            $("body").on("click", parentDiv + " #mentorshipSessionsList .pagination a", function (e) {
                 e.preventDefault();
                 var page = $(this).html();
                 console.log(page);
@@ -261,7 +261,6 @@ window.MentorshipSessionsListController.prototype = function() {
         },
         searchBtnHandler = function (parentDiv) {
             $("#searchBtn").on("click", function () {
-                pageNum = 1;
                 mentorshipSessionsCriteria.mentorName = $('input[name=mentorName]').val();
                 mentorshipSessionsCriteria.menteeName = $('input[name=menteeName]').val();
                 mentorshipSessionsCriteria.startStatusId = $('select[name=startStatusId]').val();
@@ -319,15 +318,15 @@ window.MentorshipSessionsListController.prototype = function() {
                 data: mentorshipSessionsCriteria,
                 beforeSend: function () {
                     $('.panel-body').first().append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
-                    $("#mentorshipSessionsBottomLoader").removeClass("invisible");
+                    $(parentDiv + " #mentorshipSessionsBottomLoader").removeClass("invisible");
                 },
                 success: function (response) {
                     $('.refresh-container').fadeOut(500, function() {
                         $('.refresh-container').remove();
                     });
-                    parseSuccessSessionsData(response);
+                    parseSuccessSessionsData(response, parentDiv);
                     mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
-                    $("#mentorshipSessionsBottomLoader").addClass("invisible");
+                    $(parentDiv + " #mentorshipSessionsBottomLoader").addClass("invisible");
                 },
                 error: function (xhr, status, errorThrown) {
                     $('.refresh-container').fadeOut(500, function() {
@@ -337,21 +336,22 @@ window.MentorshipSessionsListController.prototype = function() {
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
                     $("#errorMsg").html(errorThrown);
-                    $("#mentorshipSessionsBottomLoader").addClass("invisible");
+                    $(parentDiv + " #mentorshipSessionsBottomLoader").addClass("invisible");
                 }
             });
         },
-        parseSuccessSessionsData = function(response) {
+        parseSuccessSessionsData = function(response, parentDiv) {
             var responseObj = JSON.parse(response);
+            console.log(parentDiv);
             //if operation was unsuccessful
             if (responseObj.status == 2) {
-                $("#errorMsg").removeClass('hidden');
-                $("#errorMsg").html(responseObj.data);
-                $("#mentorshipSessionsList").html("");
+                $(parentDiv).find("#errorMsg").removeClass('hidden');
+                $(parentDiv).find("#errorMsg").html(responseObj.data);
+                $(parentDiv).find("#mentorshipSessionsList").html("");
             } else {
-                $("#mentorshipSessionsList").html("");
-                $("#errorMsg").addClass('hidden');
-                $("#mentorshipSessionsList").html(responseObj.data);
+                $(parentDiv).find("#mentorshipSessionsList").html("");
+                $(parentDiv).find("#errorMsg").addClass('hidden');
+                $(parentDiv).find("#mentorshipSessionsList").html(responseObj.data);
                 Pleasure.listenClickableCards();
             }
         },
@@ -426,6 +426,7 @@ window.MentorshipSessionsListController.prototype = function() {
             });
         },
         init = function(parentDiv) {
+        console.log(parentDiv);
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
             mentorsAndMenteesListsCssCorrector.setCorrectCssClasses(parentDiv + " #mentorshipSessionsList");
             sessionInfoModalHandler(parentDiv);
@@ -438,7 +439,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 initNonParentSpecificHandlers();
                 isFirstInit = false;
             }
-            paginateMentorshipSessionsBtnHandler();
+            paginateMentorshipSessionsBtnHandler(parentDiv);
         },
         initNonParentSpecificHandlers = function() {
             initSelectInputs();
