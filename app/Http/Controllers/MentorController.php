@@ -83,8 +83,6 @@ class MentorController extends Controller
         try {
             $mentorViewModelsData = $this->mentorManager->getMentorViewModelsByCriteria($input);
             $mentorViewModels = $this->mentorManager->paginateMentors($mentorViewModelsData)->setPath('#');
-            $request->session()->put('mentors', $mentorViewModelsData);
-            $mentorsCount = $mentorViewModels->total();
         }  catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
@@ -95,7 +93,7 @@ class MentorController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentorViewModels', 'loggedInUser', 'mentorsCount'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentors.list', compact('mentorViewModels', 'loggedInUser'))));
         }
     }
 
