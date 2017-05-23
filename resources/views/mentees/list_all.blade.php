@@ -2,10 +2,9 @@
 @section('content')
     <div id="allMentees">
         @include('mentees.filters')
-        @include('mentees.list', ['menteesCount' => $menteeViewModels->total()])
+        @include('mentees.list')
         @include('mentees.modals')
     </div>
-    {{ $menteeViewModels->links() }}
 @endsection
 
 @section('additionalFooter')

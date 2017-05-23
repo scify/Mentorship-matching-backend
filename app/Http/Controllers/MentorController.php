@@ -107,7 +107,7 @@ class MentorController extends Controller
         $menteeManager = new MenteeManager();
         $userManager = new UserManager();
         $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
-        $availableMenteeViewModels = $menteeManager->getAvailableMenteeViewModels();
+        $availableMenteeViewModels = $menteeManager->paginateMentees($menteeManager->getAvailableMenteeViewModels());
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();

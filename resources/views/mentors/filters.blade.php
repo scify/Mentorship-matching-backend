@@ -4,7 +4,7 @@
             <h4>FILTERS</h4>
         </div>
     </div><!--.panel-heading-->
-    <div class="panel-body filtersContainer noInputStyles" data-url="{{ route('filterMentors') }}">
+    <div class="panel-body filtersContainer noInputStyles" id="mentorsFilters" data-url="{{ route('filterMentors') }}">
         <div class="row">
             <div class="col-md-2 filterName">Name</div><!--.col-md-3-->
             <div class="col-md-6">

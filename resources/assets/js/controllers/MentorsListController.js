@@ -27,13 +27,13 @@ window.MentorsListController.prototype = function () {
             });
         },
         paginateMentorsBtnHandler = function () {
-            $("body").on("click", ".pagination a", function (e) {
+            $("body").on("click", "#mentorsList .pagination a", function (e) {
                 e.preventDefault();
                 var page = $(this).html();
                 console.log(page);
                 pageNum = page;
                 if(!$(this).parent().hasClass("active")) {
-                    $("#searchBtn").trigger("click");
+                    $("#mentorsFilters").find("#searchBtn").trigger("click");
                 }
             });
         },
@@ -82,7 +82,6 @@ window.MentorsListController.prototype = function () {
             // button pressed that triggered this function
             var self = this;
             mentorsCriteria.page = pageNum;
-            console.log("getMentorsByFilter");
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),
