@@ -319,7 +319,6 @@ class MenteeManager {
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
             $dbQuery .= "mses.status_id in (" . implode(",", $mentorshipSessionStatuses::getCancelledSessionStatuses()) . ") ";
         }
-        dd($dbQuery);
         $filteredMenteeIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)
         );
