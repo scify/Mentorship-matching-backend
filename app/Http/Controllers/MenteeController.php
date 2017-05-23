@@ -192,12 +192,16 @@ class MenteeController extends Controller
             return back()->withInput();
         }
 
-        session()->flash('flash_message_success', 'Mentee created');
+
         //if logged in user created the mentee, return to "all mentors" page
-        if(Auth::user() != null && !$input['public_form'])
+        if(Auth::user() != null && !$input['public_form']) {
+            session()->flash('flash_message_success', 'Mentee created');
             return redirect()->route('showAllMentees');
-        else
+        }
+        else {
+            session()->flash('flash_message_success', trans("messages.mentee_created_public"));
             return back();
+        }
 
     }
 
