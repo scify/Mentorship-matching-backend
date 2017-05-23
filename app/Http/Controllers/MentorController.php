@@ -154,6 +154,7 @@ class MentorController extends Controller
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
         $currentSessionViewModel = $this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($id);
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMentor($id);
+        $mentorshipSessionsCount = $mentorshipSessionViewModels->count();
         $loggedInUser = Auth::user();
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
@@ -165,6 +166,7 @@ class MentorController extends Controller
             'statuses' => $statuses,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
             'currentSessionViewModel' => $currentSessionViewModel,
+            'mentorshipSessionsCount' => $mentorshipSessionsCount
         ]);
     }
 

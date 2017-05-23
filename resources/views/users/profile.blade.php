@@ -137,7 +137,7 @@
                             @if($mentorshipSessionViewModelsForMatcher->count() == 0)
                                 You haven't performed any matches yet.
                             @else
-                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForMatcher])
+                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForMatcher, 'mentorshipSessionsCount' => $mentorshipSessionViewModelsForMatcher->count()])
                             @endif
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                             @if($mentorshipSessionViewModelsForAccManager->count() == 0)
                                 No Mentorship sessions yet.
                             @else
-                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForAccManager])
+                                @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForAccManager, 'mentorshipSessionsCount' => $mentorshipSessionViewModelsForAccManager->count()])
                             @endif
                         </div>
                     </div>

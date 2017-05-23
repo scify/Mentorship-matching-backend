@@ -7,6 +7,7 @@ use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class MentorshipSessionController extends Controller
@@ -15,6 +16,17 @@ class MentorshipSessionController extends Controller
 
     public function __construct() {
         $this->mentorshipSessionManager = new MentorshipSessionManager();
+    }
+
+    protected function paginate($items, $perPage = 10) {
+        //Get current page form url e.g. &page=1
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        //Slice the collection to get the items to display in current page
+        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+
+        //Create our paginator and pass it to the view
+        return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
     }
 
     /**
@@ -29,14 +41,15 @@ class MentorshipSessionController extends Controller
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
-        $mentorshipSessionViewModels = $this->mentorshipSessionManager->getAllMentorshipSessionsViewModel();
+        $mentorshipSessionViewModels = $this->paginate($this->mentorshipSessionManager->getAllMentorshipSessionsViewModel())->setPath('all');
+        $mentorshipSessionsCount = $mentorshipSessionViewModels->total();
         $loggedInUser = Auth::user();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'view all';
         $displayAccountManagerFilter = true;
         $displayMatcherFilter = true;
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'displayAccountManagerFilter', 'displayMatcherFilter'
+            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'displayAccountManagerFilter', 'displayMatcherFilter', 'mentorshipSessionsCount'
         ));
     }
 
@@ -131,13 +144,15 @@ class MentorshipSessionController extends Controller
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForAccountManager($loggedInUser->id);
+        $mentorshipSessionsCount = $mentorshipSessionViewModels->count();
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my mentorship sessions';
         $displayAccountManagerFilter = false;
         $displayMatcherFilter = true;
+        $mentorshipSessionPagination = false;
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'displayAccountManagerFilter', 'displayMatcherFilter'
+            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'mentorshipSessionPagination', 'displayAccountManagerFilter', 'displayMatcherFilter', 'mentorshipSessionsCount'
         ));
     }
 
@@ -148,13 +163,15 @@ class MentorshipSessionController extends Controller
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsForMatcher($loggedInUser->id);
+        $mentorshipSessionsCount = $mentorshipSessionViewModels->count();
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my matches';
         $displayAccountManagerFilter = true;
         $displayMatcherFilter = false;
+        $mentorshipSessionPagination = false;
         return view('mentorship_session.list_all', compact('mentorshipSessionViewModels', 'pageTitle', 'pageSubTitle',
-            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'displayAccountManagerFilter', 'displayMatcherFilter'
+            'loggedInUser', 'statuses', 'accountManagers', 'matchers', 'mentorshipSessionPagination', 'displayAccountManagerFilter', 'displayMatcherFilter', 'mentorshipSessionsCount'
         ));
     }
 
@@ -180,7 +197,16 @@ class MentorshipSessionController extends Controller
     public function showMentorshipSessionsByCriteria(Request $request) {
         $input = $request->all();
         try {
-            $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsByCriteria($input);
+            if(Route::currentRouteName() == "showAllMentorshipSessions") {
+                $mentorshipSessionsViewModelsData = $this->mentorshipSessionManager->getMentorshipSessionViewModelsByCriteria($input);
+                $mentorshipSessionViewModels = $this->paginate($mentorshipSessionsViewModelsData)->setPath('allWithFilters');
+                $request->session()->put('mentorshipSessions', $mentorshipSessionsViewModelsData);
+                $mentorshipSessionsCount = $mentorshipSessionViewModels->total();
+            } else {
+                $mentorshipSessionViewModels = $this->mentorshipSessionManager->getMentorshipSessionViewModelsByCriteria($input);
+                $mentorshipSessionsCount = $mentorshipSessionViewModels->count();
+            }
+
         }  catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
@@ -191,7 +217,7 @@ class MentorshipSessionController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentorship_session.list', compact('mentorshipSessionViewModels', 'loggedInUser'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentorship_session.list', compact('mentorshipSessionViewModels', 'mentorshipSessionsCount','loggedInUser'))));
         }
     }
 

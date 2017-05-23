@@ -4,6 +4,14 @@
     <div id="mentorship_session_list">
         @include('mentorship_session.list')
     </div>
+    @if(isset($mentorshipSessionPagination))
+        @if ($mentorshipSessionPagination)
+            {{ $mentorshipSessionViewModels->links() }}
+        @endif
+    @else
+        {{ $mentorshipSessionViewModels->links() }}
+    @endif
+
     @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
     @include('mentorship_session.modals.matching_modal_edit', ['isCreatingNewSession' => false])
     @if($loggedInUser->userHasAccessToCRUDMentorshipSessions())
