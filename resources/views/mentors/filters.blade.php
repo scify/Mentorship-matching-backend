@@ -47,7 +47,7 @@
                 <select data-placeholder="Choose availability status" name="availability" id="availabilitySelect" class="chosen-select">
                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                     @foreach($statuses as $status)
-                        <option value="{{$status->id}}">{{$status->description}}</option>
+                        <option value="{{$status->id}}" {{ $status->id == 1 ? 'selected' : '' }}>{{$status->description}}</option>
                     @endforeach
                 </select>
             </div><!--.col-md-6-->
