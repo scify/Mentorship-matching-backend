@@ -319,7 +319,8 @@ class MentorshipSessionManager
     private function getMentorshipSessionsByCriteria(array $filters) {
         if((!isset($filters['mentorName'])  || $filters['mentorName'] === "") &&
             (!isset($filters['menteeName'])  || $filters['menteeName'] === "") &&
-            (!isset($filters['statusId'])  || $filters['statusId'] === "") &&
+            (!isset($filters['startStatusId'])  || $filters['startStatusId'] === "") &&
+            (!isset($filters['endStatusId'])  || $filters['endStatusId'] === "") &&
             (!isset($filters['startedDateRange'])  || $filters['startedDateRange'] === "") &&
             (!isset($filters['completedDateRange'])  || $filters['completedDateRange'] === "") &&
             (!isset($filters['accountManagerId'])  || $filters['accountManagerId'] === "") &&
@@ -353,7 +354,8 @@ class MentorshipSessionManager
         }
         if((isset($filters['mentorName']) && $filters['mentorName'] !== "") ||
             (isset($filters['menteeName']) && $filters['menteeName'] !== "") ||
-            (isset($filters['statusId']) && $filters['statusId'] !== "") ||
+            (isset($filters['startStatusId']) && $filters['startStatusId'] !== "") ||
+            (isset($filters['endStatusId']) && $filters['endStatusId'] !== "") ||
             (isset($filters['startedDateRange']) && $filters['startedDateRange'] !== "") ||
             (isset($filters['accountManagerId']) && $filters['accountManagerId'] !== "") ||
             (isset($filters['matcherId']) && $filters['matcherId'] !== "")) {
@@ -370,14 +372,24 @@ class MentorshipSessionManager
             $dbQuery .= "(mentee.first_name like '%" . $filters['menteeName'] . "%' or mentee.last_name like '%" . $filters['menteeName'] . "%') ";
             $whereClauseExists = true;
         }
-        if(isset($filters['statusId']) && $filters['statusId'] != "") {
-            if(intval($filters['statusId']) == 0) {
+        if(isset($filters['startStatusId']) && $filters['startStatusId'] != "") {
+            if(intval($filters['startStatusId']) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
             if($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            $dbQuery .= "ms.status_id = " . $filters['statusId'] . " ";
+            $dbQuery .= "ms.status_id >= " . $filters['startStatusId'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['endStatusId']) && $filters['endStatusId'] != "") {
+            if(intval($filters['endStatusId']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "ms.status_id <= " . $filters['endStatusId'] . " ";
             $whereClauseExists = true;
         }
         if(isset($filters['startedDateRange']) && $filters['startedDateRange'] != "") {
