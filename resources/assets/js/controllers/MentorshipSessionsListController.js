@@ -261,6 +261,7 @@ window.MentorshipSessionsListController.prototype = function() {
         },
         searchBtnHandler = function (parentDiv) {
             $("#searchBtn").on("click", function () {
+                pageNum = 1;
                 mentorshipSessionsCriteria.mentorName = $('input[name=mentorName]').val();
                 mentorshipSessionsCriteria.menteeName = $('input[name=menteeName]').val();
                 mentorshipSessionsCriteria.startStatusId = $('select[name=startStatusId]').val();

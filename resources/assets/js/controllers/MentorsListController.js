@@ -46,6 +46,7 @@ window.MentorsListController.prototype = function () {
         },
         searchBtnHandler = function () {
             $("#searchBtn").on("click", function () {
+                pageNum = 1;
                 mentorsCriteria.mentorName = $('input[name=mentorName]').val();
                 mentorsCriteria.ageRange = $('input[name=age]').val();
                 mentorsCriteria.specialtyId = $('select[name=specialty]').val();
