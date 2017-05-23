@@ -52,7 +52,7 @@ class UserController extends Controller
         if($loggedInUser->isAccountManager()) {
             $mentorshipSessionManager = new MentorshipSessionManager();
             $pendingMentorshipSessionViewModelsForAccManager = $mentorshipSessionManager
-                ->paginateMentorshipSessions($mentorshipSessionManager->
+                ->paginateMentorshipSessions($mentorshipSessionManager
                 ->getPendingMentorshipSessionViewModelsForAccountManager($loggedInUser->id));
             $mentorshipSessionsNumForAccManager = $mentorshipSessionManager->getActiveMentorshipSessionsNumForAccountManager($loggedInUser->id);
             $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
