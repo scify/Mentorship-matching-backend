@@ -113,6 +113,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-3 filterName">
+                <label for="available-with-cancelled-session">Mentees with cancelled last session</label>
+            </div>
+            <div class="col-md-3">
+                <div class="icheckbox">
+                    <input type="checkbox" name="available_with_cancelled_session" id="available-with-cancelled-session">
+                </div>
+            </div>
+        </div>
         <div class="form-buttons">
             <div class="row">
                 <div class="col-md-offset-3 col-md-9">

@@ -185,7 +185,8 @@ class MenteeManager {
             (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
             (!isset($filters['displayOnlyActiveSession']) || $filters['displayOnlyActiveSession'] === 'false') &&
             (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false') &&
-            (!isset($filters['displayOnlyExternallySubscribed']) || $filters['displayOnlyExternallySubscribed'] === 'false')) {
+            (!isset($filters['displayOnlyExternallySubscribed']) || $filters['displayOnlyExternallySubscribed'] === 'false') &&
+            (!isset($filters['displayOnlyAvailableWithCancelledSessions'])  || $filters['displayOnlyAvailableWithCancelledSessions'] === 'false')) {
             return $this->menteeStorage->getAllMenteeProfiles();
         }
         $mentorshipSessionStatuses = null;
@@ -199,6 +200,12 @@ class MenteeManager {
 	            from mentorship_session_history as msh join mentorship_session as ms on 
 	            msh.mentorship_session_id = ms.id join mentee_profile as mp on mp.id = ms.mentee_profile_id 
 	            group by mp.id, ms.id)	as last_session on (last_session.id = ms.id and last_session.session_date = msh.updated_at) ";
+        }
+        if(isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === "true") {
+            $dbQuery .= "left outer join mentorship_session as mses on mses.mentee_profile_id = mp.id
+                left outer join
+                (select max(id) as last_session_id from mentorship_session group by mentee_profile_id) 
+                as last_sessions on last_sessions.last_session_id = mses.id ";
         }
         $dbQuery .= "where ";
         if(isset($filters['menteeName']) && $filters['menteeName'] != "") {
@@ -303,6 +310,14 @@ class MenteeManager {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.creator_user_id is null ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+            $dbQuery .= "mses.status_id in (" . implode(",", $mentorshipSessionStatuses::getCancelledSessionStatuses()) . ") ";
         }
         $filteredMenteeIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)
