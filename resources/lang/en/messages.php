@@ -121,5 +121,6 @@ return [
     'university_name.required' => 'The University name is required',
     'required_field' => 'Required field',
     'mentor_created_public' => 'Successful submission. We will gen in touch with you soon',
-    'mentee_created_public' => 'Successful submission. We will gen in touch with you soon'
+    'mentee_created_public' => 'Successful submission. We will gen in touch with you soon',
+    'job_experience_years.min' => 'All mentors must have at least 5 years of professional experience'
 ];
