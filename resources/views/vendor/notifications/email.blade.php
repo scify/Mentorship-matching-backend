@@ -84,6 +84,7 @@ $style = [
                                     <td style="{{ $fontFamily }} {{ $style['email-body_cell'] }}">
                                         <!-- Greeting -->
                                         <h1 style="{{ $style['header-1'] }}">
+                                            <div class="panel-heading"><img src="{{asset('/assets/img/jobpairs_logo.png')}}" height="120" alt=""></div>
                                             @if (! empty($greeting))
                                                 {{ $greeting }}
                                             @else
