@@ -400,12 +400,12 @@
                                 @endif
                                 <div class="row margin-top-40">
                                     <!-- CV upload -->
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <div class="file-input-label">
-                                            <label for="cv_file">{{trans('messages.upload_cv')}} (.pdf):</label>
+                                            <label for="cv_file">{{trans('messages.upload_cv')}} (.pdf, .doc, .docx):</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-10">
+                                    <div class="col-md-9">
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                             <span class="btn btn-orange btn-file">
                                                 <span class="fileinput-new">Select file</span>
