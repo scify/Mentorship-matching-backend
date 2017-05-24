@@ -118,6 +118,7 @@ return [
     'expectations.required' => 'Required field',
     'career_goals.required' => 'Required field',
     'specialty.required' => 'Required field',
+    'university_name.required' => 'The University name is required',
     'required_field' => 'Required field',
     'mentor_created_public' => 'Successful submission. We will gen in touch with you soon',
     'mentee_created_public' => 'Successful submission. We will gen in touch with you soon'

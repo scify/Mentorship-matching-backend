@@ -58,7 +58,7 @@ class MenteeRegistered extends Notification
             ->line('')
             ->line('Με εξαιρετική εκτίμηση,')
             ->line('')
-            ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'))->cc($this->userManager->getAdminEmails());
+            ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'))->cc($this->userManager->getEmailsForCC());
     }
 
     /**
