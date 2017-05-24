@@ -37,7 +37,7 @@ return [
     'company' => 'Company',
     'company_sector' => 'Company Sector',
     'job_position' => 'Job Position',
-    'job_experience_years' => 'Job Experience years',
+    'job_experience_years' => 'Job Experience (in years)',
     'education_level' => 'Education Level',
     'university' => 'University',
     'university_name' => 'University name',
