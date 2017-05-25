@@ -23,14 +23,14 @@
                             ,
                         @endif
                     @endforeach
-                    {{"("}}
+                    @if($mentorViewModel->mentor->industries->count() > 0){{"("}}@endif
                     @foreach($mentorViewModel->mentor->industries as $industry)
                         {{$industry->name}}
                         @if(!$loop->last)
                             ,
                         @endif
                     @endforeach
-                    {{")"}}
+                    @if($mentorViewModel->mentor->industries->count() > 0){{")"}}@endif
                 </span>
                 <span class="caption margin-top-5">
                     @if($mentorViewModel->mentor->status != null)
