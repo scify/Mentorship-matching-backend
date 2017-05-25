@@ -77,7 +77,9 @@
                                         @if($menteeViewModel->mentee->residence != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.residence')}}</div>
-                                                <div class="col-md-9">{{$menteeViewModel->mentee->residence->name}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->residence->name}}
+                                                    @if(!empty($menteeViewModel->mentee->residence_name)) ({{ $menteeViewModel->mentee->residence_name }}) @endif
+                                                </div>
                                             </div><!--.row-->
                                         @endif
                                         <div class="formRow row">
@@ -106,7 +108,9 @@
                                         @if($menteeViewModel->mentee->reference_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.heard_about')}}</div>
-                                                <div class="col-md-9">{{$menteeViewModel->mentee->reference->name}}</div>
+                                                <div class="col-md-9">{{$menteeViewModel->mentee->reference->name}}
+                                                    @if(!empty($menteeViewModel->mentee->reference_text)) ({{ $menteeViewModel->mentee->reference_text }}) @endif
+                                                </div>
                                             </div><!--.row-->
                                         @endif
                                     </div>

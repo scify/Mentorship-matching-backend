@@ -124,7 +124,9 @@ class MentorsUploadManager
                             }
                             break;
                         case 'reference':
-                            // TODO: store to other references field whenever it is created
+                            if (!empty($colContent)) {
+                                $mentor->reference_text = $colContent;
+                            }
                             break;
                         case 'registered':
                             if (!empty($colContent)) {

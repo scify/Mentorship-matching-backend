@@ -84,7 +84,9 @@ elixir(function(mix) {
             'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
             'resources/assets/js/MentorsAndMenteesListsCssCorrector.js',
             'resources/assets/js/TabsHandler.js',
-            'resources/assets/js/UniversityHandler.js'
+            'resources/assets/js/UniversityHandler.js',
+            'resources/assets/js/ResidenceHandler.js',
+            'resources/assets/js/ReferenceHandler.js'
         ],
         'public/js/app.js' , './')
         .scripts([
