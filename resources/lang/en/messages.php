@@ -126,5 +126,7 @@ return [
     'required_field' => 'Required field',
     'mentor_created_public' => 'Successful submission. We will get in touch with you soon',
     'mentee_created_public' => 'Successful submission. We will get in touch with you soon',
-    'job_experience_years.min' => 'All mentors must have at least 5 years of professional experience'
+    'job_experience_years.min' => 'All mentors must have at least 5 years of professional experience',
+    'cv_file.max' => 'The CV file must not be more than 10 kilobytes',
+    'cv_file.mimes' => 'The CV file must be a pdf, doc or docx file'
 ];

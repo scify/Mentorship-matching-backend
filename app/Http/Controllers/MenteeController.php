@@ -216,7 +216,9 @@ class MenteeController extends Controller
             'job_experience_years.required' => trans('messages.job_experience_years.required'),
             'career_goals.required' => trans('messages.career_goals.required'),
             'specialty_id.required' => trans('messages.specialty.required'),
-            'university_name.required_if' => trans('messages.university_name.required')
+            'university_name.required_if' => trans('messages.university_name.required'),
+            'cv_file.max' => trans('messages.cv_file.max'),
+            'cv_file.mimes' => trans('messages.cv_file.mimes')
         ];
     }
 

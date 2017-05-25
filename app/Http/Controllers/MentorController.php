@@ -307,7 +307,9 @@ class MentorController extends Controller
             'specialties.required' => trans('messages.specialties.required'),
             'industries.required' => trans('messages.industries.required'),
             'status_id.required' => trans('messages.status_id.required'),
-            'job_experience_years.min' => trans('messages.job_experience_years.min')
+            'job_experience_years.min' => trans('messages.job_experience_years.min'),
+            'cv_file.max' => trans('messages.cv_file.max'),
+            'cv_file.mimes' => trans('messages.cv_file.mimes')
         ];
     }
 

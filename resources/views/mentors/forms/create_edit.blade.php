@@ -443,7 +443,7 @@
                                             <span class="btn btn-orange btn-file">
                                                 <span class="fileinput-new">Select file</span>
                                                 <span class="fileinput-exists">Change</span>
-                                                <input type="file" name="cv_file">
+                                                <input type="file" name="cv_file" accept=".doc,.docx,.pdf">
                                             </span>
                                             <span class="fileinput-filename">
                                                 @if(!empty($mentor['cv_file_name']))
