@@ -15,7 +15,7 @@ use App\Models\eloquent\Specialty;
 class SpecialtyStorage {
 
     public function getAllSpecialties() {
-        return Specialty::all();
+        return Specialty::orderBy('name')->get();
     }
 
     public function getSpecialtyById($id) {

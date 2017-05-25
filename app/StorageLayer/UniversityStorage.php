@@ -13,6 +13,9 @@ use App\Models\eloquent\University;
 class UniversityStorage
 {
     public function getAllUniversities() {
-        return University::all();
+        $universities = University::where('name', '<>', 'Άλλο')->orderBy('name')->get();
+        $otherUniversity = University::where('name', 'Άλλο')->first();
+        $universities->push($otherUniversity);
+        return $universities;
     }
 }
