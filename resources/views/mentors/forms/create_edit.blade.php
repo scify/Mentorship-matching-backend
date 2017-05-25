@@ -325,7 +325,7 @@
                                         <div class="{{ $errors->first('job_experience_years')?'has-error has-feedback':'' }}">
                                             <div class="inputer floating-label">
                                                 <div class="input-wrapper">
-                                                    <input type="text" class="form-control" name="job_experience_years"
+                                                    <input type="number" class="form-control" name="job_experience_years"
                                                            value="{{ old('job_experience_years') != '' ? old('job_experience_years') : $mentor['job_experience_years']}}">
                                                     <label for="job_experience_years">{{trans('messages.job_experience_years')}} <span class="requiredIcon">*</span></label>
                                                 </div>

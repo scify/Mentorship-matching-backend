@@ -37,7 +37,7 @@ return [
     'company' => 'Company',
     'company_sector' => 'Company Sector',
     'job_position' => 'Job Position',
-    'job_experience_years' => 'Job Experience years',
+    'job_experience_years' => 'Job Experience (in years)',
     'education_level' => 'Education Level',
     'university' => 'University',
     'university_name' => 'University name',
@@ -118,7 +118,9 @@ return [
     'expectations.required' => 'Required field',
     'career_goals.required' => 'Required field',
     'specialty.required' => 'Required field',
+    'university_name.required' => 'The University name is required',
     'required_field' => 'Required field',
     'mentor_created_public' => 'Successful submission. We will gen in touch with you soon',
-    'mentee_created_public' => 'Successful submission. We will gen in touch with you soon'
+    'mentee_created_public' => 'Successful submission. We will gen in touch with you soon',
+    'job_experience_years.min' => 'All mentors must have at least 5 years of professional experience'
 ];

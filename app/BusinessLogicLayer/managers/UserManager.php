@@ -316,11 +316,14 @@ class UserManager {
         return $matcherRole->users;
     }
 
-    public function getAdminEmails() {
-        $allAdminEmails = array();
-        foreach ($this->getAllAdmnins() as $admin) {
-            array_push($allAdminEmails, $admin->email);
-        }
-        return $allAdminEmails;
+    public function getEmailsForCC() {
+//        $allAdminEmails = array();
+//        foreach ($this->getAllAdmnins() as $admin) {
+//            array_push($allAdminEmails, $admin->email);
+//        }
+//        return $allAdminEmails;
+        $emails = array();
+        array_push($emails, env('EMAIL_FOR_CC', 'info@job-pairs.gr'));
+        return $emails;
     }
 }

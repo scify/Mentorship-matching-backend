@@ -82,7 +82,7 @@
                                 <div class="{{ $errors->first('first_name')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input required type="text" class="form-control" name="first_name" value="{{ old('first_name') != '' ? old('first_name') : $mentee['first_name']}}">
+                                            <input style="text-transform:uppercase" required type="text" class="form-control" name="first_name" value="{{ old('first_name') != '' ? old('first_name') : $mentee['first_name']}}">
                                             <label for="first_name">{{trans('messages.first_name')}} <span class="requiredIcon">*</span></label>
                                         </div>
                                     </div>
@@ -215,7 +215,7 @@
                                 <span class="help-block">{{ $errors->first('university_id') }}</span>
                             </div>
                         </div>
-                        <div class="row universityName" @if(empty($mentee['university_name'])) style="display: none;" @endif>
+                        <div class="row universityName" @if(empty($mentee['university_name'])) style="display: {{ $mentee['university_id'] == 12 || old('university_id') == 12 ? '' : 'none' }};" @endif>
                             <div class="col-md-6">
                                 <!-- University -->
                                 <div class="{{ $errors->first('university_name')?'has-error has-feedback':'' }}">

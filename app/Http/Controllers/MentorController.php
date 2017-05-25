@@ -253,7 +253,7 @@ class MentorController extends Controller
             'company_id' => 'required',
             'company_sector' => 'required',
             'job_position' => 'required',
-            'job_experience_years' => 'required',
+            'job_experience_years' => 'required|numeric|min:5',
             'skills' => 'required',
             'specialties' => 'required',
             'industries' => 'required',
@@ -303,7 +303,8 @@ class MentorController extends Controller
             'skills.required' => trans('messages.skills.required'),
             'specialties.required' => trans('messages.specialties.required'),
             'industries.required' => trans('messages.industries.required'),
-            'status_id.required' => trans('messages.status_id.required')
+            'status_id.required' => trans('messages.status_id.required'),
+            'job_experience_years.min' => trans('messages.job_experience_years.min')
         ];
     }
 
