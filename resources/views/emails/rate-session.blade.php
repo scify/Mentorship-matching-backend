@@ -5,9 +5,6 @@
     <p style="text-align: center;">Your mentorship session was just completed!</p>
     <p style="text-align: center;">Click on the link below to make your profile available for a new session</p>
     <p style="text-align: center;">
-        Mentor id: {{ $mentor_id }}
-        Mentee id: {{ $mentee_id }}
-        Mentor email: {{ $mentor_email }}
-        Mentee email: {{ $mentee_email }}
+        Test email from {{ $email }}
     </p>
 @endsection
