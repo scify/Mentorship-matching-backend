@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('session/delete', 'MentorshipSessionController@destroy')->name('deleteMentorshipSession');
 
     Route::get('upload-mentors', 'ExcelUploadController@mentorsUpload')->name('mentorsUpload');
+    Route::get('upload-mentees', 'ExcelUploadController@menteesUpload')->name('menteesUpload');
 });
 
 Route::group(['middleware' => ['auth', 'status-changer']], function () {

@@ -67,6 +67,7 @@ class MentorsUploadManager
             // set default values to columns that are not included in the excel file
             $mentor->cv_file_name = null;
             $mentor->university_id = 12; // set to 'other' university as default
+            $mentor->creator_user_id = Auth::id();
             $createdAt = new Carbon();
             $specialtiesIds = array();
             for($j = 1; $j < count($colValues); $j++) {
