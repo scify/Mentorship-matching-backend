@@ -10,6 +10,7 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MentorshipSession;
 use App\Models\viewmodels\MentorshipSessionViewModel;
+use App\Notifications\MenteeSessionInvitation;
 use App\StorageLayer\MentorshipSessionStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
@@ -626,8 +627,12 @@ class MentorshipSessionManager
         //Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        //Slice the collection to get the items to display in current page
-        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+        if (!empty($items)) {
+            //Slice the collection to get the items to display in current page
+            $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+        } else {
+            $currentPageItems = new Collection();
+        }
 
         //Create our paginator and pass it to the view
         return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
