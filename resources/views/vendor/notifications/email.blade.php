@@ -57,6 +57,9 @@ $style = [
     'button--green' => 'background-color: #22BC66;',
     'button--red' => 'background-color: #dc4d2f;',
     'button--blue' => 'background-color: #3869D4;',
+
+    /* Custom CSS */
+    'panel-img' => 'text-align: center;',
 ];
 ?>
 
@@ -84,7 +87,7 @@ $style = [
                                     <td style="{{ $fontFamily }} {{ $style['email-body_cell'] }}">
                                         <!-- Greeting -->
                                         <h1 style="{{ $style['header-1'] }}">
-                                            <div class="panel-heading"><img src="{{asset('/assets/img/jobpairs_logo.png')}}" height="120" alt=""></div>
+                                            <div class="panel-heading" style="{{ $style['panel-img'] }}"><img src="{{asset('/assets/img/jobpairs_logo.png')}}" height="120" alt=""></div>
                                             @if (! empty($greeting))
                                                 {{ $greeting }}
                                             @else

@@ -11,6 +11,8 @@ namespace App\BusinessLogicLayer\managers;
 use App\Models\eloquent\MentorshipSession;
 use App\Models\viewmodels\MentorshipSessionViewModel;
 use App\Notifications\MenteeSessionInvitation;
+use App\Notifications\MentorSessionInvitation;
+use App\Notifications\MentorStatusReactivation;
 use App\StorageLayer\MentorshipSessionStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
@@ -135,19 +137,13 @@ class MentorshipSessionManager
     }
 
     private function inviteMenteeToMentorshipSession(MentorshipSession $mentorshipSession) {
-        $mentor = $mentorshipSession->mentor;
         $mentee = $mentorshipSession->mentee;
-        (new MailManager())->sendEmailToSpecificEmailWithCC('emails.invite-mentee',
-            ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-            'Job Pairs | You have been matched with a mentor | Session: ' . $mentorshipSession->id, $mentee->email, [$mentorshipSession->account_manager->email]);
+        $mentee->notify(new MenteeSessionInvitation($mentorshipSession));
     }
 
     private function inviteMentorToMentorshipSession(MentorshipSession $mentorshipSession) {
         $mentor = $mentorshipSession->mentor;
-        $mentee = $mentorshipSession->mentee;
-        (new MailManager())->sendEmailToSpecificEmailWithCC('emails.invite-mentor',
-            ['mentor' => $mentor, 'mentee' => $mentee, 'mentorshipSessionId' => $mentorshipSession->id],
-            'Job Pairs | You have been matched with a mentee | Session: ' . $mentorshipSession->id, $mentor->email, [$mentorshipSession->account_manager->email]);
+        $mentor->notify(new MentorSessionInvitation($mentorshipSession));
     }
 
     /**
@@ -173,11 +169,8 @@ class MentorshipSessionManager
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
 
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
-            $mentor = (new MentorManager())->getMentor($mentorshipSession->mentor_profile_id);
-            (new MailManager())->sendEmailToSpecificEmail('emails.reactivate-mentor',
-                ['id' => $mentor->id, 'email' => $mentor->email], 'Job Pairs | Mentorship session completed',
-                $mentor->email
-            );
+            $mentor = $mentorshipSession->mentor;
+            $mentor->notify(new MentorStatusReactivation($mentor));
         }
 
         // if status is completed or cancelled, change the mentor and mentee statuses back to available
