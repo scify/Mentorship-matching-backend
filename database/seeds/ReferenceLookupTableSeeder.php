@@ -18,7 +18,8 @@ class ReferenceLookupTableSeeder extends Seeder
             array('id'=> 3, 'name'=>'Εθελοντή/τρια του Job-Pairs'),
             array('id'=> 4, 'name'=>'Social Media (Facebook, Linkedin, Twitter κλπ.)'),
             array('id'=> 5, 'name'=>'Άρθρο στα Μέσα Μαζικής Ενημέρωσης (blogs, TV, περιοδικά κλπ.)'),
-            array('id'=> 6, 'name'=>'Αναζήτηση στο internet')
+            array('id'=> 6, 'name'=>'Αναζήτηση στο internet'),
+            array('id'=> 7, 'name'=>'Άλλο')
         ));
     }
 }

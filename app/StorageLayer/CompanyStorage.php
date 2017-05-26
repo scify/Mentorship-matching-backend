@@ -17,7 +17,7 @@ class CompanyStorage {
     }
 
     public function getAllCompanies() {
-        return Company::all();
+        return Company::orderBy('name')->get();
     }
 
     public function getCompanyById($id) {

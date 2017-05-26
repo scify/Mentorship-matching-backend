@@ -150,7 +150,7 @@
                             <div class="col-md-6 inputer {{ $errors->first('residence_id')?'has-error has-feedback':'' }}">
                                 <!-- Residence Area -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.residence')}} <span class="requiredIcon">*</span></div>
-                                <select data-placeholder="select" name="residence_id" class="chosen-select">
+                                <select data-placeholder="select" name="residence_id" class="chosen-select" data-show-name-on-id="4">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($residences as $residence)
                                         <option value="{{$residence->id}}" {{$mentee['residence_id'] == $residence->id || old('residence_id') == $residence->id ? 'selected' : ''}}>{{$residence->name}}</option>
@@ -159,6 +159,22 @@
                                 <span class="help-block">{{ $errors->first('residence_id') }}</span>
                             </div>
 
+                        </div>
+                        <div class="row residenceName" @if(empty($mentor['residence_name'])) style="display: {{ $mentee['residence_id'] == 4 || old('residence_id') == 4 ? '' : 'none' }};" @endif>
+                            <div class="col-md-6">
+                                <!-- Residence -->
+                                <div class="{{ $errors->first('residence_name')?'has-error has-feedback':'' }}">
+                                    <div class="inputer floating-label">
+                                        <div class="input-wrapper">
+                                            <input type="text" class="form-control" name="residence_name"
+                                                   value="{{ old('residence_name') != '' ? old('residence_name') : $mentee['residence_name']}}">
+                                            <label for="residence_name">{{trans('messages.residence_name')}} <span class="requiredIcon">*</span></label>
+                                        </div>
+                                    </div>
+                                    <span class="help-block">{{ $errors->first('residence_name') }}</span>
+
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -377,13 +393,28 @@
                             <div class="col-md-12 inputer {{ $errors->first('reference_id')?'has-error has-feedback':'' }}">
                                 <!-- Reference (where did you hear about us) -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.reference_form')}} <span class="requiredIcon">*</span></div>
-                                <select data-placeholder="select" name="reference_id" class="chosen-select">
+                                <select data-placeholder="select" name="reference_id" class="chosen-select" data-show-name-on-id="7">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($references as $reference)
                                         <option value="{{$reference->id}}" {{$mentee['reference_id'] == $reference->id || old('reference_id') == $reference->id ? 'selected' : ''}}>{{$reference->name}}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block">{{ $errors->first('reference_id') }}</span>
+                            </div>
+                        </div>
+                        <div class="row referenceText" @if(empty($mentee['reference_text'])) style="display: {{ $mentee['reference_id'] == 7 || old('reference_id') == 7 ? '' : 'none' }};" @endif>
+                            <div class="col-md-12">
+                                <!-- Reference -->
+                                <div class="{{ $errors->first('reference_text')?'has-error has-feedback':'' }}">
+                                    <div class="inputer floating-label">
+                                        <div class="input-wrapper">
+                                            <textarea class="form-control js-auto-size" rows="2" name="reference_text">{{ old('reference_text') != '' ? old('reference_text') : $mentee['reference_text']}}</textarea>
+                                            <label for="reference_text">{{trans('messages.reference_text')}} <span class="requiredIcon">*</span></label>
+                                        </div>
+                                    </div>
+                                    <span class="help-block">{{ $errors->first('reference_text') }}</span>
+
+                                </div>
                             </div>
                         </div>
                         @if($loggedInUser == null)
@@ -410,7 +441,7 @@
                                     <span class="btn btn-orange btn-file">
                                         <span class="fileinput-new">Select file</span>
                                         <span class="fileinput-exists">Change</span>
-                                        <input type="file" name="cv_file">
+                                        <input type="file" name="cv_file" accept=".doc,.docx,.pdf">
                                     </span>
                                     <span class="fileinput-filename">
                                     @if(!empty($mentee['cv_file_name']))
@@ -474,6 +505,10 @@
             availabilityStatusChangeHandler.init("#createMentee");
             var universityHandler = new UniversityHandler();
             universityHandler.initHandler();
+            var residenceHandler = new ResidenceHandler();
+            residenceHandler.initHandler();
+            var referenceHandler = new ReferenceHandler();
+            referenceHandler.initHandler();
         });
     </script>
 @endsection

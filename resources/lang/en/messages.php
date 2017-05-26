@@ -20,6 +20,7 @@ return [
     'email' => 'Email',
     'address' => 'Address',
     'residence' => 'Residence',
+    'residence_name' => 'Residence Name',
     'mentee_status' => 'Mentee status',
     'mentor_status' => 'Mentor status',
     'change_mentee_status' => 'Change mentee status',
@@ -83,6 +84,7 @@ return [
     'expectations_form_placeholder' => 'DESCRIBE IN A FEW WORDS WHAT YOU EXPECT TO GAIN FROM JOB-PAIRS',
     'career_goals_form' => 'PLEASE DESCRIBE YOUR CAREER GOALS',
     'reference_form' => 'WHERE DID YOU HEAR ABOUT JOB-PAIRS?',
+    'reference_text' => 'WHERE DID YOU HEAR ABOUT JOB-PAIRS? (FREE TEXT)',
     'created_by' => 'Created by',
     'i_accept_the' => 'I accept the',
     'terms_and_conditions' => 'terms & conditions',
@@ -102,6 +104,7 @@ return [
     'email.required' => 'Τhe email is required',
     'year_of_birth.required' => 'Τhe year of birth is required',
     'reference_id.required' => 'Required field',
+    'reference_text.required' => 'Required field',
     'address.required' => 'The address is required',
     'education_level_id.required' => 'The education level is required',
     'university_id.required' => 'The university is required',
@@ -119,8 +122,11 @@ return [
     'career_goals.required' => 'Required field',
     'specialty.required' => 'Required field',
     'university_name.required' => 'The University name is required',
+    'residence_name.required' => 'The Residence name is required',
     'required_field' => 'Required field',
-    'mentor_created_public' => 'Successful submission. We will gen in touch with you soon',
-    'mentee_created_public' => 'Successful submission. We will gen in touch with you soon',
-    'job_experience_years.min' => 'All mentors must have at least 5 years of professional experience'
+    'mentor_created_public' => 'Successful submission. We will get in touch with you soon',
+    'mentee_created_public' => 'Successful submission. We will get in touch with you soon',
+    'job_experience_years.min' => 'All mentors must have at least 5 years of professional experience',
+    'cv_file.max' => 'The CV file must not be more than 10 kilobytes',
+    'cv_file.mimes' => 'The CV file must be a pdf, doc or docx file'
 ];

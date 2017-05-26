@@ -21,11 +21,11 @@ class MentorProfile extends Model
      * @var array
      */
     protected $fillable = ['first_name', 'last_name', 'year_of_birth', 'address',
-        'residence_id', 'email', 'linkedin_url', 'phone', 'cell_phone',
+        'residence_id', 'residence_name', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'company_name', 'company_sector', 'job_position', 'job_experience_years',
         'education_level_id', 'university_id',
         'university_name', 'university_department_name', 'skills', 'cv_file_name', 'reference_id',
-        'status_id', 'company_id', 'creator_user_id'
+        'reference_text', 'status_id', 'company_id', 'creator_user_id'
     ];
 
     /**

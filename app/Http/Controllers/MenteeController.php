@@ -158,7 +158,9 @@ class MenteeController extends Controller
             'email' => 'required|max:255|email',
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
+            'residence_name' => 'required_if:residence_id,4',
             'reference_id' => 'required',
+            'reference_text' => 'required_if:reference_id,7',
             'address'        => 'required',
             'education_level_id' => 'required',
             'university_id' => 'required',
@@ -200,9 +202,11 @@ class MenteeController extends Controller
             'first_name.required' => trans('messages.first_name.required'),
             'last_name.required' => trans('messages.last_name.required'),
             'residence_id.required' => trans('messages.residence_id.required'),
+            'residence_name.required_if' => trans('messages.residence_name.required'),
             'email.required' => trans('messages.email.required'),
             'year_of_birth.required' => trans('messages.year_of_birth.required'),
             'reference_id.required' => trans('messages.reference_id.required'),
+            'reference_text.required_if' => trans('messages.reference_text.required'),
             'address.required' => trans('messages.address.required'),
             'education_level_id.required' => trans('messages.education_level_id.required'),
             'university_id.required' => trans('messages.university_id.required'),
@@ -212,7 +216,9 @@ class MenteeController extends Controller
             'job_experience_years.required' => trans('messages.job_experience_years.required'),
             'career_goals.required' => trans('messages.career_goals.required'),
             'specialty_id.required' => trans('messages.specialty.required'),
-            'university_name.required_if' => trans('messages.university_name.required')
+            'university_name.required_if' => trans('messages.university_name.required'),
+            'cv_file.max' => trans('messages.cv_file.max'),
+            'cv_file.mimes' => trans('messages.cv_file.mimes')
         ];
     }
 
@@ -269,6 +275,9 @@ class MenteeController extends Controller
             'email' => 'required|max:255|email',
             'year_of_birth' => 'required|numeric|digits:4',
             'residence_id' => 'required',
+            'residence_name' => 'required_if:residence_id,4',
+            'reference_id' => 'required',
+            'reference_text' => 'required_if:reference_id,7',
             'address'        => 'required',
             'education_level_id' => 'required',
             'university_id' => 'required',

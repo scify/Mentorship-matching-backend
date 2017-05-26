@@ -79,7 +79,9 @@
                                         @if($mentorViewModel->mentor->residence != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.residence')}}</div>
-                                                <div class="col-md-9">{{$mentorViewModel->mentor->residence->name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->residence->name}}
+                                                    @if(!empty($mentorViewModel->mentor->residence_name)) ({{ $mentorViewModel->mentor->residence_name }}) @endif
+                                                </div>
                                             </div><!--.row-->
                                         @endif
                                         <div class="formRow row">
@@ -108,7 +110,9 @@
                                         @if($mentorViewModel->mentor->reference_id != null)
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.heard_about')}}</div>
-                                                <div class="col-md-9">{{$mentorViewModel->mentor->reference->name}}</div>
+                                                <div class="col-md-9">{{$mentorViewModel->mentor->reference->name}}
+                                                    @if(!empty($mentorViewModel->mentor->reference_text)) ({{ $mentorViewModel->mentor->reference_text }}) @endif
+                                                </div>
                                             </div><!--.row-->
                                         @endif
                                         @if($mentorViewModel->mentor->status_id != null)
