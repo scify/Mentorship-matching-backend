@@ -164,8 +164,8 @@ class MentorshipSessionManager
 
             foreach ($emailList as $email) {
                 (new MailManager())->sendEmailToSpecificEmail('emails.rate-session',
-                    ['email' => "sweepy1982@gmail.com"], 'Rating test',
-                    "sweepy1982@gmail.com"
+                    ['email' => env('MAIL_TEST')], 'Rating test',
+                    env('MAIL_TEST')
                 );
             }
 
