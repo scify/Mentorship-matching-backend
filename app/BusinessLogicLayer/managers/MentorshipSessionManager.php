@@ -147,11 +147,35 @@ class MentorshipSessionManager
     }
 
     /**
+     * Check if is necessary to send rating to mentor/mentee.
+     * Check if $status_id from current session matches "fourth_meeting" from MentorshipSessionStatuses.php
+     */
+    public function shouldSendRating($mentorshipSession) {
+        // Peek in MentorshipSessionStatuses for the lookup table
+        $sessionStatusKey = "fourth_meeting";
+
+        if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey]) {
+            // Get {mentor,mentee}->email from session and push in emailList array()
+            $emailList = array();
+            array_push($emailList, $mentorshipSession->mentor->email, $mentorshipSession->mentee->email);
+
+            foreach ($emailList as $email) {
+                (new MailManager())->sendEmailToSpecificEmail('emails.rate-session',
+                    ['email' => env('MAIL_TEST')], 'Rating test',
+                    env('MAIL_TEST')
+                );
+            }
+
+        }
+    }
+
+    /**
      * Updates an existing mentorship session in DB
      *
      * @param array $input
      */
-    public function editMentorshipSession(array $input) {
+    public function editMentorshipSession(array $input)
+    {
         $loggedInUser = Auth::user();
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
 
@@ -159,9 +183,11 @@ class MentorshipSessionManager
         $input['mentor_profile_id'] = $mentorshipSession->mentor_profile_id;
         $input['mentee_profile_id'] = $mentorshipSession->mentee_profile_id;
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
-        $comment = isset($input['comment'])? $input['comment'] : "";
+        $comment = isset($input['comment']) ? $input['comment'] : "";
 
-        DB::transaction(function() use($mentorshipSession, $loggedInUser, $comment) {
+        // Disable until ready
+//        $this->shouldSendRating($mentorshipSession);
+        DB::transaction(function () use ($mentorshipSession, $loggedInUser, $comment) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
             $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $mentorshipSession->status_id, $loggedInUser, $comment);
         });
