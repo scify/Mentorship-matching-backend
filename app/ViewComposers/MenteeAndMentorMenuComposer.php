@@ -10,7 +10,10 @@ namespace App\ViewComposers;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 
 class MenteeAndMentorMenuComposer
@@ -20,8 +23,9 @@ class MenteeAndMentorMenuComposer
     }
 
     public function compose(View $view) {
-        $routeName = Route::currentRouteName();
-        $routesInMatchingMode = ['showMentorProfilePage', 'showMenteeProfilePage', 'filterMentors', 'filterMentees'];
+        $url = URL::full();
+        $routeName = Input::has('currentRouteName') ? Input::get('currentRouteName') : Route::currentRouteName();
+        $routesInMatchingMode = ['showMentorProfilePage', 'showMenteeProfilePage'];
         $matchingMode = false;
         if(in_array($routeName, $routesInMatchingMode)) {
             $matchingMode = true;

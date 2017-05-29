@@ -299,7 +299,7 @@
             var tabsHandler = new window.TabsHandler();
             tabsHandler.init(".profilePage");
             var mentorsListController = new window.MentorsListController();
-            mentorsListController.init();
+            mentorsListController.init("{{Route::currentRouteName()}}");
             var matchingController = new window.MatchingController();
             matchingController.init();
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();

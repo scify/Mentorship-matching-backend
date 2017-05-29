@@ -37,14 +37,14 @@ window.MentorsListController.prototype = function () {
                 }
             });
         },
-        initializeHandlers = function() {
+        initializeHandlers = function(currentRouteName) {
             deleteMentorBtnHandler();
             editMentorStatusBtnHandler();
             cardTabClickHandler();
-            searchBtnHandler();
+            searchBtnHandler(currentRouteName);
             clearSearchBtnHandler();
         },
-        searchBtnHandler = function () {
+        searchBtnHandler = function (currentRouteName) {
             $("#searchBtn").on("click", function () {
                 mentorsCriteria.mentorName = $('input[name=mentorName]').val();
                 mentorsCriteria.ageRange = $('input[name=age]').val();
@@ -55,6 +55,7 @@ window.MentorsListController.prototype = function () {
                 mentorsCriteria.completedSessionsCount = $('select[name=completedSessionsCount]').val();
                 mentorsCriteria.displayOnlyExternallySubscribed = $('input[name=only_externally_subscribed]').parent().hasClass("checked");
                 mentorsCriteria.displayOnlyAvailableWithCancelledSessions = $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
+                mentorsCriteria.currentRouteName = currentRouteName;
                 getMentorsByFilter.call(this);
             });
         },
@@ -153,10 +154,10 @@ window.MentorsListController.prototype = function () {
                 objectId.find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
             });
         },
-        init = function () {
+        init = function (currentRouteName) {
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
             mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#mentorsList");
-            initializeHandlers();
+            initializeHandlers(currentRouteName);
             initSelectInputs();
             initAgeRangeSlider();
             paginateMentorsBtnHandler();

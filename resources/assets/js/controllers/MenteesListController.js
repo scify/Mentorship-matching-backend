@@ -36,7 +36,7 @@ window.MenteesListController.prototype = function () {
                 }
             });
         },
-        searchBtnHandler = function () {
+        searchBtnHandler = function (currentRouteName) {
             $("#searchBtn").on("click", function () {
                 menteesCriteria.menteeName = $("input[name=mentee_name]").val();
                 menteesCriteria.ageRange = $("input[name=age]").val();
@@ -53,6 +53,7 @@ window.MenteesListController.prototype = function () {
                     $('input[name=only_externally_subscribed]').parent().hasClass("checked");
                 menteesCriteria.displayOnlyAvailableWithCancelledSessions =
                     $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
+                menteesCriteria.currentRouteName = currentRouteName;
                 getMenteesByFilter.call(this);
             });
         },
@@ -143,18 +144,18 @@ window.MenteesListController.prototype = function () {
                 grid: true
             });
         },
-        initHandlers = function() {
+        initHandlers = function(currentRouteName) {
             deleteMenteeBtnHandler();
             editMenteeStatusBtnHandler();
-            searchBtnHandler();
+            searchBtnHandler(currentRouteName);
             clearSearchBtnHandler();
         },
-        init = function () {
+        init = function (currentRouteName) {
             mentorsAndMenteesListsCssCorrector = new window.MentorsAndMenteesListsCssCorrector();
             mentorsAndMenteesListsCssCorrector.setCorrectCssClasses("#menteesList");
             initSelectInputs();
             initAgeRangeSlider();
-            initHandlers();
+            initHandlers(currentRouteName);
             paginateMenteesBtnHandler();
         };
     return {

@@ -36,7 +36,9 @@ window.AvailabilityStatusChangeViewHandler.prototype = (function(){
             });
         },
         init = function(parentDiv) {
-            dateFieldDisplayConditions = $(parentDiv).find("select[name=status_id]").data("enable-follow-up-date").split(",");
+            if ($(parentDiv).find("select[name=status_id]").length > 0)
+                dateFieldDisplayConditions = $(parentDiv).find("select[name=status_id]")
+                    .data("enable-follow-up-date").split(",");
             statusChangeHandler(parentDiv);
             doNotContactHandler(parentDiv);
         };

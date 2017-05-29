@@ -12,7 +12,7 @@
     <script>
         $( document ).ready(function() {
             var controller = new window.MentorsListController();
-            controller.init();
+            controller.init("{{Route::currentRouteName()}}");
 
             @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
             var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
