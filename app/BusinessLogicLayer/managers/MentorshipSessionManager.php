@@ -184,8 +184,8 @@ class MentorshipSessionManager
         // Peek in MentorshipSessionStatuses for the lookup table
         $sessionStatusKey = "fourth_meeting";
 
-        if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey])
-            $this->sendRatingEmails($mentorshipSession);
+//        if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey])
+//            $this->sendRatingEmails($mentorshipSession);
     }
 
     /**
