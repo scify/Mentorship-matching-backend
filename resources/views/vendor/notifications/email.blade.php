@@ -25,7 +25,7 @@ $style = [
 
     /* Masthead ----------------------- */
 
-    'email-masthead' => 'padding: 25px 0; text-align: center;',
+    'email-masthead' => 'padding: 40px 0; text-align: center;',
     'email-masthead_name' => 'font-size: 16px; font-weight: bold; color: #2F3133; text-decoration: none; text-shadow: 0 1px 0 white;',
 
     'email-body' => 'width: 100%; margin: 0; padding: 0; border-top: 1px solid #EDEFF2; border-bottom: 1px solid #EDEFF2; background-color: #FFF;',
@@ -59,7 +59,7 @@ $style = [
     'button--blue' => 'background-color: #3869D4;',
 
     /* Custom CSS */
-    'panel-img' => 'text-align: center;',
+    'panel-img' => 'text-align: center; margin-bottom: 15px;',
 ];
 ?>
 
@@ -73,9 +73,9 @@ $style = [
                     <!-- Logo -->
                     <tr>
                         <td style="{{ $style['email-masthead'] }}">
-                            <a style="{{ $fontFamily }} {{ $style['email-masthead_name'] }}" href="{{ url('/') }}" target="_blank">
-                                {{ config('app.name') }}
-                            </a>
+                            {{--<a style="{{ $fontFamily }} {{ $style['email-masthead_name'] }}" href="{{ url('/') }}" target="_blank">--}}
+                                {{--{{ config('app.name') }}--}}
+                            {{--</a>--}}
                         </td>
                     </tr>
 
@@ -87,7 +87,11 @@ $style = [
                                     <td style="{{ $fontFamily }} {{ $style['email-body_cell'] }}">
                                         <!-- Greeting -->
                                         <h1 style="{{ $style['header-1'] }}">
-                                            <div class="panel-heading" style="{{ $style['panel-img'] }}"><img src="{{asset('/assets/img/jobpairs_logo.png')}}" height="120" alt=""></div>
+                                            <div class="panel-heading" style="{{ $style['panel-img'] }}">
+                                                <a href="{{ url('/') }}" target="_blank">
+                                                    <img src="{{asset('/assets/img/jobpairs_logo.png')}}" height="120" alt="">
+                                                </a>
+                                            </div>
                                             @if (! empty($greeting))
                                                 {{ $greeting }}
                                             @else

@@ -47,7 +47,7 @@ class MenteeSessionInvitation extends Notification
             ->subject("JobPairs | Έχετε επιλεγεί για συνεδρία")
             ->greeting('Αγαπητέ mentee,')
             ->line("Θα θέλαμε να σας ενημερώσουμε πως έχετε επιλεγεί για συνεδρία.")
-            ->line('<span style="margin-top: 10px;">Μπορείτε να αποδεχτείτε ή να απορρίψετε την πρόσκληση παρακάτω.</span>')
+            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Μπορείτε να αποδεχτείτε ή να απορρίψετε την πρόσκληση παρακάτω.</span>')
             ->action('Αποδοχή', route('acceptMentorshipSession', [
                 'id' => $this->mentorshipSession->mentee->id, 'email' => $this->mentorshipSession->mentee->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentee'
             ]))
