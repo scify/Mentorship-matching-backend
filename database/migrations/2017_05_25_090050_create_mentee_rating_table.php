@@ -14,16 +14,17 @@ class CreateMenteeRatingTable extends Migration
     public function up()
     {
         Schema::create('mentee_rating', function (Blueprint $table) {
-//            $table->increments('id');
-//            $table->integer('rating');
-//            $table->description('rating_description');
-//            $table->timestamps();
-//            $table->integer('mentee_id')->unsigned();
-//            $table->foreign('mentee_id')->references('id')->on('mentee_profile');
-//            $table->integer('session_id')->unsigned();
-//            $table->foreign('session_id')->references('id')->on('mentorship_session');
-//            $table->integer('rated_by_id')->unsigned();
-//            $table->foreign('rated_by_id')->references('id')->on('mentorship_profile');
+            $table->increments('id');
+            $table->integer('rating');
+            $table->text('rating_description');
+            $table->timestamps();
+            $table->integer('mentee_id')->unsigned();
+            $table->foreign('mentee_id')->references('id')->on('mentee_profile');
+            $table->integer('session_id')->unsigned();
+            $table->foreign('session_id')->references('id')->on('mentorship_session');
+            $table->integer('rated_by_id')->unsigned();
+            $table->foreign('rated_by_id')->references('id')->on('mentor_profile');
+            $table->unique(array('mentee_id', 'session_id'));
         });
     }
 
