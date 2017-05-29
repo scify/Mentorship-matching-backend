@@ -124,6 +124,7 @@
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
                                             <input required type="number" class="form-control" name="year_of_birth"
+                                                   min="{{ date('Y') - 75 }}" max="{{ date('Y') }}"
                                                    value="{{ old('year_of_birth') != '' ? old('year_of_birth') : $mentee['year_of_birth']}}">
                                             <label for="year_of_birth">{{trans('messages.year_of_birth')}} <span class="requiredIcon">*</span></label>
                                         </div>
@@ -268,6 +269,7 @@
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
                                             <input type="number" class="form-control" name="university_graduation_year"
+                                                   min="{{ date('Y') - 75 }}" max="{{ date('Y') }}"
                                                    value="{{ old('university_graduation_year') != '' ? old('university_graduation_year') : $mentee['university_graduation_year']}}">
                                             <label for="university_graduation_year">{{trans('messages.university_graduation_year')}} <span class="requiredIcon">*</span></label>
                                         </div>

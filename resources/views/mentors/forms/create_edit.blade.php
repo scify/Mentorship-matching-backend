@@ -140,6 +140,7 @@
                                             <div class="inputer floating-label">
                                                 <div class="input-wrapper">
                                                     <input required type="number" class="form-control" name="year_of_birth"
+                                                           min="{{ date('Y') - 75 }}" max="{{ date('Y') }}"
                                                            value="{{ old('year_of_birth') != '' ? old('year_of_birth') : $mentor['year_of_birth']}}">
                                                     <label for="year_of_birth">{{trans('messages.year_of_birth')}} <span class="requiredIcon">*</span></label>
                                                 </div>
@@ -278,6 +279,20 @@
                                                 </div>
                                             </div>
                                             <span class="help-block">{{ $errors->first('university_department_name') }}</span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <!-- Linkedin Profile -->
+                                        <div class="{{ $errors->first('linkedin_url')?'has-error has-feedback':'' }}">
+                                            <div class="inputer floating-label">
+                                                <div class="input-wrapper">
+                                                    <input type="text" class="form-control" name="linkedin_url"
+                                                           value="{{ old('linkedin_url') != '' ? old('linkedin_url') : $mentor['linkedin_url']}}">
+                                                    <label for="linkedin_url">{{trans('messages.linkedin')}}</label>
+                                                </div>
+                                            </div>
+                                            <span class="help-block">{{ $errors->first('linkedin_url') }}</span>
 
                                         </div>
                                     </div>
