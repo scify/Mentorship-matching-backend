@@ -495,7 +495,7 @@ class MentorManager {
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
         if($mentor->email === $email) {
             // mentor shouldn't be already available or participating in an active session
-            if($mentor->status_id !== 1 && $currentSession != null
+            if($mentor->status_id !== 1 && !empty($currentSession)
             && array_search($currentSession[0]->mentorshipSession->status_id,
                 $mentorshipSessionStatuses::getActiveSessionStatuses()) === false
             ) {
