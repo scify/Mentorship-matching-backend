@@ -146,6 +146,36 @@ class MentorshipSessionManager
         $mentor->notify(new MentorSessionInvitation($mentorshipSession));
     }
 
+    // Add to mentorshipManager (BL)
+    public function sendRatingEmails($session){
+        $this->sendRatingToMentor($session);
+        $this->sendRatingToMentee($session);
+    }
+
+    public function sendRatingToMentor($session){
+        $this->sendRating("/rateMentee", "emails.mentee-rating", $session->id, $session->mentor->email, $session->mentor->id, $session->mentee->id);
+    }
+
+    public function sendRatingToMentee($session){
+        $this->sendRating("/rateMentor", "emails.mentor-rating", $session->id, $session->mentee->email, $session->mentee->id, $session->mentor->id);
+    }
+
+    /**
+     * $url:        base URL to send for rating
+     * $emailView:  send different email template for each role
+     * $assessor:   the user that rates
+     * $rated:      the user that gets rated
+     */
+    public function sendRating($url, $emailView, $sessionId, $emailTarget, $assessor, $rated) {
+        (new MailManager())->sendEmailToSpecificEmail($emailView,
+            ['email'        => env('MAIL_TEST'),
+             'sessionId'    => $sessionId,
+             'userId'       => $assessor,
+             'ratedId'      => $rated],
+             'Please rate',
+             env('MAIL_TEST'));
+    }
+
     /**
      * Check if is necessary to send rating to mentor/mentee.
      * Check if $status_id from current session matches "fourth_meeting" from MentorshipSessionStatuses.php
@@ -154,19 +184,8 @@ class MentorshipSessionManager
         // Peek in MentorshipSessionStatuses for the lookup table
         $sessionStatusKey = "fourth_meeting";
 
-        if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey]) {
-            // Get {mentor,mentee}->email from session and push in emailList array()
-            $emailList = array();
-            array_push($emailList, $mentorshipSession->mentor->email, $mentorshipSession->mentee->email);
-
-            foreach ($emailList as $email) {
-                (new MailManager())->sendEmailToSpecificEmail('emails.rate-session',
-                    ['email' => env('MAIL_TEST')], 'Rating test',
-                    env('MAIL_TEST')
-                );
-            }
-
-        }
+        if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey])
+            $this->sendRatingEmails($mentorshipSession);
     }
 
     /**
@@ -186,7 +205,7 @@ class MentorshipSessionManager
         $comment = isset($input['comment']) ? $input['comment'] : "";
 
         // Disable until ready
-//        $this->shouldSendRating($mentorshipSession);
+        $this->shouldSendRating($mentorshipSession);
         DB::transaction(function () use ($mentorshipSession, $loggedInUser, $comment) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
             $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $mentorshipSession->status_id, $loggedInUser, $comment);
