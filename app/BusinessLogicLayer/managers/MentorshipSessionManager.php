@@ -54,7 +54,7 @@ class MentorshipSessionManager
 
     /**
      * Sets mentor's and mentee's status id to available.
-     * Used when a session is completed or cancelled.
+     * Used when a session is cancelled.
      *
      * @param $mentorProfileId @see MentorProfile's id
      * @param $menteeProfileId @see MenteeProfile's id
@@ -68,6 +68,18 @@ class MentorshipSessionManager
             // INFO: mentee status id 1 means available
             $menteeManager->editMentee(array('status_id' => 1), $menteeProfileId);
         });
+    }
+
+    /**
+     * Sets mentee's status id to available.
+     * Used when a session is completed.
+     *
+     * @param $menteeProfileId @see MenteeProfile's id
+     */
+    private function setMentorshipSessionMenteeStatusToAvailable($menteeProfileId) {
+        $menteeManager = new MenteeManager();
+        // INFO: mentee status id 1 means available
+        $menteeManager->editMentee(array('status_id' => 1), $menteeProfileId);
     }
 
     /**
@@ -218,11 +230,12 @@ class MentorshipSessionManager
             $mentor->notify(new MentorStatusReactivation($mentor));
         }
 
-        // if status is completed or cancelled, change the mentor and mentee statuses back to available
-        if(array_search($mentorshipSession->status_id, array_merge(
-            $mentorshipSessionStatuses::getCompletedSessionStatuses(), $mentorshipSessionStatuses::getCancelledSessionStatuses()
-                )) !== false) {
+        // if status is cancelled, change the mentor and mentee statuses back to available
+        if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCancelledSessionStatuses()) !== false) {
             $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
+        } else if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCompletedSessionStatuses()) !== false) {
+            // if session is completed, make mentee available again
+            $this->setMentorshipSessionMenteeStatusToAvailable($input['mentee_profile_id']);
         } else {
             $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
         }
