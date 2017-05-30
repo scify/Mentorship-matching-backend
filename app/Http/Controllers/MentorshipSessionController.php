@@ -9,6 +9,7 @@ use App\Http\OperationResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MentorshipSessionController extends Controller
 {
@@ -59,7 +60,8 @@ class MentorshipSessionController extends Controller
         try {
             $this->mentorshipSessionManager->createMentorshipSession($input);
         } catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+            Log::info('Error on session creation: ' . $e->getCode() . "  " . $e->getMessage());
+            session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
             return back();
         }
         session()->flash('flash_message_success', 'Mentorship session created');
@@ -75,9 +77,10 @@ class MentorshipSessionController extends Controller
             $this->mentorshipSessionManager->inviteMentee($input['session_id']);
         }
         catch (\Exception $e) {
-                session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
-                return back();
-            }
+            Log::info('Error on mentee invitation sent: ' . $e->getCode() . "  " . $e->getMessage());
+            session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
+            return back();
+        }
         session()->flash('flash_message_success', 'Mentee invited');
         return redirect()->back();
     }
@@ -98,7 +101,8 @@ class MentorshipSessionController extends Controller
         try {
             $this->mentorshipSessionManager->editMentorshipSession($input);
         } catch(\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+            Log::info('Error on session update: ' . $e->getCode() . "  " . $e->getMessage());
+            session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
             return back();
         }
         session()->flash('flash_message_success', 'Mentorship session updated');
@@ -119,7 +123,8 @@ class MentorshipSessionController extends Controller
         try {
             $this->mentorshipSessionManager->deleteMentorshipSession($input);
         } catch(\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+            Log::info('Error on session deletion: ' . $e->getCode() . "  " . $e->getMessage());
+            session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
         }
         session()->flash('flash_message_success', 'Mentorship session deleted');
         return back();
@@ -191,7 +196,8 @@ class MentorshipSessionController extends Controller
             $mentorshipSessionViewModels = $this->mentorshipSessionManager->paginateMentorshipSessions($mentorshipSessionsViewModelsData)->setPath('#');
 
         }  catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on sessions search: ' . $e->getCode() . "  " .  $e->getMessage());
+            $errorMessage = 'An error occurred. Please try again later.';
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
@@ -227,9 +233,9 @@ class MentorshipSessionController extends Controller
                 ]);
             }
         } catch(\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on session acceptance by manager: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => $errorMessage,
+                'message_failure' => 'An error occurred.',
                 'title' => $viewTitle
             ]);
         }
@@ -258,9 +264,9 @@ class MentorshipSessionController extends Controller
                 ]);
             }
         } catch(\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on session decline by manager: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => $errorMessage,
+                'message_failure' => 'An error occurred.',
                 'title' => $viewTitle
             ]);
         }
@@ -290,9 +296,9 @@ class MentorshipSessionController extends Controller
                 ]);
             }
         } catch(\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on session acceptance: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => $errorMessage,
+                'message_failure' => 'An error occurred.',
                 'title' => $viewTitle
             ]);
         }
@@ -322,9 +328,9 @@ class MentorshipSessionController extends Controller
                 ]);
             }
         } catch(\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on session decline: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => $errorMessage,
+                'message_failure' => 'An error occurred.',
                 'title' => $viewTitle
             ]);
         }
