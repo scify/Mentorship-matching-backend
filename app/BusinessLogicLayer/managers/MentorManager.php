@@ -512,8 +512,12 @@ class MentorManager {
         //Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
-        //Slice the collection to get the items to display in current page
-        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+        if(!empty($items)) {
+            //Slice the collection to get the items to display in current page
+            $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+        } else {
+            $currentPageItems = new Collection();
+        }
 
         //Create our paginator and pass it to the view
         return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
