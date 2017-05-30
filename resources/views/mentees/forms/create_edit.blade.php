@@ -82,7 +82,7 @@
                                 <div class="{{ $errors->first('first_name')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input style="text-transform:uppercase" required type="text" class="form-control" name="first_name" value="{{ old('first_name') != '' ? old('first_name') : $mentee['first_name']}}">
+                                            <input required type="text" class="form-control" name="first_name" value="{{ old('first_name') != '' ? old('first_name') : $mentee['first_name']}}">
                                             <label for="first_name">{{trans('messages.first_name')}} <span class="requiredIcon">*</span></label>
                                         </div>
                                     </div>
