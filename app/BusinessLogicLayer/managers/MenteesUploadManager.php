@@ -41,7 +41,7 @@ class MenteesUploadManager
 
     public function __construct()
     {
-        $this->filePath = env('MENTEES_EXCEL_FILE_PATH');
+        $this->filePath = env('MENTEES_EXCEL_FILE_PATH', '../resources/excel/mentees.csv');
     }
 
     private function translateCSVColumnsToExpectedDBNames($colValues) {
@@ -102,6 +102,9 @@ class MenteesUploadManager
                                 $residence = Residence::where('name', $colContent)->first();
                                 if (!empty($residence)) {
                                     $mentee->residence_id = $residence->id;
+                                } else {
+                                    $mentee->residence_name = $colContent;
+                                    $mentee->residence_id = 4; // id 4 means 'Αλλού'
                                 }
                             }
                             break;
