@@ -14,6 +14,8 @@ use App\Notifications\MenteeSessionInvitation;
 use App\Notifications\MentorSessionInvitation;
 use App\Notifications\MentorStatusReactivation;
 use App\StorageLayer\MentorshipSessionStorage;
+use App\Notifications\MentorSendRating;
+use App\Notifications\MenteeSendRating;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
@@ -165,11 +167,13 @@ class MentorshipSessionManager
     }
 
     public function sendRatingToMentor($session){
-        $this->sendRating("/rateMentee", "emails.mentee-rating", $session->id, $session->mentor->email, $session->mentor->id, $session->mentee->id);
+        $mentor = $session->mentor;
+        $mentor->notify(new MentorSendRating($session));
     }
 
     public function sendRatingToMentee($session){
-        $this->sendRating("/rateMentor", "emails.mentor-rating", $session->id, $session->mentee->email, $session->mentee->id, $session->mentor->id);
+        $mentee = $session->mentee;
+        $mentee->notify(new MenteeSendRating($session));
     }
 
     /**
