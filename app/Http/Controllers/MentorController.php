@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 class MentorController extends Controller
@@ -268,7 +269,8 @@ class MentorController extends Controller
             $this->mentorManager->createMentor($input,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         }  catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            Log::info('Error on mentor creation: ' . $e->getCode() . "  " .  $e->getMessage());
+            session()->flash('flash_message_failure', 'An error occurred. Please try again.');
             return back()->withInput();
         }
 
@@ -433,9 +435,9 @@ class MentorController extends Controller
                 ]);
             }
         } catch(\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on making mentor available after completion of session: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => $errorMessage,
+                'message_failure' => 'An error occurred.',
                 'title' => $viewTitle
             ]);
         }

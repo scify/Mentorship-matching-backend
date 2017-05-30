@@ -179,7 +179,8 @@ class MenteeController extends Controller
             $this->menteeManager->createMentee($input,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         }  catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+            Log::info('Error on creating mentee: ' . $e->getCode() . "  " .  $e->getMessage());
+            session()->flash('flash_message_failure', 'An error occurred.');
             return back()->withInput();
         }
 
