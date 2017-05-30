@@ -244,15 +244,16 @@ window.MentorshipSessionsListController.prototype = function() {
                 var historyId = $(this).parent().data("history-id");
                 deleteSessionHistory.call($(this).parents(".frame"), historyId);
                 var $allVisibleTimelineFrames = $("#history .frame:visible");
-                // if there are 2 or more visible frames and the second one from the bottom doesn't have the
+                // if there are 2 or more visible frames and the second one doesn't have the
                 // delete-from-timeline button and the user logged in is either the one that made the item's history
                 // or is an admin, add it to that element
                 if($allVisibleTimelineFrames.length > 1 &&
-                    ($($allVisibleTimelineFrames.get($allVisibleTimelineFrames.length - 2)).data("user-created-history") ===
+                    ($($allVisibleTimelineFrames.get(1)).data("user-created-history") ===
                     $("#history input[name=_token]").data("auth-user-id") ||
                     parseInt($("#history input[name=_token]").data("user-is-admin")) === 1) &&
-                    $($allVisibleTimelineFrames.get($allVisibleTimelineFrames.length - 2)).find(".delete-from-timeline").length === 0) {
-                    $($allVisibleTimelineFrames.get($allVisibleTimelineFrames.length - 2)).find(".timeline-bubble").prepend(
+                    $($allVisibleTimelineFrames.get(1)).find(".delete-from-timeline").length === 0)
+                {
+                    $($allVisibleTimelineFrames.get(1)).find(".timeline-bubble").prepend(
                         this.outerHTML
                     );
                 }
