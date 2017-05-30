@@ -6,5 +6,5 @@
         @endforeach
     </ul>
     <div class="loading-bar indeterminate margin-top-10 invisible" id="mentorshipSessionsBottomLoader"></div>
-    {{ $mentorshipSessionViewModels->links() }}
+    {{ method_exists($mentorshipSessionViewModels, 'links') ? $mentorshipSessionViewModels->links() : '' }}
 </div>

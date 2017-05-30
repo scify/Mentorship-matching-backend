@@ -6,6 +6,6 @@
         @endforeach
     </ul>
     <div class="loading-bar indeterminate margin-top-10 invisible" id="mentorsBottomLoader"></div>
-    {{ $mentorViewModels->links() }}
+    {{ method_exists($mentorViewModels, 'links') ? $mentorViewModels->links() : '' }}
 </div>
 
