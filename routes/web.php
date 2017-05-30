@@ -31,6 +31,9 @@ Route::get('accept-session/{mentorshipSessionId}/{role}/{id}/{email}', 'Mentorsh
 
 Route::get('decline-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSession')->name('declineMentorshipSession');
 
+Route::get('rateMentor/{session-id}/{mentor-id}/{mentee-id}', 'UserRatingController@showMenteeRatingForm')->name('showMenteeRatingForm');
+Route::get('rateMentee/{session-id}/{mentee-id}/{mentor-id}', 'UserRatingController@showMentorRatingForm')->name('showMentorRatingForm');
+
 Route::group([ 'middleware' => 'auth' ], function () {
 
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
@@ -55,9 +58,6 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('sessions/byCriteria', 'MentorshipSessionController@showMentorshipSessionsByCriteria')->name('filterMentorshipSessions');
 
     Route::post('delete-history-item', 'MentorshipSessionHistoryController@deleteSessionHistoryItem')->name('deleteSessionHistoryItem');
-
-    Route::get('rateMentor/{session-id}/{mentor-id}/{mentee-id}', 'UserRatingController@showMenteeRatingForm')->name('showMenteeRatingForm');
-    Route::get('rateMentee/{session-id}/{mentee-id}/{mentor-id}', 'UserRatingController@showMentorRatingForm')->name('showMentorRatingForm');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
