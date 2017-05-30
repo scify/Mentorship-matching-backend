@@ -15,6 +15,7 @@ use App\Models\eloquent\Residence;
 use App\Models\eloquent\Specialty;
 use App\Models\eloquent\University;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use parseCSV;
 
