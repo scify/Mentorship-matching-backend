@@ -9,6 +9,11 @@
 namespace App\Http\Controllers;
 
 
+use App\BusinessLogicLayer\managers\RatingManager;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 class RatingController extends Controller
 {
     public function showMenteeRatingForm($sessionId, $mentorId, $menteeId)
@@ -17,9 +22,67 @@ class RatingController extends Controller
         return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole'));
     }
 
+    public function rateMentee(Request $request)
+    {
+        $this->validate($request, [
+            'rating' => 'required|min:1|max:5|numeric'
+        ]);
+        $input = $request->all();
+        $ratingManager = new RatingManager();
+        try {
+            $result = $ratingManager->rateMentee($input);
+        } catch(Exception $e) {
+            Log::info("Error while rating mentee: " . $e);
+            return view('common.response-to-email')->with([
+                'message_failure' => 'You cannot rate more than once a mentee for a session.',
+                'title' => 'Rate your mentee'
+            ]);
+        }
+        if ($result === 'SUCCESS') {
+            return view('common.response-to-email')->with([
+                'message_success' => 'Thank you for rating!',
+                'title' => 'Rate your mentee'
+            ]);
+        } else {
+            return view('common.response-to-email')->with([
+                'message_failure' => 'Permissions denied. You cannot rate this mentee.',
+                'title' => 'Rate your mentee'
+            ]);
+        }
+    }
+
     public function  showMentorRatingForm($sessionId, $menteeId, $mentorId)
     {
         $ratedRole = 'mentor';
         return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole'));
+    }
+
+    public function rateMentor(Request $request)
+    {
+        $this->validate($request, [
+            'rating' => 'required|min:1|max:5|numeric'
+        ]);
+        $input = $request->all();
+        $ratingManager = new RatingManager();
+        try {
+            $result = $ratingManager->rateMentor($input);
+        } catch(Exception $e) {
+            Log::info("Error while rating mentor: " . $e);
+            return view('common.response-to-email')->with([
+                'message_failure' => 'You cannot rate more than once a mentor for a session.',
+                'title' => 'Rate your mentor'
+            ]);
+        }
+        if ($result === 'SUCCESS') {
+            return view('common.response-to-email')->with([
+                'message_success' => 'Thank you for rating!',
+                'title' => 'Rate your mentor'
+            ]);
+        } else {
+            return view('common.response-to-email')->with([
+                'message_failure' => 'Permissions denied. You cannot rate this mentor.',
+                'title' => 'Rate your mentor'
+            ]);
+        }
     }
 }

@@ -46,10 +46,19 @@ window.RatingController.prototype = (function() {
                 }
             });
         },
+        validateInputHandler = function() {
+            $("#ratingForm").submit(function() {
+                if($("input[name=rating]").val() === "") {
+                    toastr.error("Please select a rating value");
+                    return false;
+                }
+            });
+        },
         initHandler = function() {
             hoverRatingItemsHandler();
             unhoverRatingItemsHandler();
             selectRatingItemHandler();
+            validateInputHandler();
         },
         init = function() {
             initHandler();

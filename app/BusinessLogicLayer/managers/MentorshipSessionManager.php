@@ -176,21 +176,21 @@ class MentorshipSessionManager
         $mentee->notify(new MenteeSendRating($session));
     }
 
-    /**
-     * $url:        base URL to send for rating
-     * $emailView:  send different email template for each role
-     * $assessor:   the user that rates
-     * $rated:      the user that gets rated
-     */
-    public function sendRating($url, $emailView, $sessionId, $emailTarget, $assessor, $rated) {
-        (new MailManager())->sendEmailToSpecificEmail($emailView,
-            ['email'        => env('MAIL_TEST'),
-             'sessionId'    => $sessionId,
-             'userId'       => $assessor,
-             'ratedId'      => $rated],
-             'Please rate',
-             env('MAIL_TEST'));
-    }
+//    /**
+//     * $url:        base URL to send for rating
+//     * $emailView:  send different email template for each role
+//     * $assessor:   the user that rates
+//     * $rated:      the user that gets rated
+//     */
+//    public function sendRating($url, $emailView, $sessionId, $emailTarget, $assessor, $rated) {
+//        (new MailManager())->sendEmailToSpecificEmail($emailView,
+//            ['email'        => env('MAIL_TEST'),
+//             'sessionId'    => $sessionId,
+//             'userId'       => $assessor,
+//             'ratedId'      => $rated],
+//             'Please rate',
+//             env('MAIL_TEST'));
+//    }
 
     /**
      * Check if is necessary to send rating to mentor/mentee.
@@ -200,14 +200,18 @@ class MentorshipSessionManager
         // Peek in MentorshipSessionStatuses for the lookup table
         $sessionStatusKey = "fourth_meeting";
 
-//        if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey])
-//            $this->sendRatingEmails($mentorshipSession);
+        if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey]) {
+            $this->sendRatingEmails($mentorshipSession);
+            return true;
+        }
+        return false;
     }
 
     /**
      * Updates an existing mentorship session in DB
      *
      * @param array $input
+     * @return string Message to display to user performing session update on view
      */
     public function editMentorshipSession(array $input)
     {
@@ -220,12 +224,19 @@ class MentorshipSessionManager
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
         $comment = isset($input['comment']) ? $input['comment'] : "";
 
-        // Disable until ready
-        $this->shouldSendRating($mentorshipSession);
-        DB::transaction(function () use ($mentorshipSession, $loggedInUser, $comment) {
-            $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
-            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $mentorshipSession->status_id, $loggedInUser, $comment);
-        });
+        $shouldSetSessionStatusToSentEvaluation = $this->shouldSendRating($mentorshipSession);
+        $numberOfNecessarySessionUpdates = $shouldSetSessionStatusToSentEvaluation ? 2 : 1;
+        $messageToShow = 'Mentorship session updated.';
+        for($i = 0; $i < $numberOfNecessarySessionUpdates; $i++) {
+            if($i === 1) {
+                $mentorshipSession->status_id = MentorshipSessionStatuses::getCompletedSessionStatuses()[0];
+                $messageToShow .= ' Emails asking mentor and mentee to rate each other have been sent.';
+            }
+            DB::transaction(function () use ($mentorshipSession, $loggedInUser, $comment) {
+                $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
+                $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, $mentorshipSession->status_id, $loggedInUser, $comment);
+            });
+        }
 
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
 
@@ -251,6 +262,7 @@ class MentorshipSessionManager
         } elseif ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses['available_mentee']) {
             $this->inviteMentorToMentorshipSession($mentorshipSession);
         }
+        return $messageToShow;
     }
 
     /**

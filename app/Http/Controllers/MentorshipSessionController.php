@@ -99,13 +99,13 @@ class MentorshipSessionController extends Controller
         ]);
         $input = $request->all();
         try {
-            $this->mentorshipSessionManager->editMentorshipSession($input);
+            $messageToShow = $this->mentorshipSessionManager->editMentorshipSession($input);
         } catch(\Exception $e) {
             Log::info('Error on session update: ' . $e->getCode() . "  " . $e->getMessage());
             session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
             return back();
         }
-        session()->flash('flash_message_success', 'Mentorship session updated');
+        session()->flash('flash_message_success', $messageToShow);
         return redirect()->back();
     }
 

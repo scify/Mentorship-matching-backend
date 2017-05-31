@@ -13,6 +13,7 @@ class MentorSendRating extends Notification
     use Queueable;
 
     private $rating;
+    private $mentorshipSession;
 
     /**
      * Create a new notification instance.
@@ -50,7 +51,6 @@ class MentorSendRating extends Notification
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφτείτε τον παρακάτω σύνδεσμο ώστε να βαθμολογήσετε τον mentee σας.</span>')
             ->action('Βαθμολογήστε τον mentee σας', route('showMenteeRatingForm', [
                 'session-id' => $this->mentorshipSession->id, 'mentor-id' => $this->mentorshipSession->mentor->id, 'mentee-id' => $this->mentorshipSession->mentee->id, 'role' => 'mentor'
-//                'id' => $this->mentorshipSession->mentor->id, 'email' => $this->mentorshipSession->mentor->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentor'
             ]))
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
             ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'))->cc($this->mentorshipSession->account_manager->email);
