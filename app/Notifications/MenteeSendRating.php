@@ -48,7 +48,7 @@ class MenteeSendRating extends Notification
             ->subject("JobPairs | Η συνεδρία σας έχει τελειώσει")
             ->greeting('Αγαπητέ mentee,')
             ->line("Θα θέλαμε να σας ενημερώσουμε πως η συνεδρία έχει φτάσει στο τέλος της.")
-            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφτείτε τον παρακάτω σύνδεσμο ώστε να βαθμολογήσετε τον mentee σας.</span>')
+            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφτείτε τον παρακάτω σύνδεσμο ώστε να βαθμολογήσετε τον mentor σας.</span>')
             ->action('Βαθμολογήστε τον mentor σας', route('showMentorRatingForm', [
                 'session-id' => $this->mentorshipSession->id, 'mentee-id' => $this->mentorshipSession->mentee->id, 'mentor-id' => $this->mentorshipSession->mentor->id, 'role' => 'mentor'
             ]))
