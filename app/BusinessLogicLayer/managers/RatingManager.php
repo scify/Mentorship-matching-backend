@@ -30,7 +30,7 @@ class RatingManager
         if ($session->status_id === $sessionStatuses::getCompletedSessionStatuses()[0] &&
             $session->mentor_profile_id == $input['mentor_id'] && $session->mentee_profile_id == $input['mentee_id']) {
             $this->ratingStorage->rateMentee(
-                $session->id, $session->mentee_profile_id, $session->mentor_profile_id, $input['rating']
+                $session->id, $session->mentee_profile_id, $session->mentor_profile_id, $input['rating'], $input['rating_description']
             );
             return 'SUCCESS';
         } else {
@@ -46,7 +46,7 @@ class RatingManager
         if ($session->status_id === $sessionStatuses::getCompletedSessionStatuses()[0] &&
             $session->mentor_profile_id == $input['mentor_id'] && $session->mentee_profile_id == $input['mentee_id']) {
             $this->ratingStorage->rateMentor(
-                $session->id, $session->mentor_profile_id, $session->mentee_profile_id, $input['rating']
+                $session->id, $session->mentor_profile_id, $session->mentee_profile_id, $input['rating'], $input['rating_description']
             );
             return 'SUCCESS';
         } else {

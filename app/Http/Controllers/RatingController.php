@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\RatingManager;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,7 +20,19 @@ class RatingController extends Controller
     public function showMenteeRatingForm($sessionId, $mentorId, $menteeId)
     {
         $ratedRole = 'mentee';
-        return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole'));
+        $mentorshipSessionManager = new MentorshipSessionManager();
+        try {
+            $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
+                $mentorshipSessionManager->getMentorshipSession($sessionId)
+            );
+        } catch(Exception $e) {
+            Log::info("Error on show rating form for mentee: " . $e);
+            return view('common.response-to-email')->with([
+                'message_failure' => 'Invalid operation.',
+                'title' => 'Rate your mentee'
+            ]);
+        }
+        return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
     }
 
     public function rateMentee(Request $request)
@@ -54,7 +67,19 @@ class RatingController extends Controller
     public function  showMentorRatingForm($sessionId, $menteeId, $mentorId)
     {
         $ratedRole = 'mentor';
-        return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole'));
+        $mentorshipSessionManager = new MentorshipSessionManager();
+        try {
+            $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
+                $mentorshipSessionManager->getMentorshipSession($sessionId)
+            );
+        } catch(Exception $e) {
+            Log::info("Error on show rating form for mentor: " . $e);
+            return view('common.response-to-email')->with([
+                'message_failure' => 'Invalid operation.',
+                'title' => 'Rate your mentor'
+            ]);
+        }
+        return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
     }
 
     public function rateMentor(Request $request)

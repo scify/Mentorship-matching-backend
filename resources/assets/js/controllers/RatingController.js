@@ -19,7 +19,7 @@ window.RatingController.prototype = (function() {
             });
         },
         unhoverRatingItemsHandler = function() {
-            $("#rating-container").on("mouseleave", function() {
+            $(".rating-input-container").on("mouseleave", function() {
                 $(".rating-item").each(function() {
                     if (!$(this).hasClass("glyphicon-star"))
                         $(this).css("color", "");
