@@ -954,3 +954,13 @@
     border-bottom: 2px solid $brand-danger !important;
   }
 }
+
+#rating-container {
+  margin: 30px 0 50px;
+  .rating-item {
+    font-size: 30px;
+  }
+  .rating-item:hover {
+    cursor: pointer;
+  }
+}
