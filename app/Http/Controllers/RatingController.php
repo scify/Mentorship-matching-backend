@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\RatingManager;
+use App\Utils\MentorshipSessionStatuses;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -23,10 +24,17 @@ class RatingController extends Controller
         $mentorshipSessionManager = new MentorshipSessionManager();
         $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
         if (!empty($session)) {
-            $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
-                $session
-            );
-            return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
+            if ($session->status_id === MentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
+                $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
+                    $session
+                );
+                return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
+            } else {
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'You are not allowed to rate your mentee for this session.',
+                    'title' => 'Rate your mentee'
+                ]);
+            }
         } else {
             return view('common.response-to-email')->with([
             'message_failure' => 'Invalid operation.',
@@ -70,10 +78,17 @@ class RatingController extends Controller
         $mentorshipSessionManager = new MentorshipSessionManager();
         $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
         if(!empty($session)) {
-            $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
-                $session
-            );
-            return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
+            if ($session->status_id === MentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
+                $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
+                    $session
+                );
+                return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
+            } else {
+                return view('common.response-to-email')->with([
+                    'message_failure' => 'You are not allowed to rate your mentor for this session.',
+                    'title' => 'Rate your mentor'
+                ]);
+            }
         } else {
             return view('common.response-to-email')->with([
                 'message_failure' => 'Invalid operation.',
