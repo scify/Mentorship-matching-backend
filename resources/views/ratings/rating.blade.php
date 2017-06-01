@@ -1,3 +1,7 @@
+@php
+    $p = 'messages';
+@endphp
+
 @extends('layouts.auth')
 
 @section('content')
@@ -8,14 +12,14 @@
                 </div><!--.panel-heading-->
 
                 <div id="pane-login" class="panel-body active">
-                    <h2>{{ $ratedRole === 'mentor' ? "Rate your mentor" : ($ratedRole === 'mentee' ? "Rate your mentee" : '') }}</h2>
-                    <p class="info-text text-center">Your mentorship session with<br>@if($ratedRole === 'mentor')
+                    <h2>{{ $ratedRole === 'mentor' ? \Lang::get($p.'.rate_mentor') : ($ratedRole === 'mentee' ? \Lang::get($p.'.rate_mentee') : '') }}</h2>
+                    <p class="info-text text-center">@lang($p.'.your_session_with')<br>@if($ratedRole === 'mentor')
                             {{ $sessionViewModel->mentorViewModel->mentor->first_name . " " . $sessionViewModel->mentorViewModel->mentor->last_name }}
                         @else
                             {{ $sessionViewModel->menteeViewModel->mentee->first_name . " " . $sessionViewModel->menteeViewModel->mentee->last_name }}
-                        @endif<br>has been completed. Please take a moment to rate your {{ $ratedRole }}.</p>
+                        @endif<br>@lang($p.'.completed_session_rating') {{ $ratedRole }}.</p>
                     <form id="ratingForm" class="jobPairsForm noInputStyles" method="POST"
-                          action="{{ $ratedRole === 'mentor' ? route('rateMentor') : ($ratedRole === 'mentee' ? route('rateMentee') : '') }}"
+                          action="{{ $ratedRole === 'mentor' ? route('rateMentor', $lang === 'gr' ? ['lang' => $lang] : []) : ($ratedRole === 'mentee' ? route('rateMentee', $lang === 'gr' ? ['lang' => $lang] : []) : '') }}"
                           enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="session_id" value="{{ $sessionId }}">
@@ -38,7 +42,7 @@
                             <div class="@if ($errors->has('rating_description')) has-error @endif">
                                 <div class="inputer floating-label">
                                     <div class="input-wrapper">
-                                        <textarea class="form-control js-auto-size" rows="2" name="rating_description" placeholder="You may add comments about your rating">{{ old('rating_description') != '' ? old('career_goals') : '' }}</textarea>
+                                        <textarea class="form-control js-auto-size" rows="2" name="rating_description" placeholder="@lang($p.'.rating_comments_placeholder')">{{ old('rating_description') != '' ? old('career_goals') : '' }}</textarea>
                                     </div>
                                 </div>
                                 @if ($errors->has('rating_description'))
@@ -49,7 +53,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-center">
-                            <input type="submit" class="btn btn-primary btn-ripple" value="Rate">
+                            <input type="submit" class="btn btn-primary btn-ripple" value="@lang($p.'.rate')">
                         </div>
                     </form>
                 </div>
