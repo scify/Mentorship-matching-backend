@@ -21,18 +21,18 @@ class RatingController extends Controller
     {
         $ratedRole = 'mentee';
         $mentorshipSessionManager = new MentorshipSessionManager();
-        try {
+        $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
+        if (!empty($session)) {
             $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
-                $mentorshipSessionManager->getMentorshipSession($sessionId)
+                $session
             );
-        } catch(Exception $e) {
-            Log::info("Error on show rating form for mentee: " . $e);
+            return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
+        } else {
             return view('common.response-to-email')->with([
-                'message_failure' => 'Invalid operation.',
-                'title' => 'Rate your mentee'
+            'message_failure' => 'Invalid operation.',
+            'title' => 'Rate your mentee'
             ]);
         }
-        return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
     }
 
     public function rateMentee(Request $request)
@@ -68,18 +68,18 @@ class RatingController extends Controller
     {
         $ratedRole = 'mentor';
         $mentorshipSessionManager = new MentorshipSessionManager();
-        try {
+        $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
+        if(!empty($session)) {
             $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
-                $mentorshipSessionManager->getMentorshipSession($sessionId)
+                $session
             );
-        } catch(Exception $e) {
-            Log::info("Error on show rating form for mentor: " . $e);
+            return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
+        } else {
             return view('common.response-to-email')->with([
                 'message_failure' => 'Invalid operation.',
                 'title' => 'Rate your mentor'
             ]);
         }
-        return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel'));
     }
 
     public function rateMentor(Request $request)
