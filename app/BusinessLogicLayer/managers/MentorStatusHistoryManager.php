@@ -16,7 +16,7 @@ class MentorStatusHistoryManager {
         $this->mentorStatusHistoryStorage = new MentorStatusHistoryStorage();
     }
 
-    public function createMentorStatusHistory(MentorProfile $mentor, $statusId, $comment, $followUpDate, User $loggedInUser) {
+    public function createMentorStatusHistory(MentorProfile $mentor, $statusId, $comment, $followUpDate, User $loggedInUser = null) {
         $mentorStatusHistory = new MentorStatusHistory();
         $mentorStatusHistory->user_id = ($loggedInUser != null) ? $loggedInUser->id : null;
         $mentorStatusHistory->mentor_profile_id = $mentor->id;

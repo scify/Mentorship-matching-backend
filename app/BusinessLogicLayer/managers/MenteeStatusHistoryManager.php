@@ -15,7 +15,7 @@ class MenteeStatusHistoryManager {
         $this->menteeStatusHistoryStorage = new MenteeStatusHistoryStorage();
     }
 
-    public function createMenteeStatusHistory(MenteeProfile $mentee, $statusId, $comment, $followUpDate, User $loggedInUser) {
+    public function createMenteeStatusHistory(MenteeProfile $mentee, $statusId, $comment, $followUpDate, User $loggedInUser = null) {
         $menteeStatusHistory = new MenteeStatusHistory();
         $menteeStatusHistory->user_id = ($loggedInUser != null) ? $loggedInUser->id : null;
         $menteeStatusHistory->mentee_profile_id = $mentee->id;
