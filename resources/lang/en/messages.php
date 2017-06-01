@@ -145,4 +145,9 @@ return [
     'completed_session_rating' => 'has been completed. Please take a moment to rate your',
     'rating_comments_placeholder' => 'You may add comments about your rating',
     'rate' => 'Rate',
+    'response_to_session_invitation' => 'Response to Session Invitation',
+    'invitation_accepted' => 'You have successfully accepted the session invitation',
+    'invitation_declined' => 'You have successfully declined the session invitation',
+    'not_permitted_to_respond_invitation' => 'You are not permitted to respond to this invitation',
+    'error_occurred' => 'An error occurred.',
 ];

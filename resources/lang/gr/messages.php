@@ -137,4 +137,9 @@ return [
     'completed_session_rating' => 'έχει ολοκληρωθεί. Παρακαλώ βαθμολογήστε το',
     'rating_comments_placeholder' => 'Μπορείτε να προσθέσετε σχόλια στη βαθμολογία σας',
     'rate' => 'Βαθμολογήστε',
+    'response_to_session_invitation' => 'Απάντηση σε πρόσκληση για συνεδρία',
+    'invitation_accepted' => 'Έχετε επιτυχώς αποδεχτεί την πρόσκληση σε συνεδρία',
+    'invitation_declined' => 'Έχετε επιτυχώς απορρίψει την πρόσκληση σε συνεδρία',
+    'not_permitted_to_respond_invitation' => 'Δε σας επιτρέπεται να απαντήσετε στην πρόσκληση',
+    'error_occurred' => 'Σφάλμα',
 ];

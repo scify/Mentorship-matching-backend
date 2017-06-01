@@ -8,7 +8,10 @@ use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 
 class MentorshipSessionController extends Controller
@@ -282,23 +285,25 @@ class MentorshipSessionController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email) {
-        $viewTitle = "Response to Session Invitation";
+        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        App::setLocale($lang);
+        $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
             if($this->mentorshipSessionManager->acceptMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
                 return view('common.response-to-email')->with([
-                    'message_success' => 'You have successfully accepted the session invitation',
+                    'message_success' => Lang::get('messages.invitation_accepted'),
                     'title' => $viewTitle
                 ]);
             } else {
                 return view('common.response-to-email')->with([
-                    'message_failure' => 'You are not permitted to respond to this invitation',
+                    'message_failure' => Lang::get('messages.not_permitted_to_respond_invitation'),
                     'title' => $viewTitle
                 ]);
             }
         } catch(\Exception $e) {
             Log::info('Error on session acceptance: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => 'An error occurred.',
+                'message_failure' => Lang::get('messages.error_occurred'),
                 'title' => $viewTitle
             ]);
         }
@@ -314,23 +319,25 @@ class MentorshipSessionController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email) {
-        $viewTitle = "Response to Session Invitation";
+        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        App::setLocale($lang);
+        $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
             if($this->mentorshipSessionManager->declineMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
                 return view('common.response-to-email')->with([
-                    'message_success' => 'You have successfully declined the session invitation',
+                    'message_success' => Lang::get('messages.invitation_declined'),
                     'title' => $viewTitle
                 ]);
             } else {
                 return view('common.response-to-email')->with([
-                    'message_failure' => 'You are not permitted to respond to this invitation',
+                    'message_failure' => Lang::get('messages.not_permitted_to_respond_invitation'),
                     'title' => $viewTitle
                 ]);
             }
         } catch(\Exception $e) {
             Log::info('Error on session decline: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => 'An error occurred.',
+                'message_failure' => Lang::get('messages.error_occurred'),
                 'title' => $viewTitle
             ]);
         }
