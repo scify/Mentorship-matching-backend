@@ -17,6 +17,13 @@
                         @if($mentorViewModel->mentor->status_id != null)
                             {{$mentorViewModel->mentor->status->description}}
                         @endif
+                        @if(!empty($mentorViewModel->avgRating))
+                            <div id="profile-rating-display" class="rating-display">
+                                @for($i = 0; $i < $mentorViewModel->avgRating; $i++)
+                                    <span class="glyphicon glyphicon-star"></span>
+                                @endfor
+                            </div>
+                        @endif
                     </span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->

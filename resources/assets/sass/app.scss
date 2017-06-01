@@ -980,3 +980,18 @@
 .info-text {
   color: #fff;
 }
+
+.rating-display {
+  display: inline-block;
+  .glyphicon-star {
+    color: black;
+  }
+}
+
+#profile-rating-display {
+  margin-left: 20px;
+  .glyphicon-star {
+    color: #ff6;
+    font-size: 19px;
+  }
+}

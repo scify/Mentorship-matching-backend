@@ -15,6 +15,13 @@
                     @if($mentorViewModel->mentor->company != null)
                         {{ "@ " . $mentorViewModel->mentor->company->name}}
                     @endif
+                    @if(!empty($mentorViewModel->avgRating))
+                        <div class="rating-display">
+                            @for($i = 0; $i < $mentorViewModel->avgRating; $i++)
+                                <span class="glyphicon glyphicon-star"></span>
+                            @endfor
+                        </div>
+                    @endif
                 </small>
                 <span class="caption">
                     @foreach($mentorViewModel->mentor->specialties as $specialty)

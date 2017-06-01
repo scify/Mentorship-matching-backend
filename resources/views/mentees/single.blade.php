@@ -18,6 +18,13 @@
                     @if($menteeViewModel->mentee->university != null)
                         , {{ $menteeViewModel->mentee->university->name}}
                     @endif
+                    @if(!empty($menteeViewModel->avgRating))
+                        <div class="rating-display">
+                            @for($i = 0; $i < $menteeViewModel->avgRating; $i++)
+                                <span class="glyphicon glyphicon-star"></span>
+                            @endfor
+                        </div>
+                    @endif
                 </small>
                 <span class="caption">
                     {{--{{$menteeViewModel->mentee->email}}--}}

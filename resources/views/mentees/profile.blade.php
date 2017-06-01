@@ -13,7 +13,15 @@
                             <a class="margin-left-10" href="{{route('showEditMenteeForm', $menteeViewModel->mentee->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                         @endif
                     </span>
-                    <span class="caption {{$menteeViewModel->mentee->is_employed ? 'green' : 'red'}}"> {{$menteeViewModel->mentee->is_employed ? 'Employed' : 'Unemployed'}}</span>
+                    <span class="caption {{$menteeViewModel->mentee->is_employed ? 'green' : 'red'}}"> {{$menteeViewModel->mentee->is_employed ? 'Employed' : 'Unemployed'}}
+                        @if(!empty($menteeViewModel->avgRating))
+                            <div id="profile-rating-display" class="rating-display">
+                                @for($i = 0; $i < $menteeViewModel->avgRating; $i++)
+                                    <span class="glyphicon glyphicon-star"></span>
+                                @endfor
+                            </div>
+                        @endif
+                    </span>
                 </div><!--.profile-text-->
             </div><!--.profile-info-->
 

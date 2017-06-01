@@ -9,17 +9,20 @@
 namespace App\BusinessLogicLayer\managers;
 
 
+use App\StorageLayer\MentorRatingStorage;
 use App\StorageLayer\MentorshipSessionStorage;
-use App\StorageLayer\RatingStorage;
+use App\StorageLayer\MenteeRatingStorage;
 use App\Utils\MentorshipSessionStatuses;
 
 class RatingManager
 {
-    private $ratingStorage;
+    private $menteeRatingStorage;
+    private $mentorRatingStorage;
 
     public function __construct()
     {
-        $this->ratingStorage = new RatingStorage();
+        $this->menteeRatingStorage = new MenteeRatingStorage();
+        $this->mentorRatingStorage = new MentorRatingStorage();
     }
 
     public function rateMentee(array $input)
@@ -29,7 +32,7 @@ class RatingManager
         $sessionStatuses = new MentorshipSessionStatuses();
         if ($session->status_id === $sessionStatuses::getCompletedSessionStatuses()[0] &&
             $session->mentor_profile_id == $input['mentor_id'] && $session->mentee_profile_id == $input['mentee_id']) {
-            $this->ratingStorage->rateMentee(
+            $this->menteeRatingStorage->rateMentee(
                 $session->id, $session->mentee_profile_id, $session->mentor_profile_id, $input['rating'], $input['rating_description']
             );
             return 'SUCCESS';
@@ -45,7 +48,7 @@ class RatingManager
         $sessionStatuses = new MentorshipSessionStatuses();
         if ($session->status_id === $sessionStatuses::getCompletedSessionStatuses()[0] &&
             $session->mentor_profile_id == $input['mentor_id'] && $session->mentee_profile_id == $input['mentee_id']) {
-            $this->ratingStorage->rateMentor(
+            $this->mentorRatingStorage->rateMentor(
                 $session->id, $session->mentor_profile_id, $session->mentee_profile_id, $input['rating'], $input['rating_description']
             );
             return 'SUCCESS';

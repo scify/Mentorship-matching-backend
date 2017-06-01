@@ -89,4 +89,11 @@ class MenteeProfile extends Model
     {
         return $this->hasMany(MenteeStatusHistory::class, 'mentee_profile_id', 'id')->orderBy('created_at', 'desc');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings() {
+        return $this->hasMany(MenteeRating::class, 'mentee_id', 'id');
+    }
 }

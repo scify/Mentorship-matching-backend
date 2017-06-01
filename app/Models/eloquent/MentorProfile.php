@@ -114,4 +114,11 @@ class MentorProfile extends Model
     public function educationLevel() {
         return $this->hasOne(EducationLevel::class, 'id', 'education_level_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function ratings() {
+        return $this->hasMany(MentorRating::class, 'mentor_id', 'id');
+    }
 }

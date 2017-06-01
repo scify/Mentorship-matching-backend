@@ -8,6 +8,7 @@ use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 class MentorViewModel {
 
     public $mentor;
+    public $avgRating;
 
     public function __construct($mentor) {
         $this->mentor = $mentor;
@@ -15,5 +16,8 @@ class MentorViewModel {
         $mentorshipSessionManager = new MentorshipSessionManager();
 
         $this->numberOfTotalSessions = $mentorshipSessionManager->getMentorshipSessionsCountForMentor($this->mentor->id);
+
+        $ratings = $mentor->ratings;
+        $this->avgRating = !empty($ratings) ? round($ratings->avg('rating')) : null;
     }
 }
