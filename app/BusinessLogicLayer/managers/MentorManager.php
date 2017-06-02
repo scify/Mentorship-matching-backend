@@ -344,7 +344,7 @@ class MentorManager {
                 throw new \Exception("Filter value is not valid.");
             }
             $dbQuery .= "join (
-                    select round(avg(rating)) as avg_rating, mentor_id from mentor_rating group by mentor_id having avg_rating = " .
+                    select round(avg(rating)), mentor_id from mentor_rating group by mentor_id having round(avg(rating)) = " .
                     intval($filters['averageRating']) . ") as mentors_with_avg_rating on mp.id=mentors_with_avg_rating.mentor_id ";
         }
         if(isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
