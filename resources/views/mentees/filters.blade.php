@@ -4,7 +4,7 @@
             <h4>FILTERS</h4>
         </div>
     </div><!--.panel-heading-->
-    <div class="panel-body filtersContainer noInputStyles" id="menteesFilters" data-url="{{ route('filterMentees') }}">
+    <div class="panel-body filtersContainer noInputStyles" id="menteesFilters" data-url="{{ route('filterMentees') }}"  @if(isset($displayOnlyAvailableMentees) && $displayOnlyAvailableMentees) data-only-available="true" @endif>
         <div class="row">
             <div class="col-md-3 filterName">Mentees' name</div><!--.col-md-3-->
             <div class="col-md-6">

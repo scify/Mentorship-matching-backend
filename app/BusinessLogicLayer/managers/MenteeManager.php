@@ -184,6 +184,7 @@ class MenteeManager {
             (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
             (!isset($filters['averageRating']) || $filters['averageRating'] === "") &&
             (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
+            (!isset($filters['displayOnlyAvailable']) || $filters['displayOnlyAvailable'] === 'false') &&
             (!isset($filters['displayOnlyActiveSession']) || $filters['displayOnlyActiveSession'] === 'false') &&
             (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false') &&
             (!isset($filters['displayOnlyExternallySubscribed']) || $filters['displayOnlyExternallySubscribed'] === 'false') &&
@@ -328,6 +329,13 @@ class MenteeManager {
             }
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
             $dbQuery .= "mses.status_id in (" . implode(",", $mentorshipSessionStatuses::getCancelledSessionStatuses()) . ") ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['displayOnlyAvailable']) && $filters['displayOnlyAvailable'] === 'true') {
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.status_id = 1 ";
         }
         $filteredMenteeIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)

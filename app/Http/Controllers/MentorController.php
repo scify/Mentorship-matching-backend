@@ -121,6 +121,7 @@ class MentorController extends Controller
         $loggedInUser = Auth::user();
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
+        $displayOnlyAvailableMentees = true;
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
             'availableMenteeViewModels' => $availableMenteeViewModels, 'universities' => $universities,
             'educationLevels' => $educationLevels,
@@ -128,7 +129,8 @@ class MentorController extends Controller
             'loggedInUser' => $loggedInUser,
             'statuses' => $statuses,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
-            'currentSessionViewModel' => $currentSessionViewModel
+            'currentSessionViewModel' => $currentSessionViewModel,
+            'displayOnlyAvailableMentees' => $displayOnlyAvailableMentees
         ]);
     }
 

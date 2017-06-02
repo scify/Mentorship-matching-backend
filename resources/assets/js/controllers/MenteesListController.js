@@ -53,6 +53,11 @@ window.MenteesListController.prototype = function () {
                 menteesCriteria.displayOnlyAvailableWithCancelledSessions =
                     $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
                 menteesCriteria.currentRouteName = currentRouteName;
+                var $menteesFilterDiv = $("#menteesFilters");
+                if(typeof $menteesFilterDiv.attr("data-only-available") !== 'undefined' &&
+                    $menteesFilterDiv.data("only-available") === true) {
+                    menteesCriteria.displayOnlyAvailable = true;
+                }
                 getMenteesByFilter.call(this);
             });
         },
