@@ -102,9 +102,7 @@ window.MentorshipSessionsListController.prototype = function() {
         paginateMentorshipSessionsBtnHandler = function (parentDiv) {
             $("body").on("click", parentDiv + " #mentorshipSessionsList .pagination a", function (e) {
                 e.preventDefault();
-                var page = $(this).html();
-                console.log(page);
-                pageNum = page;
+                pageNum = $(this).attr("href").replace('#?page=', '');
                 if(!$(this).parent().hasClass("active")) {
                     $("#mentorshipSessionsFilters").find("#searchBtn").trigger("click");
                 }

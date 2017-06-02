@@ -29,9 +29,7 @@ window.MentorsListController.prototype = function () {
         paginateMentorsBtnHandler = function () {
             $("body").on("click", "#mentorsList .pagination a", function (e) {
                 e.preventDefault();
-                var page = $(this).html();
-                console.log(page);
-                pageNum = page;
+                pageNum = $(this).attr("href").replace('#?page=', '');
                 if(!$(this).parent().hasClass("active")) {
                     $("#mentorsFilters").find("#searchBtn").trigger("click");
                 }

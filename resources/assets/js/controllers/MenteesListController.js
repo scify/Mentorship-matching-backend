@@ -28,9 +28,7 @@ window.MenteesListController.prototype = function () {
         paginateMenteesBtnHandler = function () {
             $("body").on("click", "#menteesList .pagination a", function (e) {
                 e.preventDefault();
-                var page = $(this).html();
-                console.log(page);
-                pageNum = page;
+                pageNum = $(this).attr("href").replace('#?page=', '');
                 if(!$(this).parent().hasClass("active")) {
                     $("#menteesFilters").find("#searchBtn").trigger("click");
                 }
