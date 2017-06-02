@@ -140,7 +140,7 @@
                                             <div class="inputer floating-label">
                                                 <div class="input-wrapper">
                                                     <input required type="number" class="form-control" name="year_of_birth"
-                                                           min="{{ date('Y') - 75 }}" max="{{ date('Y') }}"
+                                                           min="{{ date('Y') - 75 }}" max="{{ date('Y') - 18 }}"
                                                            value="{{ old('year_of_birth') != '' ? old('year_of_birth') : $mentor['year_of_birth']}}">
                                                     <label for="year_of_birth">{{trans('messages.year_of_birth')}} <span class="requiredIcon">*</span></label>
                                                 </div>

@@ -328,15 +328,25 @@ class MentorManager {
             (!isset($filters['availabilityId'])  || $filters['availabilityId'] === "") &&
             (!isset($filters['residenceId'])  || $filters['residenceId'] === "") &&
             (!isset($filters['completedSessionsCount']) || $filters['completedSessionsCount'] === "") &&
+            (!isset($filters['averageRating']) || $filters['averageRating'] === "") &&
             (!isset($filters['displayOnlyExternallySubscribed'])  || $filters['displayOnlyExternallySubscribed'] === 'false') &&
             (!isset($filters['displayOnlyAvailableWithCancelledSessions'])  || $filters['displayOnlyAvailableWithCancelledSessions'] === 'false')
         ) {
             return $this->mentorStorage->getAllMentorProfiles();
         }
         $whereClauseExists = false;
-        $dbQuery = "select distinct mp.id 
-            from mentor_profile as mp 
+        $dbQuery = "select distinct mp.id
+            from mentor_profile as mp
             left outer join mentor_specialty as ms on mp.id = ms.mentor_profile_id ";
+        if(isset($filters['averageRating']) && $filters['averageRating'] != "") {
+            if(intval($filters['averageRating']) == 0 || intval($filters['averageRating']) < 1 ||
+                intval($filters['averageRating']) > 5) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            $dbQuery .= "join (
+                    select round(avg(rating)) as avg_rating, mentor_id from mentor_rating group by mentor_id having avg_rating = " .
+                    intval($filters['averageRating']) . ") as mentors_with_avg_rating on mp.id=mentors_with_avg_rating.mentor_id ";
+        }
         if(isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
             $dbQuery .= "left outer join

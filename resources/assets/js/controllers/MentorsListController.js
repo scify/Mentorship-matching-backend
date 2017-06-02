@@ -53,6 +53,7 @@ window.MentorsListController.prototype = function () {
                 mentorsCriteria.availabilityId = $('select[name=availability]').val();
                 mentorsCriteria.residenceId = $('select[name=residence]').val();
                 mentorsCriteria.completedSessionsCount = $('select[name=completedSessionsCount]').val();
+                mentorsCriteria.averageRating = $('select[name=averageRating]').val();
                 mentorsCriteria.displayOnlyExternallySubscribed = $('input[name=only_externally_subscribed]').parent().hasClass("checked");
                 mentorsCriteria.displayOnlyAvailableWithCancelledSessions = $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
                 mentorsCriteria.currentRouteName = currentRouteName;
@@ -68,6 +69,7 @@ window.MentorsListController.prototype = function () {
                 $('select[name=availability]').val(0).trigger("chosen:updated");
                 $('select[name=residence]').val(0).trigger("chosen:updated");
                 $('select[name=completedSessionsCount]').val(0).trigger("chosen:updated");
+                $('select[name=averageRating]').val(0).trigger("chosen:updated");
                 $('input[name=only_externally_subscribed]').iCheck('uncheck');
                 $('input[name=available_with_cancelled_session]').iCheck('uncheck');
                 // clear mentorsCriteria object from all of its properties

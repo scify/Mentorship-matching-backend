@@ -71,6 +71,15 @@
                     @endfor
                 </select>
             </div><!--.col-md-6-->
+            <div class="col-md-2 filterName">Average rating</div>
+            <div class="col-md-4">
+                <select data-placeholder="Choose average rating" name="averageRating" id="averageRatingSelect" class="chosen-select">
+                    <option><!-- Empty option allows the placeholder to take effect. --><option>
+                    @for($i = 0; $i < 5; $i++)
+                        <option value="{{  $i + 1 }}">{{ $i + 1 }} / 5</option>
+                    @endfor
+                </select>
+            </div><!--.col-md-6-->
         </div>
         <div class="row">
             <div class="col-md-2 filterName">

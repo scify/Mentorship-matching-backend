@@ -78,14 +78,15 @@
             </div><!--.col-md-6-->
         </div>
         <div class="row">
-            <div class="col-md-3 filterName">
-                <label for="only-unemployed-mentees">Mentees that are unemployed</label>
-            </div>
+            <div class="col-md-3 filterName">Average rating</div>
             <div class="col-md-3">
-                <div class="icheckbox">
-                    <input type="checkbox" name="only_unemployed_mentees" id="only-unemployed-mentees">
-                </div>
-            </div>
+                <select data-placeholder="Choose average rating" name="average_rating" id="averageRatingSelect" class="chosen-select">
+                    <option><!-- Empty option allows the placeholder to take effect. --><option>
+                    @for($i = 0; $i < 5; $i++)
+                        <option value="{{  $i + 1 }}">{{ $i + 1 }} / 5</option>
+                    @endfor
+                </select>
+            </div><!--.col-md-6-->
             <div class="col-md-3 filterName">
                 <label for="only-active-sessions">Mentees with active sessions</label>
             </div>
@@ -114,6 +115,14 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-3 filterName">
+                <label for="only-unemployed-mentees">Mentees that are unemployed</label>
+            </div>
+            <div class="col-md-3">
+                <div class="icheckbox">
+                    <input type="checkbox" name="only_unemployed_mentees" id="only-unemployed-mentees">
+                </div>
+            </div>
             <div class="col-md-3 filterName">
                 <label for="available-with-cancelled-session">Mentees with cancelled last session</label>
             </div>

@@ -182,6 +182,7 @@ class MenteeManager {
             (!isset($filters['skills']) || $filters['skills'] === "") &&
             (!isset($filters['signedUpAgo']) || $filters['signedUpAgo'] === "") &&
             (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
+            (!isset($filters['averageRating']) || $filters['averageRating'] === "") &&
             (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
             (!isset($filters['displayOnlyActiveSession']) || $filters['displayOnlyActiveSession'] === 'false') &&
             (!isset($filters['displayOnlyNeverMatched']) || $filters['displayOnlyNeverMatched'] === 'false') &&
@@ -206,6 +207,15 @@ class MenteeManager {
                 left outer join
                 (select max(id) as last_session_id from mentorship_session group by mentee_profile_id) 
                 as last_sessions on last_sessions.last_session_id = mses.id ";
+        }
+        if(isset($filters['averageRating']) && $filters['averageRating'] != "") {
+            if(intval($filters['averageRating']) == 0 || intval($filters['averageRating']) < 1 ||
+                intval($filters['averageRating']) > 5) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            $dbQuery .= "join (
+                    select round(avg(rating)) as avg_rating, mentee_id from mentee_rating group by mentee_id having avg_rating = " .
+                intval($filters['averageRating']) . ") as mentees_with_avg_rating on mp.id=mentees_with_avg_rating.mentee_id ";
         }
         $dbQuery .= "where ";
         if(isset($filters['menteeName']) && $filters['menteeName'] != "") {
