@@ -20,7 +20,7 @@ return [
     'email' => 'Email',
     'address' => 'ΔΙΕΥΘΥΝΣΗ',
     'residence' => 'ΤΟΠΟΣ ΔΙΑΜΟΝΗΣ',
-    'residence_name' => 'ΟΝΟΜΑΣΙΑ ΤΟΠΟΥ ΔΙΑΜΟΝΗΣ',
+    'residence_name' => 'ΠΟΛΗ',
     'mentee_status' => 'ΚΑΤΑΣΤΑΣΗ MENTEE',
     'mentor_status' => 'Κατάσταση Μέντορα',
     'change_mentee_status' => 'Αλλαγή κατάστασης mentee',

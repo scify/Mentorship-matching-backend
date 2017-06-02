@@ -20,7 +20,7 @@ return [
     'email' => 'Email',
     'address' => 'Address',
     'residence' => 'Residence',
-    'residence_name' => 'Residence Name',
+    'residence_name' => 'City',
     'mentee_status' => 'Mentee status',
     'mentor_status' => 'Mentor status',
     'change_mentee_status' => 'Change mentee status',
