@@ -215,7 +215,7 @@ class MenteeManager {
                 throw new \Exception("Filter value is not valid.");
             }
             $dbQuery .= "join (
-                    select round(avg(rating)) as avg_rating, mentee_id from mentee_rating group by mentee_id having avg_rating = " .
+                    select round(avg(rating)), mentee_id from mentee_rating group by mentee_id having round(avg(rating)) = " .
                 intval($filters['averageRating']) . ") as mentees_with_avg_rating on mp.id=mentees_with_avg_rating.mentee_id ";
         }
         $dbQuery .= "where ";
