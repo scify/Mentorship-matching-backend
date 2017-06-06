@@ -42,7 +42,7 @@ class MentorStatusReactivation extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("JobPairs | Η συνεδρία σας ολοκληρώθηκε!")
+            ->subject("Job-Pairs | Η συνεδρία σας ολοκληρώθηκε!")
             ->greeting('Αγαπητέ mentor,')
             ->line('Συγχαρητήρια!')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Θα θέλαμε να σας ενημερώσουμε πως μόλις ολοκληρώθηκε μια συνεδρία στην οποία συμμετείχατε.</span>')

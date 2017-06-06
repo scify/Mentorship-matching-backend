@@ -45,11 +45,11 @@ class MentorSendRating extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("JobPairs | Η συνεδρία σας έχει τελειώσει")
+            ->subject("Job-Pairs | Οι συναντήσεις σας ολοκληρώθηκαν")
             ->greeting('Αγαπητέ mentor,')
-            ->line("Θα θέλαμε να σας ενημερώσουμε πως η συνεδρία έχει φτάσει στο τέλος της.")
-            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφτείτε τον παρακάτω σύνδεσμο ώστε να βαθμολογήσετε τον mentee σας.</span>')
-            ->action('Βαθμολογήστε τον mentee σας', route('showMenteeRatingForm', [
+            ->line("Θα θέλαμε να σας ευχαριστήσουμε θερμά για τη συμμετοχή σας στο Job-Pairs και την ολοκλήρωση των συναντήσεων σας. Χάρη σε εσάς, συνεχίζουμε να δημιουργούμε επαγγελματικές ευκαιρίες.")
+            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφθείτε τον παρακάτω σύνδεσμο ώστε να αξιολογήσετε τον mentee και το πρόγραμμα μας.</span>')
+            ->action('Αξιολογήστε εδώ', route('showMenteeRatingForm', [
                 'session-id' => $this->mentorshipSession->id, 'mentor-id' => $this->mentorshipSession->mentor->id, 'mentee-id' => $this->mentorshipSession->mentee->id, 'lang' => 'gr'
             ]))
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
