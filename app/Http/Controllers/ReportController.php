@@ -6,6 +6,10 @@ use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\UserManager;
+use App\StorageLayer\MentorStorage;
+use App\Utils\DataToCsvExportManager;
+use App\Utils\ExportDataOptions;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -41,5 +45,13 @@ class ReportController extends Controller
                 'completedSessionsCount', 'adminsCount', 'accountManagersCount', 'matchersCount'
             )
         );
+    }
+
+    public function exportMentorsToCsv()
+    {
+        $date = str_replace(" ", "_", Carbon::now('Europe/Athens')->toDateTimeString());
+        $fileName = "mentors_" . $date . ".csv";
+        $dataToCsvExportManager = new DataToCsvExportManager($fileName, MentorStorage::class, ['specialty_name', 'industry_name'], 'gr');
+        return $dataToCsvExportManager->getExportedData();
     }
 }

@@ -60,6 +60,8 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('sessions/byCriteria', 'MentorshipSessionController@showMentorshipSessionsByCriteria')->name('filterMentorshipSessions');
 
     Route::post('delete-history-item', 'MentorshipSessionHistoryController@deleteSessionHistoryItem')->name('deleteSessionHistoryItem');
+
+    Route::get('exports/mentors', 'ReportController@exportMentorsToCsv')->name('exportMentors');
 });
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
