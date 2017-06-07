@@ -39,4 +39,11 @@
         'career_goals' => 'Επαγγελματικοί Στόχοι',
         'university_graduation_year' => 'Έτος Αποφοίτησης',
         'specialty_experience' => 'Εμπειρία στην ειδικότητα',
+        'mentor_name' => 'Mentor',
+        'mentee_name' => 'Mentee',
+        'account_manager' => 'Account Manager',
+        'matcher' => 'Matcher',
+        'general_comment' => 'Σχόλια',
+        'started' => 'Ημερομηνία Έναρξης',
+        'updated' => 'Τελευταία Ενημέρωση',
     );

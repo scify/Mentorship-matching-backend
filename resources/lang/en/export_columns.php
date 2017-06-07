@@ -39,4 +39,11 @@
         'career_goals' => 'Career Goals',
         'university_graduation_year' => 'Graduation Year',
         'specialty_experience' => 'Experience in specialty',
+        'mentor_name' => 'Mentor',
+        'mentee_name' => 'Mentee',
+        'account_manager' => 'Account Manager',
+        'matcher' => 'Matcher',
+        'general_comment' => 'Comments',
+        'started' => 'Started',
+        'updated' => 'Lastly Updated',
     );

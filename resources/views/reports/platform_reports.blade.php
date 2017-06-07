@@ -130,7 +130,10 @@
                     <span>Mentorship sessions to .csv file:</span>
                 </div>
                 <div class="col-xs-6 report-button">
-                    <button id="sessions-export" class="btn btn-primary btn-ripple custom-disabled-button" @if($mentorshipSessionsCount === 0) disabled="disabled" @endif>Download</button>
+                    <form action="{{ route('exportSessions') }}">
+                        <input type="hidden" name="lang" value="gr">
+                        <input type="submit" id="sessions-export" class="btn btn-primary btn-ripple custom-disabled-button" value="Download" @if($mentorshipSessionsCount === 0) disabled="disabled" @endif>
+                    </form>
                 </div>
             </div>
         </div>

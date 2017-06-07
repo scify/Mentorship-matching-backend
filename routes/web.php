@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('reports/all', 'ReportController@showAllReports')->name('showAllReports');
     Route::get('export/mentors', 'ReportController@exportMentorsToCsv')->name('exportMentors');
     Route::get('export/mentees', 'ReportController@exportMenteesToCsv')->name('exportMentees');
+    Route::get('export/sessions', 'ReportController@exportMentorshipSessionsToCsv')->name('exportSessions');
 
     Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
     Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');

@@ -10,6 +10,7 @@ namespace App\StorageLayer;
 
 use App\Models\eloquent\MentorshipSession;
 use App\Utils\MentorshipSessionStatuses;
+use Illuminate\Support\Facades\DB;
 
 class MentorshipSessionStorage
 {
@@ -64,5 +65,22 @@ class MentorshipSessionStorage
     public function getAllCompletedMentorshipSessions() {
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
         return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getCompletedSessionStatuses())->get();
+    }
+
+    public function getDataForExportation() {
+        return DB::select(DB::raw('select msession.id, concat(mentor.first_name, " ", mentor.last_name) as mentor_name, 
+            concat(mentee.first_name, " ", mentee.last_name) as mentee_name, 
+            concat(account_managers.first_name, " ", account_managers.last_name) as account_manager, 
+            concat(matchers.first_name, " ", matchers.last_name) as matcher, msession.general_comment, 
+            mentorship_session_status_lookup.description as status, msession.created_at as started, 
+            msession.updated_at as updated
+            from mentorship_session as msession 
+            left join mentor_profile as mentor on msession.mentor_profile_id = mentor.id 
+            left join mentee_profile as mentee on msession.mentee_profile_id = mentee.id 
+            left join users as account_managers on msession.account_manager_id = account_managers.id
+            left join users as matchers on msession.matcher_id = matchers.id
+            left join mentorship_session_status_lookup on msession.status_id = mentorship_session_status_lookup.id
+            where msession.deleted_at is null
+            order by msession.id'));
     }
 }
