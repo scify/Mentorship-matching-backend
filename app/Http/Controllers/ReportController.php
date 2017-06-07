@@ -8,8 +8,8 @@ use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\StorageLayer\MentorStorage;
 use App\Utils\DataToCsvExportManager;
-use App\Utils\ExportDataOptions;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
 
 class ReportController extends Controller
 {
@@ -49,9 +49,10 @@ class ReportController extends Controller
 
     public function exportMentorsToCsv()
     {
+        $lang = Input::has('lang') ? Input::get('lang') : 'en';
         $date = str_replace(" ", "_", Carbon::now('Europe/Athens')->toDateTimeString());
         $fileName = "mentors_" . $date . ".csv";
-        $dataToCsvExportManager = new DataToCsvExportManager($fileName, MentorStorage::class, ['specialty_name', 'industry_name'], 'gr');
+        $dataToCsvExportManager = new DataToCsvExportManager($fileName, MentorStorage::class, ['specialty_name', 'industry_name'], $lang);
         return $dataToCsvExportManager->getExportedData();
     }
 }

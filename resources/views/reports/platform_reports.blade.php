@@ -108,7 +108,10 @@
                     <span>Mentors to .csv file:</span>
                 </div>
                 <div class="col-xs-6 report-button">
-                    <button id="mentors-export" class="btn btn-primary btn-ripple">Download</button>
+                    <form action="{{ route('exportMentors') }}">
+                        <input type="hidden" name="lang" value="gr">
+                        <input type="submit" id="mentors-export" class="btn btn-primary btn-ripple custom-disabled-button" value="Download" @if($mentorsCount === 0) disabled="disabled" @endif>
+                    </form>
                 </div>
             </div>
             <div class="col-md-4">
@@ -116,7 +119,7 @@
                     <span>Mentees to .csv file:</span>
                 </div>
                 <div class="col-xs-6 report-button">
-                    <button id="mentees-export" class="btn btn-primary btn-ripple">Download</button>
+                    <button id="mentees-export" class="btn btn-primary btn-ripple custom-disabled-button" @if($menteesCount === 0) disabled="disabled" @endif>Download</button>
                 </div>
             </div>
             <div class="col-md-4">
@@ -124,7 +127,7 @@
                     <span>Mentorship sessions to .csv file:</span>
                 </div>
                 <div class="col-xs-6 report-button">
-                    <button id="sessions-export" class="btn btn-primary btn-ripple">Download</button>
+                    <button id="sessions-export" class="btn btn-primary btn-ripple custom-disabled-button" @if($mentorshipSessionsCount === 0) disabled="disabled" @endif>Download</button>
                 </div>
             </div>
         </div>
