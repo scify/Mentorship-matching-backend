@@ -28,7 +28,7 @@
                                     <div class="col-md-6">
                                         <!-- Mentee status -->
                                         <div class="margin-bottom-5 selecterTitle">{{trans('messages.mentee_status')}} <span class="requiredIcon">*</span></div>
-                                        <select data-placeholder="select" name="status_id" class="chosen-select"
+                                        <select data-placeholder="{{trans('messages.select')}}" name="status_id" class="chosen-select"
                                                 data-original-value="{{ $mentee['status_id'] }}"
                                                 data-enable-follow-up-date="4,5">
                                             @foreach($menteeStatuses as $menteeStatus)
@@ -151,7 +151,7 @@
                             <div class="col-md-6 inputer {{ $errors->first('residence_id')?'has-error has-feedback':'' }}">
                                 <!-- Residence Area -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.residence')}} <span class="requiredIcon">*</span></div>
-                                <select data-placeholder="select" name="residence_id" class="chosen-select" data-show-name-on-id="4">
+                                <select data-placeholder="{{trans('messages.select')}}" name="residence_id" class="chosen-select" data-show-name-on-id="4">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($residences as $residence)
                                         <option value="{{$residence->id}}" {{$mentee['residence_id'] == $residence->id || old('residence_id') == $residence->id ? 'selected' : ''}}>{{$residence->name}}</option>
@@ -211,7 +211,7 @@
                             <div class="col-md-6 inputer {{ $errors->first('education_level_id')?'has-error has-feedback':'' }}">
                                 <!-- Education Level -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.education_level')}} <span class="requiredIcon">*</span></div>
-                                <select data-placeholder="select" name="education_level_id" class="chosen-select">
+                                <select data-placeholder="{{trans('messages.select')}}" name="education_level_id" class="chosen-select">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($educationLevels as $educationLevel)
                                         <option value="{{$educationLevel->id}}" {{$mentee['education_level_id'] == $educationLevel->id || old('education_level_id') == $educationLevel->id ?
@@ -223,7 +223,7 @@
                             <div class="col-md-6 inputer {{ $errors->first('university_id')?'has-error has-feedback':'' }}">
                                 <!-- University -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.university')}} <span class="requiredIcon">*</span></div>
-                                <select data-placeholder="select" name="university_id" class="chosen-select" data-show-name-on-id="12">
+                                <select data-placeholder="{{trans('messages.select')}}" name="university_id" class="chosen-select" data-show-name-on-id="12">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($universities as $university)
                                         <option value="{{$university->id}}" {{$mentee['university_id'] == $university->id || old('university_id') == $university->id ? 'selected' : ''}}>{{$university->name}}</option>
@@ -395,7 +395,7 @@
                             <div class="col-md-12 inputer {{ $errors->first('reference_id')?'has-error has-feedback':'' }}">
                                 <!-- Reference (where did you hear about us) -->
                                 <div class="margin-bottom-5 selecterTitle">{{trans('messages.reference_form')}} <span class="requiredIcon">*</span></div>
-                                <select data-placeholder="select" name="reference_id" class="chosen-select" data-show-name-on-id="7">
+                                <select data-placeholder="{{trans('messages.select')}}" name="reference_id" class="chosen-select" data-show-name-on-id="7">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($references as $reference)
                                         <option value="{{$reference->id}}" {{$mentee['reference_id'] == $reference->id || old('reference_id') == $reference->id ? 'selected' : ''}}>{{$reference->name}}</option>
@@ -441,8 +441,8 @@
                             <div class="col-md-9">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <span class="btn btn-orange btn-file">
-                                        <span class="fileinput-new">Select file</span>
-                                        <span class="fileinput-exists">Change</span>
+                                        <span class="fileinput-new">{{trans('messages.select_file')}}</span>
+                                        <span class="fileinput-exists">{{trans('messages.change_file')}}</span>
                                         <input type="file" name="cv_file" accept=".doc,.docx,.pdf">
                                     </span>
                                     <span class="fileinput-filename">

@@ -142,4 +142,9 @@ return [
     'invitation_declined' => 'Έχετε επιτυχώς απορρίψει την πρόσκληση σε συνεδρία',
     'not_permitted_to_respond_invitation' => 'Δε σας επιτρέπεται να απαντήσετε στην πρόσκληση',
     'error_occurred' => 'Σφάλμα',
+    'select' => 'επιλέξτε',
+    'select_company' => 'ΕΠΙΛΕΞΤΕ ΜΙΑ ΕΠΙΧΕΙΡΗΣΗ Ή ΠΡΟΣΘΕΣΤΕ ΜΙΑ',
+    'upload_cv' => 'ΑΝΕΒΑΣΤΕ ΤΟ ΒΙΟΓΡΑΦΙΚΟ ΣΑΣ',
+    'select_file' => 'Επιλέξτε αρχείο',
+    'change_file' => 'Αλλαγή',
 ];

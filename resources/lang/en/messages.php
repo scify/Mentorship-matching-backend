@@ -150,4 +150,8 @@ return [
     'invitation_declined' => 'You have successfully declined the session invitation',
     'not_permitted_to_respond_invitation' => 'You are not permitted to respond to this invitation',
     'error_occurred' => 'An error occurred.',
+    'select' => 'select',
+    'select_company' => 'SELECT A COMPANY OR ENTER YOUR OWN',
+    'select_file' => 'Select file',
+    'change_file' => 'Change',
 ];
