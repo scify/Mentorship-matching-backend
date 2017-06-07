@@ -35,6 +35,12 @@ window.MenteesListController.prototype = function () {
             });
         },
         searchBtnHandler = function (currentRouteName) {
+            menteesCriteria.currentRouteName = currentRouteName;
+            var $menteesFilterDiv = $("#menteesFilters");
+            if(typeof $menteesFilterDiv.attr("data-only-available") !== 'undefined' &&
+                $menteesFilterDiv.data("only-available") === true) {
+                menteesCriteria.displayOnlyAvailable = true;
+            }
             $("#searchBtn").on("click", function () {
                 menteesCriteria.menteeName = $("input[name=mentee_name]").val();
                 menteesCriteria.ageRange = $("input[name=age]").val();
@@ -52,12 +58,6 @@ window.MenteesListController.prototype = function () {
                     $('input[name=only_externally_subscribed]').parent().hasClass("checked");
                 menteesCriteria.displayOnlyAvailableWithCancelledSessions =
                     $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
-                menteesCriteria.currentRouteName = currentRouteName;
-                var $menteesFilterDiv = $("#menteesFilters");
-                if(typeof $menteesFilterDiv.attr("data-only-available") !== 'undefined' &&
-                    $menteesFilterDiv.data("only-available") === true) {
-                    menteesCriteria.displayOnlyAvailable = true;
-                }
                 getMenteesByFilter.call(this);
             });
         },
@@ -78,7 +78,10 @@ window.MenteesListController.prototype = function () {
                 $('input[name=available_with_cancelled_session]').iCheck('uncheck');
                 // clear MenteesCriteria object from all of its properties
                 for(var prop in menteesCriteria) {
-                    if(menteesCriteria.hasOwnProperty(prop)) {
+                    // remove all properties except of the one containing the current route's name,
+                    // needed to display correct buttons next to the card and
+                    // the one used to display only available mentees
+                    if(menteesCriteria.hasOwnProperty(prop) && prop !== "currentRouteName" && prop !== "displayOnlyAvailable") {
                         delete menteesCriteria[prop];
                     }
                 }
