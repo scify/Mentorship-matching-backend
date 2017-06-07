@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-md-2 filterName">Availability</div>
             <div class="col-md-4">
-                <select data-placeholder="Choose availability status" name="availability" id="availabilitySelect" class="chosen-select">
+                <select data-placeholder="Choose availability status" name="availability" id="availabilitySelect" class="chosen-select" @if(Route::currentRouteName() == 'showMenteeProfilePage') disabled="disabled" @endif>
                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                     @foreach($statuses as $status)
                         <option value="{{$status->id}}" {{ $status->id == 1 && Route::currentRouteName() == 'showMenteeProfilePage'? 'selected' : '' }}>{{$status->description}}</option>

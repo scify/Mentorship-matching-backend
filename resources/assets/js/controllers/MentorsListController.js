@@ -44,6 +44,10 @@ window.MentorsListController.prototype = function () {
         },
         searchBtnHandler = function (currentRouteName) {
             mentorsCriteria.currentRouteName = currentRouteName;
+            // define availabilityId to avoid problems with clearing filters
+            if($('select[name=availability][disabled=disabled]').length === 1) {
+                mentorsCriteria.availabilityId = $('select[name=availability]').val();
+            }
             $("#searchBtn").on("click", function () {
                 mentorsCriteria.mentorName = $('input[name=mentorName]').val();
                 mentorsCriteria.ageRange = $('input[name=age]').val();
@@ -64,7 +68,12 @@ window.MentorsListController.prototype = function () {
                 $('#age').data("ionRangeSlider").reset();
                 $('select[name=specialty]').val(0).trigger("chosen:updated");
                 $('select[name=company]').val(0).trigger("chosen:updated");
-                $('select[name=availability]').val(0).trigger("chosen:updated");
+                var shouldRemoveAvailabilityProp = true;
+                if($('select[name=availability][disabled=disabled]').length === 0) {
+                    $('select[name=availability]').val(0).trigger("chosen:updated");
+                } else {
+                    shouldRemoveAvailabilityProp = false;
+                }
                 $('select[name=residence]').val(0).trigger("chosen:updated");
                 $('select[name=completedSessionsCount]').val(0).trigger("chosen:updated");
                 $('select[name=averageRating]').val(0).trigger("chosen:updated");
@@ -74,7 +83,8 @@ window.MentorsListController.prototype = function () {
                 for(var prop in mentorsCriteria) {
                     // remove all properties except of the one containing the current route's name,
                     // needed to display correct buttons next to the card
-                    if(mentorsCriteria.hasOwnProperty(prop) && prop !== "currentRouteName") {
+                    if(mentorsCriteria.hasOwnProperty(prop) && prop !== "currentRouteName" &&
+                        !(prop === "availabilityId" && !shouldRemoveAvailabilityProp)) {
                         delete mentorsCriteria[prop];
                     }
                 }
