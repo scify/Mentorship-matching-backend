@@ -61,13 +61,14 @@ class MentorStorage {
           mentor.reference_text, specialty.name as specialty_name, industry.name as industry_name, 
           residence.name as residence_name_foreign, mentor.residence_name, 
           university.name as university_name_foreign, mentor.university_name, mentor.university_department_name, 
-          education_level.name as education_level_name
+          education_level.name as education_level_name, mentor_status_lookup.description as status
           from mentor_profile as mentor 
           left join company on mentor.company_id = company.id left join reference on mentor.reference_id = reference.id
           left join mentor_specialty on mentor.id = mentor_specialty.mentor_profile_id
           left join specialty on mentor_specialty.specialty_id = specialty.id left join mentor_industry on mentor.id = mentor_industry.mentor_profile_id
           left join industry on mentor_industry.industry_id = industry.id left join residence on mentor.residence_id = residence.id
           left join university on mentor.university_id = university.id left join education_level on mentor.education_level_id = education_level.id
+          left join mentor_status_lookup on mentor.status_id = mentor_status_lookup.id
           where mentor.deleted_at is null
           order by mentor.id'));
     }
