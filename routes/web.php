@@ -72,7 +72,8 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('users/byCriteria', ['as' => 'getUsersByCriteria','uses' => 'UserController@getUsersByCriteria']);
 
     Route::get('reports/all', 'ReportController@showAllReports')->name('showAllReports');
-    Route::get('exports/mentors', 'ReportController@exportMentorsToCsv')->name('exportMentors');
+    Route::get('export/mentors', 'ReportController@exportMentorsToCsv')->name('exportMentors');
+    Route::get('export/mentees', 'ReportController@exportMenteesToCsv')->name('exportMentees');
 
     Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
     Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');

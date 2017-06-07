@@ -3,6 +3,7 @@
 namespace App\StorageLayer;
 
 use App\Models\eloquent\MenteeProfile;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class MenteeStorage
@@ -38,5 +39,24 @@ class MenteeStorage {
     public function getMenteeProfilesWithStatusId($statusId) {
         return MenteeProfile::where(['status_id' => $statusId])
             ->orderBy('created_at')->get();
+    }
+
+    public function getDataForExportation() {
+        return DB::select(DB::raw('select mentee.id, mentee.first_name, mentee.last_name, mentee.year_of_birth, 
+          mentee.address, mentee.email, mentee.linkedin_url, mentee.phone, mentee.cell_phone, 
+          mentee.job_description, mentee.is_employed, mentee.expectations, mentee.career_goals, mentee.skills, reference.name as reference_name,
+          mentee.reference_text, specialty.name as specialty_name, mentee.specialty_experience, 
+          residence.name as residence_name_foreign, mentee.residence_name, 
+          university.name as university_name_foreign, mentee.university_name, mentee.university_department_name, 
+          mentee.university_graduation_year, education_level.name as education_level_name, mentee_status_lookup.description as status
+          from mentee_profile as mentee
+          left join specialty on mentee.specialty_id = specialty.id          
+          left join university on mentee.university_id = university.id 
+          left join education_level on mentee.education_level_id = education_level.id
+          left join residence on mentee.residence_id = residence.id
+          left join reference on mentee.reference_id = reference.id
+          left join mentee_status_lookup on mentee.status_id = mentee_status_lookup.id
+          where mentee.deleted_at is null
+          order by mentee.id'));
     }
 }

@@ -51,7 +51,7 @@ class DataToCsvExportManager
         // the variable that stores all the returned information
         $exportData = "";
         foreach($keys as $key) {
-            $exportData .= Lang::get($p . $key) . ";";
+            $exportData .= "\"" . Lang::get($p . $key) . "\";";
         }
         // replace last ';' with '\n' (change row and not just column in .csv)
         $exportData = substr_replace($exportData, "\n", -1);

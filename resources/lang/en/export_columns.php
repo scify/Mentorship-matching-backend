@@ -32,5 +32,11 @@
         'university_name' => 'University',
         'university_department_name' => 'Department',
         'education_level_name' => 'Education Level',
-        'mentor_status_lookup_status' => 'Status',
+        'status' => 'Status',
+        'job_description' => 'Job Description',
+        'is_employed' => 'Employed (0 = no, 1 = yes)',
+        'expectations' => 'Expectations',
+        'career_goals' => 'Career Goals',
+        'university_graduation_year' => 'Graduation Year',
+        'specialty_experience' => 'Experience in specialty',
     );

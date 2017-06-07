@@ -32,5 +32,11 @@
         'university_name' => 'Πανεπιστήμιο',
         'university_department_name' => 'Τμήμα',
         'education_level_name' => 'Επίπεδο Εκπαίδευσης',
-        'mentor_status_lookup_status' => 'Κατάσταση',
+        'status' => 'Κατάσταση',
+        'job_description' => 'Εργασία',
+        'is_employed' => 'Εργάζεται (0 = όχι, 1 = ναι)',
+        'expectations' => 'Προσδοκίες',
+        'career_goals' => 'Επαγγελματικοί Στόχοι',
+        'university_graduation_year' => 'Έτος Αποφοίτησης',
+        'specialty_experience' => 'Εμπειρία στην ειδικότητα',
     );
