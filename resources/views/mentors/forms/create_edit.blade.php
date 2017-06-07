@@ -440,7 +440,7 @@
                                             <div class="icheckbox">
                                                 <label>
                                                     <input type="checkbox" name="terms" required>
-                                                    {{trans('messages.i_accept_the')}} <a target="_blank" href="http://www.job-pairs.gr/faq/">{{trans('messages.terms_and_conditions')}}</a>
+                                                    {{trans('messages.i_accept_the')}} <a target="_blank" href="http://www.job-pairs.gr/terms/">{{trans('messages.terms_and_conditions')}}</a>
                                                 </label>
                                             </div>
                                         </div>
