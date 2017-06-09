@@ -21,6 +21,8 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -417,29 +419,31 @@ class MentorController extends Controller
      * @return \Illuminate\View\View
      */
     public function makeMentorAvailableAgain($id, $email) {
-        $viewTitle = "Availability Status Change";
+        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        App::setLocale($lang);
+        $viewTitle = Lang::get('messages.availability_change_title');
         try {
             $resultStatusCode = $this->mentorManager->makeMentorAvailable($id, $email);
             if($resultStatusCode === "SUCCESS") {
                 return view('common.response-to-email')->with([
-                    'message_success' => 'Your status has been successfully changed',
+                    'message_success' => Lang::get('messages.status_change_success'),
                     'title' => $viewTitle
                 ]);
             } else if($resultStatusCode === "NOT_FOUND") {
                 return view('common.response-to-email')->with([
-                    'message_failure' => 'Mentor not found',
+                    'message_failure' => Lang::get('messages.mentor_not_found'),
                     'title' => $viewTitle
                 ]);
             } else {
                 return view('common.response-to-email')->with([
-                    'message_failure' => 'You have no permission to do that',
+                    'message_failure' => Lang::get('messages.no_permissions'),
                     'title' => $viewTitle
                 ]);
             }
         } catch(\Exception $e) {
             Log::info('Error on making mentor available after completion of session: ' . $e->getCode() . "  " .  $e->getMessage());
             return view('common.response-to-email')->with([
-                'message_failure' => 'An error occurred.',
+                'message_failure' => Lang::get('messages.error_occurred'),
                 'title' => $viewTitle
             ]);
         }

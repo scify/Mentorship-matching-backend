@@ -44,7 +44,7 @@ class MenteeSessionInvitation extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Job-Pairs | Έχετε επιλεγεί για συνεδρία")
+            ->subject("Job-Pairs | Έχουμε βρει κατάλληλο μέντορα για εσάς")
             ->greeting('Αγαπητέ mentee,')
             ->line("Μετά από αίτηση που κάνατε για να συμμετέχετε στο mentoring πρόγραμμα του Job-Pairs, θα θέλαμε να σας ενημερώσουμε πως έχουμε βρει κατάλληλο μέντορα.")
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Πατώντας "Αποδοχή", κάποιο μέλος της ομάδας μας θα επικοινωνήσει μαζί σας για να ξεκινήσετε τις συναντήσεις με τον μέντορα σας.</span>')

@@ -154,4 +154,8 @@ return [
     'select_company' => 'SELECT A COMPANY OR ENTER YOUR OWN',
     'select_file' => 'Select file',
     'change_file' => 'Change',
+    'availability_change_title' => 'Availability Status Change',
+    'status_change_success' => 'Your status has been successfully changed',
+    'mentor_not_found' => 'Mentor not found',
+    'no_permissions' => 'You have no permission to do that',
 ];
