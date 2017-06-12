@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MenteeController extends Controller
 {
@@ -152,29 +153,40 @@ class MenteeController extends Controller
             App::setLocale($language);
         }
 
-        $this->validate($request, [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'email' => 'required|max:255|email',
-            'year_of_birth' => 'required|numeric|digits:4',
-            'residence_id' => 'required',
-            'residence_name' => 'required_if:residence_id,4',
-            'reference_id' => 'required',
-            'reference_text' => 'required_if:reference_id,7',
-            'address'        => 'required',
-            'education_level_id' => 'required',
-            'university_id' => 'required',
-            'university_name' => 'required_if:university_id,12',
-            'university_department_name' => 'required',
-            'university_graduation_year' => 'required',
-            'specialty_experience' => 'required',
-            'specialty_id' => 'required',
-            'expectations' => 'required',
-            'career_goals' => 'required',
-            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
-            'public_form' => 'required'
-        ], $this->messages());
-
+        $publicForm = $input['public_form'];
+        if($publicForm == "true") {
+            $this->validate($request, [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'email' => 'required|max:255|email',
+                'year_of_birth' => 'required|numeric|digits:4',
+                'residence_id' => 'required',
+                'residence_name' => 'required_if:residence_id,4',
+                'reference_id' => 'required',
+                'reference_text' => 'required_if:reference_id,7',
+                'address' => 'required',
+                'education_level_id' => 'required',
+                'university_id' => 'required',
+                'university_name' => 'required_if:university_id,12',
+                'university_department_name' => 'required',
+                'university_graduation_year' => 'required',
+                'specialty_experience' => 'required',
+                'specialty_id' => 'required',
+                'expectations' => 'required',
+                'career_goals' => 'required',
+                'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
+                'public_form' => 'required'
+            ], $this->messages());
+        } else {
+            $this->validate($request, [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'year_of_birth' => 'numeric|digits:4',
+                'email' => 'required|max:255|email',
+                'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
+                'public_form' => 'required'
+            ], $this->messages());
+        }
         try {
             $this->menteeManager->createMentee($input,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
@@ -186,7 +198,7 @@ class MenteeController extends Controller
 
 
         //if logged in user created the mentee, return to "all mentors" page
-        if(Auth::user() != null && !$input['public_form']) {
+        if($publicForm  == "false") {
             session()->flash('flash_message_success', 'Mentee created');
             return redirect()->route('showAllMentees');
         }
@@ -269,26 +281,35 @@ class MenteeController extends Controller
             App::setLocale($language);
         }
 
+//        $this->validate($request, [
+//            'follow_up_date' => 'max:10|min:8',
+//            'first_name' => 'required|max:255',
+//            'last_name' => 'required|max:255',
+//            'email' => 'required|max:255|email',
+//            'year_of_birth' => 'required|numeric|digits:4',
+//            'residence_id' => 'required',
+//            'residence_name' => 'required_if:residence_id,4',
+//            'reference_id' => 'required',
+//            'reference_text' => 'required_if:reference_id,7',
+//            'address'        => 'required',
+//            'education_level_id' => 'required',
+//            'university_id' => 'required',
+//            'university_name' => 'required_if:university_id,12',
+//            'university_department_name' => 'required',
+//            'university_graduation_year' => 'required',
+//            'specialty_experience' => 'required',
+//            'specialty_id' => 'required',
+//            'expectations' => 'required',
+//            'career_goals' => 'required',
+//            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
+//        ], $this->messages());
+
         $this->validate($request, [
             'follow_up_date' => 'max:10|min:8',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email',
-            'year_of_birth' => 'required|numeric|digits:4',
-            'residence_id' => 'required',
-            'residence_name' => 'required_if:residence_id,4',
-            'reference_id' => 'required',
-            'reference_text' => 'required_if:reference_id,7',
-            'address'        => 'required',
-            'education_level_id' => 'required',
-            'university_id' => 'required',
-            'university_name' => 'required_if:university_id,12',
-            'university_department_name' => 'required',
-            'university_graduation_year' => 'required',
-            'specialty_experience' => 'required',
-            'specialty_id' => 'required',
-            'expectations' => 'required',
-            'career_goals' => 'required',
+            'year_of_birth' => 'numeric|digits:4',
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
         ], $this->messages());
 

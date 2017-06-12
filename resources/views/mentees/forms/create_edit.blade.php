@@ -123,10 +123,10 @@
                                 <div class="{{ $errors->has('year_of_birth')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input required type="number" class="form-control" name="year_of_birth"
+                                            <input {{$publicForm ? 'required' : ''}} type="number" class="form-control" name="year_of_birth"
                                                    min="{{ date('Y') - 75 }}" max="{{ date('Y') - 18 }}"
                                                    value="{{ old('year_of_birth') != '' ? old('year_of_birth') : $mentee['year_of_birth']}}">
-                                            <label for="year_of_birth">{{trans('messages.year_of_birth')}} <span class="requiredIcon">*</span></label>
+                                            <label for="year_of_birth">{{trans('messages.year_of_birth')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('year_of_birth') }}</span>
@@ -139,9 +139,9 @@
                                 <div class="{{ $errors->first('address')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input required type="text" class="form-control" name="address"
+                                            <input {{$publicForm ? 'required' : ''}} type="text" class="form-control" name="address"
                                                    value="{{ old('address') != '' ? old('address') : $mentee['address']}}">
-                                            <label for="email">{{trans('messages.address')}} <span class="requiredIcon">*</span></label>
+                                            <label for="email">{{trans('messages.address')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('address') }}</span>
@@ -150,7 +150,7 @@
                             </div>
                             <div class="col-md-6 inputer {{ $errors->first('residence_id')?'has-error has-feedback':'' }}">
                                 <!-- Residence Area -->
-                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.residence')}} <span class="requiredIcon">*</span></div>
+                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.residence')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>
                                 <select data-placeholder="{{trans('messages.select')}}" name="residence_id" class="chosen-select" data-show-name-on-id="4">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($residences as $residence)
@@ -169,7 +169,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="residence_name"
                                                    value="{{ old('residence_name') != '' ? old('residence_name') : $mentee['residence_name']}}">
-                                            <label for="residence_name">{{trans('messages.residence_name')}} <span class="requiredIcon">*</span></label>
+                                            <label for="residence_name">{{trans('messages.residence_name')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('residence_name') }}</span>
@@ -210,7 +210,7 @@
                         <div class="row">
                             <div class="col-md-6 inputer {{ $errors->first('education_level_id')?'has-error has-feedback':'' }}">
                                 <!-- Education Level -->
-                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.education_level')}} <span class="requiredIcon">*</span></div>
+                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.education_level')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>
                                 <select data-placeholder="{{trans('messages.select')}}" name="education_level_id" class="chosen-select">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($educationLevels as $educationLevel)
@@ -222,7 +222,7 @@
                             </div>
                             <div class="col-md-6 inputer {{ $errors->first('university_id')?'has-error has-feedback':'' }}">
                                 <!-- University -->
-                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.university')}} <span class="requiredIcon">*</span></div>
+                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.university')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>
                                 <select data-placeholder="{{trans('messages.select')}}" name="university_id" class="chosen-select" data-show-name-on-id="12">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($universities as $university)
@@ -240,7 +240,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="university_name"
                                                    value="{{ old('university_name') != '' ? old('university_name') : $mentee['university_name']}}">
-                                            <label for="university_name">{{trans('messages.university_name')}} <span class="requiredIcon">*</span></label>
+                                            <label for="university_name">{{trans('messages.university_name')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('university_name') }}</span>
@@ -256,7 +256,7 @@
                                         <div class="input-wrapper">
                                             <input type="text" class="form-control" name="university_department_name"
                                                    value="{{ old('university_department_name') != '' ? old('university_department_name') : $mentee['university_department_name']}}">
-                                            <label for="university_department_name">{{trans('messages.university_department')}} <span class="requiredIcon">*</span></label>
+                                            <label for="university_department_name">{{trans('messages.university_department')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('university_department_name') }}</span>
@@ -271,7 +271,7 @@
                                             <input type="number" class="form-control" name="university_graduation_year"
                                                    min="{{ date('Y') - 75 }}" max="{{ date('Y') }}"
                                                    value="{{ old('university_graduation_year') != '' ? old('university_graduation_year') : $mentee['university_graduation_year']}}">
-                                            <label for="university_graduation_year">{{trans('messages.university_graduation_year')}} <span class="requiredIcon">*</span></label>
+                                            <label for="university_graduation_year">{{trans('messages.university_graduation_year')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('university_graduation_year') }}</span>
@@ -321,7 +321,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 inputer {{ $errors->first('specialty_id')?'has-error has-feedback':'' }}">
-                                <div class="selecterTitle form-full-row">{{trans('messages.specialty_form_description')}} <span class="requiredIcon">*</span></div>
+                                <div class="selecterTitle form-full-row">{{trans('messages.specialty_form_description')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>
                                 <select data-placeholder="{{trans('messages.choose_specialties')}}" name="specialty_id" class="chosen-select">
                                     @foreach($specialties as $specialty)
                                         <option value="{{$specialty->id}}" {{$specialty->id == $mentee['specialty_id'] || old('specialty_id') == $specialty->id ? 'selected':''}}>{{$specialty->name}}</option>
@@ -336,8 +336,8 @@
                                 <div class="{{ $errors->first('specialty_experience')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea required class="form-control js-auto-size" rows="2" name="specialty_experience">{{ old('specialty_experience') != '' ? old('specialty_experience') : $mentee['specialty_experience']}}</textarea>
-                                            <label for="specialty_experience">{{trans('messages.specialty_experience_form')}} <span class="requiredIcon">*</span></label>
+                                            <textarea {{$publicForm ? 'required' : ''}} class="form-control js-auto-size" rows="2" name="specialty_experience">{{ old('specialty_experience') != '' ? old('specialty_experience') : $mentee['specialty_experience']}}</textarea>
+                                            <label for="specialty_experience">{{trans('messages.specialty_experience_form')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('specialty_experience') }}</span>
@@ -352,8 +352,8 @@
                                 <div class="{{ $errors->first('expectations')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea required class="form-control js-auto-size" rows="2" name="expectations">{{ old('expectations') != '' ? old('expectations') : $mentee['expectations']}}</textarea>
-                                            <label for="expectations">{{trans('messages.expectations_form_placeholder')}} <span class="requiredIcon">*</span></label>
+                                            <textarea {{$publicForm ? 'required' : ''}} class="form-control js-auto-size" rows="2" name="expectations">{{ old('expectations') != '' ? old('expectations') : $mentee['expectations']}}</textarea>
+                                            <label for="expectations">{{trans('messages.expectations_form_placeholder')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('expectations') }}</span>
@@ -367,8 +367,8 @@
                                 <div class="{{ $errors->first('career_goals')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea required class="form-control js-auto-size" rows="2" name="career_goals">{{ old('career_goals') != '' ? old('career_goals') : $mentee['career_goals']}}</textarea>
-                                            <label for="career_goals">{{trans('messages.career_goals_form')}} <span class="requiredIcon">*</span></label>
+                                            <textarea {{$publicForm ? 'required' : ''}} class="form-control js-auto-size" rows="2" name="career_goals">{{ old('career_goals') != '' ? old('career_goals') : $mentee['career_goals']}}</textarea>
+                                            <label for="career_goals">{{trans('messages.career_goals_form')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('career_goals') }}</span>
@@ -382,8 +382,8 @@
                                 <div class="inputer {{ $errors->first('skills')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <textarea required class="form-control js-auto-size" rows="2" name="skills">{{ old('skills') != '' ? old('skills') : $mentee['skills']}}</textarea>
-                                            <label for="skills">{{trans('messages.skills.capitalAll')}} <span class="requiredIcon">*</span></label>
+                                            <textarea {{$publicForm ? 'required' : ''}} class="form-control js-auto-size" rows="2" name="skills">{{ old('skills') != '' ? old('skills') : $mentee['skills']}}</textarea>
+                                            <label for="skills">{{trans('messages.skills.capitalAll')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('skills') }}</span>
@@ -394,7 +394,7 @@
                         <div class="row">
                             <div class="col-md-12 inputer {{ $errors->first('reference_id')?'has-error has-feedback':'' }}">
                                 <!-- Reference (where did you hear about us) -->
-                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.reference_form')}} <span class="requiredIcon">*</span></div>
+                                <div class="margin-bottom-5 selecterTitle">{{trans('messages.reference_form')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>
                                 <select data-placeholder="{{trans('messages.select')}}" name="reference_id" class="chosen-select" data-show-name-on-id="7">
                                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                                     @foreach($references as $reference)
@@ -411,7 +411,7 @@
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
                                             <textarea class="form-control js-auto-size" rows="2" name="reference_text">{{ old('reference_text') != '' ? old('reference_text') : $mentee['reference_text']}}</textarea>
-                                            <label for="reference_text">{{trans('messages.reference_text')}} <span class="requiredIcon">*</span></label>
+                                            <label for="reference_text">{{trans('messages.reference_text')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</label>
                                         </div>
                                     </div>
                                     <span class="help-block">{{ $errors->first('reference_text') }}</span>
