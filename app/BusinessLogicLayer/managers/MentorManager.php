@@ -213,6 +213,11 @@ class MentorManager {
      */
     private function assignInputFieldsToMentorProfile(MentorProfile $mentorProfile, array $inputFields) {
         $mentorProfile->fill($inputFields);
+        $mentorProfile->residence_id = $inputFields['residence_id'] != '' ? $inputFields['residence_id'] : null;
+        $mentorProfile->reference_id = $inputFields['reference_id'] != '' ? $inputFields['reference_id'] : null;
+        $mentorProfile->education_level_id = $inputFields['education_level_id'] != '' ? $inputFields['education_level_id'] : null;
+        $mentorProfile->university_id = $inputFields['university_id'] != '' ? $inputFields['university_id'] : null;
+        $mentorProfile->year_of_birth = $inputFields['year_of_birth'] != '' ? $inputFields['year_of_birth'] : null;
         return $mentorProfile;
     }
 

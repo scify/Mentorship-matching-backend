@@ -243,30 +243,40 @@ class MentorController extends Controller
             $language = $request['lang'];
             App::setLocale($language);
         }
-
-        $this->validate($request, [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'email' => 'required|max:255|email',
-            'year_of_birth' => 'required|numeric|digits:4',
-            'residence_id' => 'required',
-            'residence_name' => 'required_if:residence_id,4',
-            'reference_id' => 'required',
-            'address'        => 'required',
-            'education_level_id' => 'required',
-            'university_id' => 'required',
-            'university_name' => 'required_if:university_id,12',
-            'company_id' => 'required',
-            'company_sector' => 'required',
-            'job_position' => 'required',
-            'job_experience_years' => 'required|numeric|min:5',
-            'skills' => 'required',
-            'specialties' => 'required',
-            'industries' => 'required',
-            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
-            'public_form' => 'required'
-        ], $this->messages());
-
+        $publicForm = $input['public_form'];
+        if($publicForm == "true") {
+            $this->validate($request, [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'email' => 'required|max:255|email',
+                'year_of_birth' => 'required|numeric|digits:4',
+                'residence_id' => 'required',
+                'residence_name' => 'required_if:residence_id,4',
+                'reference_id' => 'required',
+                'address' => 'required',
+                'education_level_id' => 'required',
+                'university_id' => 'required',
+                'university_name' => 'required_if:university_id,12',
+                'company_id' => 'required',
+                'company_sector' => 'required',
+                'job_position' => 'required',
+                'job_experience_years' => 'required|numeric|min:5',
+                'skills' => 'required',
+                'specialties' => 'required',
+                'industries' => 'required',
+                'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
+                'public_form' => 'required'
+            ], $this->messages());
+        } else {
+            $this->validate($request, [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'year_of_birth' => 'required|numeric|digits:4',
+                'email' => 'required|max:255|email',
+                'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
+                'public_form' => 'required'
+            ], $this->messages());
+        }
 
         try {
             // checks if cv is valid and pass a parameter that shows if a cv file exists
@@ -334,27 +344,35 @@ class MentorController extends Controller
             App::setLocale($language);
         }
 
+//        $this->validate($request, [
+//            'follow_up_date' => 'max:10|min:8',
+//            'first_name' => 'required|max:255',
+//            'last_name' => 'required|max:255',
+//            'email' => 'required|max:255|email',
+//            'year_of_birth' => 'required|numeric|digits:4',
+//            'residence_id' => 'required',
+//            'residence_name' => 'required_if:residence_id,4',
+//            'address'        => 'required',
+//            'education_level_id' => 'required',
+//            'university_id' => 'required',
+//            'university_name' => 'required_if:university_id,12',
+//            'company_id' => 'required',
+//            'company_sector' => 'required',
+//            'job_position' => 'required',
+//            'job_experience_years' => 'required',
+//            'skills' => 'required',
+//            'specialties' => 'required',
+//            'industries' => 'required',
+//            'status_id' => 'required',
+//            'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
+//        ], $this->messages());
         $this->validate($request, [
-            'follow_up_date' => 'max:10|min:8',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'email' => 'required|max:255|email',
             'year_of_birth' => 'required|numeric|digits:4',
-            'residence_id' => 'required',
-            'residence_name' => 'required_if:residence_id,4',
-            'address'        => 'required',
-            'education_level_id' => 'required',
-            'university_id' => 'required',
-            'university_name' => 'required_if:university_id,12',
-            'company_id' => 'required',
-            'company_sector' => 'required',
-            'job_position' => 'required',
-            'job_experience_years' => 'required',
-            'skills' => 'required',
-            'specialties' => 'required',
-            'industries' => 'required',
-            'status_id' => 'required',
+            'email' => 'required|max:255|email',
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
+            'public_form' => 'required'
         ], $this->messages());
 
         try {

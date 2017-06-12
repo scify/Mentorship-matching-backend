@@ -181,7 +181,7 @@ class MenteeController extends Controller
             $this->validate($request, [
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
-                'year_of_birth' => 'numeric|digits:4',
+                'year_of_birth' => 'required|numeric|digits:4',
                 'email' => 'required|max:255|email',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required'
@@ -309,7 +309,7 @@ class MenteeController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email',
-            'year_of_birth' => 'numeric|digits:4',
+            'year_of_birth' => 'required|numeric|digits:4',
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
         ], $this->messages());
 

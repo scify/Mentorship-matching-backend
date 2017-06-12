@@ -113,9 +113,12 @@ class MenteeManager {
             $inputFields['is_employed'] = false;
         $menteeProfile->fill($inputFields);
         $menteeProfile->residence_id = $inputFields['residence_id'] != '' ? $inputFields['residence_id'] : null;
+        $menteeProfile->reference_id = $inputFields['reference_id'] != '' ? $inputFields['reference_id'] : null;
         $menteeProfile->education_level_id = $inputFields['education_level_id'] != '' ? $inputFields['education_level_id'] : null;
         $menteeProfile->university_id = $inputFields['university_id'] != '' ? $inputFields['university_id'] : null;
         $menteeProfile->specialty_id = $inputFields['specialty_id'] != '' ? $inputFields['specialty_id'] : null;
+        $menteeProfile->year_of_birth = $inputFields['year_of_birth'] != '' ? $inputFields['year_of_birth'] : null;
+        $menteeProfile->university_graduation_year = $inputFields['university_graduation_year'] != '' ? $inputFields['university_graduation_year'] : null;
         return $menteeProfile;
     }
 
