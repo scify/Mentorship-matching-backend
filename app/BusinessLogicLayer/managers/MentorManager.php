@@ -108,9 +108,12 @@ class MentorManager {
             //send welcome email to mentor, if the sign up was made through the public form
             if($inputFields['public_form'] == "true")
                 $newMentor->notify(new MentorRegistered());
-            $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
-            $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
-            $this->handleMentorCompany($newMentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
+            if(isset($inputFields['specialties']))
+                $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
+            if(isset($inputFields['industries']))
+                $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
+            if(isset($inputFields['company_id']))
+                $this->handleMentorCompany($newMentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
         });
     }
 
@@ -213,11 +216,16 @@ class MentorManager {
      */
     private function assignInputFieldsToMentorProfile(MentorProfile $mentorProfile, array $inputFields) {
         $mentorProfile->fill($inputFields);
-        $mentorProfile->residence_id = $inputFields['residence_id'] != '' ? $inputFields['residence_id'] : null;
-        $mentorProfile->reference_id = $inputFields['reference_id'] != '' ? $inputFields['reference_id'] : null;
-        $mentorProfile->education_level_id = $inputFields['education_level_id'] != '' ? $inputFields['education_level_id'] : null;
-        $mentorProfile->university_id = $inputFields['university_id'] != '' ? $inputFields['university_id'] : null;
-        $mentorProfile->year_of_birth = $inputFields['year_of_birth'] != '' ? $inputFields['year_of_birth'] : null;
+        if(isset($inputFields['residence_id']))
+            $mentorProfile->residence_id = $inputFields['residence_id'] != '' ? $inputFields['residence_id'] : null;
+        if(isset($inputFields['reference_id']))
+            $mentorProfile->reference_id = $inputFields['reference_id'] != '' ? $inputFields['reference_id'] : null;
+        if(isset($inputFields['education_level_id']))
+            $mentorProfile->education_level_id = $inputFields['education_level_id'] != '' ? $inputFields['education_level_id'] : null;
+        if(isset($inputFields['university_id']))
+            $mentorProfile->university_id = $inputFields['university_id'] != '' ? $inputFields['university_id'] : null;
+        if(isset($inputFields['year_of_birth']))
+            $mentorProfile->year_of_birth = $inputFields['year_of_birth'] != '' ? $inputFields['year_of_birth'] : null;
         return $mentorProfile;
     }
 

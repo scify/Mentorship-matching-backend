@@ -151,7 +151,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 if(sessionStatusId === 1 || sessionStatusId === "1") {
                     $modal.find(".sendInvitationMailsContainer").removeClass("hidden");
                     var _href = $modal.find(".confirmAvailabilityBtn").attr("href");
-                    $modal.find(".confirmAvailabilityBtn").attr("href", _href + "?session_id=" + sessionId);
+                    $modal.find(".confirmAvailabilityBtn").attr("href", _href + "?session_id=" + parseInt(sessionId));
                 } else {
                     $modal.find(".generalCommentWrapper").removeClass("hidden");
                     $modal.find(".sessionStatusSelector").removeClass("hidden");
