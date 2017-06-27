@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\CompanyManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\UserManager;
+use App\Http\OperationResponse;
 use App\Models\eloquent\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -155,5 +156,23 @@ class CompanyController extends Controller
         }
         session()->flash('flash_message_success', 'Company deleted');
         return back();
+    }
+
+    public function showCompaniesByCriteria(Request $request) {
+        $input = $request->all();
+        try {
+            $companyViewModels = $this->companyManager->getCompanyViewModelsByCriteria($input);
+        }  catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        }
+
+        if($companyViewModels->count() == 0) {
+            $errorMessage = "No companies found";
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        } else {
+            $loggedInUser = Auth::user();
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('companies.list', compact('companyViewModels', 'loggedInUser'))));
+        }
     }
 }

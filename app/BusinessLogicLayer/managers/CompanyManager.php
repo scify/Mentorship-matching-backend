@@ -206,4 +206,40 @@ class CompanyManager {
         $companyViewModel = new CompanyViewModel($company);
         return $companyViewModel;
     }
+
+    /**
+     * Gets company view models satisfying some criteria (for example
+     * those who have a specific specialty and name)
+     *
+     * @param array $input array with criteria values
+     * @return Collection|mixed|static[] a collection with company view models satisfying the criteria
+     */
+    public function getCompanyViewModelsByCriteria(array $input)
+    {
+        $companies = $this->getCompaniesByCriteria($input);
+        $companiesViewModels = new Collection();
+        foreach ($companies as $company) {
+            $companiesViewModels->add($this->getCompanyViewModel($company));
+        }
+        return $companiesViewModels;
+    }
+
+    /**
+     * Gets all the filters passed and returns the filtered results
+     *
+     * @param $filters array with criteria values
+     * @return mixed the resulted Company or null
+     * @throws \Exception
+     */
+    private function getCompaniesByCriteria($filters) {
+        if((!isset($filters['companyId'])  || $filters['companyId'] === "")) {
+            return $this->getAllCompanies();
+        }
+        if(intval($filters['companyId']) == 0) {
+            throw new \Exception("Filter value is not valid.");
+        }
+        $companies = new Collection();
+        $companies->add($this->getCompany($filters['companyId']));
+        return $companies;
+    }
 }

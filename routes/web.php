@@ -86,6 +86,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('mentee/delete', 'MenteeController@delete')->name('deleteMentee');
 
     Route::get('companies/all', 'CompanyController@showAllCompanies')->name('showAllCompanies');
+    Route::get('companies/filter', 'CompanyController@showCompaniesByCriteria')->name('filterCompanies');
     Route::get('company/create', 'CompanyController@showCreateForm')->name('showCreateCompanyForm');
     Route::post('company/create', 'CompanyController@create')->name('createCompany');
     Route::get('company/{id}/edit', 'CompanyController@showEditForm')->name('showEditCompanyForm');
