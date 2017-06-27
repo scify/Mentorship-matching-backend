@@ -119,7 +119,7 @@ class MentorController extends Controller
         $mentorshipSessionViewModels = $this->mentorshipSessionManager
             ->paginateMentorshipSessions($this->mentorshipSessionManager
             ->getMentorshipSessionViewModelsForMentor($id), 100)->setPath("#");
-
+        $specialties = $this->specialtyManager->getAllSpecialties();
         $loggedInUser = Auth::user();
         $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
@@ -130,6 +130,7 @@ class MentorController extends Controller
             'accountManagers' => $accountManagers,
             'loggedInUser' => $loggedInUser,
             'statuses' => $statuses,
+            'specialties' => $specialties,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
             'currentSessionViewModel' => $currentSessionViewModel,
             'displayOnlyAvailableMentees' => $displayOnlyAvailableMentees

@@ -78,6 +78,15 @@
             </div><!--.col-md-6-->
         </div>
         <div class="row">
+            <div class="col-md-3 filterName">Mentees' specialty</div><!--.col-md-3-->
+            <div class="col-md-3">
+                <select data-placeholder="Choose a specialty" name="specialty" class="chosen-select">
+                    <option><!-- Empty option allows the placeholder to take effect. --><option>
+                    @foreach($specialties as $specialty)
+                        <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                    @endforeach
+                </select>
+            </div><!--.col-md-3-->
             <div class="col-md-3 filterName">Average rating</div>
             <div class="col-md-3">
                 <select data-placeholder="Choose average rating" name="average_rating" id="averageRatingSelect" class="chosen-select">
@@ -87,14 +96,6 @@
                     @endfor
                 </select>
             </div><!--.col-md-6-->
-            <div class="col-md-3 filterName">
-                <label for="only-active-sessions">Mentees with active sessions</label>
-            </div>
-            <div class="col-md-3">
-                <div class="icheckbox">
-                    <input type="checkbox" name="only_active_sessions" id="only-active-sessions">
-                </div>
-            </div>
         </div>
         <div class="row">
             <div class="col-md-3 filterName">
@@ -129,6 +130,16 @@
             <div class="col-md-3">
                 <div class="icheckbox">
                     <input type="checkbox" name="available_with_cancelled_session" id="available-with-cancelled-session">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 filterName">
+                <label for="only-active-sessions">Mentees with active sessions</label>
+            </div>
+            <div class="col-md-3">
+                <div class="icheckbox">
+                    <input type="checkbox" name="only_active_sessions" id="only-active-sessions">
                 </div>
             </div>
         </div>

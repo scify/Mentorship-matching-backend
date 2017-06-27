@@ -196,6 +196,7 @@ class MenteeManager {
             (!isset($filters['skills']) || $filters['skills'] === "") &&
             (!isset($filters['signedUpAgo']) || $filters['signedUpAgo'] === "") &&
             (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
+            (!isset($filters['specialty']) || $filters['specialty'] === "") &&
             (!isset($filters['averageRating']) || $filters['averageRating'] === "") &&
             (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
             (!isset($filters['displayOnlyAvailable']) || $filters['displayOnlyAvailable'] === 'false') &&
@@ -245,6 +246,16 @@ class MenteeManager {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.education_level_id = " . $filters['educationLevel'] . " ";
+            $whereClauseExists = true;
+        }
+        if(isset($filters['specialty']) && $filters['specialty'] != "") {
+            if(intval($filters['specialty']) == 0) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            if($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            $dbQuery .= "mp.specialty_id = " . $filters['specialty'] . " ";
             $whereClauseExists = true;
         }
         if(isset($filters['university']) && $filters['university'] != "") {
