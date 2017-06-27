@@ -52,7 +52,7 @@ class MenteeController extends Controller
     public function showAllMentees()
     {
         $menteeViewModels = $this->menteeManager->paginateMentees($this->menteeManager->getAllMenteeViewModels())->setPath('#');
-        $universities = $this->universityManager->getAllUniversities();
+        $universities = $this->universityManager->getAllUniversitiesIncludingOtherUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $statuses = $this->menteeStatusManager->getAllMenteeStatuses();
         $loggedInUser = Auth::user();

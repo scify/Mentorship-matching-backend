@@ -21,4 +21,8 @@ class UniversityManager
     public function getAllUniversities() {
         return $this->universityStorage->getAllUniversities();
     }
+
+    public function getAllUniversitiesIncludingOtherUniversities() {
+        return $this->universityStorage->getAllUniversitiesIncludingOtherUniversities();
+    }
 }

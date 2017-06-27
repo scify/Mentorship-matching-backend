@@ -46,7 +46,7 @@
                 <select data-placeholder="Choose a university" name="university" class="chosen-select">
                     <option><!-- Empty option allows the placeholder to take effect. --><option>
                     @foreach($universities as $university)
-                        <option value="{{ $university->id }}">{{ $university->name }}</option>
+                        <option value="@if(empty($university->id)){{ $university->name }}@else{{ $university->id }}@endif">{{ $university->name }}</option>
                     @endforeach
                 </select>
             </div><!--.col-md-3-->

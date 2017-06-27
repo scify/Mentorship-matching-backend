@@ -248,13 +248,15 @@ class MenteeManager {
             $whereClauseExists = true;
         }
         if(isset($filters['university']) && $filters['university'] != "") {
-            if(intval($filters['university']) == 0) {
-                throw new \Exception("Filter value is not valid.");
-            }
-            if($whereClauseExists) {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            $dbQuery .= "mp.university_id = " . $filters['university'] . " ";
+            // if university id is not a number but a string, search university name instead of university id
+            if(intval($filters['university']) == 0 || strlen($filters['university']) > 2) {
+                $dbQuery .= "mp.university_name = '" . $filters['university'] . "' ";
+            } else {
+                $dbQuery .= "mp.university_id = " . $filters['university'] . " ";
+            }
             $whereClauseExists = true;
         }
         if(isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {

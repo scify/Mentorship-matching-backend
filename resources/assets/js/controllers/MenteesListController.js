@@ -58,6 +58,7 @@ window.MenteesListController.prototype = function () {
                     $('input[name=only_externally_subscribed]').parent().hasClass("checked");
                 menteesCriteria.displayOnlyAvailableWithCancelledSessions =
                     $('input[name=available_with_cancelled_session]').parent().hasClass("checked");
+                console.log(menteesCriteria);
                 getMenteesByFilter.call(this);
             });
         },
