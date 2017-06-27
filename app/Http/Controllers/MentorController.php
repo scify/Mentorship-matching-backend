@@ -290,9 +290,9 @@ class MentorController extends Controller
         }
 
 
-        //if logged in user created the mentee, return to "all mentors" page
-        if(Auth::user() != null && !$input['public_form']) {
-            session()->flash('flash_message_success', 'Mentor created');
+        //if logged in user created the mentor, return to "all mentors" page
+        if(Auth::user() != null && $input['public_form'] !== "true") {
+            session()->flash('flash_message_success', 'Mentor ' . $input['first_name'] . ' ' . $input['last_name'] . ' created');
             return redirect()->route('showAllMentors');
         } else {
             session()->flash('flash_message_success', trans("messages.mentor_created_public"));
