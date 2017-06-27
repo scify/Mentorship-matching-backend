@@ -1,7 +1,7 @@
 <div class="profileCard companyCard card_{{$companyViewModel->company->id}}">
     <ul class="nav nav-tabs nav-justified" role="tablist">
-        <li class="active"><a data-href="tab_1_{{$companyViewModel->company->id}}" data-toggle="tab" data-id="{{$companyViewModel->company->id}}" >{{trans('messages.details')}}</a></li>
-        <li><a data-href="tab_2_{{$companyViewModel->company->id}}" data-toggle="tab" data-id="{{$companyViewModel->company->id}}" >{{trans('messages.mentors')}}</a></li>
+        <li class="active"><a data-href="tab_1_{{$companyViewModel->company->id}}" data-id="{{$companyViewModel->company->id}}" >{{trans('messages.details')}}</a></li>
+        <li><a data-href="tab_2_{{$companyViewModel->company->id}}" data-id="{{$companyViewModel->company->id}}" >{{trans('messages.mentors')}}</a></li>
     </ul>
     <div class="card card-user card-clickable card-clickable-over-content">
         <div class="profileCardBody">

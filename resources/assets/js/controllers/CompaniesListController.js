@@ -22,6 +22,17 @@ window.CompaniesListController.prototype = function () {
                 }
             });
         },
+        initTabHandlers = function () {
+            $('body').on('click', '.companyCard .nav-tabs a', function (e) {
+                e.preventDefault();
+                // display correctly active tab...
+                $(this).parents("ul").find("li").removeClass("active");
+                $(this).parent().addClass("active");
+                // ...and tab content
+                $(".card_" + $(this).attr('data-id')).find('.tab-pane.active').removeClass('active');
+                $(".card_" + $(this).attr('data-id')).find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
+            });
+        },
         parseSuccessData = function(response) {
             var responseObj = JSON.parse(response);
             //if operation was unsuccessful
@@ -83,6 +94,7 @@ window.CompaniesListController.prototype = function () {
             });
         },
         initHandlers = function () {
+            initTabHandlers();
             searchBtnHandler();
             clearSearchBtnHandler();
         },
@@ -93,14 +105,6 @@ window.CompaniesListController.prototype = function () {
         },
         init = function () {
             deleteCompanyBtnHandler();
-            $('a[data-toggle="tab"]').click(function (e) {
-                e.preventDefault();
-                $(".card_" + $(this).attr('data-id')).find('.tab-pane.active').removeClass('active');
-
-                $(".card_" + $(this).attr('data-id')).find('.tab-content.active').removeClass('active');
-
-                $(".card_" + $(this).attr('data-id')).find('div[id="' + $(this).attr('data-href') + '"]').addClass('active');
-            });
             hideCardFooterOnTabChange();
             initHandlers();
             initSelectInputs();
