@@ -144,7 +144,11 @@ class CompanyController extends Controller
             return back();
         }
         try {
-            $this->companyManager->deleteCompany($companyId);
+            $result = $this->companyManager->deleteCompany($companyId);
+            if ($result === "_FAIL") {
+                session()->flash('flash_message_failure', 'You cannot delete this company.');
+                return back();
+            }
         }  catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
             return back();

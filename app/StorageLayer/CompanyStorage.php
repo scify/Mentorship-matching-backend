@@ -24,6 +24,10 @@ class CompanyStorage {
         return Company::find($id);
     }
 
+    public function getCompanyByName($name) {
+        return Company::where('name', $name)->first();
+    }
+
     public function getCompaniesByAccountManagerId($accountManagerId) {
         return Company::where(['account_manager_id' => $accountManagerId])->get();
     }

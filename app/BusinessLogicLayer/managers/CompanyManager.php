@@ -99,8 +99,20 @@ class CompanyManager {
     }
 
     public function deleteCompany($companyId) {
+        // fetch company with name "-" from DB, that will play the role of no company
+        $emptyCompany = $this->companyStorage->getCompanyByName("-");
         $company = $this->getCompany($companyId);
-        $company->delete();
+        if ($company->name !== "-") {
+            // update all mentors that are working on this company, and set them to no company
+            foreach ($company->mentors as $mentor) {
+                $mentor->company_id = $emptyCompany->id;
+                $mentor->save();
+            }
+            $company->delete();
+            return "_SUCCESS";
+        } else {
+            return "_FAIL";
+        }
     }
 
     private function assignCompanyToMentors(Company $company, array $mentors) {
