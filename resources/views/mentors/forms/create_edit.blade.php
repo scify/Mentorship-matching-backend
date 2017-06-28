@@ -370,7 +370,7 @@
                                 <div class="row">
                                     <div class="col-md-12 inputer {{ $errors->first('specialties')?'has-error has-feedback':'' }}">
                                         <div class="selecterTitle form-full-row">{{trans('messages.specialty_form_description')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>
-                                        <select data-placeholder="{{trans('messages.choose_specialties')}}" name="specialties[][id]" class="chosen-select" multiple>
+                                        <select data-placeholder="{{trans('messages.choose_specialties')}}" name="specialties[][id]" class="chosen-select" multiple data-enable-specialties-insertion="{{ $enableSpecialtiesInsertion }}">
                                             @foreach($specialties as $specialty)
                                                 <option value="{{$specialty->id}}" {{in_array($specialty->id, $mentorSpecialtiesIds) || in_array($specialty->id, $selectedSpecialties) ? 'selected':''}}>{{$specialty->name}}</option>
                                             @endforeach

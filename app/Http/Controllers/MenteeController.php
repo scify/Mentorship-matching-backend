@@ -94,7 +94,14 @@ class MenteeController extends Controller
 
         $mentee = new MenteeProfile();
         $formTitle = trans('messages.mentee_registration');
-        $specialties = $this->specialtyManager->getAllSpecialties();
+        $loggedInUser = Auth::user();
+
+        if (!empty($loggedInUser)) {
+            $specialties = $this->specialtyManager->getAllSpecialties();
+        } else {
+            $specialties = $this->specialtyManager->getPublicSpecialties();
+        }
+
         $residences = $this->residenceManager->getAllResidences();
         $references = $this->referenceManager->getAllReferences();
         $universities = $this->universityManager->getAllUniversities();
@@ -108,7 +115,7 @@ class MenteeController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
-            'loggedInUser' => Auth::user(),'publicForm' => $publicForm, 'language' => $language
+            'loggedInUser' => $loggedInUser, 'publicForm' => $publicForm, 'language' => $language
         ]);
     }
 
@@ -122,7 +129,14 @@ class MenteeController extends Controller
     {
         $mentee = $this->menteeManager->getMentee($id);
         $language = "en";
-        $specialties = $this->specialtyManager->getAllSpecialties();
+        $loggedInUser = Auth::user();
+
+        if (!empty($loggedInUser)) {
+            $specialties = $this->specialtyManager->getAllSpecialties();
+        } else {
+            $specialties = $this->specialtyManager->getPublicSpecialties();
+        }
+
         $residences = $this->residenceManager->getAllResidences();
         $references = $this->referenceManager->getAllReferences();
         $universities = $this->universityManager->getAllUniversities();
@@ -136,7 +150,7 @@ class MenteeController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
             'educationLevels' => $educationLevels, 'menteeStatuses' => $menteeStatuses,
-            'loggedInUser' => Auth::user(), 'publicForm' => false, 'language' => $language
+            'loggedInUser' => $loggedInUser, 'publicForm' => false, 'language' => $language
         ]);
     }
 

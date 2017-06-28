@@ -3,6 +3,31 @@ window.FormController = function () {
 
 window.FormController.prototype = function () {
     var init = function () {
+        var isSpecialtiesInsertionEnabled = $("[name='specialties[][id]']").data("enable-specialties-insertion");
+
+        if (isSpecialtiesInsertionEnabled) {
+            // on mentors' specialties input field, a user is free to insert new specialties,
+            // so the message when there is not the specialty typed found is changed to something more fitting
+            $("[name='specialties[][id]']").chosen({
+                width: '100%',
+                no_results_text: 'Press \'Enter\' button to select'
+            });
+
+            // when a mentor types a new specialty, insert the typed value to the bottom of list and select it
+            $("[name='specialties[][id]']").siblings(".chosen-container").find(".search-field input").on("keyup", function (e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    var inputVal = $(this).val();
+                    var $specialtiesSelect = $("[name='specialties[][id]']");
+                    $specialtiesSelect.append("<option value='new-specialty-" + inputVal + "'>" + inputVal + "</option>");
+                    var newChosenValue = $specialtiesSelect.val();
+                    newChosenValue.push('new-specialty-' + inputVal);
+                    $specialtiesSelect.val(newChosenValue);
+                    $specialtiesSelect.trigger("chosen:updated");
+                }
+            });
+        }
+
         $('.chosen-select').chosen({
             width: '100%'
         });

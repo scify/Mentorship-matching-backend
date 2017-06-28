@@ -169,7 +169,16 @@ class MentorController extends Controller
         $mentorIndustriesIds = array();
         $formTitle = trans('messages.mentor_registration');
 
-        $specialties = $this->specialtyManager->getAllSpecialties();
+        $loggedInUser = Auth::user();
+        $enableSpecialtiesInsertion = !empty($loggedInUser);
+
+        // when it is not a public form, get all specialties, else get only public specialties
+        if (!empty($loggedInUser)) {
+            $specialties = $this->specialtyManager->getAllSpecialties();
+        } else {
+            $specialties = $this->specialtyManager->getPublicSpecialties();
+        }
+
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
         $references = $this->referenceManager->getAllReferences();
@@ -185,10 +194,11 @@ class MentorController extends Controller
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
+            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => $loggedInUser,
             'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies, 'references' => $references,
-            'mentorStatuses' => $mentorStatuses, 'publicForm' => $publicForm, 'language' => $language
+            'mentorStatuses' => $mentorStatuses, 'publicForm' => $publicForm, 'language' => $language,
+            'enableSpecialtiesInsertion' => $enableSpecialtiesInsertion
         ]);
     }
 
@@ -205,7 +215,17 @@ class MentorController extends Controller
         $pageTitle = 'Edit mentor';
         $language = "en";
         $mentor = $this->mentorManager->getMentor($id);
-        $specialties = $this->specialtyManager->getAllSpecialties();
+
+        $loggedInUser = Auth::user();
+        $enableSpecialtiesInsertion = !empty($loggedInUser);
+
+        // when it is not a public form, get all specialties, else get only public specialties
+        if (!empty($loggedInUser)) {
+            $specialties = $this->specialtyManager->getAllSpecialties();
+        } else {
+            $specialties = $this->specialtyManager->getPublicSpecialties();
+        }
+
         $industries = $this->industryManager->getAllIndustries();
         $residences = $this->residenceManager->getAllResidences();
         $references = $this->referenceManager->getAllReferences();
@@ -222,10 +242,11 @@ class MentorController extends Controller
             'residences' => $residences, 'references' => $references,
             'specialties' => $specialties, 'industries' => $industries,
             'mentorSpecialtiesIds' => $mentorSpecialtiesIds,
-            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => Auth::user(),
+            'mentorIndustriesIds' => $mentorIndustriesIds, 'loggedInUser' => $loggedInUser,
             'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies,
-            'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle, 'publicForm' => false, 'language' => $language
+            'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle, 'publicForm' => false,
+            'language' => $language, 'enableSpecialtiesInsertion' => $enableSpecialtiesInsertion
         ]);
     }
 

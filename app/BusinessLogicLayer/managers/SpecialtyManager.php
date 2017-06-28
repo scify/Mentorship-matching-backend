@@ -22,9 +22,21 @@ class SpecialtyManager {
         return $this->specialtyStorage->getAllSpecialties();
     }
 
+    public function getPublicSpecialties() {
+        return $this->specialtyStorage->getPublicSpecialties();
+    }
+
     public function assignSpecialtiesToMentor(MentorProfile $newMentor, $specialties) {
         foreach ($specialties as $specialty) {
-            $this->createNewSpecialtyForMentor($newMentor, $specialty['id']);
+            // if specialty id is a string, that means that we need to store it in the DB before using it
+            if (intval($specialty['id']) === 0) {
+                $newSpecialtyName = str_replace('new-specialty-', '', $specialty['id']);
+                $newSpecialty = $this->specialtyStorage->createSpecialty($newSpecialtyName);
+                $specialtyId = $newSpecialty->id;
+            } else {
+                $specialtyId = $specialty['id'];
+            }
+            $this->createNewSpecialtyForMentor($newMentor, $specialtyId);
         }
     }
 
