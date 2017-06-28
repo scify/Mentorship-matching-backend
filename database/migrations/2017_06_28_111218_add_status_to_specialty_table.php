@@ -14,8 +14,6 @@ class AddStatusToSpecialtyTable extends Migration
     public function up()
     {
         Schema::table('specialty', function (Blueprint $table) {
-            // BE CAREFUL!!! You need to seed `specialty_status` table
-            // before continuing with this migration.
             $table->integer('status_id')->unsigned()->after('name')->default(1);
             $table->foreign('status_id')->references('id')->on('specialty_status');
         });
