@@ -199,7 +199,7 @@ class UserController extends Controller
             'user_roles' => 'required',
             'password'        => 'required|min:4|max:12',
             'passwordconfirm' => 'required|same:password',
-            'capacity' =>'numeric|min:1|max:10'
+            'capacity' =>'numeric|min:1'
         ]);
 
         $input = $request->all();
