@@ -23,7 +23,7 @@ class MenteesUploadManager
 
     // fields from excel file
     private $fileImportFields = [
-        'last_name', 'first_name', 'age', 'university_department_name',
+        'first_name_low', 'first_name', 'last_name_low', 'last_name', 'age', 'university_department_name',
         'university', 'university_graduation_year_with_zero_values', 'specialty', 'specialty_experience', 'expectations',
         'career_goals', 'linkedin_url', 'is_employed', 'job_description', 'reference_text',
         'address', 'residence', 'email', 'phone', 'cell_phone', 'registered'
@@ -48,8 +48,10 @@ class MenteesUploadManager
         $tempCounter = 0;
         $newColValues = array();
         foreach ($colValues as $key => $value) {
-            $newColValues[$this->fileImportFields[$tempCounter]] = $value;
-            $tempCounter++;
+            if ($tempCounter < count($this->fileImportFields)) {
+                $newColValues[$this->fileImportFields[$tempCounter]] = $value;
+                $tempCounter++;
+            }
         }
         return $newColValues;
     }
