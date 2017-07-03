@@ -49,8 +49,10 @@ class MentorsUploadManager
         $tempCounter = 0;
         $newColValues = array();
         foreach ($colValues as $key => $value) {
-            $newColValues[$this->fileImportFields[$tempCounter]] = $value;
-            $tempCounter++;
+            if ($tempCounter < count($this->fileImportFields)) {
+                $newColValues[$this->fileImportFields[$tempCounter]] = $value;
+                $tempCounter++;
+            }
         }
         return $newColValues;
     }
@@ -132,7 +134,7 @@ class MentorsUploadManager
                             break;
                         case 'registered':
                             if (!empty($colContent)) {
-                                $createdAt = Carbon::createFromFormat("Y-m-d", $colContent);
+                                $createdAt = Carbon::createFromFormat("d/m/Y", $colContent);
                             }
                             break;
                         case 'university':
