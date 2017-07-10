@@ -41,7 +41,7 @@ Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
     Route::get('/dashboard', 'UserController@showDashboardForUser')->name('dashboard');
 
-    Route::get('/testemail', 'HomeController@testEmail')->name('testemail');
+//    Route::get('/testemail', 'HomeController@testEmail')->name('testemail');
 
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
@@ -113,13 +113,16 @@ Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], functi
     Route::get('sessions/myMatches', ['as' => 'showMatchesForMatcher','uses' => 'MentorshipSessionController@showMentorshipSessionsForMatcher']);
 });
 
-Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
+Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session'], ['auth', 'account-manager']], function () {
     Route::get('sessions/all', 'MentorshipSessionController@index')->name('showAllMentorshipSessions');
     Route::post('session/update', 'MentorshipSessionController@update')->name('updateMentorshipSession');
 });
 
+Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
+    Route::get('sessions/all', 'MentorshipSessionController@index')->name('showAllMentorshipSessions');
+});
+
 Route::group(['middleware' => ['auth', 'account-manager']], function () {
     Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
-    Route::post('session/update', 'MentorshipSessionController@update')->name('updateMentorshipSession');
     Route::get('sessions/mySessions', 'MentorshipSessionController@showMentorshipSessionsForAccountManager')->name('showMentorshipSessionsForAccountManager');
 });
