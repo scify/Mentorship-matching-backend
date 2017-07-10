@@ -74,9 +74,9 @@ class DataToCsvExportManager
                     if (!in_array($rowForExportation->$key, $this->$key)) {
                         array_push($this->$key, $rowForExportation->$key);
                     }
-                    $tempExportData .= "\"" . implode(",", $this->$key) . "\";";
+                    $tempExportData .= "\"" . str_replace('"', "'", implode(",", $this->$key)) . "\";";
                 } else {
-                    $tempExportData .= "\"" . $rowForExportation->$key . "\";";
+                    $tempExportData .= "\"" . str_replace('"', "'", $rowForExportation->$key) . "\";";
                 }
             }
             // if it is the last row or the next row's id is different from current row's id concatenate
