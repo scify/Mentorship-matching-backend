@@ -196,7 +196,7 @@
                                     <div class="col-md-12">
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.specialty')}}</div>
-                                            <div class="col-md-9">{{$menteeViewModel->mentee->specialty->name}}</div>
+                                            <div class="col-md-9">{{!empty($menteeViewModel->mentee->specialty) ? $menteeViewModel->mentee->specialty->name : "-"}}</div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.specialty_experience')}}</div>

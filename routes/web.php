@@ -99,6 +99,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 
     Route::get('upload-mentors', 'ExcelUploadController@mentorsUpload')->name('mentorsUpload');
     Route::get('upload-mentees', 'ExcelUploadController@menteesUpload')->name('menteesUpload');
+    Route::get('update-mentees', 'ExcelUploadController@menteesUploadUpdate')->name('menteesUploadUpdate');
 });
 
 Route::group(['middleware' => ['auth', 'status-changer']], function () {
