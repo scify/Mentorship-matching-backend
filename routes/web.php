@@ -123,6 +123,9 @@ Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['a
 });
 
 Route::group(['middleware' => ['auth', 'account-manager']], function () {
-    Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
     Route::get('sessions/mySessions', 'MentorshipSessionController@showMentorshipSessionsForAccountManager')->name('showMentorshipSessionsForAccountManager');
+});
+
+Route::group(['middleware' => ['auth', 'admin'], ['auth', 'account-manager']], function () {
+    Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
 });
