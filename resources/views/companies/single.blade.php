@@ -18,41 +18,6 @@
                     @if($companyViewModel->company->description != null)
                         <p class="userDetail">{{$companyViewModel->company->description}}</p>
                     @endif
-                    @if($loggedInUser != null)
-                        @if($loggedInUser->userHasAccessToCRUDSystemUsers())
-                            <div class="clickable-button">
-                                <div class="layer bg-orange"></div>
-                                <a class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog"
-                                                                                                         aria-hidden="true"></i></a>
-                            </div>
-
-                            <div class="layered-content bg-orange">
-                                <div class="overflow-content">
-                                    <ul class="borderless float-left">
-
-                                        <li><a href="{{route('showEditCompanyForm', $companyViewModel->company->id)}}"
-                                               class="btn btn-flat btn-ripple"><i class="fa fa-pencil"
-                                                                                  aria-hidden="true"></i> Edit</a></li>
-                                        <li>
-                                            <a data-toggle="modal"
-                                               data-companyName="{{$companyViewModel->company->name}}"
-                                               data-companyId="{{$companyViewModel->company->id}}"
-                                               class="btn btn-flat btn-ripple deleteCompanyBtn">
-                                                <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <ul class="borderless float-right">
-                                    </ul>
-                                </div><!--.overflow-content-->
-                                <div class="clickable-close-button">
-                                    <a class="btn btn-floating initial-position floating-close"><i class="fa fa-times"
-                                                                                                   aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        @endif
-                    @endif
-
                 </div>
                 <div class="tab-pane" id="tab_2_{{$companyViewModel->company->id}}">
                     @if($companyViewModel->company->hasMentors())
@@ -76,6 +41,40 @@
             </div>
         </div><!--.card-body-->
         <div class="card-footer">
+            @if($loggedInUser != null)
+                @if($loggedInUser->userHasAccessToCRUDSystemUsers())
+                    <div class="clickable-button">
+                        <div class="layer bg-orange"></div>
+                        <a class="btn btn-floating btn-orange initial-position floating-open"><i class="fa fa-cog"
+                                                                                                 aria-hidden="true"></i></a>
+                    </div>
+
+                    <div class="layered-content bg-orange">
+                        <div class="overflow-content">
+                            <ul class="borderless float-left">
+
+                                <li><a href="{{route('showEditCompanyForm', $companyViewModel->company->id)}}"
+                                       class="btn btn-flat btn-ripple"><i class="fa fa-pencil"
+                                                                          aria-hidden="true"></i> Edit</a></li>
+                                <li>
+                                    <a data-toggle="modal"
+                                       data-companyName="{{$companyViewModel->company->name}}"
+                                       data-companyId="{{$companyViewModel->company->id}}"
+                                       class="btn btn-flat btn-ripple deleteCompanyBtn">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="borderless float-right">
+                            </ul>
+                        </div><!--.overflow-content-->
+                        <div class="clickable-close-button">
+                            <a class="btn btn-floating initial-position floating-close"><i class="fa fa-times"
+                                                                                           aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                @endif
+            @endif
             @if($companyViewModel->company->accountManager != null)
                 <div class="companyAccManager"><b>{{trans('messages.company_account_manager')}}: </b>
                     <a href="{{route('showUserProfile', $companyViewModel->company->accountManager->id)}}">{{$companyViewModel->company->accountManager->first_name . ' ' . $companyViewModel->company->accountManager->last_name}}</a>

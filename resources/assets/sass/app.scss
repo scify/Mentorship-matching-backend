@@ -740,6 +740,22 @@
   .card {
     height: 320px;
     overflow-y: hidden;
+    .tab-content {
+      overflow-y: auto;
+    }
+    .layered-content.active {
+      top: -250px;
+      overflow: visible;
+      .overflow-content {
+        overflow: visible;
+        position: static;
+        top: unset;
+      }
+    }
+  }
+  .card-clickable.card-clickable-over-content .clickable-button .layer, .card-clickable.card-clickable-over-content
+  .clickable-button .floating-open {
+    top: -27px;
   }
 }
 
