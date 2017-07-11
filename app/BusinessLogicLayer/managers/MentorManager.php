@@ -535,6 +535,11 @@ class MentorManager {
         //Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
+        // FIX for searching with page number, when search has fetched less results
+        // (fix: go to the first page!)
+        if($currentPage > ceil($items->count() / $perPage))
+            $currentPage = "1";
+
         if(!empty($items)) {
             //Slice the collection to get the items to display in current page
             $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
