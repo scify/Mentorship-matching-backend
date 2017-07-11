@@ -69,6 +69,10 @@
   .matchingIcon {
     color: $brand-primary
   }
+
+  .matchMentorBtn, .matchMenteeBtn {
+    height: 100%;
+  }
 }
 
 .list-material.has-hidden > .twoActionButtons:hover a.visible {
