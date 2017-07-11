@@ -310,6 +310,8 @@ window.MentorshipSessionsListController.prototype = function() {
         },
         getMentorshipSessionsByFilter = function (parentDiv) {
             mentorshipSessionsCriteria.page = pageNum;
+            // we always need the user role
+            mentorshipSessionsCriteria.userRole = $('input[name=user_role]').val();
             $.ajax({
                 method: "GET",
                 url: $(".filtersContainer").data("url"),

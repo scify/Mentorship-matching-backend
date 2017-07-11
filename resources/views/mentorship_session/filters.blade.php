@@ -97,6 +97,8 @@
                 @endif
             @endif
         </div>
+        <input type="hidden" name="user_role" value="{{ isset($displayAccountManagerFilter) && $displayAccountManagerFilter && isset($displayMatcherFilter) && $displayMatcherFilter ? '' : (isset($displayAccountManagerFilter) && $displayAccountManagerFilter ?
+            'matcher' : (isset($displayMatcherFilter) && $displayMatcherFilter ? 'account_manager' : '')) }}">
         <div class="form-buttons">
             <div class="row">
                 <div class="col-md-offset-3 col-md-9">

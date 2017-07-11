@@ -393,7 +393,8 @@ class MentorshipSessionManager
             (!isset($filters['startedDateRange'])  || $filters['startedDateRange'] === "") &&
             (!isset($filters['completedDateRange'])  || $filters['completedDateRange'] === "") &&
             (!isset($filters['accountManagerId'])  || $filters['accountManagerId'] === "") &&
-            (!isset($filters['matcherId'])  || $filters['matcherId'] === "")) {
+            (!isset($filters['matcherId'])  || $filters['matcherId'] === "") &&
+            (!isset($filters['userRole'])  || $filters['userRole'] === "")) {
             return $this->mentorshipSessionStorage->getAllMentorshipSessions();
         }
         $whereClauseExists = false;
@@ -427,7 +428,8 @@ class MentorshipSessionManager
             (isset($filters['endStatusId']) && $filters['endStatusId'] !== "") ||
             (isset($filters['startedDateRange']) && $filters['startedDateRange'] !== "") ||
             (isset($filters['accountManagerId']) && $filters['accountManagerId'] !== "") ||
-            (isset($filters['matcherId']) && $filters['matcherId'] !== "")) {
+            (isset($filters['matcherId']) && $filters['matcherId'] !== "") ||
+            (isset($filters['userRole']) && $filters['userRole'] !== "")) {
             $dbQuery .= "where ";
         }
         if(isset($filters['mentorName']) && $filters['mentorName'] != "") {
@@ -491,6 +493,20 @@ class MentorshipSessionManager
                 $dbQuery .= "and ";
             }
             $dbQuery .= "ms.matcher_id = " . $filters['matcherId'] . " ";
+            $whereClauseExists = true;
+        }
+        // check user role
+        if (isset($filters['userRole']) && $filters['userRole'] != "") {
+            if ($whereClauseExists) {
+                $dbQuery .= "and ";
+            }
+            if ($filters['userRole'] == 'account_manager') {
+                $dbQuery .= "ms.account_manager_id=" . Auth::id();
+            } else {
+                $dbQuery .= "ms.matcher_id=" . Auth::id();
+            }
+            $dbQuery .= " ";
+            $whereClauseExists = true;
         }
         $filteredMentorshipSessionsIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
             (new RawQueryStorage())->performRawQuery($dbQuery)
