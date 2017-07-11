@@ -421,7 +421,7 @@ class MenteeManager {
 
         // FIX for searching with page number, when search has fetched less results
         // (fix: go to the first page!)
-        if($currentPage > ceil($items->count() / $perPage))
+        if($currentPage > ceil(count($items) / $perPage))
             $currentPage = "1";
 
         if(!empty($items)) {
