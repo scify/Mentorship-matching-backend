@@ -56,7 +56,7 @@ class MentorshipSessionManager
 
     /**
      * Sets mentor's and mentee's status id to available.
-     * Used when a session is cancelled.
+     * Used when a session is cancelled (except from the case that the session is cancelled by the mentee).
      *
      * @param $mentorProfileId @see MentorProfile's id
      * @param $menteeProfileId @see MenteeProfile's id
@@ -73,15 +73,39 @@ class MentorshipSessionManager
     }
 
     /**
-     * Sets mentee's status id to available.
+     * Sets mentor's status id to available.
+     * Used when a session is cancelled by mentee.
+     *
+     * @param $mentorProfileId @see MentorProfile's id
+     */
+    private function setMentorshipSessionMentorStatusToAvailable($mentorProfileId) {
+        $mentorManager = new MentorManager();
+        // INFO: mentor status id 1 means available
+        $mentorManager->editMentor(array('status_id' => 1), $mentorProfileId);
+    }
+
+    /**
+     * Sets mentee's status id to rejected.
+     * Used when a session is cancelled by mentee.
+     *
+     * @param $menteeProfileId @see MenteeProfile's id
+     */
+    private function setMentorshipSessionMenteeStatusToRejected($menteeProfileId) {
+        $menteeManager = new MenteeManager();
+        // INFO: mentee status id 4 means rejected
+        $menteeManager->editMentee(array('status_id' => 4), $menteeProfileId);
+    }
+
+    /**
+     * Sets mentee's status id to completed.
      * Used when a session is completed.
      *
      * @param $menteeProfileId @see MenteeProfile's id
      */
-    private function setMentorshipSessionMenteeStatusToAvailable($menteeProfileId) {
+    private function setMentorshipSessionMenteeStatusToCompleted($menteeProfileId) {
         $menteeManager = new MenteeManager();
-        // INFO: mentee status id 1 means available
-        $menteeManager->editMentee(array('status_id' => 1), $menteeProfileId);
+        // INFO: mentee status id 3 means completed
+        $menteeManager->editMentee(array('status_id' => 3), $menteeProfileId);
     }
 
     /**
@@ -239,20 +263,29 @@ class MentorshipSessionManager
         }
 
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
-
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
             $mentor = $mentorshipSession->mentor;
             $mentor->notify(new MentorStatusReactivation($mentor));
         }
 
         // if status is cancelled, change the mentor and mentee statuses back to available
+        // except from the case when the session is cancelled by the mentee
         if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCancelledSessionStatuses()) !== false) {
-            $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
-        } else if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCompletedSessionStatuses()) !== false) {
-            // if session is completed, make mentee available again
-            $this->setMentorshipSessionMenteeStatusToAvailable($input['mentee_profile_id']);
+            // status 12 is status "Cancelled by mentee"
+            if($mentorshipSession->status_id == 12) {
+                // set mentor's status back to available
+                $this->setMentorshipSessionMentorStatusToAvailable($input['mentor_profile_id']);
+                // set mentee's status back to rejected
+                $this->setMentorshipSessionMenteeStatusToRejected($input['mentee_profile_id']);
+            } else {
+                $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
+            }
         } else {
-            $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
+            if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCompletedSessionStatuses()) !== false) {
+                $this->setMentorshipSessionMenteeStatusToCompleted($input['mentee_profile_id']);
+            } else {
+                $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
+            }
         }
 
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
@@ -621,8 +654,16 @@ class MentorshipSessionManager
             $this->editMentorshipSession([
                 'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId
             ]);
-            //mentor and mentee should become available again
-            $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorshipSession->mentor->id, $mentorshipSession->mentee->id);
+            // if session is cancelled by mentee make available only the mentor and set the mentee's status to rejected,
+            // else make both available
+            if($statusToSet === 12) {
+                $this->setMentorshipSessionMentorStatusToAvailable($mentorshipSession->mentor->id);
+                $this->setMentorshipSessionMenteeStatusToRejected($mentorshipSession->mentee->id);
+            } else {
+                $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable(
+                    $mentorshipSession->mentor->id, $mentorshipSession->mentee->id
+                );
+            }
             return true;
         } else {
             return false;
