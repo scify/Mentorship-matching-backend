@@ -94,6 +94,7 @@ return [
     'first_name.required' => 'Το όνομα είναι υποχρεωτικό',
     'last_name.required' => 'Το επίθετο είναι υποχρεωτικό',
     'email.required' => 'Το email είναι υποχρεωτικό',
+    'email.unique' => 'Το email χρησιμοποιείται ήδη',
     'year_of_birth.required' => 'Το έτος γέννησης είναι υποχρεωτικό',
     'reference_id.required' => 'Συμπληρώστε από πού μάθατε για το Job Pairs',
     'reference_text.required' => 'Το από που μάθατε για το Job Pairs είναι υποχρεωτικό πεδίο',

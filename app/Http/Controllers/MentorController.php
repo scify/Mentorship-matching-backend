@@ -270,7 +270,7 @@ class MentorController extends Controller
             $this->validate($request, [
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
-                'email' => 'required|max:255|email',
+                'email' => 'required|max:255|email|unique:mentor_profile',
                 'year_of_birth' => 'required|numeric|digits:4',
                 'residence_id' => 'required',
                 'residence_name' => 'required_if:residence_id,4',
@@ -294,7 +294,7 @@ class MentorController extends Controller
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
                 'year_of_birth' => 'required|numeric|digits:4',
-                'email' => 'required|max:255|email',
+                'email' => 'required|max:255|email|unique:mentor_profile',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required'
             ], $this->messages());
@@ -331,6 +331,7 @@ class MentorController extends Controller
             'residence_id.required' => trans('messages.residence_id.required'),
             'residence_name.required_if' => trans('messages.residence_name.required'),
             'email.required' => trans('messages.email.required'),
+            'email.unique' => trans('messages.email.unique'),
             'year_of_birth.required' => trans('messages.year_of_birth.required'),
             'reference_id.required' => trans('messages.reference_id.required'),
             'address.required' => trans('messages.address.required'),
@@ -392,7 +393,7 @@ class MentorController extends Controller
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'year_of_birth' => 'required|numeric|digits:4',
-            'email' => 'required|max:255|email',
+            'email' => 'required|max:255|email|unique:mentor_profile,email,' . $id,
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
             'public_form' => 'required'
         ], $this->messages());

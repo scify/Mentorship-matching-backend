@@ -102,6 +102,7 @@ return [
     'first_name.required' => 'Τhe first name is required',
     'last_name.required' => 'Τhe last name is required',
     'email.required' => 'Τhe email is required',
+    'email.unique' => 'The email has already been taken',
     'year_of_birth.required' => 'Τhe year of birth is required',
     'reference_id.required' => 'Required field',
     'reference_text.required' => 'Required field',
