@@ -747,6 +747,10 @@ class MentorshipSessionManager
         });
     }
 
+    public function getSessionsForFollowUp() {
+        return $this->mentorshipSessionStorage->getMentorshipSessionsForFollowUp();
+    }
+
     public function paginateMentorshipSessions($items, $perPage = 10) {
         //Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -766,5 +770,4 @@ class MentorshipSessionManager
         //Create our paginator and pass it to the view
         return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
     }
-
 }

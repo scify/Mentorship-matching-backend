@@ -10,6 +10,7 @@ namespace App\StorageLayer;
 
 use App\Models\eloquent\MentorshipSession;
 use App\Utils\MentorshipSessionStatuses;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class MentorshipSessionStorage
@@ -82,5 +83,18 @@ class MentorshipSessionStorage
             left join mentorship_session_status_lookup on msession.status_id = mentorship_session_status_lookup.id
             where msession.deleted_at is null
             order by msession.id'));
+    }
+
+    public function getMentorshipSessionsForFollowUp() {
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $beforeThreeMonthsDate = Carbon::now()->subMonths(3);
+        // set time to '00:00:00'
+        $beforeThreeMonthsDate->hour(0);
+        $beforeThreeMonthsDate->minute(0);
+        $beforeThreeMonthsDate->second(0);
+        // gets mentorship sessions with matching date and status 'completed - evaluation sent'
+        return MentorshipSession::where('updated_at', '>=', date($beforeThreeMonthsDate))
+            ->where('updated_at', '<', date($beforeThreeMonthsDate->addDay()))
+            ->where('status_id', '=', $mentorshipSessionStatuses::getCompletedSessionStatuses()[0])->get();
     }
 }
