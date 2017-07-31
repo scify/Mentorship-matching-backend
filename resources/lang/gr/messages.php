@@ -152,7 +152,7 @@ return [
     'select_file' => 'Επιλέξτε αρχείο',
     'change_file' => 'Αλλαγή',
     'availability_change_title' => 'Αλλαγή Κατάστασης Διαθεσιμότητας',
-    'status_change_success' => 'Έχετε αλλάξει επιτυχώς την κατάσταση σας',
+    'status_change_success' => 'Ευχαριστούμε, θα επικοινωνήσουμε σύντομα μαζί σας',
     'mentor_not_found' => 'Ο μέντορας δε βρέθηκε',
     'no_permissions' => 'Δε σας επιτρέπεται αυτή η δράση',
 ];

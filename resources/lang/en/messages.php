@@ -158,7 +158,7 @@ return [
     'select_file' => 'Select file',
     'change_file' => 'Change',
     'availability_change_title' => 'Availability Status Change',
-    'status_change_success' => 'Your status has been successfully changed',
+    'status_change_success' => 'Thank you, we will contact you soon',
     'mentor_not_found' => 'Mentor not found',
     'no_permissions' => 'You have no permission to do that',
 ];
