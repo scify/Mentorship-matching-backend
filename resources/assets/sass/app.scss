@@ -998,6 +998,17 @@
   color: #fff;
 }
 
+.overall-experience {
+  .info-text {
+    margin-top: 10px;
+    font-size: 12px;
+    a {
+      color: #e99704;
+      font-weight: bold;
+    }
+  }
+}
+
 .rating-display {
   display: inline-block;
   .glyphicon-star {

@@ -17,7 +17,7 @@
                             {{ $sessionViewModel->mentorViewModel->mentor->first_name . " " . $sessionViewModel->mentorViewModel->mentor->last_name }}
                         @else
                             {{ $sessionViewModel->menteeViewModel->mentee->first_name . " " . $sessionViewModel->menteeViewModel->mentee->last_name }}
-                        @endif<br>@lang($p.'.completed_session_rating') {{ $ratedRole }}.</p>
+                        @endif<br>@lang($p.'.completed_session_rating') {{ $ratedRole }}@if(Lang::getLocale() === 'gr') @lang($p.'.yours').@else.@endif</p>
                     <form id="ratingForm" class="jobPairsForm noInputStyles" method="POST"
                           action="{{ $ratedRole === 'mentor' ? route('rateMentor', $lang === 'gr' ? ['lang' => $lang] : []) : ($ratedRole === 'mentee' ? route('rateMentee', $lang === 'gr' ? ['lang' => $lang] : []) : '') }}"
                           enctype="multipart/form-data">
@@ -56,6 +56,13 @@
                             <input type="submit" class="btn btn-primary btn-ripple" value="@lang($p.'.rate')">
                         </div>
                     </form>
+                    <div class="overall-experience">
+                        <p class="info-text text-center">@lang($p.'.general_experience_rating') <a href="
+                        {{$ratedRole === 'mentor' ? 'https://docs.google.com/forms/d/e/1FAIpQLSeeDpLr-UbkztQeWm-gZhlbnlFLvUtVIVSo_mY7pABfYA8njQ/viewform' :
+                        'https://docs.google.com/forms/d/e/1FAIpQLSf-w2QUreLg_vLQV84DvLVTzQpm1PdNt2nrTOgsyV1b9QHd0g/viewform'
+                        }}
+                        " target="_blank">@lang($p.'.here')</a></p>
+                    </div>
                 </div>
             </div>
         </div>
