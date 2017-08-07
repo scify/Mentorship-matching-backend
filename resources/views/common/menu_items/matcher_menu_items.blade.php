@@ -1,5 +1,5 @@
 <li class="{{ (Route::current()->getName() == 'showMatchesForMatcher') ? 'open' : '' }}">
-    <a href="{{ route('showMatchesForMatcher) }}">My Matches </a>
+    <a href="{{ route('showMatchesForMatcher') }}">My Matches </a>
 </li>
 @if($user->isAccountManager())
     <li class="{{ (Route::current()->getName() == 'showMentorshipSessionsForAccountManager') ? 'open' : '' }}">

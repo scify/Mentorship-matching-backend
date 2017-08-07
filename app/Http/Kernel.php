@@ -51,7 +51,15 @@ class Kernel extends HttpKernel
 
         'account-manager' => [
             \App\Http\Middleware\IsAccountManager::class
-        ]
+        ],
+
+        'can-update-sessions' => [
+            \App\Http\Middleware\CanUpdateMentorshipSession::class
+        ],
+
+        'can-invite-mentee' => [
+            \App\Http\Middleware\CanInviteMentee::class
+        ],
     ];
 
     /**

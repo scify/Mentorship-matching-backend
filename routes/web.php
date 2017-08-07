@@ -113,20 +113,15 @@ Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], functi
     Route::get('sessions/myMatches', ['as' => 'showMatchesForMatcher','uses' => 'MentorshipSessionController@showMentorshipSessionsForMatcher']);
 });
 
-Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
+Route::group(['middleware' => ['auth', 'can-update-sessions']], function () {
     Route::get('sessions/all', 'MentorshipSessionController@index')->name('showAllMentorshipSessions');
     Route::post('session/update', 'MentorshipSessionController@update')->name('updateMentorshipSession');
-});
-
-Route::group(['middleware' => ['auth', 'admin'], ['auth', 'status-changer'], ['auth', 'can-create-mentorship-session']], function () {
-    Route::get('sessions/all', 'MentorshipSessionController@index')->name('showAllMentorshipSessions');
 });
 
 Route::group(['middleware' => ['auth', 'account-manager']], function () {
     Route::get('sessions/mySessions', 'MentorshipSessionController@showMentorshipSessionsForAccountManager')->name('showMentorshipSessionsForAccountManager');
-    Route::post('session/update', 'MentorshipSessionController@update')->name('updateMentorshipSession');
 });
 
-Route::group(['middleware' => ['auth', 'admin'], ['auth', 'account-manager']], function () {
+Route::group(['middleware' => ['auth', 'can-invite-mentee']], function () {
     Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
 });
