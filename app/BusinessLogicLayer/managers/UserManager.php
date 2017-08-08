@@ -13,6 +13,7 @@ use App\StorageLayer\UserIconStorage;
 use App\StorageLayer\UserStorage;
 use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use League\Flysystem\Exception;
@@ -116,7 +117,10 @@ class UserManager {
         DB::transaction(function() use($user, $inputFields) {
             $user = $this->userStorage->saveUser($user);
             $this->handleCompanyAccountManager($user, $inputFields['company_id']);
-            $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
+            $loggedInUser = Auth::user();
+            if($loggedInUser->isAdmin()) {
+                $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
+            }
         });
         //we need to reload the model again, for the isAccountManager
         //to take effect. Because the model we retrieved earlier in this method

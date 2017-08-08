@@ -275,15 +275,20 @@ class UserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $this->validate($request, [
+        $validationRules = [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email|unique:users,email,' . $id,
-            'user_roles' => 'required',
+            'user_roles' => '',
             'password'        => 'min:4|max:12',
             'passwordconfirm' => 'same:password',
             'capacity' =>'numeric|min:1'
-        ]);
+        ];
+        $loggedInUser = Auth::user();
+        if($loggedInUser->isAdmin()) {
+            $validationRules['user_roles'] = 'required';
+        }
+        $this->validate($request, $validationRules);
         $input = $request->all();
         try {
             $this->userManager->editUser($input, $id);

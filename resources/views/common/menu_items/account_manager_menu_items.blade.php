@@ -16,3 +16,6 @@
         <a href="{{ route('showAllMentees') }}"> All Mentees </a>
     </li>
 @endif
+<li class="{{ (Route::current()->getName() == 'showEditUserForm') ? 'open' : '' }}">
+    <a href="{{ route('showEditUserForm', $user->id) }}"> My Profile </a>
+</li>
