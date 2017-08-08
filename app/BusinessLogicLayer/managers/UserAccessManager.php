@@ -54,6 +54,18 @@ class UserAccessManager {
     }
 
     /**
+     * Checks if a given @see User has access to edit and delete Mentors and Mentees
+     *
+     * @param User $user the @see User instance
+     * @return bool
+     */
+    public function userHasAccessToEditMentorsAndMentees(User $user) {
+        if($user == null)
+            return false;
+        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID) || $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);;
+    }
+
+    /**
      * Checks if a given @see User has access to create, edit and delete @see Company instances
      *
      * @param User $user the @see User instance

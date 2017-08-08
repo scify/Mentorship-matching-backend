@@ -76,13 +76,8 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('export/mentees', 'ReportController@exportMenteesToCsv')->name('exportMentees');
     Route::get('export/sessions', 'ReportController@exportMentorshipSessionsToCsv')->name('exportSessions');
 
-    Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
-    Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');
     Route::post('mentor/delete', 'MentorController@delete')->name('deleteMentor');
 
-
-    Route::get('mentee/{id}/edit', 'MenteeController@showEditForm')->name('showEditMenteeForm');
-    Route::post('mentee/{id}/edit', 'MenteeController@edit')->name('editMentee');
     Route::post('mentee/delete', 'MenteeController@delete')->name('deleteMentee');
 
     Route::get('companies/all', 'CompanyController@showAllCompanies')->name('showAllCompanies');
@@ -105,6 +100,14 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 Route::group(['middleware' => ['auth', 'status-changer']], function () {
     Route::post('mentor/changeStatus', 'MentorController@changeMentorAvailabilityStatus')->name('changeMentorStatus');
     Route::post('mentee/changeStatus', 'MenteeController@changeMenteeAvailabilityStatus')->name('changeMenteeStatus');
+
+});
+
+Route::group(['middleware' => ['auth', 'can-edit-mentors-and-mentees']], function () {
+    Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
+    Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');
+    Route::get('mentee/{id}/edit', 'MenteeController@showEditForm')->name('showEditMenteeForm');
+    Route::post('mentee/{id}/edit', 'MenteeController@edit')->name('editMentee');
 
 });
 

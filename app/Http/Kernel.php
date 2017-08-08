@@ -60,6 +60,9 @@ class Kernel extends HttpKernel
         'can-invite-mentee' => [
             \App\Http\Middleware\CanInviteMentee::class
         ],
+        'can-edit-mentors-and-mentees' => [
+            \App\Http\Middleware\CanEditMentorsAndMentees::class
+        ],
     ];
 
     /**

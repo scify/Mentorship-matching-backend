@@ -39,7 +39,7 @@
                                   enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 @if($loggedInUser != null && !$publicForm)
-                                    @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                                    @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees() || $loggedInUser->userHasAccessToEditMentorsAndMentees())
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <!-- Mentor status -->
