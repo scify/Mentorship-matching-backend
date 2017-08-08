@@ -12,6 +12,7 @@ namespace App\BusinessLogicLayer\managers;
 use App\Models\eloquent\User;
 use App\Models\eloquent\UserRole;
 use App\StorageLayer\UserStorage;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
@@ -168,6 +169,12 @@ class UserAccessManager {
             Cache::put($roleKey . $user->id, $result);
         }
         return $result;
+    }
+
+    public function userIsAccessingTheirProfile(HttpRequest $request, $user) {
+        $inputFields = $request->route()->parameters();
+        $accessedProfileUserId = $inputFields['id'];
+        return $accessedProfileUserId == $user->id;
     }
 
 }

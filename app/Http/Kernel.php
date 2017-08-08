@@ -63,6 +63,9 @@ class Kernel extends HttpKernel
         'can-edit-mentors-and-mentees' => [
             \App\Http\Middleware\CanEditMentorsAndMentees::class
         ],
+        'can-edit-user-profile' => [
+            \App\Http\Middleware\CanEditUserProfile::class
+        ],
     ];
 
     /**
