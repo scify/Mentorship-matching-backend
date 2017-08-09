@@ -264,7 +264,6 @@ class MentorshipSessionManager
     public function editMentorshipSession(array $input)
     {
         $loggedInUser = Auth::user();
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
 
         $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
         $input['mentor_profile_id'] = $mentorshipSession->mentor_profile_id;
@@ -286,12 +285,19 @@ class MentorshipSessionManager
             });
         }
 
+        $this->handleMentorshipSessionStatusUpdate($mentorshipSession, $input);
+        
+        return $messageToShow;
+    }
+
+
+    private function handleMentorshipSessionStatusUpdate(MentorshipSession $mentorshipSession, array $input) {
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
             $mentor = $mentorshipSession->mentor;
             $mentor->notify(new MentorStatusReactivation($mentor));
         }
-
         // if status is cancelled, change the mentor and mentee statuses back to available
         // except from the case when the session is cancelled by the mentee
         if(array_search($mentorshipSession->status_id, $mentorshipSessionStatuses::getCancelledSessionStatuses()) !== false) {
@@ -319,7 +325,6 @@ class MentorshipSessionManager
                 $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
             }
         }
-
         // if status is set to introduction between mentor and mentee sent, send emails to the mentor and the mentee
         if($mentorshipSession->status_id == $mentorshipSessionStatuses::getIntroductionSentSessionStatus()) {
             // send mail to mentee
@@ -327,7 +332,6 @@ class MentorshipSessionManager
         } elseif ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses['available_mentee']) {
             $this->inviteMentorToMentorshipSession($mentorshipSession);
         }
-        return $messageToShow;
     }
 
     /**
