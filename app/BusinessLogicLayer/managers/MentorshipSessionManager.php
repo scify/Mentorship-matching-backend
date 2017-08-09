@@ -85,6 +85,30 @@ class MentorshipSessionManager
     }
 
     /**
+     * Sets mentor's status id to not available.
+     * Used when a session is cancelled by mentee.
+     *
+     * @param $mentorProfileId @see MentorProfile's id
+     */
+    private function setMentorshipSessionMentorStatusToNotAvailable($mentorProfileId) {
+        $mentorManager = new MentorManager();
+        // INFO: mentor status id 1 means available
+        $mentorManager->editMentor(array('status_id' => 2), $mentorProfileId);
+    }
+
+    /**
+     * Sets mentor's status id to not available.
+     * Used when a session is cancelled by mentee.
+     *
+     * @param $menteeProfileId @see MentorProfile's id
+     */
+    private function setMentorshipSessionMenteeStatusToAvailable($menteeProfileId) {
+        $menteeManager = new MenteeManager();
+        // INFO: mentee status id 1 means available
+        $menteeManager->editMentee(array('status_id' => 2), $menteeProfileId);
+    }
+
+    /**
      * Sets mentee's status id to rejected.
      * Used when a session is cancelled by mentee.
      *
@@ -277,7 +301,15 @@ class MentorshipSessionManager
                 $this->setMentorshipSessionMentorStatusToAvailable($input['mentor_profile_id']);
                 // set mentee's status back to rejected
                 $this->setMentorshipSessionMenteeStatusToRejected($input['mentee_profile_id']);
-            } else {
+            }
+            // status 13 is status "Cancelled by mentor"
+            else if($mentorshipSession->status_id == 13) {
+                // set mentor's status to not available
+                $this->setMentorshipSessionMentorStatusToNotAvailable($input['mentor_profile_id']);
+                // set mentee's status back to available
+                $this->setMentorshipSessionMenteeStatusToAvailable($input['mentee_profile_id']);
+            }
+            else {
                 $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
             }
         } else {
