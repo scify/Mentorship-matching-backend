@@ -215,6 +215,7 @@ class MenteeManager {
         $whereClauseExists = false;
         $dbQuery = "select distinct mp.id 
             from mentee_profile as mp 
+            left outer join mentee_specialty as msp on mp.id = msp.mentee_profile_id
             left outer join mentorship_session as ms on mp.id = ms.mentee_profile_id
             left outer join mentorship_session_history as msh on ms.id = msh.mentorship_session_id ";
         if(isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {
@@ -260,7 +261,7 @@ class MenteeManager {
             if($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            $dbQuery .= "mp.specialty_id = " . $filters['specialty'] . " ";
+            $dbQuery .= "msp.specialty_id = " . $filters['specialty'] . " ";
             $whereClauseExists = true;
         }
         if(isset($filters['university']) && $filters['university'] != "") {
