@@ -28,9 +28,15 @@
                 </small>
                 <span class="caption">
                     {{--{{$menteeViewModel->mentee->email}}--}}
-                    @if($menteeViewModel->mentee->specialty != null)
-                            {{$menteeViewModel->mentee->specialty->name}}
-                    @endif
+                    {{--@if($menteeViewModel->mentee->specialty != null)--}}
+                            {{--{{$menteeViewModel->mentee->specialty->name}}--}}
+                    {{--@endif--}}
+                    @foreach($menteeViewModel->mentee->specialties as $specialty)
+                        {{$specialty->name}}
+                        @if(!$loop->last)
+                            ,
+                        @endif
+                    @endforeach
                     | Experience: {{$menteeViewModel->mentee->specialty_experience}}
                 </span>
                 <span class="caption margin-top-5">

@@ -23,7 +23,7 @@ class MenteeProfile extends Model
     protected $fillable = ['first_name', 'last_name', 'year_of_birth', 'status_id', 'address',
         'residence_id', 'residence_name', 'email', 'linkedin_url', 'phone', 'cell_phone',
         'education_level_id', 'university_id', 'university_name', 'university_department_name', 'university_graduation_year',
-        'is_employed', 'job_description', 'specialty_id', 'specialty_experience',
+        'is_employed', 'job_description', 'specialty_experience',
         'expectations', 'career_goals', 'reference_id', 'reference_text', 'creator_user_id', 'skills', 'cv_file_name'
     ];
 
@@ -51,13 +51,13 @@ class MenteeProfile extends Model
         return $this->hasOne(User::class, 'id', 'creator_user_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function specialty()
-    {
-        return $this->hasOne(Specialty::class, 'id', 'specialty_id');
-    }
+//    /**
+//     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+//     */
+//    public function specialty()
+//    {
+//        return $this->hasOne(Specialty::class, 'id', 'specialty_id');
+//    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -95,5 +95,13 @@ class MenteeProfile extends Model
      */
     public function ratings() {
         return $this->hasMany(MenteeRating::class, 'mentee_id', 'id');
+    }
+
+    /**
+     * Get the mentee's specialties
+     */
+    public function specialties()
+    {
+        return $this->belongsToMany(Specialty::class, 'mentee_specialty')->wherePivot('deleted_at', null);
     }
 }

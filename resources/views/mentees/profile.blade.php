@@ -190,13 +190,28 @@
                             </div>
                             <div class="panel">
                                 <div class="panel-heading">
-                                    <div class="panel-title"><h3>{{trans('messages.specialty')}}</h3></div>
+                                    <div class="panel-title"><h3>{{trans('messages.specialties')}}</h3></div>
                                 </div><!--.panel-heading-->
                                 <div class="panel-body">
                                     <div class="col-md-12">
                                         <div class="formRow row">
-                                            <div class="col-md-3 formElementName">{{trans('messages.specialty')}}</div>
-                                            <div class="col-md-9">{{!empty($menteeViewModel->mentee->specialty) ? $menteeViewModel->mentee->specialty->name : "-"}}</div>
+                                            <div class="col-md-3 formElementName">{{trans('messages.specialties')}}</div>
+                                            <div class="col-md-9">
+                                                @if($menteeViewModel->mentee->specialties != null)
+                                                    <div class="formRow row">
+                                                        @if(!$menteeViewModel->mentee->specialties->isEmpty())
+                                                            @foreach($menteeViewModel->mentee->specialties as $specialty)
+                                                                {{$specialty->name}}
+                                                                @if(!$loop->last)
+                                                                    ,
+                                                                @endif
+                                                            @endforeach
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div><!--.row-->
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.specialty_experience')}}</div>

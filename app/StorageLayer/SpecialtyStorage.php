@@ -9,6 +9,7 @@
 namespace App\StorageLayer;
 
 
+use App\Models\eloquent\MenteeSpecialty;
 use App\Models\eloquent\MentorSpecialty;
 use App\Models\eloquent\Specialty;
 
@@ -26,13 +27,22 @@ class SpecialtyStorage {
         return Specialty::find($id);
     }
 
-    public function saveSpecialty(MentorSpecialty $newMentorSpecialty) {
+    public function saveMentorSpecialty(MentorSpecialty $newMentorSpecialty) {
         $newMentorSpecialty->save();
         return $newMentorSpecialty;
     }
 
+    public function saveMenteeSpecialty(MenteeSpecialty $newMenteeSpecialty) {
+        $newMenteeSpecialty->save();
+        return $newMenteeSpecialty;
+    }
+
     public function getSpecialtyForMentor($mentorProfileId, $specialtyId) {
         return MentorSpecialty::where(['mentor_profile_id' => $mentorProfileId, 'specialty_id' => $specialtyId])->firstOrFail();
+    }
+
+    public function getSpecialtyForMentee($menteeProfileId, $specialtyId) {
+        return MenteeSpecialty::where(['mentee_profile_id' => $menteeProfileId, 'specialty_id' => $specialtyId])->firstOrFail();
     }
 
     public function createSpecialty($specialtyName) {

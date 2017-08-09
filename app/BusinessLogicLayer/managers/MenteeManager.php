@@ -95,6 +95,8 @@ class MenteeManager {
 
         DB::transaction(function() use($menteeProfile, $inputFields) {
             $newMentee = $this->menteeStorage->saveMentee($menteeProfile);
+            if(isset($inputFields['specialties']))
+                $this->specialtyManager->assignSpecialtiesToMentee($newMentee, $inputFields['specialties']);
             if($inputFields['public_form'] == "true")
                 $newMentee->notify(new MenteeRegistered());
         });
@@ -120,8 +122,8 @@ class MenteeManager {
             $menteeProfile->education_level_id = $inputFields['education_level_id'] != '' ? $inputFields['education_level_id'] : null;
         if(isset($inputFields['university_id']))
             $menteeProfile->university_id = $inputFields['university_id'] != '' ? $inputFields['university_id'] : null;
-        if(isset($inputFields['specialty_id']))
-            $menteeProfile->specialty_id = $inputFields['specialty_id'] != '' ? $inputFields['specialty_id'] : null;
+//        if(isset($inputFields['specialty_id']))
+//            $menteeProfile->specialty_id = $inputFields['specialty_id'] != '' ? $inputFields['specialty_id'] : null;
         if(isset($inputFields['year_of_birth']))
             $menteeProfile->year_of_birth = $inputFields['year_of_birth'] != '' ? $inputFields['year_of_birth'] : null;
         if(isset($inputFields['university_graduation_year']))
@@ -157,6 +159,9 @@ class MenteeManager {
 
         DB::transaction(function() use($mentee, $oldStatusId, $inputFields, $menteeStatusHistoryManager, $loggedInUser) {
             $this->menteeStorage->saveMentee($mentee);
+            if(isset($inputFields['specialties'])) {
+                $this->specialtyManager->editMenteeSpecialties($mentee, $inputFields['specialties']);
+            }
             if($oldStatusId != $inputFields['status_id']) {
                 $menteeStatusHistoryManager->createMenteeStatusHistory($mentee, $inputFields['status_id'],
                     (isset($inputFields['status_history_comment'])) ? $inputFields['status_history_comment'] : "",

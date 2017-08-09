@@ -1,6 +1,15 @@
 @extends('layouts.app')
 @section('content')
 
+    <?php
+    $selectedSpecialties = array();
+    ?>
+    @if(!empty(old('specialties')))
+        @foreach( old('specialties') as $key => $selectedSpecialty )
+            <?php array_push($selectedSpecialties, $selectedSpecialty["id"])
+            ?>
+        @endforeach
+    @endif
     <div class="panel" id="createMentee">
         @if(!$publicForm)
             <div class="panel-heading">
@@ -319,15 +328,26 @@
                                 </div>
                             </div>
                         </div>
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-12 inputer {{ $errors->first('specialty_id')?'has-error has-feedback':'' }}">--}}
+                                {{--<div class="selecterTitle form-full-row">{{trans('messages.specialty_form_description')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>--}}
+                                {{--<select data-placeholder="{{trans('messages.choose_specialties')}}" name="specialty_id" class="chosen-select">--}}
+                                    {{--@foreach($specialties as $specialty)--}}
+                                        {{--<option value="{{$specialty->id}}" {{$specialty->id == $mentee['specialty_id'] || old('specialty_id') == $specialty->id ? 'selected':''}}>{{$specialty->name}}</option>--}}
+                                    {{--@endforeach--}}
+                                {{--</select>--}}
+                                {{--<span class="help-block">{{ $errors->first('specialty_id') }}</span>--}}
+                            {{--</div> <!-- Specialty -->--}}
+                        {{--</div>--}}
                         <div class="row">
-                            <div class="col-md-12 inputer {{ $errors->first('specialty_id')?'has-error has-feedback':'' }}">
+                            <div class="col-md-12 inputer {{ $errors->first('specialties')?'has-error has-feedback':'' }}">
                                 <div class="selecterTitle form-full-row">{{trans('messages.specialty_form_description')}} @if($publicForm)<span class="requiredIcon">*</span>@endif</div>
-                                <select data-placeholder="{{trans('messages.choose_specialties')}}" name="specialty_id" class="chosen-select">
+                                <select data-placeholder="{{trans('messages.choose_specialties')}}" name="specialties[][id]" class="chosen-select" multiple>
                                     @foreach($specialties as $specialty)
-                                        <option value="{{$specialty->id}}" {{$specialty->id == $mentee['specialty_id'] || old('specialty_id') == $specialty->id ? 'selected':''}}>{{$specialty->name}}</option>
+                                        <option value="{{$specialty->id}}" {{in_array($specialty->id, $menteeSpecialtiesIds) || in_array($specialty->id, $selectedSpecialties) ? 'selected':''}}>{{$specialty->name}}</option>
                                     @endforeach
                                 </select>
-                                <span class="help-block">{{ $errors->first('specialty_id') }}</span>
+                                <span class="help-block">{{ $errors->first('specialties') }}</span>
                             </div> <!-- Specialty -->
                         </div>
                         <div class="row">

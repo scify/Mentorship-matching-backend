@@ -107,9 +107,11 @@ class MenteeController extends Controller
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $menteeStatuses = $this->menteeStatusManager->getAllMenteeStatuses();
+        $menteeSpecialtiesIds = array();
 
         return view('mentees.forms.create_edit', [
             'pageTitle' => $pageTitle,
+            'menteeSpecialtiesIds' => $menteeSpecialtiesIds,
             'pageSubTitle' => $pageSubTitle,
             'mentee' => $mentee, 'references' => $references,
             'formTitle' => $formTitle, 'residences' => $residences,
@@ -142,10 +144,12 @@ class MenteeController extends Controller
         $universities = $this->universityManager->getAllUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $menteeStatuses = $this->menteeStatusManager->getAllMenteeStatuses();
+        $menteeSpecialtiesIds = $this->specialtyManager->getMenteeSpecialtiesIds($mentee);
 
         $formTitle = 'Edit mentee';
         return view('mentees.forms.create_edit', [
             'pageTitle' => 'Edit mentee',
+            'menteeSpecialtiesIds' => $menteeSpecialtiesIds,
             'mentee' => $mentee, 'references' => $references,
             'formTitle' => $formTitle, 'residences' => $residences,
             'specialties' => $specialties, 'universities' => $universities,
@@ -186,7 +190,7 @@ class MenteeController extends Controller
                 'university_department_name' => 'required',
                 'university_graduation_year' => 'required',
                 'specialty_experience' => 'required',
-                'specialty_id' => 'required',
+                'specialties' => 'required',
                 'expectations' => 'required',
                 'career_goals' => 'required',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',

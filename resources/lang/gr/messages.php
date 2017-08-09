@@ -43,7 +43,7 @@ return [
     'university' => 'ΠΑΝΕΠΙΣΤΗΜΙΟ ΑΕΙ/ΤΕΙ',
     'university_name' => 'ΟΝΟΜΑΣΙΑ ΠΑΝΕΠΙΣΤΗΜΙΟΥ',
     'university_department' => 'ΤΜΗΜΑ ΚΑΙ ΚΑΤΕΥΘΥΝΣΗ',
-    'specialty_form_description' => 'ΣΕ ΠΟΙΑ ΕΙΔΙΚΟΤΗΤΑ ΘΑ ΘΕΛΑΤΕ ΝΑ ΚΑΝΕΤΕ Job Pairing;',
+    'specialty_form_description' => 'ΣΕ ΠΟΙΕΣ ΕΙΔΙΚΟΤΗΤΕΣ ΘΑ ΘΕΛΑΤΕ ΝΑ ΚΑΝΕΤΕ Job Pairing;',
     'mentor_industry_form_description' => 'ΠΙΟ ΣΥΓΚΕΚΡΙΜΕΝΑ:',
     'skills' => ['capitalF' => 'Δεξιότητες / Προσόντα', 'lowerF' => 'δεξιότητες / προσόντα', 'capitalAll' => 'ΔΕΞΙΟΤΗΤΕΣ / ΠΡΟΣΟΝΤΑ'],
     'capacity' =>['capitalF' => 'Capacity', 'lowerF' => 'capacity'],

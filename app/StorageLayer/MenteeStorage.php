@@ -50,7 +50,8 @@ class MenteeStorage {
           university.name as university_name_foreign, mentee.university_name, mentee.university_department_name, 
           mentee.university_graduation_year, education_level.name as education_level_name, mentee_status_lookup.description as status
           from mentee_profile as mentee
-          left join specialty on mentee.specialty_id = specialty.id          
+          left join mentee_specialty on mentee.id = mentee_specialty.mentee_profile_id  
+          left join specialty on mentee_specialty.specialty_id = specialty.id     
           left join university on mentee.university_id = university.id 
           left join education_level on mentee.education_level_id = education_level.id
           left join residence on mentee.residence_id = residence.id

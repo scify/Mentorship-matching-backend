@@ -28,10 +28,10 @@ class Specialty extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function mentees()
     {
-        return $this->belongsTo(MenteeProfile::class, 'specialty_id', 'id');
+        return $this->belongsToMany(MenteeProfile::class, 'mentor_specialty', 'id')->wherePivot('deleted_at', null);
     }
 }

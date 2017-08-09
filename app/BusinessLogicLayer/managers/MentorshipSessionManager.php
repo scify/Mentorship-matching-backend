@@ -286,7 +286,7 @@ class MentorshipSessionManager
         }
 
         $this->handleMentorshipSessionStatusUpdate($mentorshipSession, $input);
-        
+
         return $messageToShow;
     }
 
