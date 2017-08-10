@@ -11,6 +11,9 @@
             @elseif($user->isMatcher())
                 @include('common.menu_items.matcher_menu_items')
             @endif
+            <li class="{{ (Route::current()->getName() == 'showEditUserForm') ? 'open' : '' }}">
+                <a href="{{ route('showEditUserForm', $user->id) }}"> My Profile </a>
+            </li>
             <li>
                 <a class="" href="{{ url('/logout') }}"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
