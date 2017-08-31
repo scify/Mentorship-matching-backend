@@ -9,7 +9,7 @@
                 <div class="profile-text light">
                     {{$menteeViewModel->mentee->first_name}}  {{$menteeViewModel->mentee->last_name}},
                     <span class="caption userRole">{{trans('messages.mentee')}}
-                        @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees())
+                        @if($loggedInUser->userHasAccessToCRUDMentorsAndMentees() || $loggedInUser->userHasAccessToEditMentorsAndMentees())
                             <a class="margin-left-10" href="{{route('showEditMenteeForm', $menteeViewModel->mentee->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                         @endif
                     </span>
