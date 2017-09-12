@@ -168,6 +168,7 @@ class UserController extends Controller
     {
         $companyManager = new CompanyManager();
         $user = new User();
+        $loggedInUser = Auth::user();
         $userIconsManager = new UserIconManager();
         $userRoleIds = array();
         $formTitle = 'FILL IN THE FOLLOWING FORM IN ORDER TO REGISTER A NEW USER';
@@ -180,7 +181,8 @@ class UserController extends Controller
             'user' => $user,
             'formTitle' => $formTitle, 'userRoles' => $userRoles,
             'userRoleIds' => $userRoleIds, 'companies' => $companies,
-            'userIcons' => $userIcons
+            'userIcons' => $userIcons,
+            'loggedInUser' => $loggedInUser
         ]);
     }
 
@@ -251,7 +253,7 @@ class UserController extends Controller
         $userRoles = $this->userRoleManager->getAllUserRoles();
         $companies = $companyManager->getCompaniesWithNoAccountManagerAssignedExceptAccountManager($user);
         $userIcons = $userIconsManager->getAllUserIcons();
-
+        $loggedInUser = Auth::user();
         if($user->company != null)
             $user['company_id'] = $user->company->id;
         else
@@ -262,7 +264,8 @@ class UserController extends Controller
             'pageSubTitle' => 'edit user',
             'formTitle' => $formTitle, 'userRoles' => $userRoles,
             'userRoleIds' => $userRoleIds, 'companies' => $companies,
-            'userIcons' => $userIcons
+            'userIcons' => $userIcons,
+            'loggedInUser' => $loggedInUser
         ]);
     }
 

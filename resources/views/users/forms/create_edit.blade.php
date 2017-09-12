@@ -104,8 +104,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <!-- Skills -->
-                                        <div class="selecterTitle form-full-row">{{$user->isAdmin() ? 'Select user roles' : 'Your Roles'}}</div>
-                                        <select {{$user->isAdmin() ? '' : 'disabled'}} id="roleSelector" data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
+                                        <div class="selecterTitle form-full-row">{{$loggedInUser->isAdmin() ? 'Select user roles' : 'Your Roles'}}</div>
+                                        <select {{$loggedInUser->isAdmin() ? '' : 'disabled'}} id="roleSelector" data-placeholder="Choose roles" name="user_roles[][id]" class="chosen-select" multiple>
                                             @foreach($userRoles as $userRole)
                                                 <option value="{{$userRole->id}}" {{in_array($userRole->id, $userRoleIds)? 'selected':''}}>{{$userRole->title}}</option>
                                             @endforeach
