@@ -94,7 +94,7 @@
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.linkedin')}}</div>
                                             @if($mentorViewModel->mentor->linkedin_url != null)
-                                                <a href="{{$mentorViewModel->mentor->linkedin_url}}"><div class="col-md-9">{{$mentorViewModel->mentor->linkedin_url}}</div></a>
+                                                <a target="_blank" href="{{$mentorViewModel->mentor->linkedin_url}}"><div class="col-md-9">{{$mentorViewModel->mentor->linkedin_url}}</div></a>
                                             @endif
                                         </div><!--.row-->
                                         @if($mentorViewModel->mentor->created_at != null)
