@@ -294,7 +294,7 @@
                                 <div class="{{ $errors->first('linkedin_url')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label">
                                         <div class="input-wrapper">
-                                            <input type="text" class="form-control" name="linkedin_url"
+                                            <input type="url" class="form-control" name="linkedin_url"
                                                    value="{{ old('linkedin_url') != '' ? old('linkedin_url') : $mentee['linkedin_url']}}">
                                             <label for="linkedin_url">{{trans('messages.linkedin')}}</label>
                                         </div>

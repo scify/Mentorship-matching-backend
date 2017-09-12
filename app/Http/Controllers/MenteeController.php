@@ -194,7 +194,8 @@ class MenteeController extends Controller
                 'expectations' => 'required',
                 'career_goals' => 'required',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
-                'public_form' => 'required'
+                'public_form' => 'required',
+                'linkedin_url' => 'url'
             ], $this->messages());
         } else {
             $this->validate($request, [
@@ -203,7 +204,8 @@ class MenteeController extends Controller
                 'year_of_birth' => 'required|numeric|digits:4',
                 'email' => 'required|max:255|email|unique:mentee_profile',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
-                'public_form' => 'required'
+                'public_form' => 'required',
+                'linkedin_url' => 'url'
             ], $this->messages());
         }
         try {
