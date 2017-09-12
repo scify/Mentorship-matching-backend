@@ -105,7 +105,7 @@ class MentorshipSessionManager
     private function setMentorshipSessionMenteeStatusToAvailable($menteeProfileId) {
         $menteeManager = new MenteeManager();
         // INFO: mentee status id 1 means available
-        $menteeManager->editMentee(array('status_id' => 2), $menteeProfileId);
+        $menteeManager->editMentee(array('status_id' => 1), $menteeProfileId);
     }
 
     /**
