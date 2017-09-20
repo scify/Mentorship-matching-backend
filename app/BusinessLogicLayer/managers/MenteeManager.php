@@ -172,7 +172,7 @@ class MenteeManager {
     }
 
     public function deleteMentee($menteeId) {
-        $mentee = $this->getMentee($menteeId);
+        $mentee = $this->menteeStorage->getMenteeProfileById($menteeId);
         $mentee->email = $mentee->email . '_old_' . microtime();
         $this->menteeStorage->saveMentee($mentee);
         $mentee->delete();
