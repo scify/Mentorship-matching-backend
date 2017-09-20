@@ -254,6 +254,7 @@ class MentorManager {
         DB::transaction(function() use($mentorId) {
             $mentor = $this->getMentor($mentorId);
             $mentor->company_id = null;
+            $mentor->email = $mentor->email . '_old_' . microtime();
             $this->mentorStorage->saveMentor($mentor);
             $this->mentorStorage->deleteMentor($mentor);
         });
