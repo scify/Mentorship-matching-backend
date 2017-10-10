@@ -73,7 +73,7 @@ class UserStorage {
                             where ms.deleted_at is null 
                             group by ms.account_manager_id 
                          ) as activeAccountManagerSessions on activeAccountManagerSessions.account_manager_id = ur.user_id
-            where ur.role_id = $userAccessManager->ACCOUNT_MANAGER_ROLE_ID 
+            where ur.role_id = $userAccessManager->ACCOUNT_MANAGER_ROLE_ID and u.deleted_at is null and u.state_id = 1
         ");
         return $result;
     }
