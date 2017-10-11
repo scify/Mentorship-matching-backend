@@ -70,6 +70,7 @@ class UpdateCreatedAtDateForMentees
                     if (!empty($colContent)) {
                         $createdAt = Carbon::createFromFormat("m/d/Y", $colContent);
                         $mentee = MenteeProfile::where('email', $email)->first();
+                        $mentee->timestamps = false;
                         $mentee->created_at = $createdAt;
                         $mentee->save();
                     }
