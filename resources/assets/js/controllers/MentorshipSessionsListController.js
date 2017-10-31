@@ -10,6 +10,10 @@ window.MentorshipSessionsListController.prototype = function() {
         sessionInfoModalHandler = function(parentDiv) {
             $("body").on("click", parentDiv + " #mentorshipSessionsList .singleItem > .visible", function() {
                 var mentorId = $(this).data("mentorid");
+                var mentorDeletedAt = $(this).data("mentordeletedat");
+                var menteeDeletedAt = $(this).data("menteedeletedat");
+                var matcherDeletedAt = $(this).data("matcherdeletedat");
+                var accountManagerDeletedAt = $(this).data("accountmanagerdeletedat");
                 var mentorName = $(this).find("#mentorPresetName").text();
                 var menteeId = $(this).data("menteeid");
                 var menteeName = $(this).find("#menteePresetName").text();
@@ -33,22 +37,49 @@ window.MentorshipSessionsListController.prototype = function() {
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
                 if($mentorFullName.parent("a").length === 1) {
-                    $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
+                    if(mentorDeletedAt.length) {
+                        $mentorFullName.append('<span class="deletedMsg">(deleted)</span>');
+                        $mentorFullName.parent().attr("href", "javascript: void(0)");
+                    }
+                    else
+                        $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
                 }
+
                 var $menteeFullName = $modal.find("#menteeFullName");
                 $menteeFullName.html(menteeName);
                 if($menteeFullName.parent("a").length === 1) {
-                    $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
+                    if(menteeDeletedAt.length) {
+                        $menteeFullName.append('<span class="deletedMsg">(deleted)</span>');
+                        $menteeFullName.parent().attr("href", "javascript: void(0)");
+                    }
+                    else {
+                        $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
+                    }
                 }
+
                 var $accountManagerNameAnchor = $modal.find("#accountManagerName");
                 $accountManagerNameAnchor.html(accountManagerName);
                 if($accountManagerNameAnchor.length !== 0) {
-                    $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url").replace("id", accountManagerId));
+                    if(accountManagerDeletedAt.length) {
+                        $accountManagerNameAnchor.append('<span class="deletedMsg">(deleted)</span>');
+                        $accountManagerNameAnchor.parent().attr("href", "javascript: void(0)");
+                    }
+                    else {
+                        $accountManagerNameAnchor.attr("href", $accountManagerNameAnchor.data("url").replace("id", accountManagerId));
+                    }
+
                 }
                 var $matcherNameAnchor = $modal.find("#matcherName");
                 $matcherNameAnchor.html(matcherName);
                 if($matcherNameAnchor.length !== 0) {
-                    $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url").replace("id", matcherId));
+                    if(matcherDeletedAt.length) {
+                        $matcherNameAnchor.append('<span class="deletedMsg">(deleted)</span>');
+                        $matcherNameAnchor.parent().attr("href", "javascript: void(0)");
+                    }
+                    else {
+                        $matcherNameAnchor.attr("href", $matcherNameAnchor.data("url").replace("id", matcherId));
+                    }
+
                 }
                 $modal.find("#sessionStatus").addClass(sessionStatusClass).html(sessionStatus);
                 $modal.find("#sessionComment").html(sessionComment);
@@ -130,6 +161,8 @@ window.MentorshipSessionsListController.prototype = function() {
                 var menteeName = $siblingVisibleAnchor.find("#menteePresetName").text();
                 var accountManagerId = $siblingVisibleAnchor.data("accountmanagerid");
                 var generalComment = $siblingVisibleAnchor.data("generalcomment");
+                var mentorDeletedAt = $(this).data("mentordeletedat");
+                var menteeDeletedAt = $(this).data("menteedeletedat");
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
                 var $modal = $("#matchMentorModalEdit");
                 manuallyUpdateStatusHandler($modal);
@@ -162,12 +195,22 @@ window.MentorshipSessionsListController.prototype = function() {
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
                 if($mentorFullName.parent("a").length === 1) {
-                    $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
+                    if(mentorDeletedAt.length) {
+                        $mentorFullName.append('<span class="deletedMsg">(deleted)</span>');
+                        $mentorFullName.attr("href", "javascript: void(0)");
+                    }
+                    else
+                        $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
                 }
                 var $menteeFullName = $modal.find("#menteeFullName");
                 $menteeFullName.html(menteeName);
                 if($menteeFullName.parent("a").length === 1) {
-                    $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
+                    if(menteeDeletedAt.length) {
+                        $menteeFullName.append('<span class="deletedMsg">(deleted)</span>');
+                        $menteeFullName.parent().attr("href", "javascript: void(0)");
+                    }
+                    else
+                        $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
                 }
                 $modal.find("textarea[name=general_comment]").text(generalComment);
                 if($modal.find("select[name=account_manager_id]").length > 0) {

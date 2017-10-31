@@ -8,7 +8,11 @@
        data-sessionId="{{ $mentorshipSessionViewModel->mentorshipSession->id }}" data-mentorId="{{ $mentorshipSessionViewModel->mentorViewModel->mentor->id }}"
        data-menteeId="{{ $mentorshipSessionViewModel->menteeViewModel->mentee->id }}" data-sessionStatusId="{{ $mentorshipSessionViewModel->mentorshipSession->status_id }}"
        data-generalComment="{{ $mentorshipSessionViewModel->mentorshipSession->general_comment }}"
-       data-actionRequired='{{ $mentorshipSessionViewModel->status->action_required }}'>
+       data-actionRequired='{{ $mentorshipSessionViewModel->status->action_required }}'
+       data-mentorDeletedAt='{{ $mentorshipSessionViewModel->mentorViewModel->mentor->deleted_at }}'
+       data-menteeDeletedAt='{{ $mentorshipSessionViewModel->menteeViewModel->mentee->deleted_at }}'
+       data-matcherDeletedAt='{{ $mentorshipSessionViewModel->matcher->deleted_at }}'
+       data-accountManagerDeletedAt='{{ $mentorshipSessionViewModel->accountManager->deleted_at }}'>
         <div class="row mentorshipSessionInfo">
             @if($mentorshipSessionViewModel->status->action_required != null)
                 <p class="actionRequiredMessage">Action required. <br> If you are the account manager, edit this session to continue.</p>

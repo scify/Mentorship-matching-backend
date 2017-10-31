@@ -31,28 +31,28 @@ class MentorshipSession extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function mentor() {
-        return $this->hasOne(MentorProfile::class, 'id', 'mentor_profile_id');
+        return $this->hasOne(MentorProfile::class, 'id', 'mentor_profile_id')->withTrashed();
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function mentee() {
-        return $this->hasOne(MenteeProfile::class, 'id', 'mentee_profile_id');
+        return $this->hasOne(MenteeProfile::class, 'id', 'mentee_profile_id')->withTrashed();
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function account_manager() {
-        return $this->hasOne(User::class, 'id', 'account_manager_id');
+        return $this->hasOne(User::class, 'id', 'account_manager_id')->withTrashed();
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function matcher() {
-        return $this->hasOne(User::class, 'id', 'matcher_id');
+        return $this->hasOne(User::class, 'id', 'matcher_id')->withTrashed();
     }
 
     /**
