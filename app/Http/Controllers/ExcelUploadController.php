@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\MenteesUploadManager;
 use App\BusinessLogicLayer\managers\MentorsUploadManager;
+use App\BusinessLogicLayer\managers\UpdateCreatedAtDateForMentees;
 use App\BusinessLogicLayer\managers\UpdateSpecialtyForOldMentees;
 
 class ExcelUploadController extends Controller
@@ -27,5 +28,11 @@ class ExcelUploadController extends Controller
         $updateSpecialtyForOldMentees = new UpdateSpecialtyForOldMentees();
         $updateSpecialtyForOldMentees->updateMentees();
         return "Mentees updated";
+    }
+
+    public function correctMenteesFromFileCreatedAt() {
+        $updateCreatedAtDateForMentees = new UpdateCreatedAtDateForMentees();
+        $updateCreatedAtDateForMentees->fileUpdateMentees();
+        return "Mentees created_at updated";
     }
 }
