@@ -164,9 +164,9 @@ window.MentorshipSessionsListController.prototype = function() {
                 var mentorDeletedAt = $siblingVisibleAnchor.data("mentordeletedat");
                 var menteeDeletedAt = $siblingVisibleAnchor.data("menteedeletedat");
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
-                console.log("menteeDeletedAt", menteeDeletedAt);
                 var $modal = $("#matchMentorModalEdit");
                 manuallyUpdateStatusHandler($modal);
+                editSessionFormHandler($modal, parentDiv);
                 $modal.find(".actionRequiredWrapper").addClass("hidden");
                 $modal.find(".updateSessionBtnContainer").addClass("hidden");
                 $modal.find(".sendInvitationMailsContainer").addClass("hidden");
@@ -181,8 +181,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     $modal.find(".actionRequiredWrapper").removeClass("hidden");
                     $modal.find("#actionRequired").html(actionRequired);
                 }
-                console.log("sessionStatusId: " + sessionStatusId);
-                console.log("mentee name", menteeName);
+
                 if(sessionStatusId === 1 || sessionStatusId === "1") {
                     $modal.find(".sendInvitationMailsContainer").removeClass("hidden");
                     var _href = $modal.find(".confirmAvailabilityBtn").attr("href");
@@ -224,6 +223,21 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
                 $modal.find("select[name=status_id]").val(sessionStatusId).trigger("chosen:updated");
                 displayCorrectlyStatusesAccordingToPreselectedStatus($modal.find("select[name=status_id]"));
+            });
+        },
+        editSessionFormHandler = function($editModal, parentDiv) {
+        console.log("test");
+            $editModal.on("click", ".editMentorshipSession", function(event) {
+                event.stopPropagation();
+                var loader = $editModal.find(".editSessionLoader");
+                loader.removeClass("hidden");
+                var $inputs = $editModal.find('.sessionEditForm :input');
+
+                var values = {};
+                $.each($editModal.find('.sessionEditForm').serializeArray(), function(i, field) {
+                    values[field.name] = field.value;
+                });
+                console.log(values);
             });
         },
         deleteSessionModalHandler = function(parentDiv) {

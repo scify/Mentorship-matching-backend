@@ -3,9 +3,9 @@
     <input type="hidden" name="mentee_profile_id" value="{{$menteeViewModel->mentee->id}}">
 @else
     @if(isset($isCreatingNewSession) && !$isCreatingNewSession)
-    <a class="name-anchor" data-url="{{ route('showMenteeProfilePage', ['id' => 'id']) }}" target="_blank"><b id="menteeFullName"></b></a>
+        <a class="name-anchor" data-url="{{ route('showMenteeProfilePage', ['id' => 'id']) }}" target="_blank"><b id="menteeFullName"></b></a>
     @else
-    <b id="menteeFullName"></b>
+        <b id="menteeFullName"></b>
     @endif
     <input type="hidden" name="mentee_profile_id">
 @endif

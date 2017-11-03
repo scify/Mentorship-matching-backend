@@ -1,7 +1,7 @@
 <div class="modal scale fade matchMentorItem" id="matchMentorModalEdit" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form method="POST" action="{{route('updateMentorshipSession')}}" enctype="multipart/form-data">
+            <form method="POST" class="sessionEditForm" action="{{route('updateMentorshipSession')}}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="mentorship_session_id">
                 <div class="modal-header">
@@ -120,7 +120,8 @@
                 <div class="modal-footer">
                     <div class="updateSessionBtnContainer hidden">
                         <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-flat btn-primary btn-success submitLink">Update Session</button>
+                        <a class="btn btn-flat btn-primary btn-success submitLink editMentorshipSession">Update Session</a>
+                        <div class="editSessionLoader loading-bar indeterminate margin-top-10 hidden"></div>
                     </div>
                     <div class="sendInvitationMailsContainer hidden">
                         <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
