@@ -161,9 +161,10 @@ window.MentorshipSessionsListController.prototype = function() {
                 var menteeName = $siblingVisibleAnchor.find("#menteePresetName").text();
                 var accountManagerId = $siblingVisibleAnchor.data("accountmanagerid");
                 var generalComment = $siblingVisibleAnchor.data("generalcomment");
-                var mentorDeletedAt = $(this).data("mentordeletedat");
-                var menteeDeletedAt = $(this).data("menteedeletedat");
+                var mentorDeletedAt = $siblingVisibleAnchor.data("mentordeletedat");
+                var menteeDeletedAt = $siblingVisibleAnchor.data("menteedeletedat");
                 sessionStatusId = $siblingVisibleAnchor.data("sessionstatusid");
+                console.log("menteeDeletedAt", menteeDeletedAt);
                 var $modal = $("#matchMentorModalEdit");
                 manuallyUpdateStatusHandler($modal);
                 $modal.find(".actionRequiredWrapper").addClass("hidden");
@@ -181,6 +182,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     $modal.find("#actionRequired").html(actionRequired);
                 }
                 console.log("sessionStatusId: " + sessionStatusId);
+                console.log("mentee name", menteeName);
                 if(sessionStatusId === 1 || sessionStatusId === "1") {
                     $modal.find(".sendInvitationMailsContainer").removeClass("hidden");
                     var _href = $modal.find(".confirmAvailabilityBtn").attr("href");
@@ -194,23 +196,27 @@ window.MentorshipSessionsListController.prototype = function() {
 
                 var $mentorFullName = $modal.find("#mentorFullName");
                 $mentorFullName.html(mentorName);
-                if($mentorFullName.parent("a").length === 1) {
-                    if(mentorDeletedAt.length) {
-                        $mentorFullName.append('<span class="deletedMsg">(deleted)</span>');
-                        $mentorFullName.attr("href", "javascript: void(0)");
+                if($mentorFullName.parent("a")) {
+                    if ($mentorFullName.parent("a").length === 1) {
+                        if (mentorDeletedAt) {
+                            $mentorFullName.append('<span class="deletedMsg">(deleted)</span>');
+                            $mentorFullName.attr("href", "javascript: void(0)");
+                        }
+                        else
+                            $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
                     }
-                    else
-                        $mentorFullName.parent().attr("href", $mentorFullName.parent().data("url").replace("id", mentorId));
                 }
                 var $menteeFullName = $modal.find("#menteeFullName");
                 $menteeFullName.html(menteeName);
-                if($menteeFullName.parent("a").length === 1) {
-                    if(menteeDeletedAt.length) {
-                        $menteeFullName.append('<span class="deletedMsg">(deleted)</span>');
-                        $menteeFullName.parent().attr("href", "javascript: void(0)");
+                if($menteeFullName.parent("a")) {
+                    if ($menteeFullName.parent("a").length === 1) {
+                        if (menteeDeletedAt) {
+                            $menteeFullName.append('<span class="deletedMsg">(deleted)</span>');
+                            $menteeFullName.parent().attr("href", "javascript: void(0)");
+                        }
+                        else
+                            $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
                     }
-                    else
-                        $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
                 }
                 $modal.find("textarea[name=general_comment]").text(generalComment);
                 if($modal.find("select[name=account_manager_id]").length > 0) {
