@@ -103,13 +103,13 @@ class MentorshipSessionController extends Controller
         $input = $request->all();
         try {
             $messageToShow = $this->mentorshipSessionManager->editMentorshipSession($input);
+            $typeOfMessage = 'success';
         } catch(\Exception $e) {
             Log::info('Error on session update: ' . $e->getCode() . "  " . $e->getMessage());
-            session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
-            return back();
+            $messageToShow = 'An error occurred. Please try again later.';
+            $typeOfMessage = 'error';
         }
-        session()->flash('flash_message_success', $messageToShow);
-        return redirect()->back();
+        return response()->json(['message' => $messageToShow, 'type' => $typeOfMessage]);
     }
 
     /**
