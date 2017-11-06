@@ -266,12 +266,13 @@ window.MentorshipSessionsListController.prototype = function() {
             });
         },
         updateVisibleAnchorElements = function($siblingVisibleAnchor, values, accountManagerName, statusName) {
+            var sessionStatusCssClass = (values.status_id < 5) ? 'pending' : (values.status_id < 10) ? 'started' : 'evaluation_sent';
             $siblingVisibleAnchor.attr("data-accountmanagerid", values.account_manager_id);
             $siblingVisibleAnchor.attr("data-generalcomment", values.general_comment);
             $siblingVisibleAnchor.attr("data-sessionstatusid", values.status_id);
-            $siblingVisibleAnchor.find("#accountManagerName").addClass("updated_value").html(accountManagerName);
-            $siblingVisibleAnchor.find("#sessionStatus").attr("class", "").addClass("updated_value").html(statusName);
-            $siblingVisibleAnchor.find("#updatedAt").addClass("updated_value").html("now");
+            $siblingVisibleAnchor.find("#accountManagerName").html(accountManagerName);
+            $siblingVisibleAnchor.find("#sessionStatus").attr("class", "").addClass(sessionStatusCssClass).html(statusName);
+            $siblingVisibleAnchor.find("#updatedAt").html("1 second ago");
         },
         deleteSessionModalHandler = function(parentDiv) {
             $("body").on("click", parentDiv + " .deleteSessionBtn", function () {
