@@ -25,7 +25,7 @@
                     <div class="overflow-content">
                         <ul class="borderless float-left">
 
-                            <li><a href="{{route('showEditUserForm', $user->id)}}" class="btn btn-flat btn-ripple"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
+                            <li><a href="{{route('showEditUserForm', $user->id)}}" target="_blank" class="btn btn-flat btn-ripple"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
                             <li>
                                 <a data-toggle="modal"
                                    data-userName="{{$user->first_name . $user->last_name}}"
