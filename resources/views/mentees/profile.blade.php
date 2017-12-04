@@ -307,7 +307,7 @@
             </div>
         </div>
     </div>
-    @if($loggedInUser->userHasAccessToCRUDMentorshipSessions())
+    @if($loggedInUser->userHasAccessToCRUDMentorshipSessions() || $loggedInUser->isMatcher())
         @include('mentorship_session.modals.matching_modal_create', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => true])
         @include('mentorship_session.modals.matching_modal_edit', ['menteeViewModel' => $menteeViewModel, 'isCreatingNewSession' => false])
         @include('mentorship_session.modals.delete')

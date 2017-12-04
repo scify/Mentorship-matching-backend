@@ -691,11 +691,15 @@ class MentorshipSessionManager
                 'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId
             ]);
             // if session is cancelled by mentee make available only the mentor and set the mentee's status to rejected,
+            // else if session is cancelled by mentor make the mentor unavailable
             // else make both available
             if($statusToSet === 12) {
                 $this->setMentorshipSessionMentorStatusToAvailable($mentorshipSession->mentor->id);
                 $this->setMentorshipSessionMenteeStatusToRejected($mentorshipSession->mentee->id);
-            } else {
+            } else if($statusToSet === 13) {
+                $this->setMentorshipSessionMentorStatusToNotAvailable($mentorshipSession->mentor->id);
+                $this->setMentorshipSessionMenteeStatusToAvailable($mentorshipSession->mentee->id);
+            } else { // TODO: this was created when the account manager could decline to manage a match (maybe we do not need it anymore)
                 $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable(
                     $mentorshipSession->mentor->id, $mentorshipSession->mentee->id
                 );
