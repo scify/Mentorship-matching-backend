@@ -1,3 +1,4 @@
+
 # Mentorship matching backend platform
 
 
@@ -91,6 +92,10 @@ npm install
 To download and install all libraries and dependencies.
 
 ## Compiling assets
+Make sure the following versions of Node and NPM are used in order to compile the front-end dependencies:
+- Node Version: 6.14.4
+- NPM Version: 3.10.10
+
 
 This project uses [Elixir](https://laravel.com/docs/5.3/elixir) which is a tool built on [Gulp](http://gulpjs.com/),
 a popular toolkit for automating painful or time-consuming tasks, like SASS compiling and js/css concatenation and minification.
