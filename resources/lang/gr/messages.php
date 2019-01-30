@@ -155,4 +155,7 @@ return [
     'status_change_success' => 'Ευχαριστούμε, θα επικοινωνήσουμε σύντομα μαζί σας',
     'mentor_not_found' => 'Ο μέντορας δε βρέθηκε',
     'no_permissions' => 'Δε σας επιτρέπεται αυτή η δράση',
+    'decline_session_invitation_title' => 'Πρόκειται να απορρίψετε την έναρξη των συναντήσεων. <br> <b>Είστε σίγουρος;</b>',
+    'decline_session_invitation_title_button' => 'Ναι, απόρριψη συνάντησης',
+    'accept_session_invitation_title_button' => 'Αποδοχή συναντήσεων'
 ];

@@ -27,6 +27,8 @@ Route::get('accept-session-management/{mentorshipSessionId}/{id}/{email}', 'Ment
 
 Route::get('decline-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@declineToManageMentorshipSession')->name('declineToManageMentorshipSession');
 
+Route::get('decline-session-confirmation/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSessionConfirmation')->name('declineMentorshipSessionConfirmation');
+
 Route::get('accept-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@acceptMentorshipSession')->name('acceptMentorshipSession');
 
 Route::get('decline-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSession')->name('declineMentorshipSession');

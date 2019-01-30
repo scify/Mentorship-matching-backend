@@ -161,4 +161,7 @@ return [
     'status_change_success' => 'Thank you, we will contact you soon',
     'mentor_not_found' => 'Mentor not found',
     'no_permissions' => 'You have no permission to do that',
+    'decline_session_invitation_title' => 'You are going to decline the mentorship sessions. <br> <b>Are you sure?</b>',
+    'decline_session_invitation_title_button' => 'Yes, decline session',
+    'accept_session_invitation_title_button' => 'Accept session'
 ];

@@ -12,7 +12,7 @@
             </a>
         </p>
         <p style="text-align: center; display: table-cell; width: 50%;">
-            <a href="{{ route('declineMentorshipSession', [
+            <a href="{{ route('declineMentorshipSessionConfirmation', [
                     'id' => $mentee->id, 'email' => $mentee->email, 'mentorshipSessionId' => $mentorshipSessionId, 'role' => 'mentee'
                 ]) }}" style="display: block; background-color: #d9534f; color: white; padding: 10px; width: 150px; text-decoration: none; margin-left: auto; margin-right: auto;">
                 Decline

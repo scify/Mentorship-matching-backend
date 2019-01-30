@@ -276,6 +276,30 @@ class MentorshipSessionController extends Controller
     }
 
     /**
+     * Triggered when a mentor or a mentee declines a new session invitation (shows a confirmation page)
+     *
+     * @param $mentorshipSessionId string The @see MentorshipSession id
+     * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
+     * @param $id string The id of the person that responded
+     * @param $email string The email address of the person responded
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email) {
+        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        App::setLocale($lang);
+        $viewTitle = Lang::get('messages.decline_session_invitation_title');
+        return view('common.action-confirmation')->with([
+            'title' => $viewTitle,
+            'accept_confirmation_button_text' => Lang::get('messages.decline_session_invitation_title_button'),
+            'decline_confirmation_button_text' => Lang::get('messages.accept_session_invitation_title_button'),
+            'accept_confirmation_url' => route('declineMentorshipSession', ['mentorshipSessionId' => $mentorshipSessionId, 'role' => $role, 'id' => $id, 'email' => $email]),
+            'decline_confirmation_url' => route('acceptMentorshipSession', ['mentorshipSessionId' => $mentorshipSessionId, 'role' => $role, 'id' => $id, 'email' => $email]),
+            'accept_confirmation_button_bg_color' => '#d9534f',
+            'decline_confirmation_button_bg_color' => '#5cb85c'
+        ]);
+    }
+
+    /**
      * Triggered when a mentor or a mentee accepts a new session invitation
      *
      * @param $mentorshipSessionId string The @see MentorshipSession id
