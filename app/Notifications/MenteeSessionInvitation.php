@@ -51,7 +51,7 @@ class MenteeSessionInvitation extends Notification
             ->action('Αποδοχή', route('acceptMentorshipSession', [
                 'id' => $this->mentorshipSession->mentee->id, 'email' => $this->mentorshipSession->mentee->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentee', 'lang' => 'gr'
             ]))
-            ->line('<p style="text-align: center; margin-top: 10px; margin-bottom: 10px;"><a href="' . route('declineMentorshipSession', [
+            ->line('<p style="text-align: center; margin-top: 10px; margin-bottom: 10px;"><a href="' . route('declineMentorshipSessionConfirmation', [
                 'id' => $this->mentorshipSession->mentee->id, 'email' => $this->mentorshipSession->mentee->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentee', 'lang' => 'gr'
             ]) . '">Απόρριψη</a></p>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
