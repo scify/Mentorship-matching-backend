@@ -162,6 +162,7 @@ return [
     'mentor_not_found' => 'Mentor not found',
     'no_permissions' => 'You have no permission to do that',
     'decline_session_invitation_title' => 'You are going to decline the mentorship sessions. <br> <b>Are you sure?</b>',
+    'decline_session_invitation_second_title' => 'In case you made a mistake, you can accept the session:',
     'decline_session_invitation_title_button' => 'Yes, decline session',
     'accept_session_invitation_title_button' => 'Accept session'
 ];

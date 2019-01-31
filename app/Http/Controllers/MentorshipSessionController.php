@@ -287,9 +287,9 @@ class MentorshipSessionController extends Controller
     public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email) {
         $lang = Input::has('lang') ? Input::get('lang') : 'en';
         App::setLocale($lang);
-        $viewTitle = Lang::get('messages.decline_session_invitation_title');
         return view('common.action-confirmation')->with([
-            'title' => $viewTitle,
+            'title' => Lang::get('messages.decline_session_invitation_title'),
+            'decline_title' => Lang::get('messages.decline_session_invitation_second_title'),
             'accept_confirmation_button_text' => Lang::get('messages.decline_session_invitation_title_button'),
             'decline_confirmation_button_text' => Lang::get('messages.accept_session_invitation_title_button'),
             'accept_confirmation_url' => route('declineMentorshipSession', ['mentorshipSessionId' => $mentorshipSessionId, 'role' => $role, 'id' => $id, 'email' => $email]),
