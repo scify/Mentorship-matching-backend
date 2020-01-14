@@ -2,11 +2,20 @@
 # Mentorship matching backend platform
 
 
-###Installing dependencies (assuming apache as web server and mysql as db):
+### Installing dependencies (assuming apache as web server and mysql as db):
 
 In a nutshell (assuming debian-based OS), first install the dependencies needed:
 
 Note: php5 package installs apache2 as a dependency so we have no need to add it manually.
+
+Note: Please install the node and npm versions as listed below:
+```bash
+$ node -v
+v6.17.1
+
+$ npm -v
+3.10.10
+```
 
 ```
 % sudo aptitude install php5 php5-cli mcrypt php5-mcrypt mysql-server php5-mysql
@@ -30,18 +39,18 @@ And source your .profile with % source ~/.profile
 
 ##Apache configuration:
 ```
-% cat /etc/apache2/sites-available/mysite.conf
+% cat /etc/apache2/sites-available/mentorhsip-matching.conf
 <VirtualHost *:80>
-    ServerName myapp.localhost.com
-    DocumentRoot "/path/to/VoluntEasy/VoluntEasy/public"
-    <Directory "/path/to/VoluntEasy/VoluntEasy/public">
+    ServerName dev.mentorhsip-matching
+    DocumentRoot "/path/to/Mentorship-matching-backend/public"
+    <Directory "/path/to/Mentorship-matching-backend/public">
         AllowOverride all
     </Directory>
 </VirtualHost>
 ```
 Make the symbolic link:
 ```
-% cd /etc/apache2/sites-enabled && sudo ln -s ../sites-available/mysite.conf
+% cd /etc/apache2/sites-enabled && sudo ln -s ../sites-available/mentorhsip-matching.conf
 ```
 Enable mod_rewrite and restart apache:
 ```

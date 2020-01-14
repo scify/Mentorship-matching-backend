@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('server-info', 'HomeController@showServerInfoPage')->name('showServerInfoPage');
+
 Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
 Route::post('mentor/create', 'MentorController@create')->name('createMentor');
 
