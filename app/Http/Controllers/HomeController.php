@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\MailManager;
+use App\Models\eloquent\MentorProfile;
+use App\Models\eloquent\User;
+use App\Notifications\MenteeRegistered;
+use App\Notifications\MentorStatusReactivation;
 use Illuminate\Http\Request;
 use League\Flysystem\Exception;
 
@@ -33,10 +37,19 @@ class HomeController extends Controller
                 'Job Pairs | Test',
                 $email
             );
+
+            $userToTestMailable = User::where(['email' => 'paul@scify.org'])->first();
+
+            if($userToTestMailable)
+                $userToTestMailable->notify(new MentorStatusReactivation(MentorProfile::first()));
+
             return "Email was sent";
         } else {
             throw new Exception("No email parameter");
         }
+
+
+
 
     }
 
