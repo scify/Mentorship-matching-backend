@@ -440,6 +440,6 @@ class MenteeManager {
         }
 
         //Create our paginator and pass it to the view
-        return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
+        return new LengthAwarePaginator($currentPageItems, $itemsCount, $perPage);
     }
 }
