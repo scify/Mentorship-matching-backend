@@ -89,7 +89,7 @@ class MentorController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
-        if($mentorViewModels->count() == 0) {
+        if($mentorViewModels && $mentorViewModels->count() == 0) {
             $errorMessage = "No mentors found";
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
