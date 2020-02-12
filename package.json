@@ -5,7 +5,7 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "bootstrap-daterangepicker": "^2.1.25",
     "bootstrap-sass": "^3.3.7",
     "bootstrap-select": "^1.12.1",
