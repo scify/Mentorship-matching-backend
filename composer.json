@@ -5,10 +5,11 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.1.3",
+        "php": ">=7.2",
         "doctrine/dbal": "^2.9",
         "guzzlehttp/guzzle": "^6.2",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "^6.0",
+        "laravel/helpers": "^1.1",
         "laravel/tinker": "~1.0",
         "parsecsv/php-parsecsv": "^0.4.5"
     },
