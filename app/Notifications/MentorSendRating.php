@@ -53,7 +53,7 @@ class MentorSendRating extends Notification
                 'session-id' => $this->mentorshipSession->id, 'mentor-id' => $this->mentorshipSession->mentor->id, 'mentee-id' => $this->mentorshipSession->mentee->id, 'lang' => 'gr'
             ]))
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
-            ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'))->cc($this->mentorshipSession->account_manager->email);
+            ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
     }
 
     /**

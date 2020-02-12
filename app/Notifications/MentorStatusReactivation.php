@@ -49,7 +49,7 @@ class MentorStatusReactivation extends Notification
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Αν το επιθυμείτε, μπορείτε να δηλώσετε διαθέσιμος για νέο κύκλο συναντήσεων κάνοντας κλικ στον παρακάτω σύνδεσμο.</span>')
             ->action('Επιθυμώ νέα συνεδρία', route('setMentorStatusAvailable', ['id' => $this->mentor->id, 'email' => $this->mentor->email, 'lang' => 'gr']))
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
-            ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'));
+            ->line('Η ομάδα του Job-Pairs');
     }
 
     /**

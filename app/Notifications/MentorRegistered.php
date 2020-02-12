@@ -52,7 +52,7 @@ class MentorRegistered extends Notification
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Σας ευχαριστούμε πολύ για την εμπιστοσύνη σας και τη συμμετοχή σας.</div>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Για ό,τι χρειαστείτε, μη διστάσετε να επικοινωνήσετε μαζί μας στο <a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a></div>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εκτίμηση,</div>')
-            ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'))->cc($this->userManager->getEmailsForCC());
+            ->line('Η ομάδα του Job-Pairs')->cc($this->userManager->getEmailsForCC());
     }
 
     /**

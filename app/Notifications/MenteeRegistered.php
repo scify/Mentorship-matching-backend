@@ -51,7 +51,7 @@ class MenteeRegistered extends Notification
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Να σας υπενθυμίσουμε ότι η συνεργασία αυτή στηρίζεται στην αλληλεγγύη και στον επαγγελματισμό. Αυτό σημαίνει ότι <b>δεν περιλαμβάνεται καμία χρηματική συναλλαγή ή δέσμευση εύρεσης εργασίας.</b> Τα εμπλεκόμενα μέρη οικειοθελώς προσφέρουν το χρόνο, την εμπειρία και τις γνώσεις τους. Η επιτυχία των συναντήσεων εξαρτάται από την ειλικρινή διάθεση για συνεργασία, την τήρηση των χρονοδιαγραμμάτων και τη συνέπεια ως προς τις υποχρεώσεις σας.</span>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Ελπίζουμε μέσα από αυτήν την διαδικασία να ανακαλύψετε νέες ευκαιρίες και νέα επαγγελματικά μονοπάτια. Η ομάδα του Job Pairs θα είναι στην διάθεσή σας για ο,τιδήποτε άλλο χρειαστείτε.</span>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
-            ->line('Η ομάδα του Job-Pairs')->to($notifiable->routeNotificationFor('mail'))->cc($this->userManager->getEmailsForCC());
+            ->line('Η ομάδα του Job-Pairs')->cc($this->userManager->getEmailsForCC());
     }
 
     /**
