@@ -15,7 +15,7 @@ class CompanyViewModel {
     public function __construct($company) {
         $this->company = $company;
         $allCompanyMentors = $this->company->mentors;
-        $this->totalMentorsNum = $allCompanyMentors->count();
+        $this->totalMentorsNum = $allCompanyMentors ? $allCompanyMentors->count() : 0;
 
         $mentorStatusManager = new MentorStatusManager();
 
@@ -31,7 +31,7 @@ class CompanyViewModel {
             }
             return false;
         });
-        $this->availableMentorsNum = $availableMentors->count();
-        $this->matchedMentorsNum = $matchedMentors->count();
+        $this->availableMentorsNum = $availableMentors ? $availableMentors->count() : 0;
+        $this->matchedMentorsNum = $matchedMentors ? $matchedMentors->count() : 0;
     }
 }

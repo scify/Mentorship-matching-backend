@@ -184,7 +184,7 @@ class MentorshipSessionController extends Controller
             $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
-        if($history->count() === 0) {
+        if($history && $history->count() === 0) {
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', ['errorMessage' => 'No history found'])));
         } else {
             $loggedInUser = Auth::user();

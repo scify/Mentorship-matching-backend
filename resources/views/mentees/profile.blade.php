@@ -296,7 +296,7 @@
                             @endif
                         </div>
                         <div id="mentorship_sessions" class="tab-pane">
-                            @if($mentorshipSessionViewModels->count() > 0)
+                            @if($mentorshipSessionViewModels && $mentorshipSessionViewModels->count() > 0)
                                 @include('mentorship_session.list')
                             @else
                                 <h4 class="noSessionsMessage">No mentorship sessions to show.</h4>

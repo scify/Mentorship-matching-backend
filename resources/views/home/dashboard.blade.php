@@ -4,7 +4,7 @@
     <div class="row dashboard">
         <div class="col-md-12">
             @if($loggedInUser->isAccountManager())
-                @if($pendingMentorshipSessionViewModelsForAccManager->count() > 0)
+                @if($pendingMentorshipSessionViewModelsForAccManager && $pendingMentorshipSessionViewModelsForAccManager->count() > 0)
                     <div id="pending_mentorship_sessions">
                         <div class="note note-warning note-left-striped">
                             <h4>RECENTLY ASSIGNED MENTORSHIP SESSIONS</h4>
@@ -25,7 +25,7 @@
                     </div>
                 </div><!--.panel-heading-->
                 <div class="panel-body">
-                    @if($pendingMentorshipSessionViewModelsForAccManager->count() == 0)
+                    @if($pendingMentorshipSessionViewModelsForAccManager && $pendingMentorshipSessionViewModelsForAccManager->count() == 0)
                         You don't have any pending mentorship sessions assigned. You can view all the sessions you participate in <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> here. </a>
                     @else
                         You currently manage {{ $mentorshipSessionsNumForAccManager }} mentorship sessions. <a href="{{ route('showMentorshipSessionsForAccountManager') }}"> Click here </a> to view them.

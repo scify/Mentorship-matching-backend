@@ -134,7 +134,7 @@
                 @if($user->isMatcher())
                     <div id="matches" class="tab-pane">
                         <div class="col-md-12">
-                            @if($mentorshipSessionViewModelsForMatcher->count() == 0)
+                            @if($mentorshipSessionViewModelsForMatcher && $mentorshipSessionViewModelsForMatcher->count() == 0)
                                 You haven't performed any matches yet.
                             @else
                                 @include('mentorship_session.list', ['mentorshipSessionViewModels' => $mentorshipSessionViewModelsForMatcher, 'mentorshipSessionsCount' => $mentorshipSessionViewModelsForMatcher->count()])

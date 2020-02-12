@@ -167,7 +167,7 @@ class CompanyController extends Controller
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
-        if($companyViewModels->count() == 0) {
+        if($companyViewModels && $companyViewModels->count() == 0) {
             $errorMessage = "No companies found";
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
