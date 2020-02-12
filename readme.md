@@ -18,7 +18,7 @@ $ npm -v
 ```
 
 ```
-% sudo aptitude install php7.1 php7.2-cli mcrypt php7.2-mcrypt mysql-server php7.2-mysql
+% sudo aptitude install php7.2 php7.2-cli mcrypt php7.2-mcrypt mysql-server php7.2-mysql
 ```
 
 Install composer according to official instructions (link above) and move binary to ~/bin:
