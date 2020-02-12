@@ -426,10 +426,10 @@ class MenteeManager {
     public function paginateMentees($items, $perPage = 10) {
         //Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
-
+        $itemsCount = $items ? count($items) : 0;
         // FIX for searching with page number, when search has fetched less results
         // (fix: go to the first page!)
-        if($currentPage > ceil(count($items) / $perPage))
+        if($currentPage > ceil($itemsCount / $perPage))
             $currentPage = "1";
 
         if(!empty($items)) {
