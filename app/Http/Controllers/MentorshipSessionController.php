@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
+
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 
@@ -285,7 +285,7 @@ class MentorshipSessionController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email) {
-        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        $lang = Request::has('lang') ? Request::get('lang') : 'en';
         App::setLocale($lang);
         return view('common.action-confirmation')->with([
             'title' => Lang::get('messages.decline_session_invitation_title'),
@@ -309,7 +309,7 @@ class MentorshipSessionController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email) {
-        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        $lang = Request::has('lang') ? Request::get('lang') : 'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
@@ -343,7 +343,7 @@ class MentorshipSessionController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email) {
-        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        $lang = Request::has('lang') ? Request::get('lang') : 'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {

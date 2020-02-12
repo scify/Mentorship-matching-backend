@@ -18,13 +18,11 @@ use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
+
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 
 class MentorController extends Controller
 {
@@ -462,7 +460,7 @@ class MentorController extends Controller
      * @return \Illuminate\View\View
      */
     public function makeMentorAvailableAgain($id, $email) {
-        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        $lang = Request::has('lang') ? Request::get('lang') : 'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.availability_change_title');
         try {

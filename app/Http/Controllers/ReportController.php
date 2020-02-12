@@ -11,7 +11,7 @@ use App\StorageLayer\MentorshipSessionStorage;
 use App\StorageLayer\MentorStorage;
 use App\Utils\DataToCsvExportManager;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Input;
+
 
 class ReportController extends Controller
 {
@@ -51,7 +51,7 @@ class ReportController extends Controller
 
     public function exportMentorsToCsv()
     {
-        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        $lang = Request::has('lang') ? Request::get('lang') : 'en';
         $date = str_replace(" ", "_", Carbon::now('Europe/Athens')->toDateTimeString());
         $fileName = "mentors_" . $date . ".csv";
         $dataToCsvExportManager = new DataToCsvExportManager($fileName, MentorStorage::class, ['specialty_name', 'industry_name'], $lang);
@@ -60,7 +60,7 @@ class ReportController extends Controller
 
     public function exportMenteesToCsv()
     {
-        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        $lang = Request::has('lang') ? Request::get('lang') : 'en';
         $date = str_replace(" ", "_", Carbon::now('Europe/Athens')->toDateTimeString());
         $fileName = "mentees_" . $date . ".csv";
         $dataToCsvExportManager = new DataToCsvExportManager($fileName, MenteeStorage::class, [], $lang);
@@ -69,7 +69,7 @@ class ReportController extends Controller
 
     public function exportMentorshipSessionsToCsv()
     {
-        $lang = Input::has('lang') ? Input::get('lang') : 'en';
+        $lang = Request::has('lang') ? Request::get('lang') : 'en';
         $date = str_replace(" ", "_", Carbon::now('Europe/Athens')->toDateTimeString());
         $fileName = "mentorship_sessions_" . $date . ".csv";
         $dataToCsvExportManager = new DataToCsvExportManager($fileName, MentorshipSessionStorage::class, [], $lang);
