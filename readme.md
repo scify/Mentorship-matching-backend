@@ -18,11 +18,11 @@ $ npm -v
 ```
 
 ```
-% sudo aptitude install php7.1 php7.1-cli mcrypt php7.1-mcrypt mysql-server php7.1-mysql
+% sudo aptitude install php7.1 php7.2-cli mcrypt php7.2-mcrypt mysql-server php7.2-mysql
 ```
 
 Install composer according to official instructions (link above) and move binary to ~/bin:
-```% curl -sS https://getcomposer.org/installer | php5 && mv composer.phar ~/bin```
+```% curl -sS https://getcomposer.org/installer | php7.2 && mv composer.phar ~/bin```
 
 Download Laravel installer via composer:
 ```% composer global require "laravel/installer"```
@@ -71,16 +71,16 @@ Test your setup with:
 and navigate to localhost:8000.
 
 ## Setup DB
-Laravel provides a simple yet powerful mechanism for creating the DB schema, called [Migrations](https://laravel.com/docs/5.5/migrations)
+Laravel provides a simple yet powerful mechanism for creating the DB schema, called [Migrations](https://laravel.com/docs/6.0/migrations)
 Simply run ```php artisan migrate``` to create the appropriate DB schema.
 
 ## Add seed data to DB
-Run ```php artisan db:seed``` in order to insert the starter data to the DB by using [Laravel seeder](https://laravel.com/docs/5.5/seeding)
+Run ```php artisan db:seed``` in order to insert the starter data to the DB by using [Laravel seeder](https://laravel.com/docs/6.0/seeding)
 
 ## Building project
 After cloning the project, create an .env file (should be a copy of .env.example),
 containing the information about your database name and credentials. 
-After that, download all Laravel dependencies through [Composer](https://laravel.com/docs/5.5/installation), by running
+After that, download all Laravel dependencies through [Composer](https://laravel.com/docs/6.0/installation), by running
 
 ```
 composer install
@@ -106,7 +106,7 @@ Make sure the following versions of Node and NPM are used in order to compile th
 - NPM Version: 3.10.10
 
 
-This project uses [Elixir](https://laravel.com/docs/5.5/elixir) which is a tool built on [Gulp](http://gulpjs.com/),
+This project uses [Elixir](https://laravel.com/docs/6.0/elixir) which is a tool built on [Gulp](http://gulpjs.com/),
 a popular toolkit for automating painful or time-consuming tasks, like SASS compiling and js/css concatenation and minification.
 
 To install gulp and gulp-cli (command line interface), please read [this](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md).
