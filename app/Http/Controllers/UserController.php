@@ -199,7 +199,7 @@ class UserController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email|unique:users',
             'user_roles' => 'required',
-            'password'        => 'required|min:4|max:12',
+            'password'        => 'required|min:8|max:12',
             'passwordconfirm' => 'required|same:password',
             'capacity' =>'numeric|min:1'
         ]);
@@ -283,7 +283,7 @@ class UserController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email|unique:users,email,' . $id,
             'user_roles' => '',
-            'password'        => 'min:4|max:12',
+            'password'        => 'min:8|max:12',
             'passwordconfirm' => 'same:password',
             'capacity' =>'numeric|min:1'
         ];
