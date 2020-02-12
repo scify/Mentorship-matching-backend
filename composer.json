@@ -11,8 +11,7 @@
         "laravel/framework": "^6.0",
         "laravel/helpers": "^1.1",
         "laravel/tinker": "~1.0",
-        "parsecsv/php-parsecsv": "^0.4.5",
-        "vlucas/phpdotenv": "^3.3"
+        "parsecsv/php-parsecsv": "^0.4.5"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",
