@@ -284,8 +284,8 @@ class MentorshipSessionController extends Controller
      * @param $email string The email address of the person responded
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email,$lang) {
-        $lang = $lang ==null ?  'en': $lang;
+    public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email,Request $request) {
+        $lang = $request->has("lang ")? $request->has("lang "):  'en';
         App::setLocale($lang);
         return view('common.action-confirmation')->with([
             'title' => Lang::get('messages.decline_session_invitation_title'),
@@ -308,8 +308,8 @@ class MentorshipSessionController extends Controller
      * @param $email string The email address of the person responded
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email, $lang) {
-        $lang = $lang ==null ?  'en': $lang;
+    public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email,Request $request) {
+        $lang = $request->has("lang ")? $request->has("lang "):  'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
@@ -342,8 +342,8 @@ class MentorshipSessionController extends Controller
      * @param $email string The email address of the person responded
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email,$lang) {
-        $lang = $lang ==null ?  'en': $lang;
+    public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email,Request $request) {
+        $lang = $request->has("lang ")? $request->has("lang "):  'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
