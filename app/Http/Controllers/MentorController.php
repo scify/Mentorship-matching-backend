@@ -459,8 +459,9 @@ class MentorController extends Controller
      * @param $email string The mentor's email
      * @return \Illuminate\View\View
      */
-    public function makeMentorAvailableAgain($id, $email) {
-        $lang = Request::has('lang') ? Request::get('lang') : 'en';
+    public function makeMentorAvailableAgain($id, $email,Request $request)
+    {
+        $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.availability_change_title');
         try {

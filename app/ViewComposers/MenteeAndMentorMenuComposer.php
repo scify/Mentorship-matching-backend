@@ -22,8 +22,8 @@ class MenteeAndMentorMenuComposer
 
     }
 
-    public function compose(View $view) {
-        $routeName = Request::has('currentRouteName') ? Request::get('currentRouteName') : Route::currentRouteName();
+    public function compose(View $view, Request $request) {
+        $routeName = $request->has('currentRouteName') ? $request->get('currentRouteName') : Route::currentRouteName();
         $routesInMatchingMode = ['showMentorProfilePage', 'showMenteeProfilePage'];
         $matchingMode = false;
         if(in_array($routeName, $routesInMatchingMode)) {

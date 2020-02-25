@@ -21,10 +21,10 @@ use Illuminate\Support\Facades\Log;
 
 class RatingController extends Controller
 {
-    public function showMenteeRatingForm($sessionId, $mentorId, $menteeId)
+    public function showMenteeRatingForm($sessionId, $mentorId, $menteeId, Request $request)
     {
         $ratedRole = 'mentee';
-        $lang = Request::has('lang') ? Request::get('lang') : 'en';
+        $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
         $mentorshipSessionManager = new MentorshipSessionManager();
         $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
@@ -51,7 +51,7 @@ class RatingController extends Controller
 
     public function rateMentee(Request $request)
     {
-        $lang = Request::has('lang') ? Request::get('lang') : 'en';
+        $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
         $this->validate($request, [
             'rating' => 'required|min:1|max:5|numeric'
@@ -80,10 +80,10 @@ class RatingController extends Controller
         }
     }
 
-    public function showMentorRatingForm($sessionId, $menteeId, $mentorId)
+    public function showMentorRatingForm($sessionId, $menteeId, $mentorId, Request $request)
     {
         $ratedRole = 'mentor';
-        $lang = Request::has('lang') ? Request::get('lang') : 'en';
+        $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
         $mentorshipSessionManager = new MentorshipSessionManager();
         $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
@@ -110,7 +110,7 @@ class RatingController extends Controller
 
     public function rateMentor(Request $request)
     {
-        $lang = Request::has('lang') ? Request::get('lang') : 'en';
+        $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
         $this->validate($request, [
             'rating' => 'required|min:1|max:5|numeric'
