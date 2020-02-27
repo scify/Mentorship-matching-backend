@@ -18,14 +18,14 @@ use Illuminate\View\View;
 
 class MenteeAndMentorMenuComposer
 {
-    private $request = null;
 
-    public function __construct(Request $request) {
-        $this->request =$request;
+    public function __construct() {
+
     }
 
     public function compose(View $view) {
-        $routeName =  $this->request->has('currentRouteName') ? $this->request->get('currentRouteName') : Route::currentRouteName();
+
+        $routeName =  request()->has('currentRouteName') ? request()->get('currentRouteName') : Route::currentRouteName();
 
         $routesInMatchingMode = ['showMentorProfilePage', 'showMenteeProfilePage'];
         $matchingMode = false;
