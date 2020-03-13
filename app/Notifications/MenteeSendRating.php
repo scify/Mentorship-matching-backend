@@ -49,7 +49,7 @@ class MenteeSendRating extends Notification
             ->line("Θα θέλαμε να σας ευχαριστήσουμε θερμά για τη συμμετοχή σας στο Job-Pairs και την ολοκλήρωση των συναντήσεων σας. Ευχόμαστε κάθε επαγγελματική επιτυχία και θα χαρούμε να μαθαίνουμε νέα σας.")
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφθείτε τον παρακάτω σύνδεσμο ώστε να αξιολογήσετε τον mentor και το πρόγραμμα μας.</span>')
             ->action('Αξιολογήστε εδώ', route('showMentorRatingForm', [
-                'session-id' => $this->mentorshipSession->id, 'mentee-id' => $this->mentorshipSession->mentee->id, 'mentor-id' => $this->mentorshipSession->mentor->id, 'lang' => 'gr'
+                'sessionId' => $this->mentorshipSession->id, 'menteeId' => $this->mentorshipSession->mentee->id, 'mentorId' => $this->mentorshipSession->mentor->id, 'lang' => 'gr'
             ]))
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
             ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
