@@ -106,7 +106,7 @@ class MentorshipSessionController extends Controller
             $typeOfMessage = 'success';
         } catch(\Exception $e) {
             Log::info('Error on session update: ' . $e->getCode() . "  " . $e->getMessage());
-            $messageToShow = 'An error occurred. Please try again later.';
+            $messageToShow = 'An error occurred: ' . $e->getMessage() . ' Please try again later.';
             $typeOfMessage = 'error';
         }
         return response()->json(['message' => $messageToShow, 'type' => $typeOfMessage]);

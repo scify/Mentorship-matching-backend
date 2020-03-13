@@ -224,22 +224,6 @@ class MentorshipSessionManager
         $mentee->notify(new MenteeSendRating($session));
     }
 
-//    /**
-//     * $url:        base URL to send for rating
-//     * $emailView:  send different email template for each role
-//     * $assessor:   the user that rates
-//     * $rated:      the user that gets rated
-//     */
-//    public function sendRating($url, $emailView, $sessionId, $emailTarget, $assessor, $rated) {
-//        (new MailManager())->sendEmailToSpecificEmail($emailView,
-//            ['email'        => env('MAIL_TEST'),
-//             'sessionId'    => $sessionId,
-//             'userId'       => $assessor,
-//             'ratedId'      => $rated],
-//             'Please rate',
-//             env('MAIL_TEST'));
-//    }
-
     /**
      * Check if is necessary to send rating to mentor/mentee.
      * Check if $status_id from current session matches "fourth_meeting" from MentorshipSessionStatuses.php
