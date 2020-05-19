@@ -12,7 +12,7 @@
                 <div class="col-md-6">
                     <select data-placeholder="Choose company" name="company_id" class="chosen-select">
                         <option><!-- Empty option allows the placeholder to take effect. --><option>
-                        @foreach($companyViewModels as $companyViewModel)
+                        @foreach($viewModel->companyViewModels as $companyViewModel)
                             <option value="{{$companyViewModel->company->id}}">{{$companyViewModel->company->name}}</option>
                         @endforeach
                     </select>
@@ -36,9 +36,9 @@
     <div id="errorMsg" class="alert alert-danger stickyAlert margin-top-20 margin-bottom-20 margin-left-100 hidden" role="alert"></div>
     <div class="col-md-12 centeredVertically">
         <div id="companiesList">
-            @include('companies.list')
+            @include('companies.list', ['companyViewModels' => $viewModel->companyViewModels])
         </div>
     </div>
-
+    {{ $viewModel->paginationObj->links() }}
 @endsection
 

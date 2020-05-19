@@ -31,4 +31,8 @@ class CompanyStorage {
     public function getCompaniesByAccountManagerId($accountManagerId) {
         return Company::where(['account_manager_id' => $accountManagerId])->get();
     }
+
+    public function getAllCompaniesPaginated() {
+        return Company::simplePaginate(15);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\Company;
 use App\Models\eloquent\User;
+use App\Models\viewmodels\AllCompanyViewModels;
 use App\Models\viewmodels\CompanyViewModel;
 use App\StorageLayer\CompanyStorage;
 use Illuminate\Database\Eloquent\Collection;
@@ -194,12 +195,12 @@ class CompanyManager {
     }
 
     public function getAllCompanyViewModels() {
-        $companies = $this->getAllCompanies();
+        $companies = $this->companyStorage->getAllCompaniesPaginated();
         $companyViewModels = new Collection();
         foreach ($companies as $company) {
             $companyViewModels->add($this->getCompanyViewModel($company));
         }
-        return $companyViewModels;
+        return new AllCompanyViewModels($companyViewModels, $companies);
     }
 
     public function getCompanyViewModel(Company $company) {
@@ -232,7 +233,7 @@ class CompanyManager {
      */
     private function getCompaniesByCriteria($filters) {
         if((!isset($filters['companyId'])  || $filters['companyId'] === "")) {
-            return $this->getAllCompanies();
+            return $this->companyStorage->getAllCompaniesPaginated();
         }
         if(intval($filters['companyId']) == 0) {
             throw new \Exception("Filter value is not valid.");

@@ -33,7 +33,7 @@ class CompanyController extends Controller
         $loggedInUser = Auth::user();
         return view('companies.list_all', [
             'pageTitle'=>'All Companies',
-            'companyViewModels' => $companyViewModels,
+            'viewModel' => $companyViewModels,
             'loggedInUser' => $loggedInUser
         ]);
     }
