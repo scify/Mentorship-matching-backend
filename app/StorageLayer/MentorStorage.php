@@ -20,7 +20,7 @@ class MentorStorage {
     }
 
     public function getAllMentorProfiles() {
-        return MentorProfile::orderBy('created_at')->get();
+        return MentorProfile::withCount(['sessions as numberOfTotalSessions'])->orderBy('created_at')->get();
     }
 
     public function getMentorProfileById($id) {

@@ -99,9 +99,9 @@ class MentorProfile extends Model
         return (bool) $this->company()->first();
     }
 
-//    public function sessions() {
-//        return $this->belongsToMany(MentorshipSession::class);
-//    }
+    public function sessions() {
+        return $this->hasMany(MentorshipSession::class);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

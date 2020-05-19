@@ -19,7 +19,7 @@ class MenteeStorage {
     }
 
     public function getAllMenteeProfiles() {
-        return MenteeProfile::orderBy('created_at')->get();
+        return MenteeProfile::withCount(['sessions as numberOfTotalSessions'])->orderBy('created_at')->get();
     }
 
     public function getMenteeProfileById($id) {

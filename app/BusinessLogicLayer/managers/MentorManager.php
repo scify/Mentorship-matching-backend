@@ -64,7 +64,7 @@ class MentorManager {
     private function getMentorViewModelsFromCollection(Collection $mentors) {
         $mentorViewModels = new Collection();
         foreach ($mentors as $mentor) {
-            $mentorViewModels->add($this->getMentorViewModel($mentor, true));
+            $mentorViewModels->add($this->getMentorViewModel($mentor));
         }
         return $mentorViewModels;
     }
@@ -240,8 +240,8 @@ class MentorManager {
         return $mentor;
     }
 
-    public function getMentorViewModel(MentorProfile $mentor, $withNumberOfTotalSessions = false) {
-        return new MentorViewModel($mentor, $withNumberOfTotalSessions);
+    public function getMentorViewModel(MentorProfile $mentor) {
+        return new MentorViewModel($mentor);
     }
 
     /**
@@ -321,7 +321,7 @@ class MentorManager {
         $mentors = $this->getMentorsByCriteria($input);
         $mentorViewModels = new Collection();
         foreach ($mentors as $mentor) {
-            $mentorViewModels->add($this->getMentorViewModel($mentor, true));
+            $mentorViewModels->add($this->getMentorViewModel($mentor));
         }
         return $mentorViewModels;
     }

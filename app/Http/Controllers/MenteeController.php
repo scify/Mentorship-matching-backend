@@ -269,7 +269,7 @@ class MenteeController extends Controller
         $statuses = (new MentorStatusManager())->getAllMentorStatuses();
         $residences = $this->residenceManager->getAllResidences();
         $accountManagers = (new UserManager())->getAccountManagersWithRemainingCapacity();
-        $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id), true);
+        $menteeViewModel = $this->menteeManager->getMenteeViewModel($this->menteeManager->getMentee($id));
         $mentorManager = new MentorManager();
         $availableMentorViewModels = $mentorManager->paginateMentors($mentorManager->getAvailableMentorViewModels())->setPath('#');
         $currentSessionViewModel = $this->mentorshipSessionManager
