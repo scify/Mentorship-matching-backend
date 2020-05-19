@@ -97,4 +97,12 @@ class MentorshipSessionStorage
             ->where('updated_at', '<', date($beforeThreeMonthsDate->addDay()))
             ->where('status_id', '=', $mentorshipSessionStatuses::getCompletedSessionStatuses()[0])->get();
     }
+
+    public function getMentorshipSessionsCountForMentee($menteeProfileId) {
+        return MentorshipSession::where(['mentee_profile_id' => $menteeProfileId])->count();
+    }
+
+    public function getMentorshipSessionsCountForMentor($mentorProfileId) {
+        return MentorshipSession::where(['mentor_profile_id' => $mentorProfileId])->count();
+    }
 }

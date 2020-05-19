@@ -27,6 +27,9 @@ class MenteeProfile extends Model
         'expectations', 'career_goals', 'reference_id', 'reference_text', 'creator_user_id', 'skills', 'cv_file_name'
     ];
 
+    protected $with = ['ratings'];
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

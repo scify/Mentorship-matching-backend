@@ -33,8 +33,8 @@ class MentorshipSessionViewModel
 
     public function __construct(MentorshipSession $mentorshipSession) {
         $this->mentorshipSession = $mentorshipSession;
-        $this->mentorViewModel = (new MentorManager())->getMentorViewModel($mentorshipSession->mentor);
-        $this->menteeViewModel = (new MenteeManager())->getMenteeViewModel($mentorshipSession->mentee);
+        $this->mentorViewModel = (new MentorManager())->getMentorViewModel($mentorshipSession->mentor, false);
+        $this->menteeViewModel = (new MenteeManager())->getMenteeViewModel($mentorshipSession->mentee, false);
         $this->accountManager = $mentorshipSession->account_manager;
         $this->matcher = $mentorshipSession->matcher;
         $this->status = $mentorshipSession->status;

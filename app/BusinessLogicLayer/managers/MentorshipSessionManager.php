@@ -359,11 +359,11 @@ class MentorshipSessionManager
     }
 
     public function getMentorshipSessionsCountForMentor($mentorProfileId) {
-        return $this->mentorshipSessionStorage->getMentorshipSessionsForMentor($mentorProfileId)->count();
+        return $this->mentorshipSessionStorage->getMentorshipSessionsCountForMentor($mentorProfileId);
     }
 
     public function getMentorshipSessionsCountForMentee($menteeProfileId) {
-        return $this->mentorshipSessionStorage->getMentorshipSessionsForMentee($menteeProfileId)->count();
+        return $this->mentorshipSessionStorage->getMentorshipSessionsCountForMentee($menteeProfileId);
     }
 
     public function getMentorshipSessionViewModelsForMentor($mentorProfileId) {

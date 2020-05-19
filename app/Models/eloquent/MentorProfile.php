@@ -28,6 +28,8 @@ class MentorProfile extends Model
         'reference_text', 'status_id', 'company_id', 'creator_user_id'
     ];
 
+    protected $with = ['ratings'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

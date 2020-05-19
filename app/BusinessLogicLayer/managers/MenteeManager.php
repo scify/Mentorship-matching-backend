@@ -49,7 +49,7 @@ class MenteeManager {
     private function getMenteeViewModelsFromCollection(Collection $mentees) {
         $menteeViewModels = new Collection();
         foreach ($mentees as $mentee) {
-            $menteeViewModels->add($this->getMenteeViewModel($mentee));
+            $menteeViewModels->add($this->getMenteeViewModel($mentee, true));
         }
         return $menteeViewModels;
     }
@@ -58,11 +58,11 @@ class MenteeManager {
      * Trandform a mentee to the according view model
      *
      * @param MenteeProfile $mentee
+     * @param bool $withNumberOfTotalSessions if true, we also query for the number of total sessions
      * @return MenteeViewModel
      */
-    public function getMenteeViewModel(MenteeProfile $mentee) {
-        $menteeViewModel = new MenteeViewModel($mentee);
-        return $menteeViewModel;
+    public function getMenteeViewModel(MenteeProfile $mentee, $withNumberOfTotalSessions = false) {
+        return new MenteeViewModel($mentee, $withNumberOfTotalSessions);
     }
 
     /**
@@ -388,7 +388,7 @@ class MenteeManager {
         $mentees = $this->getMenteesByCriteria($filters);
         $menteeViewModels = new Collection();
         foreach ($mentees as $mentee) {
-            $menteeViewModels->add($this->getMenteeViewModel($mentee));
+            $menteeViewModels->add($this->getMenteeViewModel($mentee, true));
         }
         return $menteeViewModels;
     }
