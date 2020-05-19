@@ -203,8 +203,7 @@ class CompanyManager {
     }
 
     public function getCompanyViewModel(Company $company) {
-        $companyViewModel = new CompanyViewModel($company);
-        return $companyViewModel;
+        return new CompanyViewModel($company);
     }
 
     /**

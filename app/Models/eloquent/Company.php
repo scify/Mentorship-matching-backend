@@ -19,6 +19,8 @@ class Company extends Model
      */
     protected $fillable = ['name', 'description', 'website', 'hr_contact_details', 'account_manager_id'];
 
+    protected $with = ['mentors'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
