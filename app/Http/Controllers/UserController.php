@@ -14,6 +14,8 @@ use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
 use App\BusinessLogicLayer\managers\MailManager;
 use App\Http\OperationResponse;
+use App\Models\eloquent\MenteeProfile;
+use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\MentorshipSession;
 use App\Models\eloquent\User;
 use Illuminate\Http\Request;
@@ -35,10 +37,7 @@ class UserController extends Controller
         $loggedInUser = Auth::user();
         $pendingMentorshipSessionViewModelsForAccManager = new Collection();
         $mentorshipSessionsNumForAccManager = 0;
-        $availableMentorsViewModels = new Collection();
-        $menteeViewModels = new Collection();
-        $mentorStatuses = new Collection();
-        $menteeStatuses = new Collection();
+        $availableMentorsViewModelsNum = 0;
         $mentorshipSessionStatuses = new Collection();
         $accountManagers = new Collection();
         $menteesCount = 0;
@@ -61,23 +60,15 @@ class UserController extends Controller
         }
         if($loggedInUser->isMatcher()) {
             $mentorManager = new MentorManager();
-            $mentorStatusManager = new MentorStatusManager();
-            $menteeManager = new MenteeManager();
-            $menteeStatusManager = new MenteeStatusManager();
-            $availableMentorsViewModels = $mentorManager->getAvailableMentorViewModels();
-            $mentorStatuses = $mentorStatusManager->getAllMentorStatuses();
-            $menteeViewModels = $menteeManager->getAvailableMenteeViewModels();
-            $menteeStatuses = $menteeStatusManager->getAllMenteeStatuses();
+            $availableMentorsViewModelsNum = $mentorManager->getAvailableMentorViewModelsNum();
         }
         if($loggedInUser->isAdmin()) {
-            $menteeManager = new MenteeManager();
-            $mentorManager = new MentorManager();
             $mentorshipSessionManager = new MentorshipSessionManager();
-            $menteesCount = $menteeManager->getAllMentees()->count();
-            $mentorsCount = $mentorManager->getAllMentors()->count();
-            $mentorshipSessionsCount = $mentorshipSessionManager->getAllMentorshipSessions()->count();
-            $activeSessionsCount = $mentorshipSessionManager->getAllActiveMentorshipSessions()->count();
-            $completedSessionsCount = $mentorshipSessionManager->getAllCompletedMentorshipSessions()->count();
+            $menteesCount = MenteeProfile::count();
+            $mentorsCount = MentorProfile::count();
+            $mentorshipSessionsCount = MentorshipSession::count();
+            $activeSessionsCount = $mentorshipSessionManager->getAllActiveMentorshipSessionsNum();
+            $completedSessionsCount = $mentorshipSessionManager->getAllCompletedMentorshipSessionsNum();
             $userManager = new UserManager();
             $adminsCount = $userManager->getAllAdmnins()->count();
             $accountManagersCount = $userManager->getAllAccountManagers()->count();
@@ -90,11 +81,8 @@ class UserController extends Controller
             'loggedInUser' => $loggedInUser,
             'accountManagers' => $accountManagers,
             'mentorshipSessionStatuses' => $mentorshipSessionStatuses,
-            'mentorStatuses' => $mentorStatuses,
-            'availableMentorsViewModels' =>$availableMentorsViewModels,
-            'menteeStatuses' => $menteeStatuses,
+            'availableMentorsViewModelsNum' =>$availableMentorsViewModelsNum,
             'mentorshipSessionsNumForAccManager' => $mentorshipSessionsNumForAccManager,
-            'menteeViewModels' =>$menteeViewModels,
             'menteesCount' => $menteesCount,
             'mentorsCount' => $mentorsCount,
             'mentorshipSessionsCount' => $mentorshipSessionsCount,

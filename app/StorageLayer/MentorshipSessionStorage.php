@@ -50,6 +50,12 @@ class MentorshipSessionStorage
             ->orderBy('updated_at', 'desc')->get();
     }
 
+    public function getMentorshipSessionsNumForAccountManagerByStatusId($accountManagerId, $mentorshipSessionStatusId) {
+        return MentorshipSession::where(['account_manager_id' => $accountManagerId])
+            ->whereIn('status_id', $mentorshipSessionStatusId)
+            ->orderBy('updated_at', 'desc')->count();
+    }
+
     public function getMentorshipSessionViewModelsForMatcher($matcherId) {
         return MentorshipSession::where(['matcher_id' => $matcherId])->orderBy('updated_at', 'desc')->get();
     }
@@ -66,6 +72,16 @@ class MentorshipSessionStorage
     public function getAllCompletedMentorshipSessions() {
         $mentorshipSessionStatuses = new MentorshipSessionStatuses();
         return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getCompletedSessionStatuses())->get();
+    }
+
+    public function getAllActiveMentorshipSessionsNum() {
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getActiveSessionStatuses())->count();
+    }
+
+    public function getAllCompletedMentorshipSessionsNum() {
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getCompletedSessionStatuses())->count();
     }
 
     public function getDataForExportation() {

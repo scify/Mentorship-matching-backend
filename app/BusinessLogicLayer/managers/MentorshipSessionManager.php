@@ -401,8 +401,7 @@ class MentorshipSessionManager
     }
 
     public function getActiveMentorshipSessionsNumForAccountManager($accountManagerId) {
-        $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForAccountManagerByStatusId($accountManagerId, MentorshipSessionStatuses::getActiveSessionStatuses());
-        return $mentorshipSessions->count();
+        return $this->mentorshipSessionStorage->getMentorshipSessionsNumForAccountManagerByStatusId($accountManagerId, MentorshipSessionStatuses::getActiveSessionStatuses());
     }
 
     /**
@@ -710,6 +709,24 @@ class MentorshipSessionManager
      */
     public function getAllCompletedMentorshipSessions() {
         return $this->mentorshipSessionStorage->getAllCompletedMentorshipSessions();
+    }
+
+    /**
+     * Returns all the currently active sessions
+     *
+     * @return mixed
+     */
+    public function getAllActiveMentorshipSessionsNum() {
+        return $this->mentorshipSessionStorage->getAllActiveMentorshipSessionsNum();
+    }
+
+    /**
+     * Returns all the completed sessions
+     *
+     * @return mixed
+     */
+    public function getAllCompletedMentorshipSessionsNum() {
+        return $this->mentorshipSessionStorage->getAllCompletedMentorshipSessionsNum();
     }
 
     /**

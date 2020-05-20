@@ -61,6 +61,11 @@ class MentorManager {
         return $this->getMentorViewModelsFromCollection($mentors);
     }
 
+    public function getAvailableMentorViewModelsNum() {
+        $mentorStatusManager = new MentorStatusManager();
+        return $this->mentorStorage->getNumOfMentorProfilesWithStatusId($mentorStatusManager->MENTOR_AVAILABLE_ID);
+    }
+
     private function getMentorViewModelsFromCollection(Collection $mentors) {
         $mentorViewModels = new Collection();
         foreach ($mentors as $mentor) {

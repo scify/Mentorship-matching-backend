@@ -53,6 +53,11 @@ class MentorStorage {
             ->orderBy('created_at')->get();
     }
 
+    public function getNumOfMentorProfilesWithStatusId($statusId) {
+        return MentorProfile::where(['status_id' => $statusId])
+            ->orderBy('created_at')->count();
+    }
+
     public function getDataForExportation() {
         return DB::select(DB::raw('select mentor.id, mentor.first_name, mentor.last_name, mentor.year_of_birth, 
           mentor.address, mentor.email, mentor.linkedin_url, mentor.phone, mentor.cell_phone, 
