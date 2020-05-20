@@ -217,7 +217,7 @@ window.MentorshipSessionsListController.prototype = function() {
                             $menteeFullName.parent().attr("href", $menteeFullName.parent().data("url").replace("id", menteeId));
                     }
                 }
-                $modal.find("textarea[name=general_comment]").text(generalComment);
+                $modal.find("textarea[name=general_comment]").val(generalComment);
                 if($modal.find("select[name=account_manager_id]").length > 0) {
                     $modal.find("select[name=account_manager_id]").val(accountManagerId).trigger("chosen:updated");
                 }
