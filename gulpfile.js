@@ -30,8 +30,7 @@ elixir(function(mix) {
         'resources/assets/pleasure-admin-panel/css/admin1.css',
         'resources/assets/pleasure-admin-panel/css/elements.css',
         'resources/assets/pleasure-admin-panel/css/plugins.css',
-        'node_modules/ion-rangeslider/css/ion.rangeSlider.css',
-        'node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css'
+        'node_modules/ion-rangeslider/css/ion.rangeSlider.min.css'
 
     ], 'public/css/vendors.css', './');
 
