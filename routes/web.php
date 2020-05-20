@@ -137,3 +137,7 @@ Route::group(['middleware' => ['auth', 'account-manager']], function () {
 Route::group(['middleware' => ['auth', 'can-invite-mentee']], function () {
     Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
 });
+
+//Route::get('/debug-sentry', function () {
+//    throw new Exception('My first Sentry error!');
+//});
