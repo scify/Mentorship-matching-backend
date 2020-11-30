@@ -518,15 +518,9 @@ class MentorManager {
      */
     public function makeMentorAvailable($id, $email) {
         $mentor = $this->getMentor($id);
-        $mentorshipSessionManager = new MentorshipSessionManager();
-        $currentSession = $mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($mentor->id);
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
         if($mentor->email === $email) {
             // mentor shouldn't be already available or participating in an active session
-            if($mentor->status_id !== 1 && !empty($currentSession)
-            && array_search($currentSession[0]->mentorshipSession->status_id,
-                $mentorshipSessionStatuses::getActiveSessionStatuses()) === false
-            ) {
+            if($this->mentorIsAllowedToBeAvailableAgain($mentor)) {
                 $this->editMentor(['status_id' => 1], $id);
                 return "SUCCESS";
             }
@@ -534,6 +528,17 @@ class MentorManager {
         } else {
             return "NOT_FOUND";
         }
+    }
+
+    protected function mentorIsAllowedToBeAvailableAgain(MentorProfile $mentor) {
+        $mentorshipSessionManager = new MentorshipSessionManager();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $currentSession = $mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($mentor->id);
+        // mentor shouldn't be already participating in an active session
+        return (!empty($currentSession)
+            && array_search($currentSession[0]->mentorshipSession->status_id,
+                $mentorshipSessionStatuses::getActiveSessionStatuses()) === false
+        );
     }
 
     public function paginateMentors($items, $perPage = 10) {
