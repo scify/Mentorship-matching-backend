@@ -154,6 +154,7 @@ return [
     'availability_change_title' => 'Αλλαγή Κατάστασης Διαθεσιμότητας',
     'status_change_success' => 'Ευχαριστούμε, θα επικοινωνήσουμε σύντομα μαζί σας',
     'mentor_not_found' => 'Ο μέντορας δε βρέθηκε',
+    'another_session_active' => 'Έχετε καποιο άλλο mentorship session που είναι ενεργό',
     'no_permissions' => 'Δε σας επιτρέπεται αυτή η δράση',
     'decline_session_invitation_title' => 'Πρόκειται να απορρίψετε την έναρξη των συναντήσεων. <br> <b>Είστε σίγουρος;</b>',
     'decline_session_invitation_second_title' => 'Σε περίπτωση λάθους μπορείτε να κάνετε αποδοχή παρακάτω:',

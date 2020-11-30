@@ -160,6 +160,7 @@ return [
     'availability_change_title' => 'Availability Status Change',
     'status_change_success' => 'Thank you, we will contact you soon',
     'mentor_not_found' => 'Mentor not found',
+    'another_session_active' => 'You have another mentorship session that is currently active',
     'no_permissions' => 'You have no permission to do that',
     'decline_session_invitation_title' => 'You are going to decline the mentorship sessions. <br> <b>Are you sure?</b>',
     'decline_session_invitation_second_title' => 'In case you made a mistake, you can accept the session:',

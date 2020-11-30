@@ -524,7 +524,7 @@ class MentorManager {
                 $this->editMentor(['status_id' => 1], $id);
                 return "SUCCESS";
             }
-            return "NO_PERMISSION";
+            return "ANOTHER_SESSION_ACTIVE";
         } else {
             return "NOT_FOUND";
         }

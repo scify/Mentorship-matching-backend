@@ -476,9 +476,9 @@ class MentorController extends Controller
                     'message_failure' => Lang::get('messages.mentor_not_found'),
                     'title' => $viewTitle
                 ]);
-            } else {
+            } else if($resultStatusCode === "ANOTHER_SESSION_ACTIVE") {
                 return view('common.response-to-email')->with([
-                    'message_failure' => Lang::get('messages.no_permissions'),
+                    'message_failure' => Lang::get('messages.another_session_active'),
                     'title' => $viewTitle
                 ]);
             }
