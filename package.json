@@ -32,7 +32,7 @@
     "laravel-elixir-gulp-v4-compat": "^6.0.0-18",
     "lodash": "^4.17.21",
     "modernizr": "^3.3.1",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "npm-modernizr": "^2.8.3",
     "scrollmonitor": "stutrek/scrollMonitor",
     "select2": "^4.0.6",
