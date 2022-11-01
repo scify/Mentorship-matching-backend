@@ -10,7 +10,7 @@
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3"
+    "vue-resource": "^1.5.3"
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
