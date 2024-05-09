@@ -1,6 +1,34 @@
 
 # Mentorship matching backend platform
 
+## First time install (setup database and install dependencies)
+
+## Docker option (recommended)
+
+You can use the `docker-compose.yml` file that exists at project roo, to quickly set up a docker container.
+
+To build the docker container, run:
+```bash
+docker compose build
+```
+
+And then run
+
+```bash
+docker compose up
+```
+
+To fire up the container.
+
+Then, you can enter the container by running
+
+```bash
+docker exec -it mentorship_matching_platform_server bash
+```
+
+And from there, you can run all the `php artisan`, `composer`, and `npm` commands.
+
+## No-Docker option
 
 ### Installing dependencies (assuming apache as web server and mysql as db):
 
