@@ -2,7 +2,7 @@
 <html>
 <!-- Header -->
 @include('common.header.header')
-<link rel="stylesheet" href="{{asset(elixir('css/auth.css'))}}">
+<link rel="stylesheet" href="{{mix('css/auth.css')}}">
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
 <div class="content-wrapper">
     <!-- Main content -->
@@ -39,7 +39,7 @@
 
     </div>
 </div>
-<script src="{{asset(elixir('js/auth.js'))}}"></script>
+<script src="{{mix('js/auth.js')}}"></script>
 @include('common.footer')
 </body>
 </html>

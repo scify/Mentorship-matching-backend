@@ -4,7 +4,11 @@
 
 // Variables
 @import "variables";
-
+@import "profile_page";
+@import "mentor_mentee_item";
+@import "plugins_custom";
+@import "mentorship_session_item";
+@import "reports";
 
 .alert {
   .icon {
@@ -1040,4 +1044,8 @@
 }
 .chosen-container .chosen-results {
   max-height:210px;
+}
+
+.icheckbox_flat-orange, .iradio_flat-orange {
+  background: url(/build/css/orange.png) no-repeat 0 0;
 }
