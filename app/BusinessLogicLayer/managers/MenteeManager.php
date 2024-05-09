@@ -75,7 +75,7 @@ class MenteeManager {
         $fileName = md5($menteeEmail . Carbon::now());
         $originalFileExtension = $cvFile->extension();
         $fullFileName = $fileName . "." . $originalFileExtension;
-        $cvFile->move("uploads/cv_files", $fullFileName);
+        $cvFile->move(storage_path("app/public/uploads/cv_files"), $fullFileName);
         return $fullFileName;
     }
 

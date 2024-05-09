@@ -85,7 +85,7 @@ class MentorManager {
         $fileName = md5($mentorEmail . Carbon::now());
         $originalFileExtension = $cvFile->extension();
         $fullFileName = $fileName . "." . $originalFileExtension;
-        $cvFile->move("uploads/cv_files", $fullFileName);
+        $cvFile->move(storage_path("app/public/uploads/cv_files"), $fullFileName);
         return $fullFileName;
     }
 

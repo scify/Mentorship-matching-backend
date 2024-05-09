@@ -85,8 +85,11 @@ class MentorshipSessionStorage
     }
 
     public function getDataForExportation() {
-        return DB::select(DB::raw('select msession.id, concat(mentor.first_name, " ", mentor.last_name) as mentor_name, 
+        return DB::select(DB::raw('select msession.id, 
+            concat(mentor.first_name, " ", mentor.last_name) as mentor_name, 
+            mentor.email as mentor_email, 
             concat(mentee.first_name, " ", mentee.last_name) as mentee_name, 
+            mentee.email as mentee_email, 
             concat(account_managers.first_name, " ", account_managers.last_name) as account_manager, 
             concat(matchers.first_name, " ", matchers.last_name) as matcher, msession.general_comment, 
             mentorship_session_status_lookup.description as status, msession.created_at as started, 
