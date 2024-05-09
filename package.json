@@ -8,9 +8,6 @@
     "prod": "mix --production"
   },
   "devDependencies": {
-    "laravel-elixir": "^6.0.0-18",
-    "laravel-elixir-vue-2": "^0.3.0",
-    "laravel-elixir-webpack-official": "^1.0.10",
     "laravel-mix": "^6.0.49",
     "modernizr": "^3.13.0",
     "moment": "^2.30.1",
