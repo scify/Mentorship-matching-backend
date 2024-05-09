@@ -46,4 +46,6 @@
         'general_comment' => 'Comments',
         'started' => 'Started',
         'updated' => 'Lastly Updated',
+        'mentor_email' => 'Mentor Email',
+        'mentee_email' => 'Mentee Email',
     );

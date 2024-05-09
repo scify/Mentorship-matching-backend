@@ -46,4 +46,6 @@
         'general_comment' => 'Σχόλια',
         'started' => 'Ημερομηνία Έναρξης',
         'updated' => 'Τελευταία Ενημέρωση',
+        'mentor_email' => 'Mentor Email',
+        'mentee_email' => 'Mentee Email',
     );
