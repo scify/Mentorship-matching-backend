@@ -462,7 +462,7 @@
                                             </span>
                                             <span class="fileinput-filename">
                                                 @if(!empty($mentor['cv_file_name']))
-                                                    <a href="{{ url('/') . '/uploads/cv_files/' . $mentor['cv_file_name']}}" target="_blank">
+                                                    <a href="{{ url('/') . '/storage/uploads/cv_files/' . $mentor['cv_file_name']}}" target="_blank">
                                                         {{ $mentor['cv_file_name'] }}
                                                     </a>
                                                 @endif
@@ -514,7 +514,7 @@
 @endsection
 @section('additionalFooter')
     @if($publicForm)
-        <script src="{{asset(elixir('js/iframe-contentWindow.js'))}}"></script>
+        <script src="{{mix('js/iframe-contentWindow.js')}}"></script>
     @endif
     <script>
         $( document ).ready(function() {

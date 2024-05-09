@@ -178,7 +178,7 @@
                                             <div class="formRow row">
                                                 <div class="col-md-3 formElementName">{{trans('messages.cv')}}</div>
                                                 <div class="col-md-9">
-                                                    <a href="{{ url('/') . '/uploads/cv_files/' . $menteeViewModel->mentee->cv_file_name}}"
+                                                    <a href="{{ url('/') . '/storage/uploads/cv_files/' . $menteeViewModel->mentee->cv_file_name}}"
                                                        class="btn btn-primary btn-orange btn-ripple cv-btn" target="_blank">
                                                         Download CV
                                                     </a>
