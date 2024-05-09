@@ -5,32 +5,30 @@ namespace App\Http\Controllers;
 use App\BusinessLogicLayer\managers\MailManager;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\User;
-use App\Notifications\MenteeRegistered;
 use App\Notifications\MentorStatusReactivation;
 use Illuminate\Http\Request;
-use League\Flysystem\Exception;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class HomeController extends Controller
-{
+class HomeController extends Controller {
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function dashBoard()
-    {
+    public function dashBoard() {
         return view('home.dashboard', ['pageTitle' => "Dashboard"]);
     }
 
 
     public function testEmail(Request $request) {
         $input = $request->all();
-        if(!isset($input['email'])) {
-            throw new Exception("No email parameter");
+        if (!isset($input['email'])) {
+            throw new BadRequestHttpException("No email parameter");
         }
         $email = $input['email'];
 
-        if($email != "" && $email != null) {
+        if ($email != "" && $email != null) {
             (new MailManager())->sendEmailToSpecificEmail(
                 'emails.test',
                 [],
@@ -40,17 +38,13 @@ class HomeController extends Controller
 
             $userToTestMailable = User::where(['email' => 'paul@scify.org'])->first();
 
-            if($userToTestMailable)
+            if ($userToTestMailable)
                 $userToTestMailable->notify(new MentorStatusReactivation(MentorProfile::first()));
 
             return "Email was sent";
         } else {
-            throw new Exception("No email parameter");
+            throw new BadRequestHttpException("No email parameter");
         }
-
-
-
-
     }
 
     public function showServerInfoPage() {

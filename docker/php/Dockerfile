@@ -76,6 +76,8 @@ RUN mkdir -p /var/www/storage /var/www/storage/logs /var/www/storage/framework \
 RUN chown -R www-data /var/www/storage
 RUN chown -R www-data /var/www/storage/framework
 RUN chown -R www-data /var/www/storage/framework/sessions
+RUN chown -R www-data /var/www/bootstrap
+RUN chown -R www-data /var/www/bootstrap/cache
 
 # Set correct permissions
 RUN chmod -R 755 /var/www/storage
