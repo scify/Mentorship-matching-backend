@@ -21,7 +21,7 @@
     "sass-loader": "^13.3.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.5.3",
-    "webpack": "^5.89.0"
+    "webpack": "^5.91.0"
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
