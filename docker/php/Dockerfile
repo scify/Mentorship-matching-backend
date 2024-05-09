@@ -64,20 +64,20 @@ ENV PATH="$NVM_DIR/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version
 RUN npm --version
 
-# Create laravel caching folders.
+# Create laravel caching folders
 RUN mkdir -p /var/www/storage/framework /var/www/storage/framework/cache \
     /var/www/storage/framework/testing /var/www/storage/framework/sessions \
     /var/www/storage/framework/views
 
 RUN mkdir -p /var/www/storage /var/www/storage/logs /var/www/storage/framework \
-    /var/www/storage/framework/sessions /var/www/bootstrap /var/www/storage/app/uploads/cv_files
+    /var/www/storage/framework/sessions /var/www/bootstrap/cache /var/www/storage/app/uploads/cv_files
 
-# Fix files ownership.
+# Fix files ownership
 RUN chown -R www-data /var/www/storage
 RUN chown -R www-data /var/www/storage/framework
 RUN chown -R www-data /var/www/storage/framework/sessions
 
-# Set correct permission.
+# Set correct permissions
 RUN chmod -R 755 /var/www/storage
 RUN chmod -R 755 /var/www/storage/logs
 RUN chmod -R 755 /var/www/storage/framework

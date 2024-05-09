@@ -6,6 +6,7 @@ services:
   ####################################################################################################
   php:
     build: ./docker/php
+    user: 'www-data:www-data'
     ports:
       - "5173:5173"
     volumes:
@@ -67,6 +68,21 @@ services:
       - "6389:6379"
     networks:
       - docker_mentorship_matching_platform_net
+
+  ####################################################################################################
+  # SMTP Server (Mailhog) - for testing emails
+  ####################################################################################################
+  smtp:
+    platform: linux/x86_64
+    image: mailhog/mailhog
+    container_name: smtp_mailhog_server
+    logging:
+      driver: 'none' # disable saving logs to the disk
+    ports:
+      - "8003:1025" # smtp server
+      - "8100:8025" # web interface
+    networks:
+      - docker_mentorship_matching_platform_net # connect to the same network as the app
 
 networks:
   docker_mentorship_matching_platform_net:
