@@ -4,7 +4,14 @@ This [Laravel](https://laravel.com/docs/8.x/) application is a platform backoffi
 between mentors with mentees, based on their
 preferences and skills.
 
-## First time install (setup database and install dependencies)
+## First time install
+
+After cloning the project, create an `.env` file (should be a copy of `.env.example`),
+containing the information about your database name and credentials.
+
+```bash
+cp .env.example .env
+```
 
 ## Docker option (recommended)
 
@@ -70,9 +77,9 @@ Install composer globally by following the instructions [here](https://getcompos
 
 #### Apache configuration:
 
-```text
-% cat /etc/apache2/sites-available/mentorhsip-matching.conf
+Edit the `/etc/apache2/sites-available/mentorhsip-matching.conf` so that it looks like:
 
+```text
 <VirtualHost *:80>
     ServerName dev.mentorhsip-matching
     DocumentRoot "/path/to/Mentorship-matching-backend/public"
@@ -88,7 +95,7 @@ Make the symbolic link:
 cd /etc/apache2/sites-enabled && sudo ln -s ../sites-available/mentorhsip-matching.conf
 ```
 
-Enable mod_rewrite and restart apache:
+Enable `mod_rewrite` and restart the server:
 
 ```bash
 sudo a2enmod rewrite && sudo service apache2 restart
@@ -104,13 +111,17 @@ find . -type f -exec chmod 664 {} \;
 find . -type d -exec chmod 775 {} \;
 ```
 
-Test your setup with:
+Test the setup by navigating to `http://dev.mentorhsip-matching` in your browser.
+
+#### Laravel local server
+
+You can also test your setup by running the Laravel local server:
 
 ```bash
 php artisan serve
 ```
 
-and navigate to [localhost:8000](http://localhost:8000).
+and navigating to [localhost:8000](http://localhost:8000).
 
 ## Setup the Database
 
@@ -118,16 +129,14 @@ Laravel provides a simple yet powerful mechanism for creating the DB schema,
 called [Migrations](https://laravel.com/docs/6.0/migrations)
 Simply run ```php artisan migrate``` to create the appropriate DB schema.
 
-## Add seed data to DB
+### Add seed data to DB
 
 Run ```php artisan db:seed``` in order to insert the starter data to the DB by
 using [Laravel seeder](https://laravel.com/docs/6.0/seeding)
 
-## Building project
+## Building the project
 
-After cloning the project, create an .env file (should be a copy of .env.example),
-containing the information about your database name and credentials.
-After that, download all Laravel dependencies through [Composer](https://laravel.com/docs/6.0/installation), by running
+Download all Laravel dependencies through [Composer](https://laravel.com/docs/6.0/installation), by running
 
 ```bash
 composer install
