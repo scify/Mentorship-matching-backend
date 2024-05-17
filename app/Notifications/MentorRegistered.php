@@ -4,12 +4,10 @@ namespace App\Notifications;
 
 use App\BusinessLogicLayer\managers\UserManager;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class MentorRegistered extends Notification
-{
+class MentorRegistered extends Notification {
     use Queueable;
 
     private $userManager;
@@ -19,30 +17,27 @@ class MentorRegistered extends Notification
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->userManager = new UserManager();
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable)
-    {
+    public function via($notifiable): array {
         return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param mixed $notifiable
+     * @return MailMessage
      */
-    public function toMail($notifiable)
-    {
+    public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject("Καλώς ήλθατε στο JobPairs!")
             ->greeting('Αγαπητέ mentor,')
@@ -58,11 +53,10 @@ class MentorRegistered extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
-    {
+    public function toArray($notifiable): array {
         return [
             //
         ];

@@ -2,14 +2,11 @@
 
 namespace App\Notifications;
 
-use App\Models\eloquent\MentorshipSession;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class MentorSendRating extends Notification
-{
+class MentorSendRating extends Notification {
     use Queueable;
 
     private $rating;
@@ -18,32 +15,29 @@ class MentorSendRating extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param $rating mentorSendRating
+     * @param $mentorshipSession
      */
-    public function __construct($mentorshipSession)
-    {
+    public function __construct($mentorshipSession) {
         $this->mentorshipSession = $mentorshipSession;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable)
-    {
+    public function via($notifiable): array {
         return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param mixed $notifiable
+     * @return MailMessage
      */
-    public function toMail($notifiable)
-    {
+    public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject("Job-Pairs | Οι συναντήσεις σας ολοκληρώθηκαν")
             ->greeting('Αγαπητέ mentor,')
@@ -59,11 +53,10 @@ class MentorSendRating extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
-    {
+    public function toArray($notifiable): array {
         return [
             //
         ];

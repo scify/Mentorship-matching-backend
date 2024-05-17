@@ -4,12 +4,10 @@ namespace App\Notifications;
 
 use App\Models\eloquent\MentorshipSession;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class MenteeSessionInvitation extends Notification
-{
+class MenteeSessionInvitation extends Notification {
     use Queueable;
 
     private $mentorshipSession;
@@ -19,30 +17,27 @@ class MenteeSessionInvitation extends Notification
      *
      * @param $mentorshipSession MentorshipSession
      */
-    public function __construct($mentorshipSession)
-    {
+    public function __construct(MentorshipSession $mentorshipSession) {
         $this->mentorshipSession = $mentorshipSession;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function via($notifiable)
-    {
+    public function via($notifiable): array {
         return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
+    public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject("Job-Pairs | Έχουμε βρει κατάλληλο μέντορα για εσάς")
             ->greeting('Αγαπητέ mentee,')
@@ -52,8 +47,8 @@ class MenteeSessionInvitation extends Notification
                 'id' => $this->mentorshipSession->mentee->id, 'email' => $this->mentorshipSession->mentee->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentee', 'lang' => 'gr'
             ]))
             ->line('<p style="text-align: center; margin-top: 10px; margin-bottom: 10px;"><a href="' . route('declineMentorshipSessionConfirmation', [
-                'id' => $this->mentorshipSession->mentee->id, 'email' => $this->mentorshipSession->mentee->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentee', 'lang' => 'gr'
-            ]) . '">Απόρριψη</a></p>')
+                    'id' => $this->mentorshipSession->mentee->id, 'email' => $this->mentorshipSession->mentee->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentee', 'lang' => 'gr'
+                ]) . '">Απόρριψη</a></p>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
             ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
     }
@@ -61,11 +56,10 @@ class MenteeSessionInvitation extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
-    {
+    public function toArray($notifiable): array {
         return [
             //
         ];

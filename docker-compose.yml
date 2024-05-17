@@ -6,7 +6,7 @@ services:
   ####################################################################################################
   php:
     build: ./docker/php
-    user: 'www-data:www-data'
+    # user: 'www-data:www-data'
     ports:
       - "5173:5173"
     volumes:
