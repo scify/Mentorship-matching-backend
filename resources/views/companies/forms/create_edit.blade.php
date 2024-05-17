@@ -87,7 +87,7 @@
                                     <button type="button" class="btn btn-flat-primary">
                                         <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('home') }}">Cancel</a>
                                     </button>
-                                    <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple margin-left-10">
+                                    <button type="submit" class="btn btn-primary btn-ripple margin-left-10">
                                         {{($company->id == null ? 'Create' : 'Edit')}}
                                     </button>
                                 </div>

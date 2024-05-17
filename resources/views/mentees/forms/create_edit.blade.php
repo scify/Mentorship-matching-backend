@@ -485,7 +485,7 @@
                                         <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('showAllMentees') }}">{{trans('messages.cancel_btn')}}</a>
                                     </button>
                                 @endif
-                                <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple margin-left-10">
+                                <button type="submit" class="btn btn-primary btn-ripple margin-left-10">
                                     {{($mentee->id == null ? trans('messages.create_btn') : trans('messages.edit_btn'))}}
                                 </button>
                                 @if($publicForm)

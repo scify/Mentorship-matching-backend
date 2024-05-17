@@ -265,7 +265,7 @@
                         <button type="button" class="btn btn-flat-primary">
                             <a class="cancelTourCreateBtn noStyleLink" href="{{ URL::route('home') }}">{{trans('messages.cancel_btn')}}</a>
                         </button>
-                        <button type="submit" id="gameFlavorSubmitBtn" class="btn btn-primary btn-ripple margin-left-10">
+                        <button type="submit" class="btn btn-primary btn-ripple margin-left-10">
                             {{($mentor->id == null ? trans('messages.create_btn') : trans('messages.edit_btn'))}}
                         </button>
                     </div>
