@@ -7,8 +7,7 @@ use App\Notifications\MenteeFollowUp;
 use App\Utils\MentorshipSessionStatuses;
 use Illuminate\Console\Command;
 
-class SendFollowUpEmails extends Command
-{
+class SendFollowUpEmails extends Command {
     protected $sessionManager;
 
     /**
@@ -30,8 +29,7 @@ class SendFollowUpEmails extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->sessionManager = new MentorshipSessionManager();
     }
@@ -39,10 +37,9 @@ class SendFollowUpEmails extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return int
      */
-    public function handle()
-    {
+    public function handle(): int {
         $sessions = $this->sessionManager->getSessionsForFollowUp();
         if (count($sessions) > 0) {
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
@@ -60,5 +57,6 @@ class SendFollowUpEmails extends Command
         } else {
             $this->info("No follow ups sent today!");
         }
+        return 0;
     }
 }
