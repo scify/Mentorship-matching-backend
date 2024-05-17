@@ -23,9 +23,7 @@
     "filp/whoops": "^2.0",
     "fakerphp/faker": "^1.9.1",
     "mockery/mockery": "^1.0",
-    "phpunit/phpunit": "^9.0",
-    "symfony/css-selector": "3.1.*",
-    "symfony/dom-crawler": "3.1.*"
+    "phpunit/phpunit": "^9.0"
   },
   "autoload": {
     "classmap": [
