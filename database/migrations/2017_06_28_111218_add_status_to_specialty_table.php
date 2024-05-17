@@ -4,15 +4,16 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStatusToSpecialtyTable extends Migration
-{
+class AddStatusToSpecialtyTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
+        if (Schema::hasColumn('specialty', 'status_id'))
+            return;
+
         Schema::table('specialty', function (Blueprint $table) {
             $table->integer('status_id')->unsigned()->after('name')->default(1);
             $table->foreign('status_id')->references('id')->on('specialty_status');
@@ -24,8 +25,7 @@ class AddStatusToSpecialtyTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('specialty', function (Blueprint $table) {
             $table->dropForeign(['status_id']);
             $table->dropColumn('status_id');
