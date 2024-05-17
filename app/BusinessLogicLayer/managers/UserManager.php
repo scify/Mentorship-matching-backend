@@ -4,12 +4,8 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\AccountManagerCapacity;
 use App\Models\eloquent\Company;
-use App\Models\eloquent\MentorProfile;
-use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
 use App\StorageLayer\RawQueryStorage;
-use App\StorageLayer\RoleStorage;
-use App\StorageLayer\UserIconStorage;
 use App\StorageLayer\UserStorage;
 use App\Utils\RawQueriesResultsModifier;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,7 +24,6 @@ class UserManager {
     private $userRoleManager;
     private $userIconsManager;
     private $userStorage;
-    private $roleStorage;
 
     private $USER_ACTIVATED_STATE_ID = 1;
     private $USER_DEACTIVATED_STATE_ID = 2;
@@ -37,28 +32,27 @@ class UserManager {
         $this->userRoleManager = new UserRoleManager();
         $this->userIconsManager = new UserIconManager();
         $this->userStorage = new UserStorage();
-        $this->roleStorage = new RoleStorage();
     }
 
-    public function createUser(array $inputFields) {
+    public function createUser(array $inputFields): User {
         $newUser = new User();
         $inputFields['user_icon_id'] = $this->userIconsManager->getIconIdFromTitle($inputFields['usericon']);
         unset($inputFields['usericon']);
         $newUser = $this->assignInputFieldsToUser($newUser, $inputFields);
 
-        DB::transaction(function() use($newUser, $inputFields) {
+        DB::transaction(function () use ($newUser, $inputFields) {
             $newUser = $this->userStorage->saveUser($newUser);
             $this->userRoleManager->assignRolesToUser($newUser, $inputFields['user_roles'], $inputFields);
         });
-        if($newUser->isAccountManager()) {
+        if ($newUser->isAccountManager()) {
             $this->accountManagerDetails($newUser, $inputFields);
         }
-
+        return $newUser;
     }
 
     private function accountManagerDetails(User $user, array $inputFields) {
         $this->handleCompanyAccountManager($user, $inputFields['company_id']);
-        if(isset($inputFields['capacity'])) {
+        if (isset($inputFields['capacity'])) {
             $this->createOrUpdateAccountManagerCapacity($user->id, $inputFields['capacity']);
         }
     }
@@ -95,7 +89,7 @@ class UserManager {
 
     private function assignInputFieldsToUser(User $user, array $inputFields) {
         //store a hash of the password entered
-        if($inputFields['password'] != null && $inputFields['password'] != "") {
+        if ($inputFields['password'] != null && $inputFields['password'] != "") {
             $inputFields['password'] = Hash::make($inputFields['password']);
         } else { // if password is empty, do not save it
             unset($inputFields['password']);
@@ -114,11 +108,11 @@ class UserManager {
         unset($inputFields['usericon']);
         $user = $this->assignInputFieldsToUser($user, $inputFields);
 
-        DB::transaction(function() use($user, $inputFields) {
+        DB::transaction(function () use ($user, $inputFields) {
             $user = $this->userStorage->saveUser($user);
             $this->handleCompanyAccountManager($user, $inputFields['company_id']);
             $loggedInUser = Auth::user();
-            if($loggedInUser->isAdmin()) {
+            if ($loggedInUser->isAdmin()) {
                 $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
             }
         });
@@ -126,8 +120,8 @@ class UserManager {
         //to take effect. Because the model we retrieved earlier in this method
         //may have changed it's roles
         $user = $this->getUser($id);
-        if($user->isAccountManager()) {
-            if(!isset($inputFields['capacity']) && $inputFields['capacity'] == 0) {
+        if ($user->isAccountManager()) {
+            if (!isset($inputFields['capacity']) && $inputFields['capacity'] == 0) {
                 throw new Exception("Capacity not set for account manager");
             }
             $this->accountManagerDetails($user, $inputFields);
@@ -189,7 +183,7 @@ class UserManager {
         $accountManagersWithNoCompany = new Collection();
         $allAccountManagers = $this->getAllAccountManagers();
         foreach ($allAccountManagers as $accountManager) {
-            if(!$accountManager->hasCompany()) {
+            if (!$accountManager->hasCompany()) {
                 $accountManagersWithNoCompany->add($accountManager);
             }
         }
@@ -205,14 +199,14 @@ class UserManager {
     public function getAccountManagersWithNoCompanyAssignedExceptCurrent(Company $company) {
         //get all account managers with no company assigned and add the account manager of the current company
         $accountManagersWithNoCompany = $this->getAccountManagersWithNoCompanyAssigned();
-        $company->accountManager != null ? $accountManagersWithNoCompany->add($company->accountManager) : '';
+        if ($company->accountManager) $accountManagersWithNoCompany->add($company->accountManager);
         return $accountManagersWithNoCompany;
     }
 
     public function createOrUpdateAccountManagerCapacity($accountManagerId, $capacity) {
         $existingCapacity = $this->userStorage->getAccountManagerCapacityById($accountManagerId);
         // if no record exists
-        if($existingCapacity == null) {
+        if ($existingCapacity == null) {
             //create new model
             $newAccountManagerCapacity = new AccountManagerCapacity();
             $newAccountManagerCapacity->account_manager_id = $accountManagerId;
@@ -247,12 +241,12 @@ class UserManager {
     public function getUsersByCriteria($input) {
         $roleId = $input['role_id'];
         $userName = $input['user_name'];
-        if($roleId != null) {
+        if ($roleId != null) {
             $users = $this->getUsersWithRole($roleId);
         } else {
             $users = $this->getAllUsers();
         }
-        if($userName != null) {
+        if ($userName != null) {
             $users = $this->filterUsersByName($users, $userName);
         }
         return $users;
@@ -263,7 +257,7 @@ class UserManager {
         $capacity = $input['capacity'];
         $user = $this->getUser($userId);
 
-        if(!$user->isAccountManager()) {
+        if (!$user->isAccountManager()) {
             throw new Exception("This user is not an Account Manager");
         }
         $this->createOrUpdateAccountManagerCapacity($userId, $capacity);
@@ -277,7 +271,7 @@ class UserManager {
      * @throws \Exception if the specialty queried is null
      */
     private function getUsersWithRole($roleId) {
-        $roleId = (int) $roleId;
+        $roleId = (int)$roleId;
         return $this->userRoleManager->getUsersByRoleId($roleId);
     }
 

@@ -3,25 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLogicLayer\managers\CompanyManager;
-use App\BusinessLogicLayer\managers\MenteeManager;
-use App\BusinessLogicLayer\managers\MenteeStatusManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
-use App\BusinessLogicLayer\managers\MentorStatusManager;
 use App\BusinessLogicLayer\managers\UserIconManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\BusinessLogicLayer\managers\UserRoleManager;
-use App\BusinessLogicLayer\managers\MailManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\MentorshipSession;
 use App\Models\eloquent\User;
+use App\Notifications\UserAccountCreated;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller {
     private $userRoleManager;
@@ -95,7 +96,7 @@ class UserController extends Controller {
     /**
      * Display all users.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|\Illuminate\View\View|View
      */
     public function showAllUsers() {
         $users = $this->userManager->getAllUsers();
@@ -112,7 +113,7 @@ class UserController extends Controller {
     /**
      * Display a user profile page.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|\Illuminate\View\View|View
      */
     public function showProfile($id) {
         $user = $this->userManager->getUser($id);
@@ -147,7 +148,7 @@ class UserController extends Controller {
     /**
      * Show the form for creating a new user.cd
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|\Illuminate\View\View|View
      */
     public function showCreateForm() {
         $companyManager = new CompanyManager();
@@ -173,8 +174,8 @@ class UserController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function create(Request $request) {
         $this->validate($request, [
@@ -190,13 +191,9 @@ class UserController extends Controller {
         $input = $request->all();
 
         try {
-            $this->userManager->createUser($input);
+            $user = $this->userManager->createUser($input);
             // send email with login credentials
-            MailManager::SendEmail('emails.register',
-                array('email' => $input['email'], 'password' => $input['password']),
-                'Job Pairs | Your account has been created',
-                $input['email']
-            );
+            $user->notify(new UserAccountCreated($user->email));
         } catch (\Exception $e) {
             session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
             return back()->withInput();
@@ -210,20 +207,10 @@ class UserController extends Controller {
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id) {
-
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|\Illuminate\View\View|View
      */
     public function showEditForm($id) {
         $companyManager = new CompanyManager();
@@ -253,9 +240,9 @@ class UserController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return RedirectResponse|Response
      */
     public function edit(Request $request, $id) {
         $validationRules = [
@@ -288,7 +275,7 @@ class UserController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function delete(Request $request) {
         $input = $request->all();
@@ -311,7 +298,7 @@ class UserController extends Controller {
      * Activates a given user.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function activate(Request $request) {
         $input = $request->all();
@@ -334,7 +321,7 @@ class UserController extends Controller {
      * Deactivates a given user.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function deactivate(Request $request) {
         $input = $request->all();

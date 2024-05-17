@@ -10,6 +10,7 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MentorshipSession;
 use App\Models\viewmodels\MentorshipSessionViewModel;
+use App\Notifications\AccountManagerSessionInvitation;
 use App\Notifications\MenteeSessionInvitation;
 use App\Notifications\MentorSessionInvitation;
 use App\Notifications\MentorStatusReactivation;
@@ -189,12 +190,7 @@ class MentorshipSessionManager {
 
     private function inviteAccountManagerToMentorshipSession(MentorshipSession $mentorshipSession) {
         $accountManager = $mentorshipSession->account_manager;
-        MailManager::SendEmail(
-            'emails.session-invitation',
-            ['id' => $accountManager->id, 'email' => $accountManager->email, 'mentorshipSessionId' => $mentorshipSession->id],
-            'Job Pairs | You have been invited to manage a new mentorship session | Session: ' . $mentorshipSession->id,
-            $accountManager->email
-        );
+        $accountManager->notify(new AccountManagerSessionInvitation($mentorshipSession, $accountManager));
     }
 
     private function inviteMenteeToMentorshipSession(MentorshipSession $mentorshipSession) {
