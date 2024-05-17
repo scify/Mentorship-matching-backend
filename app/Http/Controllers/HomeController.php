@@ -29,7 +29,7 @@ class HomeController extends Controller {
         $email = $input['email'];
 
         if ($email != "" && $email != null) {
-            (new MailManager())->sendEmailToSpecificEmail(
+            MailManager::SendEmail(
                 'emails.test',
                 [],
                 'Job Pairs | Test',
