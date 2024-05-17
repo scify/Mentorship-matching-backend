@@ -4,11 +4,11 @@ namespace App\Notifications;
 
 use App\Models\eloquent\MentorshipSession;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MentorSessionInvitation extends Notification
-{
+class MentorSessionInvitation extends Notification implements ShouldQueue {
     use Queueable;
 
     private $mentorshipSession;
@@ -18,15 +18,14 @@ class MentorSessionInvitation extends Notification
      *
      * @param $mentorshipSession MentorshipSession
      */
-    public function __construct(MentorshipSession $mentorshipSession)
-    {
+    public function __construct(MentorshipSession $mentorshipSession) {
         $this->mentorshipSession = $mentorshipSession;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable): array {
@@ -36,7 +35,7 @@ class MentorSessionInvitation extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
@@ -51,8 +50,8 @@ class MentorSessionInvitation extends Notification
                 'id' => $this->mentorshipSession->mentor->id, 'email' => $this->mentorshipSession->mentor->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentor', 'lang' => 'gr'
             ]))
             ->line('<p style="text-align: center; margin-top: 10px; margin-bottom: 10px;"><a href="' . route('declineMentorshipSessionConfirmation', [
-                'id' => $this->mentorshipSession->mentor->id, 'email' => $this->mentorshipSession->mentor->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentor', 'lang' => 'gr'
-            ]) . '">Απόρριψη</a></p>')
+                    'id' => $this->mentorshipSession->mentor->id, 'email' => $this->mentorshipSession->mentor->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentor', 'lang' => 'gr'
+                ]) . '">Απόρριψη</a></p>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
             ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
     }
@@ -60,7 +59,7 @@ class MentorSessionInvitation extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable): array {

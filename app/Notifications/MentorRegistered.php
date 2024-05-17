@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\BusinessLogicLayer\managers\UserManager;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MentorRegistered extends Notification {
+class MentorRegistered extends Notification implements ShouldQueue {
     use Queueable;
 
     private $userManager;

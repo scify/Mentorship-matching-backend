@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessLogicLayer\managers\MailManager;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\User;
 use App\Notifications\MentorStatusReactivation;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class HomeController extends Controller {
     /**
      * Show the application dashboard.
      *
-     * @return Response
+     * @return Application|Factory|\Illuminate\Contracts\View\View|View
      */
     public function dashBoard() {
         return view('home.dashboard', ['pageTitle' => "Dashboard"]);
@@ -29,14 +30,8 @@ class HomeController extends Controller {
         $email = $input['email'];
 
         if ($email != "" && $email != null) {
-            MailManager::SendEmail(
-                'emails.test',
-                [],
-                'Job Pairs | Test',
-                $email
-            );
 
-            $userToTestMailable = User::where(['email' => 'paul@scify.org'])->first();
+            $userToTestMailable = User::where(['email' => $email])->first();
 
             if ($userToTestMailable)
                 $userToTestMailable->notify(new MentorStatusReactivation(MentorProfile::first()));

@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\eloquent\MentorshipSession;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MenteeSessionInvitation extends Notification {
+class MenteeSessionInvitation extends Notification implements ShouldQueue {
     use Queueable;
 
     private $mentorshipSession;
@@ -35,7 +36,7 @@ class MenteeSessionInvitation extends Notification {
      * Get the mail representation of the notification.
      *
      * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)

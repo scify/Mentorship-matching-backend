@@ -2,11 +2,13 @@
 
 namespace App\Notifications;
 
+use App\Models\eloquent\MentorshipSession;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MentorSendRating extends Notification {
+class MentorSendRating extends Notification implements ShouldQueue {
     use Queueable;
 
     private $rating;
@@ -15,9 +17,9 @@ class MentorSendRating extends Notification {
     /**
      * Create a new notification instance.
      *
-     * @param $mentorshipSession
+     * @param $mentorshipSession MentorshipSession
      */
-    public function __construct($mentorshipSession) {
+    public function __construct(MentorshipSession $mentorshipSession) {
         $this->mentorshipSession = $mentorshipSession;
     }
 

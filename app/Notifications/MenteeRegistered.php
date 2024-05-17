@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\BusinessLogicLayer\managers\UserManager;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class MenteeRegistered extends Notification {
+class MenteeRegistered extends Notification implements ShouldQueue {
     use Queueable;
 
     private $userManager;
@@ -35,7 +36,7 @@ class MenteeRegistered extends Notification {
      * Get the mail representation of the notification.
      *
      * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
