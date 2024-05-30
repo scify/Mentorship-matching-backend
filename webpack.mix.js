@@ -7,7 +7,6 @@ mix.sass('resources/assets/sass/auth.scss', 'public/css/auth.css');
 
 mix.styles([
     'node_modules/select2/dist/css/select2.min.css',
-    'node_modules/sweetalert/dist/sweetalert.css',
     'node_modules/jasny-bootstrap/dist/css/jasny-bootstrap.min.css',
     'node_modules/bootstrap-select/dist/css/bootstrap-select.min.css',
     'node_modules/datatables/media/css/jquery.dataTables.min.css',
