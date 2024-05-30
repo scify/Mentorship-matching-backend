@@ -4,6 +4,25 @@ This [Laravel](https://laravel.com/docs/8.x/) application is a platform backoffi
 between mentors with mentees, based on their
 preferences and skills.
 
+## Table of Contents
+
+- [First time install](#first-time-install)
+    - [Docker option (recommended)](#docker-option-recommended)
+    - [Non-Docker option](#non-docker-option)
+        - [Installing dependencies (assuming apache as web server and mysql as db):](#installing-dependencies-assuming-apache-as-web-server-and-mysql-as-db)
+            - [Frontend dependencies](#frontend-dependencies)
+            - [Backend dependencies](#backend-dependencies)
+            - [Composer installation](#composer-installation)
+            - [Apache configuration:](#apache-configuration)
+            - [Laravel local server](#laravel-local-server)
+    - [Setup the Database](#setup-the-database)
+    - [Add seed data to DB](#add-seed-data-to-db)
+    - [Building the project](#building-the-project)
+    - [Compiling assets](#compiling-assets)
+    - [Contributing](#contributing)
+    - [License](#license)
+    - [Credits](#credits)
+
 ## First time install
 
 After cloning the project, create an `.env` file (should be a copy of `.env.example`),
@@ -13,7 +32,7 @@ containing the information about your database name and credentials.
 cp .env.example .env
 ```
 
-## Docker option (recommended)
+### Docker option (recommended)
 
 You can use the `docker-compose.yml` file that exists at project roo, to quickly set up a docker container.
 
@@ -39,13 +58,13 @@ docker exec -it mentorship_matching_platform_server bash
 
 And from there, you can run all the `php artisan`, `composer`, and `npm` commands.
 
-## Non-Docker option
+### Non-Docker option
 
-### Installing dependencies (assuming apache as web server and mysql as db):
+#### Installing dependencies (assuming apache as web server and mysql as db):
 
 In a nutshell (assuming debian-based OS), first install the dependencies needed:
 
-#### Frontend dependencies
+##### Frontend dependencies
 
 Note: Please install the node and npm versions as listed below:
 
@@ -71,11 +90,11 @@ Note: php package installs apache2 as a dependency so we have no need to add it 
 sudo aptitude install php7.4 php7.4-cli mcrypt php7.4-mcrypt mysql-server php7.4-mysql
 ```
 
-#### Composer installation
+##### Composer installation
 
 Install composer globally by following the instructions [here](https://getcomposer.org/download/).
 
-#### Apache configuration:
+##### Apache configuration:
 
 Edit the `/etc/apache2/sites-available/mentorhsip-matching.conf` so that it looks like:
 
@@ -113,7 +132,7 @@ find . -type d -exec chmod 775 {} \;
 
 Test the setup by navigating to `http://dev.mentorhsip-matching` in your browser.
 
-#### Laravel local server
+##### Laravel local server
 
 You can also test your setup by running the Laravel local server:
 
@@ -170,15 +189,16 @@ npm run dev
 
 Or any other `npm` script that you want to run. The available scripts are listed in the `package.json` file.
 
-## Deploying
+## Contributing
 
-You can run either  ```php artisan serve``` or set up a symbolic link to ```/path/to/project/public``` directory and
-navigate to http://localhost/{yourLinkName}
+To contribute to MyEIC Common Library, follow these steps:
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com.
-All security vulnerabilities will be promptly addressed.
+1. Fork this repository.
+2. Read the [CONTRIBUTING](CONTRIBUTING.md) file.
+3. Create a branch: `git checkout -b <branch_name>`.
+4. Make your changes and commit them: `git commit -m '<commit_message>'`
+5. Push to the original branch: `git push origin <project_name>/<location>`
+6. Create the pull request.
 
 ## License
 
