@@ -12,12 +12,13 @@ class UserTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $DEFAULT_PASSWORD = '$2y$10$AB2Q2QgPWuMXyVis.EgUau2F2TZK25lFe6SB/LyEMFzL38Qqjgy1e';
-        DB::table('users')->delete();
-        DB::table('users')->insert(array(
-            array('id' => 1, 'first_name' => 'Paul', 'last_name' => 'Isaris', 'state_id' => 1, 'email' => 'paul@scify.org', 'password' => $DEFAULT_PASSWORD),
-            array('id' => 2, 'first_name' => 'SciFY', 'last_name' => 'Tester', 'state_id' => 1, 'email' => 'test@scify.org', 'password' => $DEFAULT_PASSWORD),
-            array('id' => 3, 'first_name' => 'Alex', 'last_name' => 'Tzoumas', 'state_id' => 1, 'email' => 'a.tzoumas@scify.org', 'password' => $DEFAULT_PASSWORD)
-        ));
+        $DEFAULT_PASSWORD = 'test1234';
+        DB::table('users')->updateOrInsert(['id' => 1],
+            array('id' => 1, 'first_name' => 'Paul', 'last_name' => 'Isaris', 'state_id' => 1, 'email' => 'paul@scify.org', 'password' => bcrypt($DEFAULT_PASSWORD)),
+        );
+        DB::table('users')->updateOrInsert(['id' => 2],
+            array('id' => 2, 'first_name' => 'SciFY', 'last_name' => 'Tester', 'state_id' => 1, 'email' => 'test@scify.org', 'password' => bcrypt($DEFAULT_PASSWORD)));
+        DB::table('users')->updateOrInsert(['id' => 3],
+            array('id' => 3, 'first_name' => 'Alex', 'last_name' => 'Tzoumas', 'state_id' => 1, 'email' => 'a.tzoumas@scify.org', 'password' => bcrypt($DEFAULT_PASSWORD)));
     }
 }
