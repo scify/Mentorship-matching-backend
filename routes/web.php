@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -40,12 +41,10 @@ Route::post('rateMentee', 'RatingController@rateMentee')->name('rateMentee');
 Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@showMentorRatingForm')->name('showMentorRatingForm');
 Route::post('rateMentor', 'RatingController@rateMentor')->name('rateMentor');
 
-Route::group([ 'middleware' => 'auth' ], function () {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
     Route::get('/dashboard', 'UserController@showDashboardForUser')->name('dashboard');
-
-    Route::get('/testemail', 'HomeController@testEmail')->name('testemail');
 
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
@@ -57,7 +56,7 @@ Route::group([ 'middleware' => 'auth' ], function () {
 
     Route::get('user/{id}/profile', 'UserController@showProfile')->name('showUserProfile');
 
-    Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity','uses' => 'UserController@editUserCapacity']);
+    Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity', 'uses' => 'UserController@editUserCapacity']);
 
     Route::get('session/fetchHistory', 'MentorshipSessionController@getHistoryForMentorshipSession')->name('fetchSessionHistory');
     Route::get('sessions/byCriteria', 'MentorshipSessionController@showMentorshipSessionsByCriteria')->name('filterMentorshipSessions');
@@ -77,7 +76,7 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::post('user/delete', 'UserController@delete')->name('deleteUser');
     Route::post('user/activate', 'UserController@activate')->name('activateUser');
     Route::post('user/deactivate', 'UserController@deactivate')->name('deactivateUser');
-    Route::get('users/byCriteria', ['as' => 'getUsersByCriteria','uses' => 'UserController@getUsersByCriteria']);
+    Route::get('users/byCriteria', ['as' => 'getUsersByCriteria', 'uses' => 'UserController@getUsersByCriteria']);
 
     Route::get('reports/all', 'ReportController@showAllReports')->name('showAllReports');
     Route::get('export/mentors', 'ReportController@exportMentorsToCsv')->name('exportMentors');
@@ -104,6 +103,10 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('upload-mentees', 'ExcelUploadController@menteesUpload')->name('menteesUpload');
     Route::get('update-mentees', 'ExcelUploadController@menteesUploadUpdate')->name('menteesUploadUpdate');
     Route::get('update-created_at-mentees', 'ExcelUploadController@correctMenteesFromFileCreatedAt');
+
+    Route::get('/testemail', 'HomeController@testEmail')->name('testEmail');
+
+    Route::get('/testexception', 'HomeController@testException')->name('testException');
 });
 
 Route::group(['middleware' => ['auth', 'status-changer']], function () {
@@ -122,7 +125,7 @@ Route::group(['middleware' => ['auth', 'can-edit-mentors-and-mentees']], functio
 
 Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], function () {
     Route::post('session/matchMentorWithMentee', 'MentorshipSessionController@create')->name('matchMentorWithMentee');
-    Route::get('sessions/myMatches', ['as' => 'showMatchesForMatcher','uses' => 'MentorshipSessionController@showMentorshipSessionsForMatcher']);
+    Route::get('sessions/myMatches', ['as' => 'showMatchesForMatcher', 'uses' => 'MentorshipSessionController@showMentorshipSessionsForMatcher']);
 });
 
 Route::group(['middleware' => ['auth', 'can-update-sessions']], function () {
@@ -137,7 +140,3 @@ Route::group(['middleware' => ['auth', 'account-manager']], function () {
 Route::group(['middleware' => ['auth', 'can-invite-mentee']], function () {
     Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
 });
-
-//Route::get('/debug-sentry', function () {
-//    throw new Exception('My first Sentry error!');
-//});

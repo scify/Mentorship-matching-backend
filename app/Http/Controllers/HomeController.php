@@ -5,22 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\User;
 use App\Notifications\MentorStatusReactivation;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class HomeController extends Controller {
-    /**
-     * Show the application dashboard.
-     *
-     * @return Application|Factory|\Illuminate\Contracts\View\View|View
-     */
-    public function dashBoard() {
-        return view('home.dashboard', ['pageTitle' => "Dashboard"]);
-    }
-
 
     public function testEmail(Request $request) {
         $input = $request->all();
@@ -44,6 +33,13 @@ class HomeController extends Controller {
 
     public function showServerInfoPage() {
         return view('common.server-info');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testException() {
+        throw new Exception("This is a test exception");
     }
 
 }
