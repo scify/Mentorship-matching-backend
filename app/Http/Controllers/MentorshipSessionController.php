@@ -6,17 +6,16 @@ use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionStatusManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
-class MentorshipSessionController extends Controller
-{
+class MentorshipSessionController extends Controller {
     private $mentorshipSessionManager;
 
     public function __construct() {
@@ -26,10 +25,9 @@ class MentorshipSessionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|Application|\Illuminate\Contracts\View\View|View
      */
-    public function index()
-    {
+    public function index() {
         $userManager = new UserManager();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
@@ -53,8 +51,7 @@ class MentorshipSessionController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         $this->validate($request, [
             'mentor_profile_id' => 'required|numeric',
             'mentee_profile_id' => 'required|numeric',
@@ -79,8 +76,7 @@ class MentorshipSessionController extends Controller
         $input = $request->all();
         try {
             $this->mentorshipSessionManager->inviteMentee($input['session_id']);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             Log::info('Error on mentee invitation sent: ' . $e->getCode() . "  " . $e->getMessage());
             session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
             return back();
@@ -92,11 +88,10 @@ class MentorshipSessionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         $this->validate($request, [
             'account_manager_id' => 'numeric',
             'status_id' => 'required|numeric'
@@ -105,7 +100,7 @@ class MentorshipSessionController extends Controller
         try {
             $messageToShow = $this->mentorshipSessionManager->editMentorshipSession($input);
             $typeOfMessage = 'success';
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Log::info('Error on session update: ' . $e->getCode() . "  " . $e->getMessage());
             $messageToShow = 'An error occurred: ' . $e->getMessage() . ' Please try again later.';
             $typeOfMessage = 'error';
@@ -118,15 +113,14 @@ class MentorshipSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
-    {
+    public function destroy(Request $request) {
         $this->validate($request, [
             'mentorship_session_id' => 'required|numeric'
         ]);
         $input = $request->all();
         try {
             $this->mentorshipSessionManager->deleteMentorshipSession($input);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             Log::info('Error on session deletion: ' . $e->getCode() . "  " . $e->getMessage());
             session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
         }
@@ -142,7 +136,7 @@ class MentorshipSessionController extends Controller
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager
             ->paginateMentorshipSessions($this->mentorshipSessionManager
-            ->getMentorshipSessionViewModelsForAccountManager($loggedInUser->id))->setPath("#");
+                ->getMentorshipSessionViewModelsForAccountManager($loggedInUser->id))->setPath("#");
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my mentorship sessions';
@@ -162,7 +156,7 @@ class MentorshipSessionController extends Controller
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $mentorshipSessionViewModels = $this->mentorshipSessionManager
             ->paginateMentorshipSessions($this->mentorshipSessionManager
-            ->getMentorshipSessionViewModelsForMatcher($loggedInUser->id))->setPath("#");
+                ->getMentorshipSessionViewModelsForMatcher($loggedInUser->id))->setPath("#");
         $matchers = $userManager->getAllUsersWithMatchingPermissions();
         $pageTitle = 'Sessions';
         $pageSubTitle = 'my matches';
@@ -181,15 +175,15 @@ class MentorshipSessionController extends Controller
                 $this->mentorshipSessionManager->getMentorshipSession($input["mentorship_session_id"])
             );
             $history = $mentorshipSessionViewModel->mentorshipSession->history;
-        }  catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        } catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . "  " . $e->getMessage();
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
         }
-        if($history && $history->count() === 0) {
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', ['errorMessage' => 'No history found'])));
+        if ($history && $history->count() === 0) {
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', ['errorMessage' => 'No history found'])));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String)view('mentorship_session.modals.partials.history_timeline', compact('history', 'loggedInUser'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (string)view('mentorship_session.modals.partials.history_timeline', compact('history', 'loggedInUser'))));
         }
     }
 
@@ -199,18 +193,18 @@ class MentorshipSessionController extends Controller
             $mentorshipSessionsViewModelsData = $this->mentorshipSessionManager->getMentorshipSessionViewModelsByCriteria($input);
             $mentorshipSessionViewModels = $this->mentorshipSessionManager->paginateMentorshipSessions($mentorshipSessionsViewModelsData)->setPath('#');
 
-        }  catch (\Exception $e) {
-            Log::info('Error on sessions search: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            Log::info('Error on sessions search: ' . $e->getCode() . "  " . $e->getMessage());
             $errorMessage = 'An error occurred. Please try again later.';
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
         }
 
-        if($mentorshipSessionViewModels->count() == 0) {
+        if ($mentorshipSessionViewModels->count() == 0) {
             $errorMessage = "No mentorship sessions found";
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('mentorship_session.list', compact('mentorshipSessionViewModels','loggedInUser'))));
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (string)view('mentorship_session.list', compact('mentorshipSessionViewModels', 'loggedInUser'))));
         }
     }
 
@@ -220,12 +214,12 @@ class MentorshipSessionController extends Controller
      * @param $mentorshipSessionId int The session's id that will be accepted
      * @param $id int The session's account manager id
      * @param $email string The account manager's email
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function acceptToManageMentorshipSession($mentorshipSessionId, $id, $email) {
         $viewTitle = "Manage Mentorship Session";
         try {
-            if($this->mentorshipSessionManager->acceptToManageMentorshipSession($mentorshipSessionId, $id, $email)) {
+            if ($this->mentorshipSessionManager->acceptToManageMentorshipSession($mentorshipSessionId, $id, $email)) {
                 return view('common.response-to-email')->with([
                     'message_success' => 'You have successfully accepted to manage the session',
                     'title' => $viewTitle
@@ -236,8 +230,8 @@ class MentorshipSessionController extends Controller
                     'title' => $viewTitle
                 ]);
             }
-        } catch(\Exception $e) {
-            Log::info('Error on session acceptance by manager: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            Log::info('Error on session acceptance by manager: ' . $e->getCode() . "  " . $e->getMessage());
             return view('common.response-to-email')->with([
                 'message_failure' => 'An error occurred.',
                 'title' => $viewTitle
@@ -251,12 +245,12 @@ class MentorshipSessionController extends Controller
      * @param $mentorshipSessionId int The session's id that will be accepted
      * @param $id int The session's account manager id
      * @param $email string The account manager's email
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function declineToManageMentorshipSession($mentorshipSessionId, $id, $email) {
         $viewTitle = "Manage Mentorship Session";
         try {
-            if($this->mentorshipSessionManager->declineToManageMentorshipSession($mentorshipSessionId, $id, $email)) {
+            if ($this->mentorshipSessionManager->declineToManageMentorshipSession($mentorshipSessionId, $id, $email)) {
                 return view('common.response-to-email')->with([
                     'message_success' => 'You have declined to manage the session',
                     'title' => $viewTitle
@@ -267,8 +261,8 @@ class MentorshipSessionController extends Controller
                     'title' => $viewTitle
                 ]);
             }
-        } catch(\Exception $e) {
-            Log::info('Error on session decline by manager: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            Log::info('Error on session decline by manager: ' . $e->getCode() . "  " . $e->getMessage());
             return view('common.response-to-email')->with([
                 'message_failure' => 'An error occurred.',
                 'title' => $viewTitle
@@ -283,10 +277,10 @@ class MentorshipSessionController extends Controller
      * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
      * @param $id string The id of the person that responded
      * @param $email string The email address of the person responded
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
-    public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email,Request $request) {
-        $lang = $request->has("lang ")? $request->has("lang "):  'en';
+    public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email, Request $request) {
+        $lang = $request->has("lang ") ? $request->has("lang ") : 'en';
         App::setLocale($lang);
         return view('common.action-confirmation')->with([
             'title' => Lang::get('messages.decline_session_invitation_title'),
@@ -307,14 +301,14 @@ class MentorshipSessionController extends Controller
      * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
      * @param $id string The id of the person that responded
      * @param $email string The email address of the person responded
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
-    public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email,Request $request) {
-        $lang = $request->has("lang ")? $request->has("lang "):  'en';
+    public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email, Request $request) {
+        $lang = $request->has("lang ") ? $request->has("lang ") : 'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
-            if($this->mentorshipSessionManager->acceptMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
+            if ($this->mentorshipSessionManager->acceptMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
                 return view('common.response-to-email')->with([
                     'message_success' => Lang::get('messages.invitation_accepted'),
                     'title' => $viewTitle
@@ -325,8 +319,8 @@ class MentorshipSessionController extends Controller
                     'title' => $viewTitle
                 ]);
             }
-        } catch(\Exception $e) {
-            Log::info('Error on session acceptance: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            Log::info('Error on session acceptance: ' . $e->getCode() . "  " . $e->getMessage());
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.error_occurred'),
                 'title' => $viewTitle
@@ -341,14 +335,14 @@ class MentorshipSessionController extends Controller
      * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
      * @param $id string The id of the person that responded
      * @param $email string The email address of the person responded
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
-    public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email,Request $request) {
-        $lang = $request->has("lang ")? $request->has("lang "):  'en';
+    public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email, Request $request) {
+        $lang = $request->has("lang ") ? $request->has("lang ") : 'en';
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
-            if($this->mentorshipSessionManager->declineMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
+            if ($this->mentorshipSessionManager->declineMentorshipSession($mentorshipSessionId, $role, $id, $email)) {
                 return view('common.response-to-email')->with([
                     'message_success' => Lang::get('messages.invitation_declined'),
                     'title' => $viewTitle
@@ -359,8 +353,8 @@ class MentorshipSessionController extends Controller
                     'title' => $viewTitle
                 ]);
             }
-        } catch(\Exception $e) {
-            Log::info('Error on session decline: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            Log::info('Error on session decline: ' . $e->getCode() . "  " . $e->getMessage());
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.error_occurred'),
                 'title' => $viewTitle

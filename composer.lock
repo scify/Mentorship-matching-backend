@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd250a6dd3f632d443628e2cf7a252c3",
+    "content-hash": "2cface6c88c21632323ad7a9d8b9bb6b",
     "packages": [
         {
             "name": "brick/math",
@@ -2729,46 +2729,6 @@
                 "source": "https://github.com/opis/closure/tree/3.6.3"
             },
             "time": "2022-01-27T09:35:39+00:00"
-        },
-        {
-            "name": "parsecsv/php-parsecsv",
-            "version": "0.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/parsecsv/parsecsv-for-php.git",
-                "reference": "0486a4bf3ef80dfa215f38f865ed8685fbb472c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/parsecsv/parsecsv-for-php/zipball/0486a4bf3ef80dfa215f38f865ed8685fbb472c7",
-                "reference": "0486a4bf3ef80dfa215f38f865ed8685fbb472c7",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "."
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jim Myhrberg",
-                    "email": "contact@jimeh.me"
-                }
-            ],
-            "description": "CSV data parser for PHP",
-            "support": {
-                "issues": "https://github.com/parsecsv/parsecsv-for-php/issues",
-                "source": "https://github.com/parsecsv/parsecsv-for-php/tree/master"
-            },
-            "time": "2014-06-03T00:37:04+00:00"
         },
         {
             "name": "php-http/client-common",

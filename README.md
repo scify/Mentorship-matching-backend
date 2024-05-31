@@ -15,13 +15,13 @@ preferences and skills.
             - [Composer installation](#composer-installation)
             - [Apache configuration:](#apache-configuration)
             - [Laravel local server](#laravel-local-server)
-    - [Setup the Database](#setup-the-database)
-    - [Add seed data to DB](#add-seed-data-to-db)
-    - [Building the project](#building-the-project)
-    - [Compiling assets](#compiling-assets)
-    - [Contributing](#contributing)
-    - [License](#license)
-    - [Credits](#credits)
+- [Setup the Database](#setup-the-database)
+- [Add seed data to DB](#add-seed-data-to-db)
+- [Building the project](#building-the-project)
+- [Compiling assets](#compiling-assets)
+- [Contributing](#contributing)
+- [License](#license)
+- [Credits](#credits)
 
 ## First time install
 
@@ -34,7 +34,7 @@ cp .env.example .env
 
 ### Docker option (recommended)
 
-You can use the `docker-compose.yml` file that exists at project roo, to quickly set up a docker container.
+You can use the `docker-compose.yml` file that exists at project root, to quickly set up a docker container.
 
 To build the docker container, run:
 

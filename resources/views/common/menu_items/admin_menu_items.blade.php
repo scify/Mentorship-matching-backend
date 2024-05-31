@@ -63,9 +63,6 @@
         <a href="{{ route('showMatchesForMatcher') }}">My Matches </a>
     </li>
 @endif
-<li class="{{ (Route::current()->getName() == 'showEditUserForm') ? 'open' : '' }}">
-    <a href="{{ route('showEditUserForm', $user->id) }}"> My Profile </a>
-</li>
 <li class="{{ (Route::current()->getName() == 'showAllReports') ? 'open' : '' }}">
     <a href="{{ route('showAllReports') }}"> Reports </a>
 </li>
