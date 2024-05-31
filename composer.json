@@ -14,9 +14,9 @@
     "laravel/framework": "^8.0",
     "laravel/helpers": "^1.1",
     "laravel/tinker": "^2.0",
+    "laravel/ui": "^3.0",
     "parsecsv/php-parsecsv": "^0.4.5",
-    "sentry/sentry-laravel": "^2.1",
-    "laravel/ui": "^3.0"
+    "sentry/sentry-laravel": "^3.8"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.3",

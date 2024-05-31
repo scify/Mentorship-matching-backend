@@ -4,19 +4,19 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
+use Sentry\Laravel\Integration;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
-class Handler extends ExceptionHandler {
+class   Handler extends ExceptionHandler {
     /**
      * A list of the exception types that should not be reported.
      *
@@ -31,21 +31,10 @@ class Handler extends ExceptionHandler {
         ValidationException::class,
     ];
 
-    /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param Throwable $exception
-     * @return void
-     * @throws Exception|Throwable
-     */
-    public function report(Throwable $exception) {
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
-            app('sentry')->captureException($exception);
-        }
-
-        parent::report($exception);
+    public function register(): void {
+        $this->reportable(function (Throwable $e) {
+            Integration::captureUnhandledException($e);
+        });
     }
 
     /**

@@ -39,7 +39,7 @@ class HomeController extends Controller {
      * @throws Exception
      */
     public function testException() {
-        throw new Exception("This is a test exception");
+        throw new Exception("This is a test exception!!");
     }
 
 }
