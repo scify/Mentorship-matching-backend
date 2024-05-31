@@ -37,18 +37,18 @@ class MentorManager {
     }
 
     /**
-     * Gets all @see MentorProfile instances from the database
+     * Gets all @return Collection the mentors
+     * @see MentorProfile instances from the database
      *
-     * @return Collection the mentors
      */
     public function getAllMentors() {
         return $this->mentorStorage->getAllMentorProfiles();
     }
 
     /**
-     * Gets all @see MentorProfile instances from the database
+     * Gets all @return Collection the mentors
+     * @see MentorProfile instances from the database
      *
-     * @return Collection the mentors
      */
     public function getAllMentorViewModels() {
         $mentors = $this->mentorStorage->getAllMentorProfiles();
@@ -90,36 +90,42 @@ class MentorManager {
     }
 
     /**
-     * Creates a @see MentorProfile resource
-     *
-     * @param array $inputFields the fields to assign to the mentor
+     * Creates a @param array $inputFields the fields to assign to the mentor
      * @param $isCvFileExistent boolean it defines whether the cv file exists or not
+     * @see MentorProfile resource
+     *
      */
     public function createMentor(array $inputFields, $isCvFileExistent) {
         $loggedInUser = Auth::user();
-        if($loggedInUser != null)
+        if ($loggedInUser != null)
             $inputFields['creator_user_id'] = $loggedInUser->id;
         // store the file and put the file's name to the DB
-        if($isCvFileExistent){
+        if ($isCvFileExistent) {
             $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
             $inputFields['cv_file_name'] = $fileName;
         }
         $inputFields['company_id'] = $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']);
-        $mentorProfile = new MentorProfile();
-        $mentorProfile = $this->assignInputFieldsToMentorProfile($mentorProfile, $inputFields);
+        $mentorProfile = $this->mentorStorage->getMentorProfileByEmail($inputFields['email']);
+        if (!$mentorProfile) {
+            $mentorProfile = new MentorProfile();
+            $mentorProfile = $this->assignInputFieldsToMentorProfile($mentorProfile, $inputFields);
 
-        DB::transaction(function() use($mentorProfile, $inputFields) {
-            $newMentor = $this->mentorStorage->saveMentor($mentorProfile);
-            //send welcome email to mentor, if the sign up was made through the public form
-            if($inputFields['public_form'] == "true")
-                $newMentor->notify(new MentorRegistered());
-            if(isset($inputFields['specialties']))
-                $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
-            if(isset($inputFields['industries']))
-                $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
-            if(isset($inputFields['company_id']))
-                $this->handleMentorCompany($newMentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
-        });
+            DB::transaction(function () use ($mentorProfile, $inputFields) {
+                $newMentor = $this->mentorStorage->saveMentor($mentorProfile);
+                //send welcome email to mentor, if the sign up was made through the public form
+                if ($inputFields['public_form'] == "true")
+                    $newMentor->notify(new MentorRegistered());
+                if (isset($inputFields['specialties']))
+                    $this->specialtyManager->assignSpecialtiesToMentor($newMentor, $inputFields['specialties']);
+                if (isset($inputFields['industries']))
+                    $this->industryManager->assignIndustriesToMentor($newMentor, $inputFields['industries']);
+                if (isset($inputFields['company_id']))
+                    $this->handleMentorCompany($newMentor, $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']));
+            });
+        } else {
+            $this->editMentor($inputFields, $mentorProfile->id, $isCvFileExistent);
+        }
+
     }
 
     /**
@@ -130,42 +136,42 @@ class MentorManager {
      * @param $isCvFileExistent boolean it defines whether the cv file exists or not
      */
     public function editMentor(array $inputFields, $id, $isCvFileExistent = false) {
-        if(isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
+        if (isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = "";
         }
-        if($inputFields['follow_up_date'] != "") {
+        if ($inputFields['follow_up_date'] != "") {
             $dateArray = explode("/", $inputFields['follow_up_date']);
             $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
         }
         // store the file and put the file's name to the DB
-        if($isCvFileExistent){
+        if ($isCvFileExistent) {
             $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
             $inputFields['cv_file_name'] = $fileName;
         }
         $mentor = $this->getMentor($id);
         $oldStatusId = $mentor->status_id;
-        if(isset($inputFields['company_id'])) {
+        if (isset($inputFields['company_id'])) {
             $inputFields['company_id'] = $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']);
         }
         $mentor = $this->assignInputFieldsToMentorProfile($mentor, $inputFields);
         $mentorStatusHistoryManager = new MentorStatusHistoryManager();
         $loggedInUser = Auth::user();
 
-        DB::transaction(function() use($mentor, $oldStatusId, $inputFields, $mentorStatusHistoryManager, $loggedInUser) {
+        DB::transaction(function () use ($mentor, $oldStatusId, $inputFields, $mentorStatusHistoryManager, $loggedInUser) {
             $mentor = $this->mentorStorage->saveMentor($mentor);
-            if(isset($inputFields['specialties'])) {
+            if (isset($inputFields['specialties'])) {
                 $this->specialtyManager->editMentorSpecialties($mentor, $inputFields['specialties']);
             }
-            if(isset($inputFields['industries'])) {
+            if (isset($inputFields['industries'])) {
                 $this->industryManager->editMentorIndustries($mentor, $inputFields['industries']);
             }
-            if($oldStatusId != $inputFields['status_id']) {
+            if ($oldStatusId != $inputFields['status_id']) {
                 $mentorStatusHistoryManager->createMentorStatusHistory($mentor, $inputFields['status_id'],
                     (isset($inputFields['status_history_comment'])) ? $inputFields['status_history_comment'] : "",
                     ($inputFields['follow_up_date'] != "") ?
                         $inputFields['follow_up_date'] : null, $loggedInUser);
             }
-            if(isset($inputFields['company_id'])) {
+            if (isset($inputFields['company_id'])) {
                 $this->handleMentorCompany($mentor, $inputFields['company_id']);
             }
         });
@@ -181,14 +187,13 @@ class MentorManager {
     private function getCompanyIdAndCreateCompanyIfNeeded($companyId) {
         $companyManager = new CompanyManager();
         // check if $companyId is a valid DB id and return it
-        if(intval($companyId) != 0) {
+        if (intval($companyId) != 0) {
             // the id is NOT valid, return empty string
             if ($companyManager->getCompany($companyId) == null) {
                 return "";
             }
             return $companyId;
-        }
-        // if the company doesn't exist, create a new one
+        } // if the company doesn't exist, create a new one
         else {
             $newCompanyName = str_replace('new-company-', '', $companyId);
             $newCompany = $companyManager->createCompany(['name' => $newCompanyName]);
@@ -197,14 +202,14 @@ class MentorManager {
     }
 
     /**
-     * Given a company id and a @see MentorProfile, if the company id is not null
+     * Given a company id and a @param MentorProfile $mentorProfile the mentor profile assign the company to
+     * @param $companyId int the id of the company
+     * @see MentorProfile, if the company id is not null
      * then this company gets assigned to the mentor.
      *
-     * @param MentorProfile $mentorProfile the mentor profile assign the company to
-     * @param $companyId int the id of the company
      */
     private function handleMentorCompany(MentorProfile $mentorProfile, $companyId) {
-        if(isset($companyId)) {
+        if (isset($companyId)) {
             if ($companyId == "") {
                 $mentorProfile->company_id = null;
             } else {
@@ -221,24 +226,24 @@ class MentorManager {
      */
     private function assignInputFieldsToMentorProfile(MentorProfile $mentorProfile, array $inputFields) {
         $mentorProfile->fill($inputFields);
-        if(isset($inputFields['residence_id']))
+        if (isset($inputFields['residence_id']))
             $mentorProfile->residence_id = $inputFields['residence_id'] != '' ? $inputFields['residence_id'] : null;
-        if(isset($inputFields['reference_id']))
+        if (isset($inputFields['reference_id']))
             $mentorProfile->reference_id = $inputFields['reference_id'] != '' ? $inputFields['reference_id'] : null;
-        if(isset($inputFields['education_level_id']))
+        if (isset($inputFields['education_level_id']))
             $mentorProfile->education_level_id = $inputFields['education_level_id'] != '' ? $inputFields['education_level_id'] : null;
-        if(isset($inputFields['university_id']))
+        if (isset($inputFields['university_id']))
             $mentorProfile->university_id = $inputFields['university_id'] != '' ? $inputFields['university_id'] : null;
-        if(isset($inputFields['year_of_birth']))
+        if (isset($inputFields['year_of_birth']))
             $mentorProfile->year_of_birth = $inputFields['year_of_birth'] != '' ? $inputFields['year_of_birth'] : null;
         return $mentorProfile;
     }
 
     /**
-     * Gets a @see  MentorProfile instance, by id
-     *
-     * @param $id int the id
+     * Gets a @param $id int the id
      * @return MentorProfile
+     * @see  MentorProfile instance, by id
+     *
      */
     public function getMentor($id) {
         $mentor = $this->mentorStorage->getMentorProfileById($id);
@@ -255,7 +260,7 @@ class MentorManager {
      * @param $mentorId int the id
      */
     public function deleteMentor($mentorId) {
-        DB::transaction(function() use($mentorId) {
+        DB::transaction(function () use ($mentorId) {
             $mentor = $this->getMentor($mentorId);
             $mentor->company_id = null;
             $mentor->email = $mentor->email . '_old_' . microtime();
@@ -265,9 +270,9 @@ class MentorManager {
     }
 
     /**
-     * Gets all mentors that do not belong to any @see Company
+     * Gets all mentors that do not belong to any @return mixed Collection of mentors
+     * @see Company
      *
-     * @return mixed Collection of mentors
      */
     public function getMentorsWithNoCompanyAssigned() {
         $mentors = $this->mentorStorage->getMentorsByCompanyId(null);
@@ -275,11 +280,11 @@ class MentorManager {
     }
 
     /**
-     * Gets all mentors that do not belong to any @see Company, except from those
+     * Gets all mentors that do not belong to any @param Company $company the company that will be excluded
+     * @return Collection of mentors
+     * @see Company, except from those
      * belonging to a given company.
      *
-     * @param Company $company the company that will be excluded
-     * @return Collection of mentors
      */
     public function getMentorsWithNoCompanyAssignedExceptCompany(Company $company) {
         $mentorsWithNoCompany = $this->mentorStorage->getMentorsByCompanyId(null);
@@ -288,15 +293,15 @@ class MentorManager {
     }
 
     /**
-     * Assigns a given company to a given @see MentorProfile
-     *
-     * @param Company $company the company that will be assigned to the mentor
+     * Assigns a given company to a given @param Company $company the company that will be assigned to the mentor
      * @param $mentorId int the id of the @see MentorProfile instance
      * @throws \Exception if the given mentor has already a company assigned to them
+     * @see MentorProfile
+     *
      */
     public function assignCompanyToMentor(Company $company, $mentorId) {
         $mentor = $this->getMentor($mentorId);
-        if($mentor->hasCompany()) {
+        if ($mentor->hasCompany()) {
             throw new \Exception("The mentor " . $mentor->first_name . " " . $mentor->last_name . " has already a company assigned.");
         }
         $mentor->company_id = $company->id;
@@ -321,8 +326,7 @@ class MentorManager {
      * @param array $input array with criteria values
      * @return Collection|mixed|static[] a collection with mentor view models satisfying the criteria
      */
-    public function getMentorViewModelsByCriteria(array $input)
-    {
+    public function getMentorViewModelsByCriteria(array $input) {
         $mentors = $this->getMentorsByCriteria($input);
         $mentorViewModels = new Collection();
         foreach ($mentors as $mentor) {
@@ -339,16 +343,16 @@ class MentorManager {
      * @throws \Exception
      */
     private function getMentorsByCriteria($filters) {
-        if((!isset($filters['mentorName'])  || $filters['mentorName'] === "") &&
-            (!isset($filters['ageRange'])  || $filters['ageRange'] === "") &&
-            (!isset($filters['specialtyId'])  || $filters['specialtyId'] === "") &&
-            (!isset($filters['companyId'])  || $filters['companyId'] === "") &&
-            (!isset($filters['availabilityId'])  || $filters['availabilityId'] === "") &&
-            (!isset($filters['residenceId'])  || $filters['residenceId'] === "") &&
+        if ((!isset($filters['mentorName']) || $filters['mentorName'] === "") &&
+            (!isset($filters['ageRange']) || $filters['ageRange'] === "") &&
+            (!isset($filters['specialtyId']) || $filters['specialtyId'] === "") &&
+            (!isset($filters['companyId']) || $filters['companyId'] === "") &&
+            (!isset($filters['availabilityId']) || $filters['availabilityId'] === "") &&
+            (!isset($filters['residenceId']) || $filters['residenceId'] === "") &&
             (!isset($filters['completedSessionsCount']) || $filters['completedSessionsCount'] === "") &&
             (!isset($filters['averageRating']) || $filters['averageRating'] === "") &&
-            (!isset($filters['displayOnlyExternallySubscribed'])  || $filters['displayOnlyExternallySubscribed'] === 'false') &&
-            (!isset($filters['displayOnlyAvailableWithCancelledSessions'])  || $filters['displayOnlyAvailableWithCancelledSessions'] === 'false')
+            (!isset($filters['displayOnlyExternallySubscribed']) || $filters['displayOnlyExternallySubscribed'] === 'false') &&
+            (!isset($filters['displayOnlyAvailableWithCancelledSessions']) || $filters['displayOnlyAvailableWithCancelledSessions'] === 'false')
         ) {
             return $this->mentorStorage->getAllMentorProfiles();
         }
@@ -356,16 +360,16 @@ class MentorManager {
         $dbQuery = "select distinct mp.id
             from mentor_profile as mp
             left outer join mentor_specialty as ms on mp.id = ms.mentor_profile_id ";
-        if(isset($filters['averageRating']) && $filters['averageRating'] != "") {
-            if(intval($filters['averageRating']) == 0 || intval($filters['averageRating']) < 1 ||
+        if (isset($filters['averageRating']) && $filters['averageRating'] != "") {
+            if (intval($filters['averageRating']) == 0 || intval($filters['averageRating']) < 1 ||
                 intval($filters['averageRating']) > 5) {
                 throw new \Exception("Filter value is not valid.");
             }
             $dbQuery .= "join (
                     select round(avg(rating)), mentor_id from mentor_rating group by mentor_id having round(avg(rating)) = " .
-                    intval($filters['averageRating']) . ") as mentors_with_avg_rating on mp.id=mentors_with_avg_rating.mentor_id ";
+                intval($filters['averageRating']) . ") as mentors_with_avg_rating on mp.id=mentors_with_avg_rating.mentor_id ";
         }
-        if(isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
+        if (isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
             $dbQuery .= "left outer join
 			(
@@ -374,91 +378,91 @@ class MentorManager {
 				group by mentor_profile_id
 			) as completed_sessions on mp.id=completed_sessions.mentor_profile_id ";
         }
-        if(isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === "true") {
+        if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === "true") {
             $dbQuery .= "left outer join mentorship_session as mses on mses.mentor_profile_id = mp.id
                 left outer join
                 (select max(id) as last_session_id from mentorship_session group by mentor_profile_id) 
                 as last_sessions on last_sessions.last_session_id = mses.id ";
         }
         $dbQuery .= "where ";
-        if(isset($filters['mentorName']) && $filters['mentorName'] != "") {
+        if (isset($filters['mentorName']) && $filters['mentorName'] != "") {
             $dbQuery .= "(mp.first_name like '%" . $filters['mentorName'] . "%' or mp.last_name like '%" . $filters['mentorName'] . "%') ";
             $whereClauseExists = true;
         }
-        if(isset($filters['ageRange']) && $filters['ageRange'] != "") {
+        if (isset($filters['ageRange']) && $filters['ageRange'] != "") {
             $ageRange = explode(';', $filters['ageRange']);
-            if(intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
+            if (intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if($whereClauseExists) {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "(mp.year_of_birth > year(curdate()) - " . $ageRange[1] . " and mp.year_of_birth < year(curdate()) - " . $ageRange[0] . ") ";
             $whereClauseExists = true;
         }
-        if(isset($filters['specialtyId']) && $filters['specialtyId'] != "") {
-            if(intval($filters['specialtyId']) == 0) {
+        if (isset($filters['specialtyId']) && $filters['specialtyId'] != "") {
+            if (intval($filters['specialtyId']) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if($whereClauseExists) {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "ms.specialty_id = " . $filters['specialtyId'] . " ";
             $whereClauseExists = true;
         }
-        if(isset($filters['companyId']) && $filters['companyId'] != "") {
-            if(intval($filters['companyId']) == 0) {
+        if (isset($filters['companyId']) && $filters['companyId'] != "") {
+            if (intval($filters['companyId']) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if($whereClauseExists) {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.company_id = " . $filters['companyId'] . " ";
             $whereClauseExists = true;
         }
-        if(isset($filters['availabilityId']) && $filters['availabilityId'] != "") {
-            if(intval($filters['availabilityId']) == 0) {
+        if (isset($filters['availabilityId']) && $filters['availabilityId'] != "") {
+            if (intval($filters['availabilityId']) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if($whereClauseExists) {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.status_id = " . $filters['availabilityId'] . " ";
             $whereClauseExists = true;
         }
-        if(isset($filters['residenceId']) && $filters['residenceId'] != "") {
-            if(intval($filters['residenceId']) == 0) {
+        if (isset($filters['residenceId']) && $filters['residenceId'] != "") {
+            if (intval($filters['residenceId']) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if($whereClauseExists) {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.residence_id = " . $filters['residenceId'] . " ";
             $whereClauseExists = true;
         }
-        if(isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
-            if(intval($filters['completedSessionsCount']) == 0) {
+        if (isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
+            if (intval($filters['completedSessionsCount']) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if($whereClauseExists) {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
-            if($filters['completedSessionsCount'] < 5) {
+            if ($filters['completedSessionsCount'] < 5) {
                 $dbQuery .= "completed_sessions.completed_sessions_count = " . $filters['completedSessionsCount'] . " ";
             } else {
                 $dbQuery .= "completed_sessions.completed_sessions_count >= " . $filters['completedSessionsCount'] . " ";
             }
             $whereClauseExists = true;
         }
-        if(isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
-            if($whereClauseExists) {
+        if (isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $dbQuery .= "mp.creator_user_id is null ";
             $whereClauseExists = true;
         }
-        if(isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
-            if($whereClauseExists) {
+        if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
+            if ($whereClauseExists) {
                 $dbQuery .= "and ";
             }
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
@@ -487,21 +491,21 @@ class MentorManager {
      * @throws \Exception When something weird happens with the parameters passed
      */
     public function changeMentorAvailabilityStatus(array $input) {
-        if(isset($input['do_not_contact'])) {
+        if (isset($input['do_not_contact'])) {
             $input['follow_up_date'] = "";
         }
-        if($input['follow_up_date'] != "") {
+        if ($input['follow_up_date'] != "") {
             $dateArray = explode("/", $input['follow_up_date']);
             $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
         }
         $mentor = $this->getMentor($input['mentor_id']);
         // if something wrong passed
-        if($mentor == null || intval($input['status_id']) == 0) {
+        if ($mentor == null || intval($input['status_id']) == 0) {
             throw new \Exception("Wrong parameters passed.");
         }
         $mentor->status_id = $input['status_id'];
         $loggedInUser = Auth::user();
-        DB::transaction(function() use($mentor, $input, $loggedInUser) {
+        DB::transaction(function () use ($mentor, $input, $loggedInUser) {
             $mentor = $this->mentorStorage->saveMentor($mentor);
             $mentorStatusHistoryManager = new MentorStatusHistoryManager();
             $mentorStatusHistoryManager->createMentorStatusHistory($mentor, $input['status_id'], $input['status_history_comment'],
@@ -518,9 +522,9 @@ class MentorManager {
      */
     public function makeMentorAvailable($id, $email) {
         $mentor = $this->getMentor($id);
-        if($mentor->email === $email) {
+        if ($mentor->email === $email) {
             // mentor shouldn't be already available or participating in an active session
-            if($this->mentorIsAllowedToBeAvailableAgain($mentor)) {
+            if ($this->mentorIsAllowedToBeAvailableAgain($mentor)) {
                 $this->editMentor(['status_id' => 1], $id);
                 return "SUCCESS";
             }
@@ -547,10 +551,10 @@ class MentorManager {
         $itemsCount = $items ? count($items) : 0;
         // FIX for searching with page number, when search has fetched less results
         // (fix: go to the first page!)
-        if($currentPage > ceil($itemsCount / $perPage))
+        if ($currentPage > ceil($itemsCount / $perPage))
             $currentPage = "1";
 
-        if(!empty($items)) {
+        if (!empty($items)) {
             //Slice the collection to get the items to display in current page
             $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
         } else {

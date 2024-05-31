@@ -27,6 +27,10 @@ class MentorStorage {
         return MentorProfile::find($id);
     }
 
+    public function getMentorProfileByEmail($email) {
+        return MentorProfile::where('email', $email)->first();
+    }
+
     public function getMentorsByCompanyId($companyId) {
         return MentorProfile::where(['company_id' => $companyId])
             ->orderBy('created_at')->get();

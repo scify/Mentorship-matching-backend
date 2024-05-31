@@ -4,7 +4,6 @@ namespace App\StorageLayer;
 
 use App\BusinessLogicLayer\enums\MenteeStatuses;
 use App\Models\eloquent\MenteeProfile;
-use App\Models\eloquent\MentorshipSession;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -26,6 +25,10 @@ class MenteeStorage {
 
     public function getMenteeProfileById($id) {
         return MenteeProfile::find($id);
+    }
+
+    public function getMenteeProfileByEmail($email) {
+        return MenteeProfile::where('email', $email)->first();
     }
 
     public function getMenteesThatMatchGivenNameOrEmail($searchQuery) {
