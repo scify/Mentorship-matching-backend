@@ -2,7 +2,9 @@
 
 namespace App\StorageLayer;
 
+use App\BusinessLogicLayer\enums\MenteeStatuses;
 use App\Models\eloquent\MenteeProfile;
+use App\Models\eloquent\MentorshipSession;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -59,5 +61,12 @@ class MenteeStorage {
           left join mentee_status_lookup on mentee.status_id = mentee_status_lookup.id
           where mentee.deleted_at is null
           order by mentee.id'));
+    }
+
+    public function getUnmatchedMenteesCreatedSince($months) {
+        return MenteeProfile::where('status_id', MenteeStatuses::$statuses['available'])
+            ->whereDoesntHave('sessions')
+            ->whereRaw('created_at < DATE_SUB(NOW(), INTERVAL ' . $months . ' MONTH)')
+            ->orderBy('created_at')->limit(1)->get();
     }
 }

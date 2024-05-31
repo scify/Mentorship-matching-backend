@@ -3,12 +3,15 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class MenteeProfile extends Model
-{
+class MenteeProfile extends Model {
     use SoftDeletes, Notifiable;
+
     /**
      * The table associated with the model.
      *
@@ -31,80 +34,65 @@ class MenteeProfile extends Model
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function residence()
-    {
+    public function residence() {
         return $this->hasOne(Residence::class, 'id', 'residence_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function reference()
-    {
+    public function reference() {
         return $this->hasOne(Reference::class, 'id', 'reference_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function creator()
-    {
+    public function creator() {
         return $this->hasOne(User::class, 'id', 'creator_user_id');
     }
 
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-//     */
-//    public function specialty()
-//    {
-//        return $this->hasOne(Specialty::class, 'id', 'specialty_id');
-//    }
-
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function university()
-    {
+    public function university() {
         return $this->hasOne(University::class, 'id', 'university_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function educationLevel()
-    {
+    public function educationLevel() {
         return $this->hasOne(EducationLevel::class, 'id', 'education_level_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function sessions() {
         return $this->hasMany(MentorshipSession::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function statusHistory()
-    {
+    public function statusHistory() {
         return $this->hasMany(MenteeStatusHistory::class, 'mentee_profile_id', 'id')->orderBy('created_at', 'desc');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function ratings() {
+    public function ratings(): HasMany {
         return $this->hasMany(MenteeRating::class, 'mentee_id', 'id');
     }
 
     /**
      * Get the mentee's specialties
      */
-    public function specialties()
-    {
+    public function specialties(): BelongsToMany {
         return $this->belongsToMany(Specialty::class, 'mentee_specialty')->wherePivot('deleted_at', null);
     }
 }
