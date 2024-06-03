@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Sentry;
 
 class MentorshipSessionController extends Controller {
     private $mentorshipSessionManager;
@@ -320,7 +321,8 @@ class MentorshipSessionController extends Controller {
                 ]);
             }
         } catch (\Exception $e) {
-            Log::info('Error on session acceptance: ' . $e->getCode() . "  " . $e->getMessage());
+            Sentry::captureException($e);
+            Log::error('Error on session acceptance: ' . $e->getCode() . "  " . $e->getMessage());
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.error_occurred'),
                 'title' => $viewTitle

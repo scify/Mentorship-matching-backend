@@ -24,7 +24,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use League\Flysystem\Exception;
+use Sentry;
 
 class MentorshipSessionManager {
     private $mentorshipSessionStorage;
@@ -633,6 +635,8 @@ class MentorshipSessionManager {
             ]);
             return true;
         } else {
+            Log::error("Mentorship session could not be accepted. " . $role . " " . $id . " " . $email . " " . $statusToSet . " " . $invitedPerson->id . " " . $invitedPerson->email);
+            Sentry::captureException(new Exception("Mentorship session could not be accepted. " . $role . " " . $id . " " . $email . " " . $statusToSet . " " . $invitedPerson->id . " " . $invitedPerson->email));
             return false;
         }
     }
