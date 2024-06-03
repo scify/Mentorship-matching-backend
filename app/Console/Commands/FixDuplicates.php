@@ -39,12 +39,16 @@ class FixDuplicates extends Command {
         $handledEmails = [];
         $mentors = MenteeProfile::withTrashed()->whereIn('email', function ($query) {
             $query->select('email')->from('mentee_profile')->groupBy('email')->havingRaw('count(*) > 1');
-        })->whereDoesntHave('sessions')
+        })->with('sessions')
             ->get();
         foreach ($mentors as $mentee) {
+            if($mentee->sessions->count() > 0) {
+                continue;
+            }
             if (!in_array($mentee->email, $handledEmails)) {
+                echo "Duplicate mentee email found: " . $mentee->email . "\n";
                 $handledEmails[] = $mentee->email;
-                $mentee->email = $mentee->email . '_duplicate';
+                $mentee->email = $mentee->email . '_duplicate_' . $mentee->id;
                 $mentee->save();
                 $mentee->delete();
             }
@@ -55,12 +59,16 @@ class FixDuplicates extends Command {
         $handledEmails = [];
         $mentors = MentorProfile::withTrashed()->whereIn('email', function ($query) {
             $query->select('email')->from('mentor_profile')->groupBy('email')->havingRaw('count(*) > 1');
-        })->whereDoesntHave('sessions')
+        })->with('sessions')
             ->get();
         foreach ($mentors as $mentor) {
+            if($mentor->sessions->count() > 0) {
+                continue;
+            }
             if (!in_array($mentor->email, $handledEmails)) {
+                echo "Duplicate mentor email found: " . $mentor->email . "\n";
                 $handledEmails[] = $mentor->email;
-                $mentor->email = $mentor->email . '_duplicate';
+                $mentor->email = $mentor->email . '_duplicate_' . $mentor->id;
                 $mentor->save();
                 $mentor->delete();
             }
