@@ -11,22 +11,15 @@ namespace App\StorageLayer;
 
 use App\Models\eloquent\MenteeRating;
 
-class MenteeRatingStorage
-{
-    public function rateMentee($sessionId, $menteeId, $mentorId, $rating, $ratingDescription)
-    {
-        $menteeRating = new MenteeRating();
-        $menteeRating->session_id = $sessionId;
-        $menteeRating->mentee_id = $menteeId;
-        $menteeRating->rated_by_id = $mentorId;
-        $menteeRating->rating = $rating;
-        $menteeRating->rating_description = $ratingDescription;
-        $menteeRating->save();
-        return $menteeRating;
+class MenteeRatingStorage {
+    public function rateMentee($sessionId, $menteeId, $mentorId, $rating, $ratingDescription): MenteeRating {
+        return MenteeRating::updateOrCreate(
+            ['session_id' => $sessionId, 'mentee_id' => $menteeId],
+            ['session_id' => $sessionId, 'mentee_id' => $menteeId, 'rated_by_id' => $mentorId, 'rating' => $rating, 'rating_description' => $ratingDescription]
+        );
     }
 
-    public function getAverageRatingForMentee($menteeId)
-    {
+    public function getAverageRatingForMentee($menteeId) {
         $avgRating = MenteeRating::where('mentee_id', $menteeId)->avg('rating')->first();
         return $avgRating;
     }
