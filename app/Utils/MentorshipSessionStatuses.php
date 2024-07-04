@@ -28,37 +28,33 @@ class MentorshipSessionStatuses
         'cancelled_acc_man' => 14
     );
 
-    public static function getActiveSessionStatuses() {
-        $activeSessionStatuses = array(
+    public static function getActiveSessionStatuses(): array {
+        return array(
             self::$statuses['pending'], self::$statuses['introduction_sent'], self::$statuses['available_mentee'],
             self::$statuses['available_mentor'], self::$statuses['started'], self::$statuses['first_meeting'],
             self::$statuses['second_meeting'], self::$statuses['third_meeting'], self::$statuses['fourth_meeting']
         );
-        return $activeSessionStatuses;
     }
 
-    public static function getCompletedSessionStatuses() {
-        $completedSessionStatuses =  array(
+    public static function getCompletedSessionStatuses(): array {
+        return array(
             self::$statuses['evaluation_sent'], self::$statuses['follow_up_sent']
         );
-        return $completedSessionStatuses;
     }
 
-    public static function getPendingSessionStatuses() {
-        $completedSessionStatuses =  array(
+    public static function getPendingSessionStatuses(): array {
+        return array(
             self::$statuses['pending']
         );
-        return $completedSessionStatuses;
     }
 
-    public static function getCancelledSessionStatuses() {
-        $cancelledSessionStatuses = array(
+    public static function getCancelledSessionStatuses(): array {
+        return array(
             self::$statuses['cancelled_mentee'], self::$statuses['cancelled_mentor'], self::$statuses['cancelled_acc_man']
         );
-        return $cancelledSessionStatuses;
     }
 
-    public static function getIntroductionSentSessionStatus() {
+    public static function getIntroductionSentSessionStatus(): int {
         return self::$statuses['introduction_sent'];
     }
 }

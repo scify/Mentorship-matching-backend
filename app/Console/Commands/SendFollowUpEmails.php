@@ -6,6 +6,7 @@ use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\Notifications\MenteeFollowUp;
 use App\Utils\MentorshipSessionStatuses;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class SendFollowUpEmails extends Command {
     protected $sessionManager;
@@ -43,19 +44,19 @@ class SendFollowUpEmails extends Command {
         $sessions = $this->sessionManager->getSessionsForFollowUp();
         if (count($sessions) > 0) {
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-            $sessionIdsForInfoMsg = "";
+            $sessionIdsForInfoMsg = [];
             foreach ($sessions as $session) {
-                $session->mentee->notify(new MenteeFollowUp($session));
-                // set to 'follow up sent' status
-                $sessionEditInfo = array('mentorship_session_id' => $session->id,
-                    'status_id' => $mentorshipSessionStatuses::getCompletedSessionStatuses()[1]
-                );
-                $this->sessionManager->editMentorshipSession($sessionEditInfo);
-                $sessionIdsForInfoMsg .= $session->id . ", ";
+//                $session->mentee->notify(new MenteeFollowUp($session));
+//                // set to 'follow up sent' status
+//                $sessionEditInfo = array('mentorship_session_id' => $session->id,
+//                    'status_id' => $mentorshipSessionStatuses::getCompletedSessionStatuses()[1]
+//                );
+//                $this->sessionManager->editMentorshipSession($sessionEditInfo);
+                $sessionIdsForInfoMsg[] = $session->id;
             }
-            $this->info("Follow ups were sent for sessions with ids: " . substr_replace($sessionIdsForInfoMsg, '', -2));
+            Log::info(now()->toDateString() . ": Follow ups were sent for sessions with ids: " . implode(", ", $sessionIdsForInfoMsg));
         } else {
-            $this->info("No follow ups sent today!");
+            Log::info(now()->toDateString() . ": No follow ups sent today!");
         }
         return 0;
     }

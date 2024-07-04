@@ -70,6 +70,6 @@ class MenteeStorage {
         return MenteeProfile::where('status_id', MenteeStatuses::$statuses['available'])
             ->whereDoesntHave('sessions')
             ->whereRaw('created_at < DATE_SUB(NOW(), INTERVAL ' . $months . ' MONTH)')
-            ->orderBy('created_at')->limit(1)->get();
+            ->orderBy('created_at')->get();
     }
 }

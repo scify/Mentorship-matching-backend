@@ -44,7 +44,7 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
             ->greeting('Αγαπητέ mentee,')
             ->line("Θα ήταν χαρά μας να μοιραστείτε μαζί μας τα επαγγελματικά σας νέα και τις αλλαγές που έχουν γίνει στη ζωή σας. ")
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλώ, συμπληρώστε το ερωτηματολόγιο πατώντας εδώ:</span>')
-            ->action('Συμπληρώστε', 'https://goo.gl/forms/ebgF1Bzrefi9mJxL2')
+            ->action('Συμπληρώστε το ερωτηματολόγιο', 'https://forms.gle/phq1T1ksArKzHBVTA')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
             ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
     }

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class MentorshipSessionStorage
 {
-    public function saveMentorshipSession(MentorshipSession $mentorshipSession) {
+    public function saveMentorshipSession(MentorshipSession $mentorshipSession): MentorshipSession {
         $mentorshipSession->save();
         return $mentorshipSession;
     }
@@ -105,23 +105,18 @@ class MentorshipSessionStorage
     }
 
     public function getMentorshipSessionsForFollowUp() {
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-        $beforeThreeMonthsDate = Carbon::now()->subMonths(3);
-        // set time to '00:00:00'
-        $beforeThreeMonthsDate->hour(0);
-        $beforeThreeMonthsDate->minute(0);
-        $beforeThreeMonthsDate->second(0);
-        // gets mentorship sessions with matching date and status 'completed - evaluation sent'
-        return MentorshipSession::where('updated_at', '>=', date($beforeThreeMonthsDate))
-            ->where('updated_at', '<', date($beforeThreeMonthsDate->addDay()))
-            ->where('status_id', '=', $mentorshipSessionStatuses::getCompletedSessionStatuses()[0])->get();
+        // get mentorship sessions updated in the last 3 months and status 'evaluation_sent'
+        $threeMonthsAgo = Carbon::now()->subMonths(3);
+        return MentorshipSession::where(['status_id' => MentorshipSessionStatuses::$statuses['evaluation_sent']])
+            ->where('updated_at', '>=', $threeMonthsAgo)
+            ->get();
     }
 
-    public function getMentorshipSessionsCountForMentee($menteeProfileId) {
+    public function getMentorshipSessionsCountForMentee($menteeProfileId): int {
         return MentorshipSession::where(['mentee_profile_id' => $menteeProfileId])->count();
     }
 
-    public function getMentorshipSessionsCountForMentor($mentorProfileId) {
+    public function getMentorshipSessionsCountForMentor($mentorProfileId): int {
         return MentorshipSession::where(['mentor_profile_id' => $mentorProfileId])->count();
     }
 }
