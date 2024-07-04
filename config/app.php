@@ -7,6 +7,7 @@ return [
      */
     'OPERATION_SUCCESS' => 1,
     'OPERATION_FAIL' => 2,
+    'EMAIL_FOR_CC' => 'info@job-pairs.gr',
 
     /*
     |--------------------------------------------------------------------------
