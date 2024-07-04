@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\DB;
 class MenteeStorage {
 
     public function saveMentee(MenteeProfile $mentee) {
-        $mentee->save();
-        return $mentee;
+        // email is unique and can be used to identify a MenteeProfile
+        $attributes = ['email' => $mentee->email];
+        $values = $mentee->getFillable();
+
+        return MenteeProfile::updateOrCreate($attributes, $values);
     }
 
     public function getAllMenteeProfiles() {
