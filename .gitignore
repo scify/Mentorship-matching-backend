@@ -20,3 +20,4 @@ public/fonts
 public/vendor
 public/.well-known/
 public/mix-manifest.json
+*.bak
