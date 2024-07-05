@@ -41,7 +41,7 @@ class MenteeSessionInvitation extends Notification implements ShouldQueue {
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject("Job-Pairs | Έχουμε βρει κατάλληλο μέντορα για εσάς")
-            ->greeting('Αγαπητέ mentee,')
+            ->greeting('Αγαπητή/έ mentee,')
             ->line("Μετά από αίτηση που κάνατε για να συμμετέχετε στο mentoring πρόγραμμα του Job-Pairs, θα θέλαμε να σας ενημερώσουμε πως έχουμε βρει κατάλληλο μέντορα.")
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Πατώντας "Αποδοχή", κάποιο μέλος της ομάδας μας θα επικοινωνήσει μαζί σας για να ξεκινήσετε τις συναντήσεις με τον μέντορα σας.</span>')
             ->action('Αποδοχή', route('acceptMentorshipSession', [
@@ -50,8 +50,10 @@ class MenteeSessionInvitation extends Notification implements ShouldQueue {
             ->line('<p style="text-align: center; margin-top: 10px; margin-bottom: 10px;"><a href="' . route('declineMentorshipSessionConfirmation', [
                     'id' => $this->mentorshipSession->mentee->id, 'email' => $this->mentorshipSession->mentee->email, 'mentorshipSessionId' => $this->mentorshipSession->id, 'role' => 'mentee', 'lang' => 'gr'
                 ]) . '">Απόρριψη</a></p>')
-            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
-            ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
+            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εκτίμηση,</div>')
+            ->line('Η ομάδα του Job-Pairs')
+            ->line('<a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a>')
+            ->cc($this->mentorshipSession->account_manager->email);
     }
 
     /**

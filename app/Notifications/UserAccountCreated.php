@@ -41,7 +41,8 @@ class UserAccountCreated extends Notification implements ShouldQueue {
         return (new MailMessage)
             ->line('Job Pairs | Your account has been created')
             ->line('Your account has been created successfully. Your email is: ' . $this->email)
-            ->line('Thank you for using our application!');
+            ->line('Thank you for using our application!')
+            ->line('<a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a>');
     }
 
     /**

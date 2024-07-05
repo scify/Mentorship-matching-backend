@@ -41,12 +41,14 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject("Job-Pairs | Μοιραστείτε μαζί μας τα επαγγελματικά σας νέα")
-            ->greeting('Αγαπητέ mentee,')
+            ->greeting('Αγαπητή/έ mentee,')
             ->line("Θα ήταν χαρά μας να μοιραστείτε μαζί μας τα επαγγελματικά σας νέα και τις αλλαγές που έχουν γίνει στη ζωή σας. ")
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλώ, συμπληρώστε το ερωτηματολόγιο πατώντας εδώ:</span>')
             ->action('Συμπληρώστε το ερωτηματολόγιο', 'https://forms.gle/phq1T1ksArKzHBVTA')
-            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
-            ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
+            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εκτίμηση,</div>')
+            ->line('Η ομάδα του Job-Pairs')
+            ->line('<a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a>')
+            ->cc($this->mentorshipSession->account_manager->email);
     }
 
     /**

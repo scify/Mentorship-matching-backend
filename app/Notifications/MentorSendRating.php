@@ -42,14 +42,16 @@ class MentorSendRating extends Notification implements ShouldQueue {
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject("Job-Pairs | Οι συναντήσεις σας ολοκληρώθηκαν")
-            ->greeting('Αγαπητέ mentor,')
+            ->greeting('Αγαπητή/έ mentor,')
             ->line("Θα θέλαμε να σας ευχαριστήσουμε θερμά για τη συμμετοχή σας στο Job-Pairs και την ολοκλήρωση των συναντήσεων σας. Χάρη σε εσάς, συνεχίζουμε να δημιουργούμε επαγγελματικές ευκαιρίες.")
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφθείτε τον παρακάτω σύνδεσμο ώστε να αξιολογήσετε τον mentee και το πρόγραμμα μας.</span>')
             ->action('Αξιολογήστε εδώ', route('showMenteeRatingForm', [
                 'sessionId' => $this->mentorshipSession->id, 'mentorId' => $this->mentorshipSession->mentor->id, 'menteeId' => $this->mentorshipSession->mentee->id, 'lang' => 'gr'
             ]))
-            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εξαιρετική εκτίμηση,</div>')
-            ->line('Η ομάδα του Job-Pairs')->cc($this->mentorshipSession->account_manager->email);
+            ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εκτίμηση,</div>')
+            ->line('Η ομάδα του Job-Pairs')
+            ->line('<a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a>')
+            ->cc($this->mentorshipSession->account_manager->email);
     }
 
     /**

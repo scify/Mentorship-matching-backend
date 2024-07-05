@@ -51,7 +51,9 @@ class AccountManagerSessionInvitation extends Notification implements ShouldQueu
             ->action('Accept', route('acceptToManageMentorshipSession', ['id' => $this->accountManager->id, 'email' => $this->accountManager->email, 'mentorshipSessionId' => $this->mentorshipSession->id]))
             ->line('<p style="text-align: center; margin-top: 10px; margin-bottom: 10px;"><a href="' . route('declineToManageMentorshipSession', ['id' => $this->accountManager->id, 'email' => $this->accountManager->email, 'mentorshipSessionId' => $this->mentorshipSession->id]) . '">Decline</a></p>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Regards,</div>')
-            ->line('The Job-Pairs team')->cc($this->mentorshipSession->account_manager->email);
+            ->line('The Job-Pairs team')
+            ->line('<a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a>')
+            ->cc($this->mentorshipSession->account_manager->email);
     }
 
     /**
