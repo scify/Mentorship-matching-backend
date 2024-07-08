@@ -1,3 +1,6 @@
+const {Pleasure} = require("../../pleasure-admin-panel/js/pleasure");
+
+
 window.MenteesListController = function () {
 };
 

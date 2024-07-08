@@ -6,6 +6,7 @@ let $ = require("jquery");
 require('icheck');
 require('bootstrap');
 require('bootstrap-select');
+require('toastr');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
