@@ -620,13 +620,13 @@ class MentorshipSessionManager {
         if ($role === 'mentee') {
             $invitedPerson = $mentorshipSession->mentee;
             // this is the case when the mentee is available
-            if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['introduction_sent'])
+            // if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['introduction_sent'])
                 $statusToSet = MentorshipSessionStatuses::$statuses['available_mentee'];
 
         } else if ($role === 'mentor') {
             $invitedPerson = $mentorshipSession->mentor;
             // this is the case when mentor is available
-            if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['available_mentee'])
+            // if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['available_mentee'])
                 $statusToSet = MentorshipSessionStatuses::$statuses['available_mentor'];
         }
         if ($statusToSet !== -1 && $invitedPerson->id == $id && $invitedPerson->email === $email) {
