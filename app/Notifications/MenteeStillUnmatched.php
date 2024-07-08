@@ -12,6 +12,8 @@ class MenteeStillUnmatched extends Notification implements ShouldQueue {
 
     private $menteeProfile;
 
+    public $tries = 3;
+
     /**
      * Create a new notification instance.
      *

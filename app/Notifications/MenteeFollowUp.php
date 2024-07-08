@@ -13,6 +13,8 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
 
     private $mentorshipSession;
 
+    public $tries = 3;
+
     /**
      * Create a new notification instance.
      *
