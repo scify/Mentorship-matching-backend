@@ -15,6 +15,8 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
 
     public $tries = 3;
 
+    public $backoff = 10;
+
     /**
      * Create a new notification instance.
      *
