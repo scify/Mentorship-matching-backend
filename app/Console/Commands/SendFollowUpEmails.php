@@ -46,12 +46,12 @@ class SendFollowUpEmails extends Command {
             $mentorshipSessionStatuses = new MentorshipSessionStatuses();
             $sessionIdsForInfoMsg = [];
             foreach ($sessions as $session) {
-//                $session->mentee->notify(new MenteeFollowUp($session));
-//                // set to 'follow up sent' status
-//                $sessionEditInfo = array('mentorship_session_id' => $session->id,
-//                    'status_id' => $mentorshipSessionStatuses::getCompletedSessionStatuses()[1]
-//                );
-//                $this->sessionManager->editMentorshipSession($sessionEditInfo);
+                $session->mentee->notify(new MenteeFollowUp($session));
+                // set to 'follow up sent' status
+                $sessionEditInfo = array('mentorship_session_id' => $session->id,
+                    'status_id' => $mentorshipSessionStatuses::getCompletedSessionStatuses()[1]
+                );
+                $this->sessionManager->editMentorshipSession($sessionEditInfo);
                 $sessionIdsForInfoMsg[] = $session->id;
             }
             Log::info(now()->toDateString() . ": Follow ups were sent for sessions with ids: " . implode(", ", $sessionIdsForInfoMsg));

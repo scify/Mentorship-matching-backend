@@ -45,13 +45,13 @@ class HandleUnmatchedMentees extends Command {
         $num_of_mentees_rejected = 0;
         $num_of_mentees_notified = 0;
         foreach ($mentees as $mentee) {
-            // $mentee->status_id = MenteeStatuses::$statuses['rejected'];
-            // $mentee->save();
+            $mentee->status_id = MenteeStatuses::$statuses['rejected'];
+            $mentee->save();
             $num_of_mentees_rejected += 1;
             // if the mentee was created after 1/1/2024, then also send the email
             if ($mentee->created_at > '2024-01-01') {
                 echo "Sending email to " . $mentee->email . "\n";
-                // $mentee->notify(new MenteeStillUnmatched());
+                $mentee->notify(new MenteeStillUnmatched());
                 $num_of_mentees_notified += 1;
             }
         }
