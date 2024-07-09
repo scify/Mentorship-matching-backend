@@ -1,5 +1,5 @@
 const {Pleasure} = require("../../pleasure-admin-panel/js/pleasure");
-
+require('toastr');
 
 window.MentorshipSessionsListController = function() {
 };
