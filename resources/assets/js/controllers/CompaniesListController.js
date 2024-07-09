@@ -1,5 +1,5 @@
 const {Pleasure} = require("../../pleasure-admin-panel/js/pleasure");
-require('toastr');
+const toastr = require('toastr');
 
 window.CompaniesListController = function () {
 };

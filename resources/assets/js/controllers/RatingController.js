@@ -1,3 +1,5 @@
+const toastr = require('toastr');
+
 window.RatingController = function() {
 };
 
