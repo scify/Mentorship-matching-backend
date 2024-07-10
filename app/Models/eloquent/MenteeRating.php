@@ -18,7 +18,7 @@ class MenteeRating extends Model
      * @var array
      */
     protected $fillable = [
-        'rating', 'rating_description', 'mentor_id', 'session_id', 'rated_by_id', 'created_at', 'updated_at'
+        'rating', 'rating_description', 'mentee_id', 'session_id', 'rated_by_id', 'created_at', 'updated_at'
     ];
 
     /**
