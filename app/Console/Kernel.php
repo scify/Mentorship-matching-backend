@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel {
     protected function schedule(Schedule $schedule) {
         $schedule->command('email:follow-up')->daily()->timezone('Europe/Athens')->between('7:00', '9:00');
         $schedule->command('mentees:handle-unmatched')->daily()->timezone('Europe/Athens')->between('7:00', '9:00');
-        $schedule->command('command:hello')->everyMinute();
+        // $schedule->command('command:hello')->everyMinute();
         $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
             ->withoutOverlapping();
