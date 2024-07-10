@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel {
      */
     protected function schedule(Schedule $schedule) {
         $schedule->command('email:follow-up')->daily();
-        $schedule->command('mentees:handle-unmatched')->daily();
+        $schedule->command('mentees:notify-unmatched')->daily();
         // $schedule->command('command:hello')->everyMinute();
         $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
