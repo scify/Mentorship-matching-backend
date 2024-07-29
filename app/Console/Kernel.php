@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel {
         $schedule->command('email:follow-up')->daily();
         // $schedule->command('command:hello')->everyMinute();
         $schedule->command('queue:work --stop-when-empty')
-            ->everyMinute()
+            ->everyTwoMinutes()
             ->withoutOverlapping();
     }
 
