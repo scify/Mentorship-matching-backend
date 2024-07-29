@@ -110,7 +110,6 @@ class MenteeManager {
     /**
      * @param MenteeProfile $menteeProfile the instance
      * @param array $inputFields the array of input fields
-     * @param boolean checks whether a new mentee profile is created or not
      * @return MenteeProfile the instance with the fields assigned
      */
     private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields) {

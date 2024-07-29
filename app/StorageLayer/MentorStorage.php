@@ -15,9 +15,11 @@ use Illuminate\Support\Facades\DB;
 class MentorStorage {
 
     public function saveMentor(MentorProfile $mentor) {
-        // email is unique and can be used to identify a MentorProfile
-        $attributes = ['email' => $mentor->email];
-        $values = $mentor->getFillable();
+        if ($mentor->id) {
+            $attributes = ['id' => $mentor->id];
+        } else
+            $attributes = ['email' => $mentor->email];
+        $values = $mentor->getAttributes();
 
         return MentorProfile::updateOrCreate($attributes, $values);
     }
