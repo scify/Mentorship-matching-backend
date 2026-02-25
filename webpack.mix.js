@@ -1,6 +1,14 @@
 const mix = require('laravel-mix');
 mix.disableSuccessNotifications();
 
+// webpack 5 defaults to xxHash64 (WebAssembly) for hashing, which fails on
+// some hosting environments. Switching to sha256 avoids the wasm dependency.
+mix.webpackConfig({
+    output: {
+        hashFunction: 'sha256'
+    }
+});
+
 
 mix.sass('resources/assets/sass/app.scss', 'public/css/app.css');
 mix.sass('resources/assets/sass/auth.scss', 'public/css/auth.css');
