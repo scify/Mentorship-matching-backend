@@ -12,13 +12,13 @@
     "modernizr": "^3.13.1",
     "moment": "^2.30.1",
     "npm-modernizr": "^2.8.3",
-    "postcss": "^8.5.14",
+    "postcss": "^8.5.15",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.97.3",
+    "sass": "^1.101.0",
     "sass-loader": "^14.2.1",
     "vue": "^2.7.16",
     "vue-resource": "^1.5.3",
-    "webpack": "^5.105.2"
+    "webpack": "^5.107.2"
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
@@ -39,12 +39,12 @@
     "jquery-validation": "^1.22.1",
     "lodash": "^4.18.1",
     "scrollmonitor": "stutrek/scrollMonitor",
-    "select2": "^4.0.13",
+    "select2": "^4.1.0",
     "sweetalert": "^2.1.2",
     "textarea-autosize": "^1.0.0",
     "toastr": "^2.1.4",
     "velocity-animate": "^1.5.2",
     "popper.js": "^1.16",
-    "@sentry/browser": "^8.55.0"
+    "@sentry/browser": "^8.55.2"
   }
 }
