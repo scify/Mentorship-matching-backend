@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('mentor/{id}/profile', 'MentorController@showProfile')->name('showMentorProfilePage');
     Route::get('mentee/{id}/profile', 'MenteeController@showProfile')->name('showMenteeProfilePage');
+    Route::get('mentor/{id}/cv', 'MentorController@downloadCv')->name('downloadMentorCv');
+    Route::get('mentee/{id}/cv', 'MenteeController@downloadCv')->name('downloadMenteeCv');
     Route::get('mentors/byCriteria', 'MentorController@showMentorsByCriteria')->name('showMentorsByCriteria');
     Route::get('mentees/filter', 'MenteeController@showMenteesByCriteria')->name('filterMentees');
     Route::get('mentors/filter', 'MentorController@showMentorsByCriteria')->name('filterMentors');

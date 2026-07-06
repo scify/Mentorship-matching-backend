@@ -137,6 +137,18 @@ class MentorController extends Controller {
     }
 
     /**
+     * Download a mentor's CV file.
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadCv($id) {
+        $mentor = $this->mentorManager->getMentor($id);
+        abort_if(empty($mentor->cv_file_name), 404);
+        return $this->mentorManager->downloadCvFile($mentor->cv_file_name);
+    }
+
+    /**
      * Show the form for creating a new mentor.
      *
      * @param Request $request object containing request parameters

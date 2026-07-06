@@ -289,6 +289,18 @@ class MenteeController extends Controller
     }
 
     /**
+     * Download a mentee's CV file.
+     *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadCv($id) {
+        $mentee = $this->menteeManager->getMentee($id);
+        abort_if(empty($mentee->cv_file_name), 404);
+        return $this->menteeManager->downloadCvFile($mentee->cv_file_name);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

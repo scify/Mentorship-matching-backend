@@ -90,6 +90,17 @@ class MentorManager {
     }
 
     /**
+     * Download a mentor's cv file, streamed directly from the public disk.
+     *
+     * @param $fileName
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadCvFile($fileName) {
+        return \Illuminate\Support\Facades\Storage::disk('public')
+            ->download('uploads/cv_files/' . $fileName);
+    }
+
+    /**
      * Creates a @param array $inputFields the fields to assign to the mentor
      * @param $isCvFileExistent boolean it defines whether the cv file exists or not
      * @see MentorProfile resource

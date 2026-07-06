@@ -467,7 +467,7 @@
                                     </span>
                                     <span class="fileinput-filename">
                                     @if(!empty($mentee['cv_file_name']))
-                                        <a href="{{ url('/') . '/storage/uploads/cv_files/' . $mentee['cv_file_name']}}" target="_blank">
+                                        <a href="{{ route('downloadMenteeCv', $mentee['id']) }}" target="_blank">
                                             {{ $mentee['cv_file_name'] }}
                                         </a>
                                     @endif

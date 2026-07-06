@@ -79,6 +79,17 @@ class MenteeManager {
         return $fullFileName;
     }
 
+    /**
+     * Download a mentee's cv file, streamed directly from the public disk.
+     *
+     * @param $fileName
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadCvFile($fileName) {
+        return \Illuminate\Support\Facades\Storage::disk('public')
+            ->download('uploads/cv_files/' . $fileName);
+    }
+
     public function createMentee(array $inputFields, $isCvFileExistent) {
         $loggedInUser = Auth::user();
         if ($loggedInUser != null) {

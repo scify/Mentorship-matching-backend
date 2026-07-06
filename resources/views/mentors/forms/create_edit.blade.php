@@ -534,7 +534,7 @@
                                             </span>
                                             <span class="fileinput-filename">
                                                 @if(!empty($mentor['cv_file_name']))
-                                                    <a href="{{ url('/') . '/storage/uploads/cv_files/' . $mentor['cv_file_name']}}"
+                                                    <a href="{{ route('downloadMentorCv', $mentor['id']) }}"
                                                        target="_blank">
                                                         {{ $mentor['cv_file_name'] }}
                                                     </a>
