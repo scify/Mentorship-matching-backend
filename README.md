@@ -6,22 +6,24 @@ preferences and skills.
 
 ## Table of Contents
 
-- [First time install](#first-time-install)
+- [Mentorship matching backend platform](#mentorship-matching-backend-platform)
+  - [Table of Contents](#table-of-contents)
+  - [First time install](#first-time-install)
     - [Docker option (recommended)](#docker-option-recommended)
     - [Non-Docker option](#non-docker-option)
-        - [Installing dependencies (assuming apache as web server and mysql as db):](#installing-dependencies-assuming-apache-as-web-server-and-mysql-as-db)
-            - [Frontend dependencies](#frontend-dependencies)
-            - [Backend dependencies](#backend-dependencies)
-            - [Composer installation](#composer-installation)
-            - [Apache configuration:](#apache-configuration)
-            - [Laravel local server](#laravel-local-server)
-- [Setup the Database](#setup-the-database)
-- [Add seed data to DB](#add-seed-data-to-db)
-- [Building the project](#building-the-project)
-- [Compiling assets](#compiling-assets)
-- [Contributing](#contributing)
-- [License](#license)
-- [Credits](#credits)
+      - [Installing dependencies (assuming apache as web server and mysql as db)](#installing-dependencies-assuming-apache-as-web-server-and-mysql-as-db)
+        - [Frontend dependencies](#frontend-dependencies)
+      - [Backend dependencies](#backend-dependencies)
+        - [Composer installation](#composer-installation)
+        - [Apache configuration](#apache-configuration)
+        - [Laravel local server](#laravel-local-server)
+  - [Setup the Database](#setup-the-database)
+    - [Add seed data to DB](#add-seed-data-to-db)
+  - [Building the project](#building-the-project)
+  - [Compiling assets](#compiling-assets)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Credits](#credits)
 
 ## First time install
 
@@ -60,7 +62,7 @@ And from there, you can run all the `php artisan`, `composer`, and `npm` command
 
 ### Non-Docker option
 
-#### Installing dependencies (assuming apache as web server and mysql as db):
+#### Installing dependencies (assuming apache as web server and mysql as db)
 
 In a nutshell (assuming debian-based OS), first install the dependencies needed:
 
@@ -92,9 +94,9 @@ sudo aptitude install php7.4 php7.4-cli mcrypt php7.4-mcrypt mysql-server php7.4
 
 ##### Composer installation
 
-Install composer globally by following the instructions [here](https://getcomposer.org/download/).
+Install composer globally by following [the instructions](https://getcomposer.org/download/).
 
-##### Apache configuration:
+##### Apache configuration
 
 Edit the `/etc/apache2/sites-available/mentorhsip-matching.conf` so that it looks like:
 
