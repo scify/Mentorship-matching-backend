@@ -33,7 +33,7 @@ mix.styles([
     }).version();
 
 const directories = {
-    'resources/assets/pleasure-admin-panel/fonts': 'public/build/fonts',
+    'resources/assets/pleasure-admin-panel/fonts': 'public/fonts',
     'resources/assets/pleasure-admin-panel/fontawesome': 'public/build/fontawesome',
     'resources/assets/pleasure-admin-panel/ionicons': 'public/build/ionicons'
 };
@@ -51,6 +51,12 @@ for (const directory in directories) {
 for (const file in files) {
     mix.copy(file, files[file]);
 }
+
+// chosen.css itself references its sprite via a bare relative filename
+// (e.g. url("chosen-sprite.png")), which resolves against vendors.css's own
+// directory (public/css), not public/build/css where the other vendor
+// images are copied above.
+mix.copy('node_modules/chosen-js/*.png', 'public/css');
 
 mix.js([
         'node_modules/jquery/dist/jquery.min.js',
