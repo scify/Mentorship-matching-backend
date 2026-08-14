@@ -31,10 +31,6 @@ class HomeController extends Controller {
         }
     }
 
-    public function showServerInfoPage() {
-        return view('common.server-info');
-    }
-
     /**
      * @throws Exception
      */
