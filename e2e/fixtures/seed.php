@@ -20,6 +20,32 @@ use Illuminate\Support\Facades\DB;
 
 const PASSWORD = 'password123';
 
+/*
+ * Remove what previous runs registered (emails are `e2e.<kind>.<runid>@example.test`)
+ * so repeated runs don't accumulate rows or skew count-based assertions.
+ * Children first: the profile tables are referenced by pivots, history and sessions.
+ */
+$staleMentorIds = DB::table('mentor_profile')->where('email', 'like', 'e2e.%@example.test')->pluck('id');
+$staleMenteeIds = DB::table('mentee_profile')->where('email', 'like', 'e2e.%@example.test')->pluck('id');
+$staleSessionIds = DB::table('mentorship_session')
+    ->whereIn('mentor_profile_id', $staleMentorIds)
+    ->orWhereIn('mentee_profile_id', $staleMenteeIds)
+    ->pluck('id');
+DB::table('mentorship_session_history')->whereIn('mentorship_session_id', $staleSessionIds)->delete();
+DB::table('mentorship_session')->whereIn('id', $staleSessionIds)->delete();
+foreach (['mentor_specialty', 'mentor_industry', 'mentor_status_history'] as $table) {
+    DB::table($table)->whereIn('mentor_profile_id', $staleMentorIds)->delete();
+}
+foreach (['mentee_specialty', 'mentee_status_history'] as $table) {
+    DB::table($table)->whereIn('mentee_profile_id', $staleMenteeIds)->delete();
+}
+DB::table('mentor_profile')->whereIn('id', $staleMentorIds)->delete();
+DB::table('mentee_profile')->whereIn('id', $staleMenteeIds)->delete();
+
+$staleUserIds = DB::table('users')->where('email', 'like', 'e2e.%@example.test')->pluck('id');
+DB::table('user_role')->whereIn('user_id', $staleUserIds)->delete();
+DB::table('users')->whereIn('id', $staleUserIds)->delete();
+
 const ROLE_ADMINISTRATOR = 1;
 const ROLE_MATCHER = 2;
 const ROLE_ACCOUNT_MANAGER = 3;

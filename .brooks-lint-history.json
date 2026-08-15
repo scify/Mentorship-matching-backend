@@ -5,5 +5,12 @@
     "score": 57,
     "findings": { "critical": 1, "warning": 5, "suggestion": 3 },
     "scope": "entire project (app/, 135 PHP files)"
+  },
+  {
+    "date": "2026-08-16",
+    "mode": "Test Quality Review",
+    "score": 58,
+    "findings": { "critical": 2, "warning": 2, "suggestion": 2 },
+    "scope": "all test files (tests/ + e2e/, 9 files)"
   }
 ]

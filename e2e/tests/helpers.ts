@@ -42,8 +42,11 @@ export function makeShotter(group: string) {
   };
 }
 
-export async function login(page: Page, role: Role = 'admin') {
-  const user = USERS[role];
+export async function login(
+  page: Page,
+  who: Role | { email: string; password: string } = 'admin',
+) {
+  const user = typeof who === 'string' ? USERS[who] : who;
   await page.goto('/login');
   await page.fill('input[name="email_address"]', user.email);
   await page.fill('input[name="password"]', user.password);

@@ -74,38 +74,37 @@ test.describe('every route renders', () => {
   test('detail pages for a real mentor, mentee and user', async ({ page }) => {
     await login(page, 'admin');
 
-    // Follow the first mentor/mentee row rather than guessing ids.
+    // Follow the first mentor/mentee row rather than guessing ids. The links
+    // must exist — spec 01 registered a mentor and a mentee, and the seed
+    // created backoffice users — so a missing link is a failure, not a skip.
     await page.goto('/mentors/all');
     const mentorLink = page.locator('a[href*="/profile"]').first();
-    if (await mentorLink.count()) {
-      const href = await mentorLink.getAttribute('href');
-      const res = await page.goto(href!);
-      await assertPageHealthy(page, res?.status(), `GET ${href}`);
-      await shot(page, 'mentor profile');
+    await expect(mentorLink, 'mentors list has no profile link — did spec 01 and `npm run seed` run?').toHaveCount(1);
+    const mentorHref = await mentorLink.getAttribute('href');
+    const mentorRes = await page.goto(mentorHref!);
+    await assertPageHealthy(page, mentorRes?.status(), `GET ${mentorHref}`);
+    await shot(page, 'mentor profile');
 
-      const editHref = href!.replace('/profile', '/edit');
-      const editRes = await page.goto(editHref);
-      await assertPageHealthy(page, editRes?.status(), `GET ${editHref}`);
-      await shot(page, 'mentor edit');
-    }
+    const editHref = mentorHref!.replace('/profile', '/edit');
+    const editRes = await page.goto(editHref);
+    await assertPageHealthy(page, editRes?.status(), `GET ${editHref}`);
+    await shot(page, 'mentor edit');
 
     await page.goto('/mentees/all');
     const menteeLink = page.locator('a[href*="/profile"]').first();
-    if (await menteeLink.count()) {
-      const href = await menteeLink.getAttribute('href');
-      const res = await page.goto(href!);
-      await assertPageHealthy(page, res?.status(), `GET ${href}`);
-      await shot(page, 'mentee profile');
-    }
+    await expect(menteeLink, 'mentees list has no profile link — did spec 01 and `npm run seed` run?').toHaveCount(1);
+    const menteeHref = await menteeLink.getAttribute('href');
+    const menteeRes = await page.goto(menteeHref!);
+    await assertPageHealthy(page, menteeRes?.status(), `GET ${menteeHref}`);
+    await shot(page, 'mentee profile');
 
     await page.goto('/users/all');
     const userLink = page.locator('a[href*="/user/"][href*="/profile"], a[href*="/user/"][href*="/edit"]').first();
-    if (await userLink.count()) {
-      const href = await userLink.getAttribute('href');
-      const res = await page.goto(href!);
-      await assertPageHealthy(page, res?.status(), `GET ${href}`);
-      await shot(page, 'user detail');
-    }
+    await expect(userLink, 'users list has no detail link — did `npm run seed` run?').toHaveCount(1);
+    const userHref = await userLink.getAttribute('href');
+    const userRes = await page.goto(userHref!);
+    await assertPageHealthy(page, userRes?.status(), `GET ${userHref}`);
+    await shot(page, 'user detail');
   });
 
   for (const { role, path } of ROLE_ROUTES) {

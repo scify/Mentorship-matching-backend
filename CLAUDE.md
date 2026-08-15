@@ -57,21 +57,30 @@ vendor/bin/phpunit tests/ExampleTest.php    # run a single test file
 ```
 
 `phpunit.xml` points the test suite at `./tests` and forces `APP_ENV=testing`, `CACHE_DRIVER=array`,
-`SESSION_DRIVER=array`, `QUEUE_DRIVER=sync`. The PHPUnit suite is only a smoke test (`ExampleTest`
-asserts the guest redirect) — the manager and storage layers have no unit coverage. Don't assume
-behavior there is protected; verify by exercising the app.
+`SESSION_DRIVER=array`, `QUEUE_DRIVER=sync`. The suite talks to the database configured in `.env`, so
+run it inside whichever stack is up (e.g. `ddev exec vendor/bin/phpunit`) against a **migrated and
+seeded development database** — feature tests roll back their fixtures via `DatabaseTransactions`,
+but never point them at production. It covers:
 
-Two suites do cover behaviour, and are the ones to run after touching the query or view layers:
+- `tests/Unit/` — pure tests, no DB (the session status id contract and its active/completed/cancelled buckets).
+- `tests/Feature/MentorshipSessionLifecycleTest` — characterization tests for the session state machine:
+  creation paths, the accept/decline email-link flows, cancellation side effects on mentor/mentee
+  availability, the fourth-meeting → evaluation auto-advance, and which notification goes to whom.
+- `tests/Feature/UserAccessManagerTest` — the role checks behind every route middleware, including the
+  documented cache-staleness behavior.
+- `tests/Feature/FilterQueryTest` — the hand-written filter SQL: every filter combination, join/where
+  binding order, apostrophe handling, and SQL injection payloads (formerly `tests/manual/verify_filters.php`).
+- Shared fixtures live in `tests/Support/CreatesMatchingFixtures.php` (classmapped via `autoload-dev`).
+
+The browser suite is the other one to run after touching routes or views:
 
 ```bash
-php tests/manual/verify_filters.php   # 58 assertions on the hand-written filter SQL:
-                                      # every filter, join/where binding order, and injection payloads
 cd e2e && npm test                    # Playwright: opens every route in a browser, registers a
                                       # mentor/mentee/matcher, clicks every menu option per role
 ```
 
-`verify_filters.php` creates and removes its own fixtures. The Playwright suite needs
-`npm run seed` first and honours `E2E_BASE_URL` (default `http://localhost:89`); see `e2e/README.md`.
+The Playwright suite needs `npm run seed` first (the seeder also removes what previous e2e runs
+registered) and honours `E2E_BASE_URL` (default `http://localhost:89`); see `e2e/README.md`.
 
 ### Frontend assets
 

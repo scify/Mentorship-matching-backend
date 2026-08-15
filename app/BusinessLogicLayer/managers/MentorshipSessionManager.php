@@ -33,9 +33,10 @@ class MentorshipSessionManager {
 
     private $mentorshipSessionHistoryManager;
 
-    public function __construct() {
-        $this->mentorshipSessionStorage = new MentorshipSessionStorage();
-        $this->mentorshipSessionHistoryManager = new MentorshipSessionHistoryManager();
+    public function __construct(?MentorshipSessionStorage $mentorshipSessionStorage = null,
+                                ?MentorshipSessionHistoryManager $mentorshipSessionHistoryManager = null) {
+        $this->mentorshipSessionStorage = $mentorshipSessionStorage ?? new MentorshipSessionStorage();
+        $this->mentorshipSessionHistoryManager = $mentorshipSessionHistoryManager ?? new MentorshipSessionHistoryManager();
     }
 
     /**

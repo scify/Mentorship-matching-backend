@@ -64,8 +64,8 @@ ddev exec php artisan migrate --seed
 The site is then served at <https://mentorship-matching-backend.ddev.site>, and captured mail is at
 `ddev launch -m` (Mailpit).
 
-To check the install actually works, run the suites in [Testing](#testing) — `ddev exec php
-tests/manual/verify_filters.php` is the quickest confirmation that the app and database are wired up.
+To check the install actually works, run the suites in [Testing](#testing) — `ddev exec
+vendor/bin/phpunit` is the quickest confirmation that the app and database are wired up.
 
 `ddev start` rewrites the database and mail settings in your `.env` to match the services it runs, so you do
 not need to edit them by hand.
@@ -212,51 +212,44 @@ page fails with `MixManifestNotFoundException`.
 
 ## Testing
 
-There are three suites. The PHP ones run inside your stack; the browser suite runs on your host and talks
+There are two suites. The PHP one runs inside your stack; the browser suite runs on your host and talks
 to the app over HTTP.
 
 | Suite | Command | What it covers |
 |---|---|---|
-| PHPUnit | `vendor/bin/phpunit` | Smoke test only — one test asserting the guest redirect. |
-| Filter queries | `php tests/manual/verify_filters.php` | 58 assertions on the hand-written filter SQL: every filter, binding order, and SQL injection payloads. |
+| PHPUnit | `vendor/bin/phpunit` | The session state machine (creation, accept/decline links, cancellations, notifications), the role checks behind the route middleware, the status id contract, and the hand-written filter SQL — every filter, binding order, and SQL injection payloads. |
 | End-to-end | `cd e2e && npm test` | 15 Playwright tests: every route opens, mentor/mentee/matcher register, every menu option is clicked for all three roles. Captures a screenshot per screen. |
 
-Run the PHP suites through whichever stack is up — they need PHP and a database, so they will not work
+Run the PHP suite through whichever stack is up — it needs PHP and a database, so it will not work
 from the host unless you have both installed locally:
 
 ```bash
 # DDEV
 ddev exec vendor/bin/phpunit
-ddev exec php tests/manual/verify_filters.php
 
 # Docker Compose
 docker exec mentorship_matching_platform_server bash -c "cd /var/www && vendor/bin/phpunit"
-docker exec mentorship_matching_platform_server php /var/www/tests/manual/verify_filters.php
 ```
 
 ### PHPUnit
 
-`phpunit.xml` forces `APP_ENV=testing` with array cache/session drivers. The suite is a smoke test — the
-manager and storage layers, where the business logic lives, have no unit coverage. Don't read a green run
-as "my change is safe"; exercise the affected screen.
+`phpunit.xml` forces `APP_ENV=testing` with array cache/session drivers, but the database connection is
+whatever `.env` points at. Feature tests wrap themselves in `DatabaseTransactions`, so their fixtures roll
+back and the suite is safe to re-run against a **migrated and seeded development database** — never point
+it at production. The seeded lookup tables (references, residences, statuses, ...) are a prerequisite;
+tests fail fast with a pointer to `php artisan db:seed` when they are missing.
 
 ```bash
-ddev exec vendor/bin/phpunit --filter testMethodName   # a single test
+ddev exec vendor/bin/phpunit --filter testMethodName        # a single test
+ddev exec vendor/bin/phpunit tests/Feature/FilterQueryTest.php   # a single file
 ```
 
-### Filter query regression check
-
-The mentor, mentee and session filter screens build SQL by hand. This script asserts that every filter still
-returns the right rows, that placeholder and binding counts line up, that apostrophes in names work, and that
-injection payloads (`union select`, quote breakout, `or 1=1`, `drop table`) are bound as values rather than
-parsed as SQL.
-
-```bash
-ddev exec php tests/manual/verify_filters.php
-```
-
-It creates and removes its own fixtures, so it is safe to re-run — but point it at a development database,
-not production. Run it after any change to the `*Manager` filter builders or to `RawQueryStorage`.
+`tests/Feature/FilterQueryTest.php` is the filter-SQL regression check (formerly
+`tests/manual/verify_filters.php`): every filter still returns the right rows, placeholder and binding
+counts line up, apostrophes in names work, and injection payloads (`union select`, quote breakout,
+`or 1=1`, `drop table`) are bound as values rather than parsed as SQL. Run it after any change to the
+`*Manager` filter builders or to `RawQueryStorage`. `tests/Feature/MentorshipSessionLifecycleTest.php`
+characterizes the session state machine — run it after touching `MentorshipSessionManager`.
 
 ### End-to-end browser tests
 

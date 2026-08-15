@@ -72,20 +72,20 @@ test.describe('list screens and their filter panels', () => {
     await assertPageHealthy(page, res?.status(), 'GET /mentors/all');
 
     // The filter panel drives an ajax GET against /mentors/filter - the
-    // endpoint that used to be SQL-injectable.
+    // endpoint that used to be SQL-injectable. The panel must exist: a
+    // missing input means the screen regressed, not that there is nothing
+    // to test.
     const nameInput = page.locator('input[name="mentorName"], #mentorName').first();
-    if (await nameInput.count()) {
-      await nameInput.fill('Mentor');
-      await shot(page, 'mentor filter filled');
-      const submit = page
-        .locator('button:has-text("Search"), button:has-text("Filter"), button[type="submit"]')
-        .first();
-      if (await submit.count()) {
-        await submit.click();
-        await page.waitForLoadState('networkidle');
-        await shot(page, 'mentor filter results');
-      }
-    }
+    await expect(nameInput, 'mentor list is missing its filter name input').toHaveCount(1);
+    await nameInput.fill('Mentor');
+    await shot(page, 'mentor filter filled');
+    const submit = page
+      .locator('button:has-text("Search"), button:has-text("Filter"), button[type="submit"]')
+      .first();
+    await expect(submit, 'mentor filter panel is missing its submit button').toHaveCount(1);
+    await submit.click();
+    await page.waitForLoadState('networkidle');
+    await shot(page, 'mentor filter results');
 
     // A quoted value must come back as an ordinary empty result, not a 500,
     // and must never leak a driver error.
@@ -101,18 +101,19 @@ test.describe('list screens and their filter panels', () => {
     await login(page, 'admin');
     const res = await page.goto('/mentees/all');
     await assertPageHealthy(page, res?.status(), 'GET /mentees/all');
-    const nameInput = page.locator('input[name="menteeName"], #menteeName').first();
-    if (await nameInput.count()) {
-      await nameInput.fill('Mentee');
-      const submit = page
-        .locator('button:has-text("Search"), button:has-text("Filter"), button[type="submit"]')
-        .first();
-      if (await submit.count()) {
-        await submit.click();
-        await page.waitForLoadState('networkidle');
-        await shot(page, 'mentee filter results');
-      }
-    }
+    // Unlike the mentor panel (camelCase `mentorName`), the mentee filter
+    // input is snake_case `mentee_name` — the old camelCase selector here
+    // never matched, so this panel had never actually been exercised.
+    const nameInput = page.locator('input[name="mentee_name"]').first();
+    await expect(nameInput, 'mentee list is missing its filter name input').toHaveCount(1);
+    await nameInput.fill('Mentee');
+    const submit = page
+      .locator('button:has-text("Search"), button:has-text("Filter"), button[type="submit"]')
+      .first();
+    await expect(submit, 'mentee filter panel is missing its submit button').toHaveCount(1);
+    await submit.click();
+    await page.waitForLoadState('networkidle');
+    await shot(page, 'mentee filter results');
     const injected = await page.request.get(
       `/mentees/filter?university=${encodeURIComponent("x'; drop table mentor_rating; -- ")}`,
     );
@@ -123,13 +124,18 @@ test.describe('list screens and their filter panels', () => {
   test('global search returns a result panel', async ({ page }) => {
     await login(page, 'admin');
     await page.goto('/dashboard');
-    const search = page.locator('input[name="search_query"], #search_query').first();
-    if (await search.count()) {
-      await search.fill('Mentor');
-      await search.press('Enter');
-      await page.waitForLoadState('networkidle');
-      await shot(page, 'global search results');
-    }
+    // The global search is a slide-in layer: .nav-search opens it, and each
+    // keyup in #input-search fires an ajax GET against the search route with
+    // results rendered into #search-results. (`search_query` is the request
+    // parameter name only — no input carries it, which is why the previous
+    // selector never matched and this flow went untested.)
+    await page.locator('.nav-search').first().click();
+    const search = page.locator('#input-search');
+    await expect(search, 'the global search layer did not open').toBeVisible();
+    await search.pressSequentially('Mentor', { delay: 50 });
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('#search-results'), 'search returned no result panel content').not.toBeEmpty();
+    await shot(page, 'global search results');
     const res = await page.request.get('/search?search_query=Mentor');
     expect(res.status()).toBeLessThan(400);
   });

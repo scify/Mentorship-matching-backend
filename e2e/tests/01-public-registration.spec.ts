@@ -48,13 +48,14 @@ test.describe('public registration forms', () => {
     await page.waitForLoadState('networkidle');
     await shot(page, 'mentor submitted');
 
-    // The public form redirects back to itself with a flash message.
+    // The public form redirects back to itself and renders the success flash
+    // in an .alert-success block — assert on that container, not the message
+    // copy, so rewording (or switching locale) doesn't break the test.
     const errors = await validationErrors(page);
-    const body = await page.locator('body').innerText();
-    expect(
-      body.includes('Ευχαριστ') || /success/i.test(body) || body.includes('θα επικοινωνήσ'),
+    await expect(
+      page.locator('.alert-success').first(),
       `mentor form was rejected. Validation errors: ${JSON.stringify(errors, null, 2)}`,
-    ).toBe(true);
+    ).toBeVisible();
   });
 
   test('registers a mentee through the public form', async ({ page }) => {
@@ -105,11 +106,13 @@ test.describe('public registration forms', () => {
     await page.waitForLoadState('networkidle');
     await shot(page, 'mentee submitted');
 
+    // Same durable outcome as the mentor form: the success flash container,
+    // not the wording. If the optional-field fills above ever stop matching
+    // the form, the submit fails validation and this assertion reports it.
     const errors = await validationErrors(page);
-    const body = await page.locator('body').innerText();
-    expect(
-      body.includes('Ευχαριστ') || /success/i.test(body) || body.includes('θα επικοινωνήσ'),
+    await expect(
+      page.locator('.alert-success').first(),
       `mentee form was rejected. Validation errors: ${JSON.stringify(errors, null, 2)}`,
-    ).toBe(true);
+    ).toBeVisible();
   });
 });

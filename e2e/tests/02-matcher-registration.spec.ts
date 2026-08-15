@@ -40,14 +40,7 @@ test.describe('backoffice user registration', () => {
 
     // And must actually be able to authenticate with the Matcher role.
     await logout(page);
-    await page.goto('/login');
-    await page.fill('input[name="email_address"]', MATCHER_EMAIL);
-    await page.fill('input[name="password"]', MATCHER_PASSWORD);
-    await Promise.all([
-      page.waitForURL((u) => !u.pathname.endsWith('/login'), { timeout: 20_000 }),
-      page.click('button[type="submit"], input[type="submit"]'),
-    ]);
-    await expect(page.locator('#logout-form')).toHaveCount(1);
+    await login(page, { email: MATCHER_EMAIL, password: MATCHER_PASSWORD });
     await shot(page, 'new matcher logged in');
 
     // sessions/myMatches is gated by the can-create-mentorship-session
