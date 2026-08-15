@@ -27,10 +27,17 @@ export function makeShotter(group: string) {
     fs.mkdirSync(SHOTS_DIR, { recursive: true });
     index += 1;
     const slug = name.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
-    const file = path.join(SHOTS_DIR, `${group}-${String(index).padStart(2, '0')}-${slug}.png`);
+    const base = `${group}-${String(index).padStart(2, '0')}-${slug}.png`;
+    const file = path.join(SHOTS_DIR, base);
     // Let async widgets (Select2, DataTables, Chosen) settle before capturing.
     await page.waitForLoadState('networkidle').catch(() => {});
     await page.screenshot({ path: file, fullPage: true });
+    // Record the human-readable label and the URL actually captured, so
+    // reports don't have to reverse-engineer them out of the filename.
+    fs.appendFileSync(
+      path.join(SHOTS_DIR, 'manifest.jsonl'),
+      JSON.stringify({ file: base, group, index, label: name, url: page.url() }) + '\n',
+    );
     return file;
   };
 }
