@@ -12,6 +12,7 @@ only way to know a framework upgrade did not break a screen is to open it.
 | `02-matcher-registration` | An admin creates a Matcher via `/user/create`; the new user appears in the list, can log in, and their role grants `/sessions/myMatches`. |
 | `03-routes` | Every page-rendering GET route opens for the role that may reach it — public pages, admin pages, ajax fragments, and the `{id}` detail/edit pages of a real mentor, mentee and user. |
 | `04-navigation` | Every sidebar option for **all three roles** is expanded, clicked and checked; the mentor/mentee filter panels submit; global search returns a panel. The filter endpoints are also probed with SQL injection payloads and must neither 5xx nor leak `SQLSTATE`. |
+| `05-exports` | The three admin CSV exports (`/export/mentors`, `/export/mentees`, `/export/sessions`) return a real CSV attachment (or `NO_DATA_FOUND` on an empty table) without 5xx-ing or leaking `SQLSTATE` — these run hand-written SQL and are the only admin routes the route-walking specs don't cover. |
 
 A route counts as broken if it returns 5xx **or** renders Laravel's exception
 page — a 200 that happens to contain a stack trace is still a failure.
