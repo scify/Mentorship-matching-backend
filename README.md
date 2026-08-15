@@ -32,6 +32,7 @@ preferences and skills.
     - [PHPUnit](#phpunit)
     - [Filter query regression check](#filter-query-regression-check)
     - [End-to-end browser tests](#end-to-end-browser-tests)
+    - [Test accounts](#test-accounts)
   - [Troubleshooting](#troubleshooting)
   - [Contributing](#contributing)
   - [License](#license)
@@ -62,6 +63,9 @@ ddev exec php artisan migrate --seed
 
 The site is then served at <https://mentorship-matching-backend.ddev.site>, and captured mail is at
 `ddev launch -m` (Mailpit).
+
+To check the install actually works, run the suites in [Testing](#testing) — `ddev exec php
+tests/manual/verify_filters.php` is the quickest confirmation that the app and database are wired up.
 
 `ddev start` rewrites the database and mail settings in your `.env` to match the services it runs, so you do
 not need to edit them by hand.
@@ -208,31 +212,57 @@ page fails with `MixManifestNotFoundException`.
 
 ## Testing
 
-### PHPUnit
+There are three suites. The PHP ones run inside your stack; the browser suite runs on your host and talks
+to the app over HTTP.
+
+| Suite | Command | What it covers |
+|---|---|---|
+| PHPUnit | `vendor/bin/phpunit` | Smoke test only — one test asserting the guest redirect. |
+| Filter queries | `php tests/manual/verify_filters.php` | 58 assertions on the hand-written filter SQL: every filter, binding order, and SQL injection payloads. |
+| End-to-end | `cd e2e && npm test` | 15 Playwright tests: every route opens, mentor/mentee/matcher register, every menu option is clicked for all three roles. Captures a screenshot per screen. |
+
+Run the PHP suites through whichever stack is up — they need PHP and a database, so they will not work
+from the host unless you have both installed locally:
 
 ```bash
-vendor/bin/phpunit                          # whole suite
-vendor/bin/phpunit --filter testMethodName  # a single test
+# DDEV
+ddev exec vendor/bin/phpunit
+ddev exec php tests/manual/verify_filters.php
+
+# Docker Compose
+docker exec mentorship_matching_platform_server bash -c "cd /var/www && vendor/bin/phpunit"
+docker exec mentorship_matching_platform_server php /var/www/tests/manual/verify_filters.php
 ```
 
-The PHP suite is only a smoke test — the business logic in the manager and storage layers is not covered, so
-verify changes there by exercising the app rather than trusting a green run.
+### PHPUnit
+
+`phpunit.xml` forces `APP_ENV=testing` with array cache/session drivers. The suite is a smoke test — the
+manager and storage layers, where the business logic lives, have no unit coverage. Don't read a green run
+as "my change is safe"; exercise the affected screen.
+
+```bash
+ddev exec vendor/bin/phpunit --filter testMethodName   # a single test
+```
 
 ### Filter query regression check
 
-The mentor/mentee/session filter screens build hand-written SQL. This script asserts that every filter still
-returns the right rows and that user input is bound rather than interpolated:
+The mentor, mentee and session filter screens build SQL by hand. This script asserts that every filter still
+returns the right rows, that placeholder and binding counts line up, that apostrophes in names work, and that
+injection payloads (`union select`, quote breakout, `or 1=1`, `drop table`) are bound as values rather than
+parsed as SQL.
 
 ```bash
-php tests/manual/verify_filters.php
+ddev exec php tests/manual/verify_filters.php
 ```
 
-It creates and removes its own fixtures, so it is safe to re-run, but point it at a development database.
+It creates and removes its own fixtures, so it is safe to re-run — but point it at a development database,
+not production. Run it after any change to the `*Manager` filter builders or to `RawQueryStorage`.
 
 ### End-to-end browser tests
 
-A [Playwright](https://playwright.dev) suite opens every route in a real browser, registers a mentor, a mentee
-and a matcher, clicks every menu option for all three roles, and captures a screenshot of each screen.
+A [Playwright](https://playwright.dev) suite drives a real browser against the running app. A screen counts
+as broken if it returns 5xx **or** renders Laravel's exception page — a 200 with a stack trace in it still
+fails.
 
 ```bash
 cd e2e
@@ -240,17 +270,47 @@ npm install
 npx playwright install chromium   # first run only
 npm run seed                      # a company plus one user per role
 npm test
-npx playwright show-report
 ```
 
 Point it at whichever stack you are running:
 
 ```bash
 E2E_BASE_URL=https://mentorship-matching-backend.ddev.site npm test   # DDEV
-E2E_BASE_URL=http://localhost:89 npm test                             # docker compose
+E2E_BASE_URL=http://localhost:89 npm test                             # docker compose (the default)
 ```
 
-See [`e2e/README.md`](e2e/README.md) for what each spec covers and the fixture credentials.
+Useful while working on it:
+
+```bash
+npm test -- --headed          # watch it drive the browser
+npm test -- 03-routes         # a single spec
+npx playwright show-report    # HTML report from the last run
+```
+
+Screenshots land in `e2e/screenshots/` (gitignored), numbered in capture order, alongside a
+`manifest.jsonl` recording each one's label and URL.
+
+See [`e2e/README.md`](e2e/README.md) for what each spec asserts.
+
+### Test accounts
+
+`npm run seed` (or `php e2e/fixtures/seed.php`) creates one account per role, all with the password
+`password123`. They are local fixtures — do not create them anywhere public.
+
+| Email | Role |
+|---|---|
+| `admin@jobpairs.test` | Administrator |
+| `matcher@jobpairs.test` | Matcher |
+| `accman@jobpairs.test` | Account Manager |
+
+The login form field is `email_address`, not `email` — the app overrides Laravel's default in
+`app/Interfaces/CustomAuthentication.php`, which trips people up when scripting a login.
+
+Seeding is idempotent, so re-running it is also how you reset a password you have changed.
+
+Separately, `php artisan db:seed` creates the staff accounts in
+`database/seeders/UserTableSeeder.php` with a hardcoded default password. That is fine for a local
+database; make sure those accounts do not exist with that password anywhere public.
 
 ## Troubleshooting
 
