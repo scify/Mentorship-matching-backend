@@ -367,120 +367,110 @@ class MentorManager {
         ) {
             return $this->mentorStorage->getAllMentorProfiles();
         }
-        $whereClauseExists = false;
+        // Every value taken from $filters is bound as a `?` placeholder, never
+        // interpolated into the SQL string.
+        $bindings = [];
+        $conditions = [];
         $dbQuery = "select distinct mp.id
             from mentor_profile as mp
             left outer join mentor_specialty as ms on mp.id = ms.mentor_profile_id ";
         if (isset($filters['averageRating']) && $filters['averageRating'] != "") {
-            if (intval($filters['averageRating']) == 0 || intval($filters['averageRating']) < 1 ||
-                intval($filters['averageRating']) > 5) {
+            $averageRating = intval($filters['averageRating']);
+            if ($averageRating < 1 || $averageRating > 5) {
                 throw new \Exception("Filter value is not valid.");
             }
             $dbQuery .= "join (
-                    select round(avg(rating)), mentor_id from mentor_rating group by mentor_id having round(avg(rating)) = " .
-                intval($filters['averageRating']) . ") as mentors_with_avg_rating on mp.id=mentors_with_avg_rating.mentor_id ";
+                    select round(avg(rating)), mentor_id from mentor_rating group by mentor_id having round(avg(rating)) = ?
+                    ) as mentors_with_avg_rating on mp.id=mentors_with_avg_rating.mentor_id ";
+            $bindings[] = $averageRating;
         }
         if (isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
-            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+            $completedStatuses = MentorshipSessionStatuses::getCompletedSessionStatuses();
             $dbQuery .= "left outer join
 			(
 				select count(*) as completed_sessions_count, mentor_profile_id from mentorship_session
-				where status_id in (" . implode(",", $mentorshipSessionStatuses::getCompletedSessionStatuses()) . ")
+				where status_id in (" . RawQueryStorage::placeholdersFor($completedStatuses) . ")
 				group by mentor_profile_id
 			) as completed_sessions on mp.id=completed_sessions.mentor_profile_id ";
+            $bindings = array_merge($bindings, $completedStatuses);
         }
         if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === "true") {
             $dbQuery .= "left outer join mentorship_session as mses on mses.mentor_profile_id = mp.id
                 left outer join
-                (select max(id) as last_session_id from mentorship_session group by mentor_profile_id) 
+                (select max(id) as last_session_id from mentorship_session group by mentor_profile_id)
                 as last_sessions on last_sessions.last_session_id = mses.id ";
         }
-        $dbQuery .= "where ";
         if (isset($filters['mentorName']) && $filters['mentorName'] != "") {
-            $dbQuery .= "(mp.first_name like '%" . $filters['mentorName'] . "%' or mp.last_name like '%" . $filters['mentorName'] . "%') ";
-            $whereClauseExists = true;
+            $conditions[] = "(mp.first_name like ? or mp.last_name like ?)";
+            $bindings[] = '%' . $filters['mentorName'] . '%';
+            $bindings[] = '%' . $filters['mentorName'] . '%';
         }
         if (isset($filters['ageRange']) && $filters['ageRange'] != "") {
             $ageRange = explode(';', $filters['ageRange']);
-            if (intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
+            if (count($ageRange) !== 2 || intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "(mp.year_of_birth > year(curdate()) - " . $ageRange[1] . " and mp.year_of_birth < year(curdate()) - " . $ageRange[0] . ") ";
-            $whereClauseExists = true;
+            $conditions[] = "(mp.year_of_birth > year(curdate()) - ? and mp.year_of_birth < year(curdate()) - ?)";
+            $bindings[] = intval($ageRange[1]);
+            $bindings[] = intval($ageRange[0]);
         }
         if (isset($filters['specialtyId']) && $filters['specialtyId'] != "") {
-            if (intval($filters['specialtyId']) == 0) {
+            $specialtyId = intval($filters['specialtyId']);
+            if ($specialtyId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "ms.specialty_id = " . $filters['specialtyId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "ms.specialty_id = ?";
+            $bindings[] = $specialtyId;
         }
         if (isset($filters['companyId']) && $filters['companyId'] != "") {
-            if (intval($filters['companyId']) == 0) {
+            $companyId = intval($filters['companyId']);
+            if ($companyId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.company_id = " . $filters['companyId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "mp.company_id = ?";
+            $bindings[] = $companyId;
         }
         if (isset($filters['availabilityId']) && $filters['availabilityId'] != "") {
-            if (intval($filters['availabilityId']) == 0) {
+            $availabilityId = intval($filters['availabilityId']);
+            if ($availabilityId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.status_id = " . $filters['availabilityId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "mp.status_id = ?";
+            $bindings[] = $availabilityId;
         }
         if (isset($filters['residenceId']) && $filters['residenceId'] != "") {
-            if (intval($filters['residenceId']) == 0) {
+            $residenceId = intval($filters['residenceId']);
+            if ($residenceId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.residence_id = " . $filters['residenceId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "mp.residence_id = ?";
+            $bindings[] = $residenceId;
         }
         if (isset($filters['completedSessionsCount']) && $filters['completedSessionsCount'] != "") {
-            if (intval($filters['completedSessionsCount']) == 0) {
+            $completedSessionsCount = intval($filters['completedSessionsCount']);
+            if ($completedSessionsCount == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            if ($filters['completedSessionsCount'] < 5) {
-                $dbQuery .= "completed_sessions.completed_sessions_count = " . $filters['completedSessionsCount'] . " ";
+            if ($completedSessionsCount < 5) {
+                $conditions[] = "completed_sessions.completed_sessions_count = ?";
             } else {
-                $dbQuery .= "completed_sessions.completed_sessions_count >= " . $filters['completedSessionsCount'] . " ";
+                $conditions[] = "completed_sessions.completed_sessions_count >= ?";
             }
-            $whereClauseExists = true;
+            $bindings[] = $completedSessionsCount;
         }
         if (isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.creator_user_id is null ";
-            $whereClauseExists = true;
+            $conditions[] = "mp.creator_user_id is null";
         }
         if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-            $dbQuery .= "mses.status_id in (" . implode(",", $mentorshipSessionStatuses::getCancelledSessionStatuses()) . ") ";
+            $cancelledStatuses = MentorshipSessionStatuses::getCancelledSessionStatuses();
+            $conditions[] = "mses.status_id in (" . RawQueryStorage::placeholdersFor($cancelledStatuses) . ")";
+            $bindings = array_merge($bindings, $cancelledStatuses);
+        }
+        if (!empty($conditions)) {
+            $dbQuery .= "where " . implode(" and ", $conditions);
         }
         $filteredMentorIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
-            (new RawQueryStorage())->performRawQuery($dbQuery)
+            (new RawQueryStorage())->performRawQuery($dbQuery, $bindings)
         );
         return $this->mentorStorage->getMentorsFromIdsArray($filteredMentorIds);
     }

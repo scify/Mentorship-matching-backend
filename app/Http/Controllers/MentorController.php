@@ -87,7 +87,8 @@ class MentorController extends Controller {
             $mentorViewModelsData = $this->mentorManager->getMentorViewModelsByCriteria($input);
             $mentorViewModels = $this->mentorManager->paginateMentors($mentorViewModelsData)->setPath('#');
         } catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " . $e->getMessage();
+            Log::info('Error on mentors search: ' . $e->getCode() . "  " . $e->getMessage());
+            $errorMessage = 'An error occurred. Please try again later.';
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
         }
 

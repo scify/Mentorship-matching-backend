@@ -425,6 +425,34 @@ class MentorshipSessionManager {
     }
 
     /**
+     * Parses a "dd/mm/yyyy - dd/mm/yyyy" range as sent by the date range picker
+     * into a pair of yyyy-mm-dd strings.
+     *
+     * @param string $dateRangeFilter
+     * @return array [$start, $end]
+     * @throws \Exception When the range is not in the expected format
+     */
+    private function parseDateRangeFilter($dateRangeFilter): array {
+        $dateRange = explode(" - ", $dateRangeFilter);
+        if (count($dateRange) !== 2) {
+            throw new \Exception("Filter value is not valid.");
+        }
+        $parsedDates = [];
+        foreach ($dateRange as $date) {
+            $dateParts = explode("/", trim($date));
+            if (count($dateParts) !== 3) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            list($day, $month, $year) = array_map('intval', $dateParts);
+            if (!checkdate($month, $day, $year)) {
+                throw new \Exception("Filter value is not valid.");
+            }
+            $parsedDates[] = sprintf('%04d-%02d-%02d', $year, $month, $day);
+        }
+        return $parsedDates;
+    }
+
+    /**
      * Creates the DB query necessary to filter sessions and returns its results
      *
      * @param array $filters
@@ -443,119 +471,95 @@ class MentorshipSessionManager {
             (!isset($filters['userRole']) || $filters['userRole'] === "")) {
             return $this->mentorshipSessionStorage->getAllMentorshipSessions();
         }
-        $whereClauseExists = false;
-        $dbQuery = "select distinct ms.id from mentorship_session as ms left outer join mentor_profile as 
-          mentor on mentor.id = ms.mentor_profile_id left outer join mentee_profile as mentee on 
+        // Every value taken from $filters is bound as a `?` placeholder, never
+        // interpolated into the SQL string.
+        $bindings = [];
+        $conditions = [];
+        $dbQuery = "select distinct ms.id from mentorship_session as ms left outer join mentor_profile as
+          mentor on mentor.id = ms.mentor_profile_id left outer join mentee_profile as mentee on
           mentee.id = ms.mentee_profile_id ";
         if (isset($filters['completedDateRange']) && $filters['completedDateRange'] != "") {
-            $dateRange = explode(" - ", $filters['completedDateRange']);
-            $dateArray = explode("/", $dateRange[0]);
-            $start = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
-            $dateArray = explode("/", $dateRange[1]);
-            $end = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
-            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-            $dbQuery .= "inner join  
+            list($start, $end) = $this->parseDateRangeFilter($filters['completedDateRange']);
+            $completedStatuses = MentorshipSessionStatuses::getCompletedSessionStatuses();
+            $dbQuery .= "inner join
             (select msh.mentorship_session_id ,
-                    msh.status_id, msh.created_at as LastSessionStatus from 
+                    msh.status_id, msh.created_at as LastSessionStatus from
                 mentorship_session_history msh inner join
             (
-                select mentorship_session_id, 
+                select mentorship_session_id,
                         max(id) as last_mentorship_session_history_id
                     from mentorship_session_history as msh
                     group by mentorship_session_id
                ) LastSessionHistoryRecord on LastSessionHistoryRecord.last_mentorship_session_history_id = msh.id
-                where msh.status_id  in (" . implode(",", $mentorshipSessionStatuses::getCompletedSessionStatuses()) . ") 
-            and (msh.created_at >= date(\"" . $start . "\") and msh.created_at <= date(\"" . $end . "\"))
+                where msh.status_id  in (" . RawQueryStorage::placeholdersFor($completedStatuses) . ")
+            and (msh.created_at >= date(?) and msh.created_at <= date(?))
             ) as completed_sessions on ms.id = completed_sessions.mentorship_session_id ";
-        }
-        if ((isset($filters['mentorName']) && $filters['mentorName'] !== "") ||
-            (isset($filters['menteeName']) && $filters['menteeName'] !== "") ||
-            (isset($filters['startStatusId']) && $filters['startStatusId'] !== "") ||
-            (isset($filters['endStatusId']) && $filters['endStatusId'] !== "") ||
-            (isset($filters['startedDateRange']) && $filters['startedDateRange'] !== "") ||
-            (isset($filters['accountManagerId']) && $filters['accountManagerId'] !== "") ||
-            (isset($filters['matcherId']) && $filters['matcherId'] !== "") ||
-            (isset($filters['userRole']) && $filters['userRole'] !== "")) {
-            $dbQuery .= "where ";
+            $bindings = array_merge($bindings, $completedStatuses);
+            $bindings[] = $start;
+            $bindings[] = $end;
         }
         if (isset($filters['mentorName']) && $filters['mentorName'] != "") {
-            $dbQuery .= "(mentor.first_name like '%" . $filters['mentorName'] . "%' or mentor.last_name like '%" . $filters['mentorName'] . "%') ";
-            $whereClauseExists = true;
+            $conditions[] = "(mentor.first_name like ? or mentor.last_name like ?)";
+            $bindings[] = '%' . $filters['mentorName'] . '%';
+            $bindings[] = '%' . $filters['mentorName'] . '%';
         }
         if (isset($filters['menteeName']) && $filters['menteeName'] != "") {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "(mentee.first_name like '%" . $filters['menteeName'] . "%' or mentee.last_name like '%" . $filters['menteeName'] . "%') ";
-            $whereClauseExists = true;
+            $conditions[] = "(mentee.first_name like ? or mentee.last_name like ?)";
+            $bindings[] = '%' . $filters['menteeName'] . '%';
+            $bindings[] = '%' . $filters['menteeName'] . '%';
         }
         if (isset($filters['startStatusId']) && $filters['startStatusId'] != "") {
-            if (intval($filters['startStatusId']) == 0) {
+            $startStatusId = intval($filters['startStatusId']);
+            if ($startStatusId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "ms.status_id >= " . $filters['startStatusId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "ms.status_id >= ?";
+            $bindings[] = $startStatusId;
         }
         if (isset($filters['endStatusId']) && $filters['endStatusId'] != "") {
-            if (intval($filters['endStatusId']) == 0) {
+            $endStatusId = intval($filters['endStatusId']);
+            if ($endStatusId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "ms.status_id <= " . $filters['endStatusId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "ms.status_id <= ?";
+            $bindings[] = $endStatusId;
         }
         if (isset($filters['startedDateRange']) && $filters['startedDateRange'] != "") {
-            $dateRange = explode(" - ", $filters['startedDateRange']);
-            $dateArray = explode("/", $dateRange[0]);
-            $start = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
-            $dateArray = explode("/", $dateRange[1]);
-            $end = $dateArray[2] . "-" . $dateArray[1] . "-" . $dateArray[0];
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "(ms.created_at >= date('" . $start . "') and ms.created_at <= date('" . $end . "')) ";
-            $whereClauseExists = true;
+            list($start, $end) = $this->parseDateRangeFilter($filters['startedDateRange']);
+            $conditions[] = "(ms.created_at >= date(?) and ms.created_at <= date(?))";
+            $bindings[] = $start;
+            $bindings[] = $end;
         }
         if (isset($filters['accountManagerId']) && $filters['accountManagerId'] != "") {
-            if (intval($filters['accountManagerId']) == 0) {
+            $accountManagerId = intval($filters['accountManagerId']);
+            if ($accountManagerId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "ms.account_manager_id = " . $filters['accountManagerId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "ms.account_manager_id = ?";
+            $bindings[] = $accountManagerId;
         }
         if (isset($filters['matcherId']) && $filters['matcherId'] != "") {
-            if (intval($filters['matcherId']) == 0) {
+            $matcherId = intval($filters['matcherId']);
+            if ($matcherId == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "ms.matcher_id = " . $filters['matcherId'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "ms.matcher_id = ?";
+            $bindings[] = $matcherId;
         }
         // check user role
         if (isset($filters['userRole']) && $filters['userRole'] != "") {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
             if ($filters['userRole'] == 'account_manager') {
-                $dbQuery .= "ms.account_manager_id=" . Auth::id();
+                $conditions[] = "ms.account_manager_id = ?";
             } else {
-                $dbQuery .= "ms.matcher_id=" . Auth::id();
+                $conditions[] = "ms.matcher_id = ?";
             }
-            $dbQuery .= " ";
-            $whereClauseExists = true;
+            $bindings[] = Auth::id();
+        }
+        if (!empty($conditions)) {
+            $dbQuery .= "where " . implode(" and ", $conditions);
         }
         $filteredMentorshipSessionsIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
-            (new RawQueryStorage())->performRawQuery($dbQuery)
+            (new RawQueryStorage())->performRawQuery($dbQuery, $bindings)
         );
         return $this->mentorshipSessionStorage->getMentorshipSessionsFromIdsArray($filteredMentorshipSessionsIds);
     }
@@ -733,11 +737,11 @@ class MentorshipSessionManager {
      * @return mixed
      */
     public function getCurrentMentorshipSessionViewModelForMentor($id) {
-        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentor_profile_id 
+        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentor_profile_id
                         from mentorship_session group by mentor_profile_id)
-                        as last_session where mentor_profile_id = $id";
+                        as last_session where mentor_profile_id = ?";
         $rawQueryStorage = new RawQueryStorage();
-        $results = $rawQueryStorage->performRawQuery($dbQuery);
+        $results = $rawQueryStorage->performRawQuery($dbQuery, [intval($id)]);
         if (!empty($results)) {
             $lastSessionId = $results[0]->last_session_id;
             $lastMentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId);
@@ -757,11 +761,11 @@ class MentorshipSessionManager {
      * @return mixed
      */
     public function getCurrentMentorshipSessionViewModelForMentee($id) {
-        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentee_profile_id 
+        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentee_profile_id
                         from mentorship_session group by mentee_profile_id)
-                        as last_session where mentee_profile_id = $id";
+                        as last_session where mentee_profile_id = ?";
         $rawQueryStorage = new RawQueryStorage();
-        $results = $rawQueryStorage->performRawQuery($dbQuery);
+        $results = $rawQueryStorage->performRawQuery($dbQuery, [intval($id)]);
         if (!empty($results)) {
             $lastSessionId = $results[0]->last_session_id;
             $lastMentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId);

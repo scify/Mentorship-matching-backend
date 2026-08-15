@@ -389,7 +389,8 @@ class MenteeController extends Controller
             $menteeViewModelsData = $this->menteeManager->getMenteeViewModelsByCriteria($input);
             $menteeViewModels = $this->menteeManager->paginateMentees($menteeViewModelsData)->setPath('#');
         }  catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on mentees search: ' . $e->getCode() . "  " .  $e->getMessage());
+            $errorMessage = 'An error occurred. Please try again later.';
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
