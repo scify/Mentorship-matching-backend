@@ -1,0 +1,14 @@
+{
+  "name": "jobpairs-e2e",
+  "private": true,
+  "description": "Playwright end-to-end suite for the JobPairs backoffice",
+  "scripts": {
+    "seed": "docker exec mentorship_matching_platform_server php /var/www/e2e/fixtures/seed.php",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}
