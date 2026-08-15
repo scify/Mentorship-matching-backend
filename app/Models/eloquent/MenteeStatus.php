@@ -14,9 +14,9 @@ class MenteeStatus extends Model
     protected $table = 'mentee_status_lookup';
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MenteeProfile, $this>
      */
-    public function mentees()
+    public function mentees(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MenteeProfile::class, 'status_id', 'id');
     }

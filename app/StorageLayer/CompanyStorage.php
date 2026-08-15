@@ -6,7 +6,7 @@
  * Time: 2:06 μμ
  */
 
-namespace app\StorageLayer;
+namespace App\StorageLayer;
 
 use App\Models\eloquent\Company;
 

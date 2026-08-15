@@ -3,7 +3,6 @@
 namespace App\Models\eloquent;
 
 use App\BusinessLogicLayer\managers\UserAccessManager;
-use app\BusinessLogicLayer\managers\UserManager;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,7 +21,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = [
         'email', 'password', 'first_name', 'last_name', 'state_id', 'user_icon_id'
@@ -31,32 +30,37 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var list<string>
      */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    public function state() {
+    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\UserState, $this> */
+    public function state(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(UserState::class, 'id', 'state_id');
     }
 
-    public function company() {
+    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\Company, $this> */
+    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
         return $this->belongsTo(Company::class, 'id', 'account_manager_id');
     }
 
-    public function capacity() {
+    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\AccountManagerCapacity, $this> */
+    public function capacity(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(AccountManagerCapacity::class, 'account_manager_id', 'id');
     }
 
-    public function icon() {
+    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\UserIcon, $this> */
+    public function icon(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(UserIcon::class, 'id', 'user_icon_id');
     }
 
     /**
      * Get @see Role instances this user has
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\Role, $this>
      */
-    public function roles()
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_role')->wherePivot('deleted_at', null);
     }
@@ -68,13 +72,7 @@ class User extends Authenticatable
      */
     public function isActivated()
     {
-
-        if ( $this->has('state') and ($this->state->id == 1))
-        {
-            return true;
-        }
-
-        return false;
+        return $this->state !== null && $this->state->id == 1;
     }
 
     public function isAdmin() {

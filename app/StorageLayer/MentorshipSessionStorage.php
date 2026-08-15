@@ -85,7 +85,7 @@ class MentorshipSessionStorage
     }
 
     public function getDataForExportation() {
-        return DB::select(DB::raw('select msession.id, 
+        return DB::select(('select msession.id, 
             concat(mentor.first_name, " ", mentor.last_name) as mentor_name, 
             mentor.email as mentor_email, 
             concat(mentee.first_name, " ", mentee.last_name) as mentee_name, 

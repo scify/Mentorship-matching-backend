@@ -15,32 +15,32 @@ class MenteeRating extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = [
         'rating', 'rating_description', 'mentee_id', 'session_id', 'rated_by_id', 'created_at', 'updated_at'
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MenteeProfile, $this>
      */
-    public function mentee()
+    public function mentee(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(MenteeProfile::class, 'id', 'mentee_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MentorProfile, $this>
      */
-    public function mentor()
+    public function mentor(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(MentorProfile::class, 'id', 'rated_by_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MentorshipSession, $this>
      */
-    public function session()
+    public function session(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(MentorshipSession::class, 'id', 'session_id');
     }

@@ -1,0 +1,9 @@
+[
+  {
+    "date": "2026-08-15",
+    "mode": "Architecture Audit",
+    "score": 57,
+    "findings": { "critical": 1, "warning": 5, "suggestion": 3 },
+    "scope": "entire project (app/, 135 PHP files)"
+  }
+]

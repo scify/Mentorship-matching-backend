@@ -17,7 +17,7 @@ class MenteeSpecialty extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['mentee_profile_id', 'specialty_id'];
 }

@@ -46,6 +46,9 @@ class MenteeManager {
         return $this->getMenteeViewModelsFromCollection($mentees);
     }
 
+    /**
+     * @param Collection<int, MenteeProfile> $mentees
+     */
     private function getMenteeViewModelsFromCollection(Collection $mentees) {
         $menteeViewModels = new Collection();
         foreach ($mentees as $mentee) {
@@ -83,7 +86,7 @@ class MenteeManager {
      * Download a mentee's cv file, streamed directly from the public disk.
      *
      * @param $fileName
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function downloadCvFile($fileName) {
         return \Illuminate\Support\Facades\Storage::disk('public')
@@ -158,7 +161,7 @@ class MenteeManager {
         }
         if ($inputFields['follow_up_date'] != "") {
             $dateArray = explode("/", $inputFields['follow_up_date']);
-            $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+            $inputFields['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
@@ -207,7 +210,7 @@ class MenteeManager {
      * Gets all the filters passed and returns the filtered results
      *
      * @param $filters
-     * @return Collection|void|static[]
+     * @return Collection<int, MenteeProfile>
      * @throws \Exception When filters aren't valid
      */
     private function getMenteesByCriteria($filters) {
@@ -390,7 +393,7 @@ class MenteeManager {
         }
         if ($input['follow_up_date'] != "") {
             $dateArray = explode("/", $input['follow_up_date']);
-            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+            $input['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
         }
         $mentee = $this->getMentee($input['mentee_id']);
         unset($mentee->age);

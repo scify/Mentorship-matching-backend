@@ -52,7 +52,7 @@ class MenteeStorage {
     }
 
     public function getDataForExportation() {
-        return DB::select(DB::raw('select mentee.id, mentee.first_name, mentee.last_name, mentee.year_of_birth, 
+        return DB::select(('select mentee.id, mentee.first_name, mentee.last_name, mentee.year_of_birth, 
           mentee.address, mentee.email, mentee.linkedin_url, mentee.phone, mentee.cell_phone, 
           mentee.job_description, mentee.is_employed, mentee.expectations, mentee.career_goals, mentee.skills, reference.name as reference_name,
           mentee.reference_text, specialty.name as specialty_name, mentee.specialty_experience, 

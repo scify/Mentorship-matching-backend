@@ -1,0 +1,14 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    # Levels 0-5 are fully clean and must stay clean.
+    # Level 6+ adds missing-typehint checks; pre-existing violations are frozen
+    # in phpstan-baseline.neon — new/changed code must be fully typed.
+    # Burn down the baseline over time: remove entries as files get typed,
+    # regenerate with: vendor/bin/phpstan analyse --generate-baseline
+    level: 6
+
+    paths:
+        - app

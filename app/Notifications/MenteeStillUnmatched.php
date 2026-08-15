@@ -10,8 +10,6 @@ use Illuminate\Notifications\Notification;
 class MenteeStillUnmatched extends Notification implements ShouldQueue {
     use Queueable;
 
-    private $menteeProfile;
-
     public $tries = 3;
 
     /**
@@ -29,7 +27,6 @@ class MenteeStillUnmatched extends Notification implements ShouldQueue {
      * @return array
      */
     public function via($notifiable) {
-        $this->menteeProfile = $notifiable;
         return ['mail'];
     }
 

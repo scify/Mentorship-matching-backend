@@ -1,0 +1,4231 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Property App\\BusinessLogicLayer\\enums\\MenteeStatuses\:\:\$statuses has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/enums/MenteeStatuses.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:assignCompanyToMentors\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:assignCompanyToMentors\(\) has parameter \$mentors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:assignInputFieldsToCompany\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:createCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:createCompany\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:deleteCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:deleteCompany\(\) has parameter \$companyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:editCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:editCompany\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:editCompany\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:editCompanyMentors\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:editCompanyMentors\(\) has parameter \$newCompanyMentors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getAllCompanies\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getAllCompanyViewModels\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getAllUnassignedCompanies\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getCompaniesByCriteria\(\) has parameter \$filters with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getCompaniesWithNoAccountManagerAssignedExceptAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getCompany\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getCompanyMentorsIds\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getCompanyViewModel\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:getCompanyViewModelsByCriteria\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:handleCompanyAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:handleCompanyAccountManager\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:removeAccountManagerFromCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:removeCompanyFromAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:setAccountManagerToCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\CompanyManager\:\:setAccountManagerToCompany\(\) has parameter \$companyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\CompanyManager\:\:\$companyStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\CompanyManager\:\:\$mentorManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/CompanyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\EducationLevelManager\:\:getAllEducationLevels\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/EducationLevelManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\EducationLevelManager\:\:\$educationLevelStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/EducationLevelManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:assignIndustriesToMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:assignIndustriesToMentor\(\) has parameter \$additionalSpecialties with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:createNewMentorIndustry\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:createNewMentorIndustry\(\) has parameter \$specialtyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:deleteIndustryFromMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:deleteIndustryFromMentor\(\) has parameter \$industryId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:editMentorIndustries\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:editMentorIndustries\(\) has parameter \$newMentorIndustries with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:getAllIndustries\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:getIndustry\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:getIndustry\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\IndustryManager\:\:getMentorIndustriesIds\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\IndustryManager\:\:\$industryStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/IndustryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:assignInputFieldsToMenteeProfile\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:changeMenteeAvailabilityStatus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:changeMenteeAvailabilityStatus\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:createMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:createMentee\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:createMentee\(\) has parameter \$isCvFileExistent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:deleteMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:deleteMentee\(\) has parameter \$menteeId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:downloadCvFile\(\) has parameter \$fileName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:editMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:editMentee\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:editMentee\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:editMentee\(\) has parameter \$isCvFileExistent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:filterMenteesByNameAndEmail\(\) has parameter \$searchQuery with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:filterMenteesByNameAndEmail\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getAllMenteeViewModels\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getAllMentees\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getAvailableMenteeViewModels\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getMentee\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getMenteeViewModelsByCriteria\(\) has parameter \$filters with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getMenteeViewModelsByCriteria\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getMenteeViewModelsFromCollection\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getMenteesByCriteria\(\) has parameter \$filters with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:paginateMentees\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:paginateMentees\(\) has parameter \$items with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:paginateMentees\(\) has parameter \$perPage with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:saveCVFile\(\) has parameter \$menteeEmail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MenteeManager\:\:\$menteeStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MenteeManager\:\:\$specialtyManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeStatusHistoryManager\:\:createMenteeStatusHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeStatusHistoryManager\:\:createMenteeStatusHistory\(\) has parameter \$comment with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeStatusHistoryManager\:\:createMenteeStatusHistory\(\) has parameter \$followUpDate with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeStatusHistoryManager\:\:createMenteeStatusHistory\(\) has parameter \$statusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusHistoryManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MenteeStatusHistoryManager\:\:\$menteeStatusHistoryStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MenteeStatusManager\:\:getAllMenteeStatuses\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MenteeStatusManager\:\:\$MENTEE_AVAILABLE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MenteeStatusManager\:\:\$menteeStatusStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MenteeStatusManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:assignCompanyToMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:assignCompanyToMentor\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:assignInputFieldsToMentorProfile\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:changeMentorAvailabilityStatus\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:changeMentorAvailabilityStatus\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:createMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:createMentor\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:createMentor\(\) has parameter \$isCvFileExistent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:deleteMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:deleteMentor\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:downloadCvFile\(\) has parameter \$fileName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:editMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:editMentor\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:editMentor\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:editMentor\(\) has parameter \$isCvFileExistent with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:filterMentorsByNameAndEmail\(\) has parameter \$searchQuery with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:filterMentorsByNameAndEmail\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getAllMentorViewModels\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getAllMentors\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getAvailableMentorViewModels\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getAvailableMentorViewModelsNum\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getCompanyIdAndCreateCompanyIfNeeded\(\) has parameter \$companyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentor\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentorViewModel\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentorViewModelsByCriteria\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentorViewModelsFromCollection\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentorsByCriteria\(\) has parameter \$filters with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentorsWithNoCompanyAssigned\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentorsWithNoCompanyAssignedExceptCompany\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:handleMentorCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:handleMentorCompany\(\) has parameter \$companyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:makeMentorAvailable\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:makeMentorAvailable\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:mentorIsAllowedToBeAvailableAgain\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:paginateMentors\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:paginateMentors\(\) has parameter \$items with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:paginateMentors\(\) has parameter \$perPage with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:saveCVFile\(\) has parameter \$mentorEmail with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:unassignCompanyFromMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorManager\:\:unassignCompanyFromMentor\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorManager\:\:\$industryManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorManager\:\:\$mentorStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorManager\:\:\$specialtyManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorStatusHistoryManager\:\:createMentorStatusHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorStatusHistoryManager\:\:createMentorStatusHistory\(\) has parameter \$comment with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorStatusHistoryManager\:\:createMentorStatusHistory\(\) has parameter \$followUpDate with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorStatusHistoryManager\:\:createMentorStatusHistory\(\) has parameter \$statusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusHistoryManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorStatusHistoryManager\:\:\$mentorStatusHistoryStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorStatusManager\:\:getAllMentorStatuses\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorStatusManager\:\:getMentorStatusesForMentorCreation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorStatusManager\:\:\$MENTOR_AVAILABLE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorStatusManager\:\:\$MENTOR_BLACK_LISTED_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorStatusManager\:\:\$MENTOR_MATCHED_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorStatusManager\:\:\$MENTOR_NOT_AVAILABLE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorStatusManager\:\:\$mentorStatusStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorStatusManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:createMentorshipSessionStatusHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:createMentorshipSessionStatusHistory\(\) has parameter \$comment with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:createMentorshipSessionStatusHistory\(\) has parameter \$statusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:deleteMentorshipSessionStatusHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:deleteMentorshipSessionStatusHistory\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:\$mentorshipSessionHistoryStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptMentorshipSession\(\) has parameter \$role with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptToManageMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptToManageMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptToManageMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:assignInputFieldsToMentorshipSession\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:createMentorshipSession\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:createMentorshipSession\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:declineMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:declineMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:declineMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:declineMentorshipSession\(\) has parameter \$role with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:declineToManageMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:declineToManageMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:declineToManageMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:deleteMentorshipSession\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:deleteMentorshipSession\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:editMentorshipSession\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getActiveMentorshipSessionsNumForAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getActiveMentorshipSessionsNumForAccountManager\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getAllMentorshipSessionsViewModel\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getCurrentMentorshipSessionViewModelForMentee\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getCurrentMentorshipSessionViewModelForMentor\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsByCriteria\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsByCriteria\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForAccountManager\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForMatcher\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForMatcher\(\) has parameter \$matcherId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForMentee\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionViewModelsForMentor\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionsByCriteria\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionsCountForMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionsCountForMentee\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionsCountForMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionsCountForMentor\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getMentorshipSessionsViewModelsFromCollection\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getPendingMentorshipSessionViewModelsForAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getPendingMentorshipSessionViewModelsForAccountManager\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:getSessionsForFollowUp\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:handleMentorshipSessionStatusUpdate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:handleMentorshipSessionStatusUpdate\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteAccountManagerToMentorshipSession\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMentee\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMenteeToMentorshipSession\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMentorToMentorshipSession\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:paginateMentorshipSessions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:paginateMentorshipSessions\(\) has parameter \$items with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:paginateMentorshipSessions\(\) has parameter \$perPage with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:parseDateRangeFilter\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:sendRatingEmails\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:sendRatingEmails\(\) has parameter \$session with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:sendRatingToMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:sendRatingToMentee\(\) has parameter \$session with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:sendRatingToMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:sendRatingToMentor\(\) has parameter \$session with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMenteeStatusToAvailable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMenteeStatusToAvailable\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMenteeStatusToCompleted\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMenteeStatusToCompleted\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMenteeStatusToRejected\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMenteeStatusToRejected\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorAndMenteeStatusesToAvailable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorAndMenteeStatusesToAvailable\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorAndMenteeStatusesToAvailable\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorAndMenteeStatusesToNotAvailable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorAndMenteeStatusesToNotAvailable\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorAndMenteeStatusesToNotAvailable\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorStatusToAvailable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorStatusToAvailable\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorStatusToNotAvailable\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:setMentorshipSessionMentorStatusToNotAvailable\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:shouldSendRating\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:shouldSendRating\(\) has parameter \$mentorshipSession with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:\$mentorshipSessionHistoryManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:\$mentorshipSessionStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionStatusManager\:\:getAllMentorshipSessionStatuses\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionStatusManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorshipSessionStatusManager\:\:\$mentorshipSessionStatusStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionStatusManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\RatingManager\:\:rateMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/RatingManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\RatingManager\:\:rateMentee\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/RatingManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\RatingManager\:\:rateMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/RatingManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\RatingManager\:\:rateMentor\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/RatingManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\RatingManager\:\:\$menteeRatingStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/RatingManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\RatingManager\:\:\$mentorRatingStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/RatingManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\ReferenceManager\:\:getAllReferences\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/ReferenceManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\ReferenceManager\:\:getReference\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/ReferenceManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\ReferenceManager\:\:getReference\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/ReferenceManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\ReferenceManager\:\:\$referenceStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/ReferenceManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\ResidenceManager\:\:getAllResidences\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/ResidenceManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\ResidenceManager\:\:getResidence\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/ResidenceManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\ResidenceManager\:\:getResidence\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/ResidenceManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\ResidenceManager\:\:\$residenceStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/ResidenceManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:assignSpecialtiesToMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:assignSpecialtiesToMentee\(\) has parameter \$specialties with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:assignSpecialtiesToMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:assignSpecialtiesToMentor\(\) has parameter \$specialties with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:createNewSpecialtyForMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:createNewSpecialtyForMentee\(\) has parameter \$specialtyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:createNewSpecialtyForMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:createNewSpecialtyForMentor\(\) has parameter \$specialtyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:deleteSpecialtyFromMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:deleteSpecialtyFromMentee\(\) has parameter \$specialtyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:deleteSpecialtyFromMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:deleteSpecialtyFromMentor\(\) has parameter \$specialtyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:editMenteeSpecialties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:editMenteeSpecialties\(\) has parameter \$newMenteeSpecialties with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:editMentorSpecialties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:editMentorSpecialties\(\) has parameter \$newMentorSpecialties with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:getAllSpecialties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:getMenteeSpecialtiesIds\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:getMentorSpecialtiesIds\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:getPublicSpecialties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:getSpecialty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:getSpecialty\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\SpecialtyManager\:\:\$specialtyStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/SpecialtyManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UniversityManager\:\:getAllUniversities\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UniversityManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UniversityManager\:\:getAllUniversitiesIncludingOtherUniversities\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UniversityManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UniversityManager\:\:\$universityStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UniversityManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:checkCacheOrDBForRoleAndStore\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:checkCacheOrDBForRoleAndStore\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:checkCacheOrDBForRoleAndStore\(\) has parameter \$roleKey with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:userHasRole\(\) has parameter \$userRoles with generic class Illuminate\\Database\\Eloquent\\Collection but does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:userIsAccessingTheirProfile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:userIsAccessingTheirProfile\(\) has parameter \$user with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:\$ACCOUNT_MANAGER_ROLE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:\$ADMINISTRATOR_ROLE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:\$MATCHER_ROLE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserIconManager\:\:getAllUserIcons\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserIconManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserIconManager\:\:getIconIdFromTitle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserIconManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserIconManager\:\:getIconIdFromTitle\(\) has parameter \$title with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserIconManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserIconManager\:\:\$userIconStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserIconManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:accountManagerDetails\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:accountManagerDetails\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:activateUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:activateUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:assignInputFieldsToUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:assignInputFieldsToUser\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:createOrUpdateAccountManagerCapacity\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:createOrUpdateAccountManagerCapacity\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:createOrUpdateAccountManagerCapacity\(\) has parameter \$capacity with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:createUser\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:deactivateUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:deactivateUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:deleteUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:deleteUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUser\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUser\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUserCapacity\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUserCapacity\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:filterUsersByName\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:filterUsersByNameAndEmail\(\) has parameter \$searchQuery with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:filterUsersByNameAndEmail\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAccountManagersWithNoCompanyAssigned\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAccountManagersWithNoCompanyAssignedExceptCurrent\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAccountManagersWithRemainingCapacity\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAllAdmnins\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAllMatchers\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAllUsers\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAllUsersWithMatchingPermissions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAssociativeArrayFromObjectsArray\(\) has parameter \$originalArray with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getAssociativeArrayFromObjectsArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getCountOfActiveSessionsForAllAccountManagers\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getEmailsForCC\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getUser\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getUsersByCriteria\(\) has parameter \$input with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:getUsersWithRole\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:handleCompanyAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:handleCompanyAccountManager\(\) has parameter \$companyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserManager\:\:\$USER_ACTIVATED_STATE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserManager\:\:\$USER_DEACTIVATED_STATE_ID has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserManager\:\:\$userIconsManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserManager\:\:\$userRoleManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserManager\:\:\$userStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:assignRolesToUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:assignRolesToUser\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:assignRolesToUser\(\) has parameter \$userRoles with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:createNewRoleForUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:createNewRoleForUser\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:deleteRoleFromUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:deleteRoleFromUser\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:editUserRoles\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:editUserRoles\(\) has parameter \$newUserRoles with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:getAllUserRoles\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:getRoleById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:getRoleById\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:getUserRoleIds\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:getUsersByRoleId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:getUsersByRoleId\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:\$roleStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Property App\\BusinessLogicLayer\\managers\\UserRoleManager\:\:\$userRoleStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserRoleManager.php
+
+		-
+			message: '#^Method App\\Console\\Commands\\AnonymizeMentorAndMenteeEmails\:\:anonymizeEmail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Console/Commands/AnonymizeMentorAndMenteeEmails.php
+
+		-
+			message: '#^Method App\\Console\\Commands\\AnonymizeMentorAndMenteeEmails\:\:anonymizeEmail\(\) has parameter \$profile with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Console/Commands/AnonymizeMentorAndMenteeEmails.php
+
+		-
+			message: '#^Method App\\Console\\Commands\\AnonymizeMentorAndMenteeEmails\:\:anonymizeMentees\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Console/Commands/AnonymizeMentorAndMenteeEmails.php
+
+		-
+			message: '#^Method App\\Console\\Commands\\AnonymizeMentorAndMenteeEmails\:\:anonymizeMentors\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Console/Commands/AnonymizeMentorAndMenteeEmails.php
+
+		-
+			message: '#^Property App\\Console\\Commands\\HandleUnmatchedMentees\:\:\$menteeStorage has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Console/Commands/HandleUnmatchedMentees.php
+
+		-
+			message: '#^Property App\\Console\\Commands\\SendFollowUpEmails\:\:\$sessionManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Console/Commands/SendFollowUpEmails.php
+
+		-
+			message: '#^Property App\\Console\\Kernel\:\:\$commands type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Console/Kernel.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Auth\\LoginController\:\:attemptLogin\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Auth/LoginController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Auth\\LoginController\:\:username\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/Auth/LoginController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Auth\\RegisterController\:\:create\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Auth/RegisterController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Auth\\RegisterController\:\:validator\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Controllers/Auth/RegisterController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\CompanyController\:\:showCompaniesByCriteria\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/CompanyController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\CompanyController\:\:\$companyManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/CompanyController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\CompanyController\:\:\$mentorManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/CompanyController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\CompanyController\:\:\$userManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/CompanyController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\HomeController\:\:testEmail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/HomeController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\HomeController\:\:testException\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/HomeController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MenteeController\:\:downloadCv\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MenteeController\:\:messages\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MenteeController\:\:showMenteesByCriteria\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MenteeController\:\:showProfile\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$educationLevelManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$menteeManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$menteeStatusManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$mentorshipSessionManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$referenceManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$residenceManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$specialtyManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MenteeController\:\:\$universityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorController\:\:downloadCv\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorController\:\:makeMentorAvailableAgain\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorController\:\:makeMentorAvailableAgain\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorController\:\:messages\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorController\:\:showMentorsByCriteria\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorController\:\:showProfile\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$companyManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$educationLevelManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$industryManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$mentorManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$mentorStatusManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$mentorshipSessionManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$referenceManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$residenceManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$specialtyManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorController\:\:\$universityManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptMentorshipSession\(\) has parameter \$role with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptToManageMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptToManageMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptToManageMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSession\(\) has parameter \$role with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSessionConfirmation\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSessionConfirmation\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSessionConfirmation\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineMentorshipSessionConfirmation\(\) has parameter \$role with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineToManageMentorshipSession\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineToManageMentorshipSession\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:declineToManageMentorshipSession\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:getHistoryForMentorshipSession\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:sendInviteToMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:showMentorshipSessionsByCriteria\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:showMentorshipSessionsForAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:showMentorshipSessionsForMatcher\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorshipSessionController\:\:\$mentorshipSessionManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorshipSessionHistoryController\:\:deleteSessionHistoryItem\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionHistoryController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\MentorshipSessionHistoryController\:\:\$mentorshipSessionHistoryManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/MentorshipSessionHistoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:messages\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:rateMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:rateMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMenteeRatingForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMenteeRatingForm\(\) has parameter \$menteeId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMenteeRatingForm\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMenteeRatingForm\(\) has parameter \$sessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMentorRatingForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMentorRatingForm\(\) has parameter \$menteeId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMentorRatingForm\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\RatingController\:\:showMentorRatingForm\(\) has parameter \$sessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/RatingController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ReportController\:\:exportMenteesToCsv\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ReportController\:\:exportMentorsToCsv\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\ReportController\:\:exportMentorshipSessionsToCsv\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\ReportController\:\:\$menteeManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\ReportController\:\:\$mentorManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\ReportController\:\:\$mentorshipSessionManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\SearchController\:\:filterResultsByString\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/SearchController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\SearchController\:\:\$menteeManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/SearchController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\SearchController\:\:\$mentorManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/SearchController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\SearchController\:\:\$userManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/SearchController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\UserController\:\:editUserCapacity\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\UserController\:\:getUsersByCriteria\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\UserController\:\:showDashboardForUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\UserController\:\:showProfile\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\UserController\:\:\$userManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Property App\\Http\\Controllers\\UserController\:\:\$userRoleManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\CanCreateMentorshipSession\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/CanCreateMentorshipSession.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\CanEditMentorsAndMentees\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/CanEditMentorsAndMentees.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\CanEditUserProfile\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/CanEditUserProfile.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\CanInviteMentee\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/CanInviteMentee.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\CanOnlyChangeStatus\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/CanOnlyChangeStatus.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\CanUpdateMentorshipSession\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/CanUpdateMentorshipSession.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\IsAccountManager\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/IsAccountManager.php
+
+		-
+			message: '#^Property App\\Http\\Middleware\\IsAdmin\:\:\$userAccessManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/Middleware/IsAdmin.php
+
+		-
+			message: '#^Method App\\Http\\OperationResponse\:\:__construct\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/OperationResponse.php
+
+		-
+			message: '#^Method App\\Http\\OperationResponse\:\:__construct\(\) has parameter \$status with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Http/OperationResponse.php
+
+		-
+			message: '#^Property App\\Http\\OperationResponse\:\:\$data has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/OperationResponse.php
+
+		-
+			message: '#^Property App\\Http\\OperationResponse\:\:\$status has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Http/OperationResponse.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\Company\:\:hasAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/Company.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\Company\:\:hasMentors\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/Company.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\MentorProfile\:\:hasCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/MentorProfile.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:hasCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:isAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:isAdmin\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:isCompanyAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:isMatcher\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:userHasAccessToCRUDCompanies\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:userHasAccessToCRUDMentorsAndMentees\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:userHasAccessToCRUDMentorshipSessions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:userHasAccessToCRUDSystemUsers\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:userHasAccessToEditMentorsAndMentees\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\User\:\:userHasAccessToOnlyEditStatusForMentorshipSessions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Models/eloquent/User.php
+
+		-
+			message: '#^Method App\\Models\\eloquent\\UserState\:\:users\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/eloquent/UserState.php
+
+		-
+			message: '#^Method App\\Models\\viewmodels\\AllCompanyViewModels\:\:__construct\(\) has parameter \$companyViewModels with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/viewmodels/AllCompanyViewModels.php
+
+		-
+			message: '#^Method App\\Models\\viewmodels\\AllCompanyViewModels\:\:__construct\(\) has parameter \$paginationObj with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/viewmodels/AllCompanyViewModels.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\AllCompanyViewModels\:\:\$companyViewModels has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/AllCompanyViewModels.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\AllCompanyViewModels\:\:\$paginationObj has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/AllCompanyViewModels.php
+
+		-
+			message: '#^Method App\\Models\\viewmodels\\CompanyViewModel\:\:__construct\(\) has parameter \$company with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/viewmodels/CompanyViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\CompanyViewModel\:\:\$availableMentorsNum has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/CompanyViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\CompanyViewModel\:\:\$company has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/CompanyViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\CompanyViewModel\:\:\$matchedMentorsNum has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/CompanyViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\CompanyViewModel\:\:\$totalMentorsNum has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/CompanyViewModel.php
+
+		-
+			message: '#^Method App\\Models\\viewmodels\\MenteeViewModel\:\:__construct\(\) has parameter \$mentee with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/viewmodels/MenteeViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MenteeViewModel\:\:\$avgRating has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MenteeViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MenteeViewModel\:\:\$mentee has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MenteeViewModel.php
+
+		-
+			message: '#^Method App\\Models\\viewmodels\\MentorViewModel\:\:__construct\(\) has parameter \$mentor with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Models/viewmodels/MentorViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorViewModel\:\:\$avgRating has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorViewModel\:\:\$mentor has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$accountManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$createdAtDiffForHumans has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$matcher has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$menteeViewModel has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$mentorViewModel has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$mentorshipSession has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$status has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$updatedAtDiffForHumans has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Method App\\Notifications\\AccountManagerSessionInvitation\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/AccountManagerSessionInvitation.php
+
+		-
+			message: '#^Method App\\Notifications\\AccountManagerSessionInvitation\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/AccountManagerSessionInvitation.php
+
+		-
+			message: '#^Property App\\Notifications\\AccountManagerSessionInvitation\:\:\$accountManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/AccountManagerSessionInvitation.php
+
+		-
+			message: '#^Property App\\Notifications\\AccountManagerSessionInvitation\:\:\$mentorshipSession has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/AccountManagerSessionInvitation.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeFollowUp\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeFollowUp.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeFollowUp\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeFollowUp.php
+
+		-
+			message: '#^Property App\\Notifications\\MenteeFollowUp\:\:\$backoff has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MenteeFollowUp.php
+
+		-
+			message: '#^Property App\\Notifications\\MenteeFollowUp\:\:\$mentorshipSession has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MenteeFollowUp.php
+
+		-
+			message: '#^Property App\\Notifications\\MenteeFollowUp\:\:\$tries has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MenteeFollowUp.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeRegistered\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeRegistered.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeRegistered\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeRegistered.php
+
+		-
+			message: '#^Property App\\Notifications\\MenteeRegistered\:\:\$userManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MenteeRegistered.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeSendRating\:\:__construct\(\) has parameter \$mentorshipSession with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Notifications/MenteeSendRating.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeSendRating\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeSendRating.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeSendRating\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeSendRating.php
+
+		-
+			message: '#^Property App\\Notifications\\MenteeSendRating\:\:\$mentorshipSession has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MenteeSendRating.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeSessionInvitation\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeSessionInvitation.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeSessionInvitation\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeSessionInvitation.php
+
+		-
+			message: '#^Property App\\Notifications\\MenteeSessionInvitation\:\:\$mentorshipSession has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MenteeSessionInvitation.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeStillUnmatched\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeStillUnmatched.php
+
+		-
+			message: '#^Method App\\Notifications\\MenteeStillUnmatched\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MenteeStillUnmatched.php
+
+		-
+			message: '#^Property App\\Notifications\\MenteeStillUnmatched\:\:\$tries has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MenteeStillUnmatched.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorRegistered\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorRegistered.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorRegistered\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorRegistered.php
+
+		-
+			message: '#^Property App\\Notifications\\MentorRegistered\:\:\$userManager has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MentorRegistered.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorSendRating\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorSendRating.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorSendRating\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorSendRating.php
+
+		-
+			message: '#^Property App\\Notifications\\MentorSendRating\:\:\$mentorshipSession has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MentorSendRating.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorSessionInvitation\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorSessionInvitation.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorSessionInvitation\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorSessionInvitation.php
+
+		-
+			message: '#^Property App\\Notifications\\MentorSessionInvitation\:\:\$mentorshipSession has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MentorSessionInvitation.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorStatusReactivation\:\:__construct\(\) has parameter \$mentor with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Notifications/MentorStatusReactivation.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorStatusReactivation\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorStatusReactivation.php
+
+		-
+			message: '#^Method App\\Notifications\\MentorStatusReactivation\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/MentorStatusReactivation.php
+
+		-
+			message: '#^Property App\\Notifications\\MentorStatusReactivation\:\:\$mentor has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/MentorStatusReactivation.php
+
+		-
+			message: '#^Method App\\Notifications\\UserAccountCreated\:\:__construct\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Notifications/UserAccountCreated.php
+
+		-
+			message: '#^Method App\\Notifications\\UserAccountCreated\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/UserAccountCreated.php
+
+		-
+			message: '#^Method App\\Notifications\\UserAccountCreated\:\:via\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Notifications/UserAccountCreated.php
+
+		-
+			message: '#^Property App\\Notifications\\UserAccountCreated\:\:\$email has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Notifications/UserAccountCreated.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getAllCompanies\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getAllCompaniesPaginated\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getCompaniesByAccountManagerId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getCompaniesByAccountManagerId\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getCompanyById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getCompanyById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getCompanyByName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:getCompanyByName\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\CompanyStorage\:\:saveCompany\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/CompanyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\EducationLevelStorage\:\:getAllEducationLevels\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/EducationLevelStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\IndustryStorage\:\:getAllIndustries\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/IndustryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\IndustryStorage\:\:getIndustryById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/IndustryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\IndustryStorage\:\:getIndustryById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/IndustryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\IndustryStorage\:\:getIndustryForMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/IndustryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\IndustryStorage\:\:getIndustryForMentor\(\) has parameter \$industryId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/IndustryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\IndustryStorage\:\:getIndustryForMentor\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/IndustryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\IndustryStorage\:\:saveAdditionalSpecialty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/IndustryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeRatingStorage\:\:getAverageRatingForMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeRatingStorage\:\:getAverageRatingForMentee\(\) has parameter \$menteeId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeRatingStorage\:\:rateMentee\(\) has parameter \$menteeId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeRatingStorage\:\:rateMentee\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeRatingStorage\:\:rateMentee\(\) has parameter \$rating with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeRatingStorage\:\:rateMentee\(\) has parameter \$ratingDescription with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeRatingStorage\:\:rateMentee\(\) has parameter \$sessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStatusHistoryStorage\:\:createMenteeStatusHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStatusHistoryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStatusHistoryStorage\:\:createMenteeStatusHistory\(\) has parameter \$menteeStatusHistory with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeStatusHistoryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStatusStorage\:\:getMenteeStatuses\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStatusStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getAllMenteeProfiles\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getDataForExportation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteeProfileByEmail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteeProfileByEmail\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteeProfileById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteeProfileById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteeProfilesWithStatusId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteeProfilesWithStatusId\(\) has parameter \$statusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteesFromIdsArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteesFromIdsArray\(\) has parameter \$filteredMenteeIds with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteesThatMatchGivenNameOrEmail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getMenteesThatMatchGivenNameOrEmail\(\) has parameter \$searchQuery with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getUnmatchedMenteesCreatedSince\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:getUnmatchedMenteesCreatedSince\(\) has parameter \$months with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MenteeStorage\:\:saveMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MenteeStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorRatingStorage\:\:getAverageRatingForMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorRatingStorage\:\:getAverageRatingForMentor\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorRatingStorage\:\:rateMentor\(\) has parameter \$menteeId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorRatingStorage\:\:rateMentor\(\) has parameter \$mentorId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorRatingStorage\:\:rateMentor\(\) has parameter \$rating with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorRatingStorage\:\:rateMentor\(\) has parameter \$ratingDescription with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorRatingStorage\:\:rateMentor\(\) has parameter \$sessionId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorRatingStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStatusHistoryStorage\:\:createMentorStatusHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStatusHistoryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStatusHistoryStorage\:\:createMentorStatusHistory\(\) has parameter \$mentorStatusHistory with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStatusHistoryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStatusStorage\:\:getMentorStatuses\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStatusStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStatusStorage\:\:getMentorStatusesWhereIn\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStatusStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStatusStorage\:\:getMentorStatusesWhereIn\(\) has parameter \$mentorStatusIds with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/StorageLayer/MentorStatusStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:deleteMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:deleteMentor\(\) has parameter \$mentor with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getAllMentorProfiles\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getDataForExportation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorProfileByEmail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorProfileByEmail\(\) has parameter \$email with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorProfileById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorProfileById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorProfilesWithStatusId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorProfilesWithStatusId\(\) has parameter \$statusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorsByCompanyId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorsByCompanyId\(\) has parameter \$companyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorsFromIdsArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorsFromIdsArray\(\) has parameter \$filteredMentorIds with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorsThatMatchGivenNameOrEmail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getMentorsThatMatchGivenNameOrEmail\(\) has parameter \$searchQuery with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getNumOfMentorProfilesWithStatusId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:getNumOfMentorProfilesWithStatusId\(\) has parameter \$statusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorStorage\:\:saveMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:deleteMentorshipSessionHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:deleteMentorshipSessionHistory\(\) has parameter \$mentorshipSessionHistoryId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:saveMentorshipSessionHistory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStatusStorage\:\:getAllMentorshipSessionStatuses\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStatusStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:deleteMentorshipSession\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:findMentorshipSessionById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:findMentorshipSessionById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getAllActiveMentorshipSessions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getAllActiveMentorshipSessionsNum\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getAllCompletedMentorshipSessions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getAllCompletedMentorshipSessionsNum\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getAllMentorshipSessions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getDataForExportation\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionViewModelsForAccountManager\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionViewModelsForAccountManager\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionViewModelsForAccountManagerByStatusId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionViewModelsForAccountManagerByStatusId\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionViewModelsForAccountManagerByStatusId\(\) has parameter \$mentorshipSessionStatusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionViewModelsForMatcher\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionViewModelsForMatcher\(\) has parameter \$matcherId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsCountForMentee\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsCountForMentor\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsForFollowUp\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsForMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsForMentee\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsForMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsForMentor\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsFromIdsArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsFromIdsArray\(\) has parameter \$filteredMentorshipSessionsIds with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsNumForAccountManagerByStatusId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsNumForAccountManagerByStatusId\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\MentorshipSessionStorage\:\:getMentorshipSessionsNumForAccountManagerByStatusId\(\) has parameter \$mentorshipSessionStatusId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/MentorshipSessionStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\RawQueryStorage\:\:performRawQuery\(\) has parameter \$bindings with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/StorageLayer/RawQueryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\RawQueryStorage\:\:performRawQuery\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/StorageLayer/RawQueryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\RawQueryStorage\:\:placeholdersFor\(\) has parameter \$values with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/StorageLayer/RawQueryStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\ReferenceStorage\:\:getAllReferences\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/ReferenceStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\ReferenceStorage\:\:getReferenceById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/ReferenceStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\ReferenceStorage\:\:getReferenceById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/ReferenceStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\ResidenceStorage\:\:getAllResidences\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/ResidenceStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\ResidenceStorage\:\:getResidenceById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/ResidenceStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\ResidenceStorage\:\:getResidenceById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/ResidenceStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\RoleStorage\:\:getRoleById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/RoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\RoleStorage\:\:getRoleById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/RoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:createSpecialty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:createSpecialty\(\) has parameter \$specialtyName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getAllSpecialties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getPublicSpecialties\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyForMentee\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyForMentee\(\) has parameter \$menteeProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyForMentee\(\) has parameter \$specialtyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyForMentor\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyForMentor\(\) has parameter \$mentorProfileId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:getSpecialtyForMentor\(\) has parameter \$specialtyId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:saveMenteeSpecialty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\SpecialtyStorage\:\:saveMentorSpecialty\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/SpecialtyStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UniversityStorage\:\:getAllUniversities\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UniversityStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UniversityStorage\:\:getAllUniversitiesIncludingOtherUniversities\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UniversityStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserIconStorage\:\:getIdFromTitle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserIconStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserIconStorage\:\:getIdFromTitle\(\) has parameter \$title with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/UserIconStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserIconStorage\:\:getUserIcons\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserIconStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserRoleStorage\:\:getRoleForUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserRoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserRoleStorage\:\:getRoleForUser\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/UserRoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserRoleStorage\:\:getRoleForUser\(\) has parameter \$userId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/UserRoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserRoleStorage\:\:getUserRoles\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserRoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserRoleStorage\:\:getUserRolesWithRole\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserRoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserRoleStorage\:\:getUserRolesWithRole\(\) has parameter \$roleId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/UserRoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserRoleStorage\:\:saveUserRole\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserRoleStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getAccountManagerCapacityById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getAccountManagerCapacityById\(\) has parameter \$accountManagerId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getAccountManagersWithRemainingCapacity\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getAllUsers\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getUserById\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getUserById\(\) has parameter \$id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getUsersFromIdsArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getUsersFromIdsArray\(\) has parameter \$ids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getUsersThatMatchGivenNameOrEmail\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:getUsersThatMatchGivenNameOrEmail\(\) has parameter \$searchQuery with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:saveAccountManagerCapacity\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\StorageLayer\\UserStorage\:\:saveUser\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:__construct\(\) has parameter \$columnsWithPossiblyMultipleValues with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:__construct\(\) has parameter \$fileName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:__construct\(\) has parameter \$lang with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:__construct\(\) has parameter \$storageLayerClass with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:getCsvFromData\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:getCsvFromData\(\) has parameter \$dataForExportation with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:getExportedData\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:hasColumnPossibilityOfMultipleValues\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:hasColumnPossibilityOfMultipleValues\(\) has parameter \$columnName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Property App\\Utils\\DataToCsvExportManager\:\:\$columnsWithPossiblyMultipleValues has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Property App\\Utils\\DataToCsvExportManager\:\:\$fileName has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Property App\\Utils\\DataToCsvExportManager\:\:\$storageLayerClass has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
+
+		-
+			message: '#^Method App\\Utils\\MentorshipSessionStatuses\:\:getActiveSessionStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Utils/MentorshipSessionStatuses.php
+
+		-
+			message: '#^Method App\\Utils\\MentorshipSessionStatuses\:\:getCancelledSessionStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Utils/MentorshipSessionStatuses.php
+
+		-
+			message: '#^Method App\\Utils\\MentorshipSessionStatuses\:\:getCompletedSessionStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Utils/MentorshipSessionStatuses.php
+
+		-
+			message: '#^Method App\\Utils\\MentorshipSessionStatuses\:\:getPendingSessionStatuses\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Utils/MentorshipSessionStatuses.php
+
+		-
+			message: '#^Property App\\Utils\\MentorshipSessionStatuses\:\:\$statuses has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Utils/MentorshipSessionStatuses.php
+
+		-
+			message: '#^Method App\\Utils\\RawQueriesResultsModifier\:\:transformRawQueryStorageResultsToOneDimensionalArray\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/Utils/RawQueriesResultsModifier.php
+
+		-
+			message: '#^Method App\\Utils\\RawQueriesResultsModifier\:\:transformRawQueryStorageResultsToOneDimensionalArray\(\) has parameter \$results with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: app/Utils/RawQueriesResultsModifier.php
+
+		-
+			message: '#^Method App\\ViewComposers\\MenteeAndMentorMenuComposer\:\:compose\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: app/ViewComposers/MenteeAndMentorMenuComposer.php

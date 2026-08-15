@@ -47,7 +47,7 @@ class MenteeController extends Controller
     /**
      * Display all mentees.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showAllMentees()
     {
@@ -69,7 +69,7 @@ class MenteeController extends Controller
      * Show the form for creating a new mentee.
      *
      * @param Request $request object containing request parameters
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showCreateForm(Request $request)
     {
@@ -125,7 +125,7 @@ class MenteeController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showEditForm($id)
     {
@@ -260,7 +260,7 @@ class MenteeController extends Controller
     /**
      * Display a mentee profile page.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showProfile($id)
     {
@@ -363,7 +363,7 @@ class MenteeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request)
     {

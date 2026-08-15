@@ -29,7 +29,7 @@ class ReportController extends Controller
     /**
      * Display all reports.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showAllReports()
     {

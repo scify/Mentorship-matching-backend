@@ -460,7 +460,7 @@ class MentorController extends Controller {
                     'message_failure' => Lang::get('messages.mentor_not_found'),
                     'title' => $viewTitle
                 ]);
-            } else if ($resultStatusCode === "ANOTHER_SESSION_ACTIVE") {
+            } else {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.another_session_active'),
                     'title' => $viewTitle

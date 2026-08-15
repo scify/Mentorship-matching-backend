@@ -16,9 +16,9 @@ class MentorStatus extends Model
     protected $fillable = ['status', 'description'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MentorProfile, $this>
      */
-    public function mentors()
+    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MentorProfile::class, 'status_id', 'id');
     }

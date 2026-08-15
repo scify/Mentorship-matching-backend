@@ -11,7 +11,6 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\User;
 use App\Models\eloquent\UserRole;
-use App\StorageLayer\UserStorage;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
@@ -22,12 +21,6 @@ class UserAccessManager {
     public $ADMINISTRATOR_ROLE_ID = 1;
     public $MATCHER_ROLE_ID = 2;
     public $ACCOUNT_MANAGER_ROLE_ID = 3;
-
-    private $userStorage;
-
-    public function __construct() {
-        $this->userStorage = new UserStorage();
-    }
 
     /**
      * Checks if a given @see User has access to create, edit and delete system users

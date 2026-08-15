@@ -21,7 +21,7 @@ class MenteeProfile extends Model {
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['first_name', 'last_name', 'year_of_birth', 'status_id', 'address',
         'residence_id', 'residence_name', 'email', 'linkedin_url', 'phone', 'cell_phone',
@@ -34,56 +34,56 @@ class MenteeProfile extends Model {
 
 
     /**
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\Residence, $this>
      */
-    public function residence() {
+    public function residence(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(Residence::class, 'id', 'residence_id');
     }
 
     /**
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\Reference, $this>
      */
-    public function reference() {
+    public function reference(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(Reference::class, 'id', 'reference_id');
     }
 
     /**
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this>
      */
-    public function creator() {
+    public function creator(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(User::class, 'id', 'creator_user_id');
     }
 
     /**
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\University, $this>
      */
-    public function university() {
+    public function university(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(University::class, 'id', 'university_id');
     }
 
     /**
-     * @return HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\EducationLevel, $this>
      */
-    public function educationLevel() {
+    public function educationLevel(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(EducationLevel::class, 'id', 'education_level_id');
     }
 
     /**
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\eloquent\MentorshipSession, $this>
      */
-    public function sessions() {
+    public function sessions(): \Illuminate\Database\Eloquent\Relations\HasMany {
         return $this->hasMany(MentorshipSession::class);
     }
 
     /**
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\eloquent\MenteeStatusHistory, $this>
      */
-    public function statusHistory() {
+    public function statusHistory(): \Illuminate\Database\Eloquent\Relations\HasMany {
         return $this->hasMany(MenteeStatusHistory::class, 'mentee_profile_id', 'id')->orderBy('created_at', 'desc');
     }
 
     /**
-     * @return HasMany
+     * @return HasMany<MenteeRating, $this>
      */
     public function ratings(): HasMany {
         return $this->hasMany(MenteeRating::class, 'mentee_id', 'id');
@@ -91,6 +91,8 @@ class MenteeProfile extends Model {
 
     /**
      * Get the mentee's specialties
+     *
+     * @return BelongsToMany<Specialty, $this>
      */
     public function specialties(): BelongsToMany {
         return $this->belongsToMany(Specialty::class, 'mentee_specialty')->wherePivot('deleted_at', null);

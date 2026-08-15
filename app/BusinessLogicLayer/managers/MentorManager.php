@@ -66,6 +66,9 @@ class MentorManager {
         return $this->mentorStorage->getNumOfMentorProfilesWithStatusId($mentorStatusManager->MENTOR_AVAILABLE_ID);
     }
 
+    /**
+     * @param Collection<int, MentorProfile> $mentors
+     */
     private function getMentorViewModelsFromCollection(Collection $mentors) {
         $mentorViewModels = new Collection();
         foreach ($mentors as $mentor) {
@@ -93,7 +96,7 @@ class MentorManager {
      * Download a mentor's cv file, streamed directly from the public disk.
      *
      * @param $fileName
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function downloadCvFile($fileName) {
         return \Illuminate\Support\Facades\Storage::disk('public')
@@ -152,7 +155,7 @@ class MentorManager {
         }
         if ($inputFields['follow_up_date'] != "") {
             $dateArray = explode("/", $inputFields['follow_up_date']);
-            $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+            $inputFields['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
@@ -497,7 +500,7 @@ class MentorManager {
         }
         if ($input['follow_up_date'] != "") {
             $dateArray = explode("/", $input['follow_up_date']);
-            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+            $input['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
         }
         $mentor = $this->getMentor($input['mentor_id']);
         // if something wrong passed
@@ -519,7 +522,7 @@ class MentorManager {
      *
      * @param $id int The mentor's id
      * @param $email string The mentor's email
-     * @return bool Whether succeeded or not
+     * @return string One of "SUCCESS", "ANOTHER_SESSION_ACTIVE", "NOT_FOUND"
      */
     public function makeMentorAvailable($id, $email) {
         $mentor = $this->getMentor($id);
