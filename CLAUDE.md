@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This is a Laravel 8 (PHP >=7.3) backoffice application, internally named **JobPairs**, that manages the
+This is a Laravel 13 (PHP >=8.3) backoffice application, internally named **JobPairs**, that manages the
 matching process between mentors and mentees based on preferences and skills. It is a legacy,
 server-rendered (Blade + jQuery) application — there is no SPA framework and no JSON API layer.
 
@@ -21,7 +21,7 @@ docker exec -it mentorship_matching_platform_server bash
 ```
 
 All `php artisan`, `composer`, and `npm` commands below are meant to be run inside that container
-(or in an equivalent local PHP 7.3+/Node 14 environment — see `.nvmrc`).
+(or in an equivalent local PHP 8.3+/Node 24 environment — see `.nvmrc`).
 
 ### PHP / Laravel
 
@@ -149,8 +149,8 @@ for reference CSVs consumed elsewhere are configured via `MENTORS_EXCEL_FILE_PAT
 
 Blade views live under `resources/views`, organized by entity (`mentors/`, `mentees/`,
 `mentorship_session/`, `companies/`, `users/`, `reports/`, `ratings/`, `common/` for shared
-header/menu/search partials). Translations exist for `en` and `gr` under `resources/lang`; app default
-locale is `en` (`config/app.php`). `app/ViewComposers/MenteeAndMentorMenuComposer.php` injects
+header/menu/search partials). Translations exist for `en` and `gr` under `lang/` at the project
+root (moved out of `resources/lang` in Laravel 9); app default locale is `en` (`config/app.php`). `app/ViewComposers/MenteeAndMentorMenuComposer.php` injects
 menu-related data into views without controllers passing it explicitly.
 
 ### Error tracking

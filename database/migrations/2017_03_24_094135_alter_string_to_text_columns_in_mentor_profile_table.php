@@ -14,7 +14,10 @@ class AlterStringToTextColumnsInMentorProfileTable extends Migration
     public function up()
     {
         Schema::table('mentor_profile', function ($table) {
-            $table->text('skills')->change();
+            // nullable() has to be restated: since Laravel 11 change() drops any
+            // attribute not listed, and this column is created as nullable in
+            // 2017_02_07_084217_create_mentor_profile_table.
+            $table->text('skills')->nullable()->change();
         });
     }
 
@@ -26,7 +29,7 @@ class AlterStringToTextColumnsInMentorProfileTable extends Migration
     public function down()
     {
         Schema::table('mentor_profile', function ($table) {
-            $table->string('skills')->change();
+            $table->string('skills')->nullable()->change();
         });
     }
 }
