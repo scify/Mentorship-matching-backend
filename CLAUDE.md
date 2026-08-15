@@ -12,16 +12,32 @@ server-rendered (Blade + jQuery) application — there is no SPA framework and n
 
 ### Environment
 
-The project runs via Docker Compose (`docker-compose.yml`): a `php` service (app code, mounted at
-`/var/www`), `nginx`, `db` (MySQL, exposed on host port `3316`), and Redis. Enter the running app
-container to execute backend commands:
+There are two supported local stacks; check which one is running before assuming a command works.
+
+**DDEV** (`.ddev/config.yaml`, committed) — PHP 8.4, Node 24, MariaDB 11.8, docroot `public`, served at
+`https://mentorship-matching-backend.ddev.site`, mail captured by Mailpit. `ddev start` rewrites the
+DB and mail settings in `.env` to match its own services. Prefix commands:
+
+```bash
+ddev exec php artisan migrate
+ddev composer install
+ddev npm run prod
+```
+
+**Docker Compose** (`docker-compose.yml`) — a `php` service (app code mounted at `/var/www`), `nginx`
+(host port `89`), `db` (MySQL, host port `3316`), Redis, and MailHog (host port `8100`). With this
+stack `MAIL_HOST` must be `mailhog`; `localhost` is the PHP container itself and registration mail
+fails. Enter the container to run backend commands:
 
 ```bash
 docker exec -it mentorship_matching_platform_server bash
 ```
 
-All `php artisan`, `composer`, and `npm` commands below are meant to be run inside that container
-(or in an equivalent local PHP 8.3+/Node 24 environment — see `.nvmrc`).
+All `php artisan`, `composer`, and `npm` commands below are meant to be run inside whichever stack is
+up (or an equivalent local PHP 8.3+/Node 24 environment — see `.nvmrc`).
+
+The app reads `public/mix-manifest.json`, which is gitignored and built at deploy time — without
+`npm run prod` every page fails with `MixManifestNotFoundException`.
 
 ### PHP / Laravel
 
@@ -41,11 +57,21 @@ vendor/bin/phpunit tests/ExampleTest.php    # run a single test file
 ```
 
 `phpunit.xml` points the test suite at `./tests` and forces `APP_ENV=testing`, `CACHE_DRIVER=array`,
-`SESSION_DRIVER=array`, `QUEUE_DRIVER=sync`. In practice the `tests/` directory only contains the
-default Laravel scaffold (`ExampleTest.php`, `TestCase.php`) — there is effectively no real automated
-test coverage for the application's business logic. Don't assume behavior is protected by tests;
-verify manually (e.g. via `php artisan tinker`, seeded data, or exercising the relevant controller
-route) before and after changes to the manager/storage layers.
+`SESSION_DRIVER=array`, `QUEUE_DRIVER=sync`. The PHPUnit suite is only a smoke test (`ExampleTest`
+asserts the guest redirect) — the manager and storage layers have no unit coverage. Don't assume
+behavior there is protected; verify by exercising the app.
+
+Two suites do cover behaviour, and are the ones to run after touching the query or view layers:
+
+```bash
+php tests/manual/verify_filters.php   # 58 assertions on the hand-written filter SQL:
+                                      # every filter, join/where binding order, and injection payloads
+cd e2e && npm test                    # Playwright: opens every route in a browser, registers a
+                                      # mentor/mentee/matcher, clicks every menu option per role
+```
+
+`verify_filters.php` creates and removes its own fixtures. The Playwright suite needs
+`npm run seed` first and honours `E2E_BASE_URL` (default `http://localhost:89`); see `e2e/README.md`.
 
 ### Frontend assets
 
