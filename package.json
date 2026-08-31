@@ -21,7 +21,7 @@
     "webpack": "5.109.2"
   },
   "dependencies": {
-    "bootstrap": "^3.4.1",
+    "bootstrap": "^5.3.8",
     "bootstrap-daterangepicker": "^2.1.30",
     "bootstrap-sass": "^3.4.3",
     "bootstrap-select": "^1.13.18",
