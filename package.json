@@ -18,7 +18,7 @@
     "sass-loader": "^14.2.1",
     "vue": "^2.7.16",
     "vue-resource": "^1.5.3",
-    "webpack": "5.109.2"
+    "webpack": "5.110.2"
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
@@ -32,7 +32,7 @@
     "font-awesome": "^4.7.0",
     "icheck": "^1.0.2",
     "iframe-resizer": "^3.6.6",
-    "ion-rangeslider": "^2.3.1",
+    "ion-rangeslider": "^2.4.0",
     "jasny-bootstrap": "^3.1.3",
     "jquery": "^3.7.1",
     "jquery-ui-dist": "^1.13.3",
