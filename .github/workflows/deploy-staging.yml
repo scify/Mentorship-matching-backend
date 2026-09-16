@@ -165,21 +165,48 @@ jobs:
                   cloudflared --version
 
             - name: Open Cloudflare Access tunnel
+              id: tunnel
               env:
                   TUNNEL_SERVICE_TOKEN_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
                   TUNNEL_SERVICE_TOKEN_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
                   CF_HOSTNAME: ${{ secrets.STAGING_HOST }}
               run: |
+                  # An empty --hostname or service token makes cloudflared exit
+                  # instantly; without this you just wait out the whole timeout
+                  # and never learn that a secret was simply unset.
+                  missing=""
+                  [ -n "${CF_HOSTNAME}" ]                 || missing="${missing} STAGING_HOST"
+                  [ -n "${TUNNEL_SERVICE_TOKEN_ID}" ]     || missing="${missing} CF_ACCESS_CLIENT_ID"
+                  [ -n "${TUNNEL_SERVICE_TOKEN_SECRET}" ] || missing="${missing} CF_ACCESS_CLIENT_SECRET"
+                  if [ -n "${missing}" ]; then
+                      echo "::error::Unset secret(s) for the 'staging' environment:${missing}"
+                      exit 1
+                  fi
+
+                  # debug level: at the default level a rejected service token
+                  # is silent - cloudflared just closes the connection and the
+                  # banner probe sees zero bytes, which looks identical to a
+                  # missing SSH origin.
                   cloudflared access tcp \
                     --hostname "${CF_HOSTNAME}" \
                     --url "127.0.0.1:${TUNNEL_PORT}" \
+                    --log-level debug \
                     > "${RUNNER_TEMP}/cloudflared.log" 2>&1 &
                   echo $! > "${RUNNER_TEMP}/cloudflared.pid"
+                  cf_pid="$(cat "${RUNNER_TEMP}/cloudflared.pid")"
 
                   # cloudflared binds the local port immediately, before it knows whether
                   # the far end is reachable - so an open port proves nothing. Wait for a
                   # real SSH banner instead.
-                  for i in $(seq 1 20); do
+                  for i in $(seq 1 45); do
+                    # Separate "cloudflared died" (bad token, unknown hostname,
+                    # no route) from "it is up but nothing answers on SSH".
+                    if ! kill -0 "${cf_pid}" 2>/dev/null; then
+                      echo "::error::cloudflared exited after ${i}s without serving the tunnel to ${CF_HOSTNAME}."
+                      echo "--- cloudflared log ---"
+                      cat "${RUNNER_TEMP}/cloudflared.log" || true
+                      exit 1
+                    fi
                     banner="$(timeout 5 bash -c "exec 3<>/dev/tcp/127.0.0.1/${TUNNEL_PORT}; head -c 4 <&3" 2>/dev/null || true)"
                     case "${banner}" in
                       SSH-*)
@@ -189,7 +216,12 @@ jobs:
                     sleep 1
                   done
 
-                  echo "::error::No SSH banner through the Cloudflare Access tunnel to ${CF_HOSTNAME} after 20s."
+                  echo "::error::cloudflared is still running, but no SSH banner came back from ${CF_HOSTNAME} after 45s."
+                  echo "Check, in this order:"
+                  echo "  1. STAGING_HOST is the Cloudflare Access *application* hostname (e.g. ssh.staging.example.org), not an IP or the bare server name."
+                  echo "  2. The Access application's policy allows this service token."
+                  echo "  3. cloudflared is running on the staging server and its ingress maps that hostname to ssh://localhost:22."
+                  echo "--- cloudflared log ---"
                   cat "${RUNNER_TEMP}/cloudflared.log" || true
                   exit 1
 
@@ -403,7 +435,7 @@ jobs:
                       /usr/bin/php${{ env.PHP_VERSION }} "${{ secrets.PROJECT_PATH }}/artisan" up
 
             - name: Recover from maintenance mode on failure
-              if: failure()
+              if: failure() && steps.tunnel.outcome == 'success'
               uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
               with:
                   host: 127.0.0.1
