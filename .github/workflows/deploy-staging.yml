@@ -105,7 +105,6 @@ jobs:
         name: Deploy to Staging Server
         needs: validate
         runs-on: ubuntu-latest
-        environment: staging
         env:
             # Local port that cloudflared binds; every SSH/rsync step targets
             # this instead of reaching the staging host directly.
@@ -179,7 +178,7 @@ jobs:
                   [ -n "${TUNNEL_SERVICE_TOKEN_ID}" ]     || missing="${missing} CF_ACCESS_CLIENT_ID"
                   [ -n "${TUNNEL_SERVICE_TOKEN_SECRET}" ] || missing="${missing} CF_ACCESS_CLIENT_SECRET"
                   if [ -n "${missing}" ]; then
-                      echo "::error::Unset secret(s) for the 'staging' environment:${missing}"
+                      echo "::error::Unset repository secret(s):${missing}"
                       exit 1
                   fi
 
