@@ -27,6 +27,13 @@ concurrency:
 
 env:
     FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    # The PHP version used everywhere: the runner's static-analysis job, the
+    # `php<version>` binary on the staging server, and the `php<version>-fpm`
+    # service restarted at the end. It must stay >= what composer.lock resolves
+    # to - the lock currently pulls Symfony 8.1, which requires PHP >= 8.4.1,
+    # so building on 8.3 fails with "lock file does not contain a compatible
+    # set of packages". Keep this in step with .ddev/config.yaml.
+    PHP_VERSION: '8.4'
     # The branch staging is pinned to. Change this one line to re-point staging.
     DEPLOY_REF: security/fix-sqli-phpinfo-laravel-upgrade
     # Public base URL of the staging site. Not a secret, so it lives here rather
@@ -48,10 +55,10 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
-            - name: Set up PHP 8.3
+            - name: Set up PHP ${{ env.PHP_VERSION }}
               uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
               with:
-                  php-version: '8.3'
+                  php-version: ${{ env.PHP_VERSION }}
                   coverage: none
                   tools: composer:v2
 
@@ -59,7 +66,7 @@ jobs:
               run: composer validate --no-check-publish
 
             - name: Cache Composer downloads
-              uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+              uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
               with:
                   path: ~/.cache/composer/files
                   key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
@@ -227,11 +234,20 @@ jobs:
                       set -euo pipefail
                       PROJECT_DIR="${{ secrets.PROJECT_PATH }}"
                       DEPLOY_REF="${{ env.DEPLOY_REF }}"
-                      PHP_CMD="/usr/bin/php8.3"
+                      PHP_CMD="/usr/bin/php${{ env.PHP_VERSION }}"
+
+                      # Fail before `git reset --hard` and `artisan down` touch
+                      # anything: a missing binary here would otherwise leave the
+                      # app down with a half-applied deploy.
+                      if [ ! -x "$PHP_CMD" ]; then
+                        echo "ERROR: $PHP_CMD not found on the staging server."
+                        echo "       Available: $(echo /usr/bin/php*)"
+                        exit 1
+                      fi
 
                       cd "$PROJECT_DIR"
 
-                      # Put PHP 8.3 first in PATH so composer's own shebang and
+                      # Put that PHP first in PATH so composer's own shebang and
                       # any nested `php` call use it too.
                       mkdir -p "$PROJECT_DIR/.bin"
                       printf '#!/bin/bash\nexec %s "$@"\n' "$PHP_CMD" > "$PROJECT_DIR/.bin/php"
@@ -380,10 +396,10 @@ jobs:
                   script: |
                       set -e
                       echo "Restarting PHP-FPM to clear OPcache"
-                      sudo service php8.3-fpm restart 2>/dev/null || sudo systemctl restart php8.3-fpm 2>/dev/null || echo "PHP-FPM restart skipped (configure NOPASSWD sudoers to enable)"
+                      sudo service php${{ env.PHP_VERSION }}-fpm restart 2>/dev/null || sudo systemctl restart php${{ env.PHP_VERSION }}-fpm 2>/dev/null || echo "PHP-FPM restart skipped (configure NOPASSWD sudoers to enable)"
 
                       echo "Taking application out of maintenance mode"
-                      /usr/bin/php8.3 "${{ secrets.PROJECT_PATH }}/artisan" up
+                      /usr/bin/php${{ env.PHP_VERSION }} "${{ secrets.PROJECT_PATH }}/artisan" up
 
             - name: Recover from maintenance mode on failure
               if: failure()
@@ -394,7 +410,7 @@ jobs:
                   username: ${{ secrets.PROJECT_USER }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   script: |
-                      /usr/bin/php8.3 "${{ secrets.PROJECT_PATH }}/artisan" up || true
+                      /usr/bin/php${{ env.PHP_VERSION }} "${{ secrets.PROJECT_PATH }}/artisan" up || true
                       echo "Recovery step complete: app taken out of maintenance mode"
 
             - name: Close Cloudflare Access tunnel
