@@ -1,0 +1,127 @@
+name: CI
+
+on:
+    push:
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+# Job ids double as the check names for branch protection: npm, larastan, tests.
+
+jobs:
+    npm:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+            - name: Set up Node
+              uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+
+            # Fails on a lock file out of sync with package.json, on a git
+            # dependency (npm 12 sets allow-git=none), and on an engine mismatch
+            # (.npmrc sets engine-strict=true).
+            - name: Install npm dependencies
+              run: npm ci
+
+            # laravel-mix 6 depends on webpack internals; a webpack bump can pass
+            # npm ci and still break the build. Assets are built at deploy time.
+            - name: Build assets
+              run: npm run prod
+
+    larastan:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+            - name: Set up PHP
+              uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+              with:
+                  php-version: '8.3'
+                  coverage: none
+
+            - name: Get Composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+            - name: Cache Composer packages
+              uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-${{ runner.os }}-
+
+            - name: Install Composer dependencies
+              run: composer install --no-interaction --prefer-dist --no-progress
+
+            - name: Run Larastan
+              run: composer analyse
+
+    tests:
+        runs-on: ubuntu-latest
+        # The suite uses DatabaseTransactions on a migrated and seeded database.
+        # SQLite is not an option: an early migration drops a primary key column.
+        # MariaDB 11.8 matches .ddev/config.yaml.
+        services:
+            mariadb:
+                image: mariadb:11.8
+                env:
+                    MARIADB_ROOT_PASSWORD: root
+                    MARIADB_DATABASE: ci_test
+                ports:
+                    - 3306:3306
+                options: >-
+                    --health-cmd "healthcheck.sh --connect --innodb_initialized"
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 10
+        env:
+            DB_CONNECTION: mysql
+            DB_HOST: 127.0.0.1
+            DB_PORT: 3306
+            DB_DATABASE: ci_test
+            DB_USERNAME: root
+            DB_PASSWORD: root
+            MAIL_MAILER: array
+        steps:
+            - name: Checkout
+              uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+            - name: Set up PHP
+              uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+              with:
+                  php-version: '8.3'
+                  coverage: none
+
+            - name: Get Composer cache directory
+              id: composer-cache
+              run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+            - name: Cache Composer packages
+              uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-${{ runner.os }}-
+
+            - name: Install Composer dependencies
+              run: composer install --no-interaction --prefer-dist --no-progress
+
+            - name: Prepare environment
+              run: |
+                  cp .env.example .env
+                  php artisan key:generate
+
+            - name: Migrate and seed
+              run: php artisan migrate --seed --force
+
+            - name: Run PHPUnit
+              run: vendor/bin/phpunit
