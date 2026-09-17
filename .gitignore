@@ -21,3 +21,4 @@ public/vendor
 public/.well-known/
 public/mix-manifest.json
 *.bak.phpunit.result.cache
+.phpunit.result.cache
