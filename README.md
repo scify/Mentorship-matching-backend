@@ -1,26 +1,39 @@
 # Mentorship matching backend platform
 
-This [Laravel](https://laravel.com/docs/8.x/) application is a platform backoffice that manages the matching process
+This [Laravel 13](https://laravel.com/docs/13.x/) application is a platform backoffice that manages the matching process
 between mentors with mentees, based on their
 preferences and skills.
+
+| | |
+|---|---|
+| PHP | 8.3+ (developed and tested on 8.4) |
+| Laravel | 13.x |
+| Node | 24 (see `.nvmrc`) |
+| Database | MySQL 8 / MariaDB 11 |
+| Assets | Laravel Mix (webpack) |
 
 ## Table of Contents
 
 - [Mentorship matching backend platform](#mentorship-matching-backend-platform)
   - [Table of Contents](#table-of-contents)
   - [First time install](#first-time-install)
-    - [Docker option (recommended)](#docker-option-recommended)
+    - [DDEV option (recommended)](#ddev-option-recommended)
+    - [Docker Compose option](#docker-compose-option)
     - [Non-Docker option](#non-docker-option)
-      - [Installing dependencies (assuming apache as web server and mysql as db)](#installing-dependencies-assuming-apache-as-web-server-and-mysql-as-db)
-        - [Frontend dependencies](#frontend-dependencies)
+      - [Frontend dependencies](#frontend-dependencies)
       - [Backend dependencies](#backend-dependencies)
         - [Composer installation](#composer-installation)
         - [Apache configuration](#apache-configuration)
         - [Laravel local server](#laravel-local-server)
   - [Setup the Database](#setup-the-database)
     - [Add seed data to DB](#add-seed-data-to-db)
-  - [Building the project](#building-the-project)
   - [Compiling assets](#compiling-assets)
+  - [Testing](#testing)
+    - [PHPUnit](#phpunit)
+    - [Filter query regression check](#filter-query-regression-check)
+    - [End-to-end browser tests](#end-to-end-browser-tests)
+    - [Test accounts](#test-accounts)
+  - [Troubleshooting](#troubleshooting)
   - [Contributing](#contributing)
   - [License](#license)
   - [Credits](#credits)
@@ -34,62 +47,86 @@ containing the information about your database name and credentials.
 cp .env.example .env
 ```
 
-### Docker option (recommended)
+### DDEV option (recommended)
 
-You can use the `docker-compose.yml` file that exists at project root, to quickly set up a docker container.
+[DDEV](https://ddev.readthedocs.io/en/stable/#installation) reads the committed `.ddev/config.yaml`, so it
+provisions the right PHP, Node and database versions with no further setup.
 
-To build the docker container, run:
+```bash
+ddev start
+ddev composer install
+ddev npm install
+ddev npm run prod          # compile assets - without them every page 500s
+ddev exec php artisan key:generate
+ddev exec php artisan migrate --seed
+```
+
+The site is then served at <https://mentorship-matching-backend.ddev.site>, and captured mail is at
+`ddev launch -m` (Mailpit).
+
+To check the install actually works, run the suites in [Testing](#testing) — `ddev exec
+vendor/bin/phpunit` is the quickest confirmation that the app and database are wired up.
+
+`ddev start` rewrites the database and mail settings in your `.env` to match the services it runs, so you do
+not need to edit them by hand.
+
+Run any backend command through DDEV:
+
+```bash
+ddev exec php artisan migrate
+ddev composer install
+ddev npm run watch
+ddev ssh                   # shell inside the web container
+```
+
+> **Note:** the DDEV config uses MariaDB, while `docker-compose.yml` and production use MySQL. The two are
+> compatible for everything this app does, but because parts of the app use hand-written SQL you may prefer to
+> match production exactly with `ddev config --database=mysql:8.0 && ddev restart`.
+
+### Docker Compose option
+
+The `docker-compose.yml` file at the project root brings up `php`, `nginx`, `db` (MySQL), `redis` and
+`mailhog`.
 
 ```bash
 docker compose build
+docker compose up -d
 ```
 
-And then run
-
-```bash
-docker compose up
-```
-
-To fire up the container.
-
-Then, you can enter the container by running
+Then enter the container to run `php artisan`, `composer` and `npm` commands:
 
 ```bash
 docker exec -it mentorship_matching_platform_server bash
+composer install
+npm install && npm run prod
+php artisan key:generate
+php artisan migrate --seed
 ```
 
-And from there, you can run all the `php artisan`, `composer`, and `npm` commands.
+The site is served at <http://localhost:89> and captured mail at <http://localhost:8100>.
+
+With this stack `MAIL_HOST` must be `mailhog` — the name of the service. `localhost` resolves to the PHP
+container itself and registration emails will fail.
 
 ### Non-Docker option
 
-#### Installing dependencies (assuming apache as web server and mysql as db)
+#### Frontend dependencies
 
-In a nutshell (assuming debian-based OS), first install the dependencies needed:
-
-##### Frontend dependencies
-
-Note: Please install the node and npm versions as listed below:
+Install the Node version listed in `.nvmrc`:
 
 ```bash
-$ node -v
-v14.21.3
-
-$ npm -v
-6.14.18
+nvm use    # reads .nvmrc
+node -v    # v24.x
 ```
 
-If using NVM, you can install the correct versions by running:
-
-```bash
-nvm use # reads the .nvmrc file and installs the correct node and npm versions
-```
+Node 24 or newer is required — `select2` will refuse to install on older versions.
 
 #### Backend dependencies
 
-Note: php package installs apache2 as a dependency so we have no need to add it manually.
+PHP 8.3 or newer, with the extensions Laravel requires:
 
 ```bash
-sudo aptitude install php7.4 php7.4-cli mcrypt php7.4-mcrypt mysql-server php7.4-mysql
+sudo apt install php8.4 php8.4-cli php8.4-mysql php8.4-mbstring php8.4-xml php8.4-curl php8.4-zip php8.4-gd php8.4-intl mysql-server
 ```
 
 ##### Composer installation
@@ -98,11 +135,11 @@ Install composer globally by following [the instructions](https://getcomposer.or
 
 ##### Apache configuration
 
-Edit the `/etc/apache2/sites-available/mentorhsip-matching.conf` so that it looks like:
+Edit the `/etc/apache2/sites-available/mentorship-matching.conf` so that it looks like:
 
 ```text
 <VirtualHost *:80>
-    ServerName dev.mentorhsip-matching
+    ServerName dev.mentorship-matching
     DocumentRoot "/path/to/Mentorship-matching-backend/public"
     <Directory "/path/to/Mentorship-matching-backend/public">
         AllowOverride all
@@ -113,7 +150,7 @@ Edit the `/etc/apache2/sites-available/mentorhsip-matching.conf` so that it look
 Make the symbolic link:
 
 ```bash
-cd /etc/apache2/sites-enabled && sudo ln -s ../sites-available/mentorhsip-matching.conf
+cd /etc/apache2/sites-enabled && sudo ln -s ../sites-available/mentorship-matching.conf
 ```
 
 Enable `mod_rewrite` and restart the server:
@@ -125,14 +162,12 @@ sudo a2enmod rewrite && sudo service apache2 restart
 Fix permissions for storage directory:
 
 ```bash
-sudo chown -R user:www-data storage
-chmod 775 storage
-cd storage/
-find . -type f -exec chmod 664 {} \;
-find . -type d -exec chmod 775 {} \;
+sudo chown -R $USER:www-data storage bootstrap/cache
+find storage bootstrap/cache -type d -exec chmod 775 {} \;
+find storage bootstrap/cache -type f -exec chmod 664 {} \;
 ```
 
-Test the setup by navigating to `http://dev.mentorhsip-matching` in your browser.
+Test the setup by navigating to `http://dev.mentorship-matching` in your browser.
 
 ##### Laravel local server
 
@@ -147,53 +182,157 @@ and navigating to [localhost:8000](http://localhost:8000).
 ## Setup the Database
 
 Laravel provides a simple yet powerful mechanism for creating the DB schema,
-called [Migrations](https://laravel.com/docs/6.0/migrations)
-Simply run ```php artisan migrate``` to create the appropriate DB schema.
+called [Migrations](https://laravel.com/docs/13.x/migrations).
+Simply run `php artisan migrate` to create the appropriate DB schema.
 
 ### Add seed data to DB
 
-Run ```php artisan db:seed``` in order to insert the starter data to the DB by
-using [Laravel seeder](https://laravel.com/docs/6.0/seeding)
+Run `php artisan db:seed` in order to insert the starter data to the DB by
+using [Laravel seeder](https://laravel.com/docs/13.x/seeding). This creates the lookup tables (roles,
+statuses, specialties, universities) and a few staff accounts.
 
-## Building the project
-
-Download all Laravel dependencies through [Composer](https://laravel.com/docs/6.0/installation), by running
-
-```bash
-composer install
-
-composer update
-```
-
-After all Laravel dependencies have been downloaded, it's time to download all Javascript libraries and dependencies.
-We achieve that by using [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm).
-Read [this](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-an-ubuntu-14-04-server) link in
-order to understand how npm should be installed.
-
-If you prefer installing npm through [homebrew](http://brew.sh/) or [linuxbrew](http://linuxbrew.sh/),
-read [this](http://blog.teamtreehouse.com/install-node-js-npm-linux).
-
-So, when in project root directory, and after npm has been installed correctly, run
+To rebuild a local database from scratch:
 
 ```bash
-npm install
+php artisan migrate:fresh --seed
 ```
-
-To download and install all libraries and dependencies.
 
 ## Compiling assets
 
 When in project root directory, run
 
 ```bash
-npm run dev
+npm run dev      # development build
+npm run watch    # rebuild on change
+npm run prod     # production build
 ```
 
-Or any other `npm` script that you want to run. The available scripts are listed in the `package.json` file.
+The app reads `public/mix-manifest.json`, which is **not** committed. If you have not built the assets, every
+page fails with `MixManifestNotFoundException`.
+
+## Testing
+
+There are two suites. The PHP one runs inside your stack; the browser suite runs on your host and talks
+to the app over HTTP.
+
+| Suite | Command | What it covers |
+|---|---|---|
+| PHPUnit | `vendor/bin/phpunit` | The session state machine (creation, accept/decline links, cancellations, notifications), the role checks behind the route middleware, the status id contract, and the hand-written filter SQL — every filter, binding order, and SQL injection payloads. |
+| End-to-end | `cd e2e && npm test` | 15 Playwright tests: every route opens, mentor/mentee/matcher register, every menu option is clicked for all three roles. Captures a screenshot per screen. |
+
+Run the PHP suite through whichever stack is up — it needs PHP and a database, so it will not work
+from the host unless you have both installed locally:
+
+```bash
+# DDEV
+ddev exec vendor/bin/phpunit
+
+# Docker Compose
+docker exec mentorship_matching_platform_server bash -c "cd /var/www && vendor/bin/phpunit"
+```
+
+### PHPUnit
+
+`phpunit.xml` forces `APP_ENV=testing` with array cache/session drivers, but the database connection is
+whatever `.env` points at. Feature tests wrap themselves in `DatabaseTransactions`, so their fixtures roll
+back and the suite is safe to re-run against a **migrated and seeded development database** — never point
+it at production. The seeded lookup tables (references, residences, statuses, ...) are a prerequisite;
+tests fail fast with a pointer to `php artisan db:seed` when they are missing.
+
+```bash
+ddev exec vendor/bin/phpunit --filter testMethodName        # a single test
+ddev exec vendor/bin/phpunit tests/Feature/FilterQueryTest.php   # a single file
+```
+
+`tests/Feature/FilterQueryTest.php` is the filter-SQL regression check (formerly
+`tests/manual/verify_filters.php`): every filter still returns the right rows, placeholder and binding
+counts line up, apostrophes in names work, and injection payloads (`union select`, quote breakout,
+`or 1=1`, `drop table`) are bound as values rather than parsed as SQL. Run it after any change to the
+`*Manager` filter builders or to `RawQueryStorage`. `tests/Feature/MentorshipSessionLifecycleTest.php`
+characterizes the session state machine — run it after touching `MentorshipSessionManager`.
+
+### End-to-end browser tests
+
+A [Playwright](https://playwright.dev) suite drives a real browser against the running app. A screen counts
+as broken if it returns 5xx **or** renders Laravel's exception page — a 200 with a stack trace in it still
+fails.
+
+```bash
+cd e2e
+npm install
+npx playwright install chromium   # first run only
+npm run seed                      # a company plus one user per role
+npm test
+```
+
+Point it at whichever stack you are running:
+
+```bash
+E2E_BASE_URL=https://mentorship-matching-backend.ddev.site npm test   # DDEV
+E2E_BASE_URL=http://localhost:89 npm test                             # docker compose (the default)
+```
+
+Useful while working on it:
+
+```bash
+npm test -- --headed          # watch it drive the browser
+npm test -- 03-routes         # a single spec
+npx playwright show-report    # HTML report from the last run
+```
+
+Screenshots land in `e2e/screenshots/` (gitignored), numbered in capture order, alongside a
+`manifest.jsonl` recording each one's label and URL.
+
+See [`e2e/README.md`](e2e/README.md) for what each spec asserts.
+
+### Test accounts
+
+`npm run seed` (or `php e2e/fixtures/seed.php`) creates one account per role, all with the password
+`password123`. They are local fixtures — do not create them anywhere public.
+
+| Email | Role |
+|---|---|
+| `admin@jobpairs.test` | Administrator |
+| `matcher@jobpairs.test` | Matcher |
+| `accman@jobpairs.test` | Account Manager |
+
+The login form field is `email_address`, not `email` — the app overrides Laravel's default in
+`app/Interfaces/CustomAuthentication.php`, which trips people up when scripting a login.
+
+Seeding is idempotent, so re-running it is also how you reset a password you have changed.
+
+Separately, `php artisan db:seed` creates the staff accounts in
+`database/seeders/UserTableSeeder.php` with a hardcoded default password. That is fine for a local
+database; make sure those accounts do not exist with that password anywhere public.
+
+## Troubleshooting
+
+**`MixManifestNotFoundException`** — the frontend assets have not been built. Run `npm install && npm run prod`.
+
+**`fopen(...storage/framework/cache/...): Failed to open stream: No such file or directory`** — the cache
+directory is not writable by the user running PHP, and Laravel reports the failed `mkdir` as a missing file.
+This usually happens after switching between environments that run PHP as different users. Clear the stale
+files and let them be recreated:
+
+```bash
+rm -rf storage/framework/cache/* storage/framework/views/* storage/framework/sessions/*
+php artisan optimize:clear
+```
+
+(If the files are owned by another user, delete them from inside the container: `ddev exec sudo rm -rf ...`.)
+
+**Registration fails with "An error occurred. Please try again."** — the app sends a notification on signup,
+so it needs a reachable mail server. Check `MAIL_HOST` matches your stack: `mailhog` for docker compose,
+`127.0.0.1` for DDEV.
+
+**Role changes do not take effect** — role checks are cached without invalidation. Run `php artisan cache:clear`.
+
+**Before deploying**, confirm `APP_DEBUG=false` in the production `.env`. `.env.example` ships `true`, which
+would expose stack traces and configuration to visitors.
 
 ## Contributing
 
-To contribute to MyEIC Common Library, follow these steps:
+To contribute to this project, follow these steps:
 
 1. Fork this repository.
 2. Read the [CONTRIBUTING](CONTRIBUTING.md) file.

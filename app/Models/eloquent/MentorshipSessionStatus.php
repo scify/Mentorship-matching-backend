@@ -13,12 +13,12 @@ class MentorshipSessionStatus extends Model
      */
     protected $table = 'mentorship_session_status_lookup';
 
-    protected $guarded ='id';
+    protected $guarded = ['id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\MentorshipSessionHistory, $this>
      */
-    public function mentorshipSession()
+    public function mentorshipSession(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(MentorshipSessionHistory::class, 'status_id', 'id');
     }

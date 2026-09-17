@@ -8,21 +8,20 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": ">=7.3",
-    "doctrine/dbal": "^2.9",
-    "guzzlehttp/guzzle": "^7.0.1",
-    "laravel/framework": "^8.0",
-    "laravel/helpers": "^1.1",
-    "laravel/tinker": "^2.0",
-    "laravel/ui": "^3.0",
-    "sentry/sentry-laravel": "^3.8"
+    "php": "^8.3",
+    "guzzlehttp/guzzle": "^7.10",
+    "laravel/framework": "^13.0",
+    "laravel/tinker": "^3.0",
+    "laravel/ui": "^4.6",
+    "sentry/sentry-laravel": "^4.27"
   },
   "require-dev": {
-    "barryvdh/laravel-debugbar": "^3.3",
-    "filp/whoops": "^2.0",
-    "fakerphp/faker": "^1.9.1",
-    "mockery/mockery": "^1.0",
-    "phpunit/phpunit": "^9.0"
+    "barryvdh/laravel-debugbar": "^4.4",
+    "fakerphp/faker": "^1.24",
+    "filp/whoops": "^2.16",
+    "larastan/larastan": "^3.10",
+    "mockery/mockery": "^1.6",
+    "phpunit/phpunit": "^12.0"
   },
   "autoload": {
     "classmap": [
@@ -34,10 +33,12 @@
   },
   "autoload-dev": {
     "classmap": [
-      "tests/TestCase.php"
+      "tests/TestCase.php",
+      "tests/Support"
     ]
   },
   "scripts": {
+    "analyse": "phpstan analyse --memory-limit=1G",
     "post-root-package-install": [
       "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],

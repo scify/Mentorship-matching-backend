@@ -15,24 +15,24 @@ class Company extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['name', 'description', 'website', 'hr_contact_details', 'account_manager_id'];
 
     protected $with = ['mentors'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\eloquent\MentorProfile, $this>
      */
-    public function mentors()
+    public function mentors(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(MentorProfile::class, 'company_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this>
      */
-    public function accountManager()
+    public function accountManager(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(User::class, 'id', 'account_manager_id');
     }

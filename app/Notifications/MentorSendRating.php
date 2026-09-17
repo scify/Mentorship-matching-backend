@@ -11,7 +11,6 @@ use Illuminate\Notifications\Notification;
 class MentorSendRating extends Notification implements ShouldQueue {
     use Queueable;
 
-    private $rating;
     private $mentorshipSession;
 
     /**

@@ -47,7 +47,7 @@ class MenteeController extends Controller
     /**
      * Display all mentees.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showAllMentees()
     {
@@ -69,7 +69,7 @@ class MenteeController extends Controller
      * Show the form for creating a new mentee.
      *
      * @param Request $request object containing request parameters
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showCreateForm(Request $request)
     {
@@ -125,7 +125,7 @@ class MenteeController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showEditForm($id)
     {
@@ -212,7 +212,7 @@ class MenteeController extends Controller
             $this->menteeManager->createMentee($input,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         }  catch (\Exception $e) {
-            Log::info('Error on creating mentee: ' . $e->getCode() . "  " .  $e->getMessage() . implode($input, ","));
+            Log::info('Error on creating mentee: ' . $e->getCode() . "  " .  $e->getMessage() . implode(",", array_keys($input)));
             session()->flash('flash_message_failure', 'An error occurred.');
             return back()->withInput();
         }
@@ -260,7 +260,7 @@ class MenteeController extends Controller
     /**
      * Display a mentee profile page.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showProfile($id)
     {
@@ -363,7 +363,7 @@ class MenteeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request)
     {
@@ -389,7 +389,8 @@ class MenteeController extends Controller
             $menteeViewModelsData = $this->menteeManager->getMenteeViewModelsByCriteria($input);
             $menteeViewModels = $this->menteeManager->paginateMentees($menteeViewModelsData)->setPath('#');
         }  catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
+            Log::info('Error on mentees search: ' . $e->getCode() . "  " .  $e->getMessage());
+            $errorMessage = 'An error occurred. Please try again later.';
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
         }
 

@@ -17,14 +17,14 @@ class MentorIndustry extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['mentor_profile_id', 'industry_id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\MentorProfile, $this>
      */
-    public function mentors()
+    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(MentorProfile::class, 'mentor_industry')->wherePivot('deleted_at', null);
     }

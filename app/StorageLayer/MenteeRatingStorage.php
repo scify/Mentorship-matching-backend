@@ -20,7 +20,6 @@ class MenteeRatingStorage {
     }
 
     public function getAverageRatingForMentee($menteeId) {
-        $avgRating = MenteeRating::where('mentee_id', $menteeId)->avg('rating')->first();
-        return $avgRating;
+        return MenteeRating::where('mentee_id', $menteeId)->avg('rating');
     }
 }

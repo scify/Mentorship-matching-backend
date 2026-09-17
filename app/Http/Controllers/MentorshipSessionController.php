@@ -50,7 +50,7 @@ class MentorshipSessionController extends Controller {
      * as well as the account manager id
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function create(Request $request) {
         $this->validate($request, [
@@ -90,7 +90,7 @@ class MentorshipSessionController extends Controller {
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request) {
         $this->validate($request, [
@@ -112,7 +112,7 @@ class MentorshipSessionController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request) {
         $this->validate($request, [

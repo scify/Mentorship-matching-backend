@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This is a Laravel 8 (PHP >=7.3) backoffice application, internally named **JobPairs**, that manages the
+This is a Laravel 13 (PHP >=8.3) backoffice application, internally named **JobPairs**, that manages the
 matching process between mentors and mentees based on preferences and skills. It is a legacy,
 server-rendered (Blade + jQuery) application — there is no SPA framework and no JSON API layer.
 
@@ -12,16 +12,32 @@ server-rendered (Blade + jQuery) application — there is no SPA framework and n
 
 ### Environment
 
-The project runs via Docker Compose (`docker-compose.yml`): a `php` service (app code, mounted at
-`/var/www`), `nginx`, `db` (MySQL, exposed on host port `3316`), and Redis. Enter the running app
-container to execute backend commands:
+There are two supported local stacks; check which one is running before assuming a command works.
+
+**DDEV** (`.ddev/config.yaml`, committed) — PHP 8.4, Node 24, MariaDB 11.8, docroot `public`, served at
+`https://mentorship-matching-backend.ddev.site`, mail captured by Mailpit. `ddev start` rewrites the
+DB and mail settings in `.env` to match its own services. Prefix commands:
+
+```bash
+ddev exec php artisan migrate
+ddev composer install
+ddev npm run prod
+```
+
+**Docker Compose** (`docker-compose.yml`) — a `php` service (app code mounted at `/var/www`), `nginx`
+(host port `89`), `db` (MySQL, host port `3316`), Redis, and MailHog (host port `8100`). With this
+stack `MAIL_HOST` must be `mailhog`; `localhost` is the PHP container itself and registration mail
+fails. Enter the container to run backend commands:
 
 ```bash
 docker exec -it mentorship_matching_platform_server bash
 ```
 
-All `php artisan`, `composer`, and `npm` commands below are meant to be run inside that container
-(or in an equivalent local PHP 7.3+/Node 14 environment — see `.nvmrc`).
+All `php artisan`, `composer`, and `npm` commands below are meant to be run inside whichever stack is
+up (or an equivalent local PHP 8.3+/Node 24 environment — see `.nvmrc`).
+
+The app reads `public/mix-manifest.json`, which is gitignored and built at deploy time — without
+`npm run prod` every page fails with `MixManifestNotFoundException`.
 
 ### PHP / Laravel
 
@@ -41,11 +57,30 @@ vendor/bin/phpunit tests/ExampleTest.php    # run a single test file
 ```
 
 `phpunit.xml` points the test suite at `./tests` and forces `APP_ENV=testing`, `CACHE_DRIVER=array`,
-`SESSION_DRIVER=array`, `QUEUE_DRIVER=sync`. In practice the `tests/` directory only contains the
-default Laravel scaffold (`ExampleTest.php`, `TestCase.php`) — there is effectively no real automated
-test coverage for the application's business logic. Don't assume behavior is protected by tests;
-verify manually (e.g. via `php artisan tinker`, seeded data, or exercising the relevant controller
-route) before and after changes to the manager/storage layers.
+`SESSION_DRIVER=array`, `QUEUE_DRIVER=sync`. The suite talks to the database configured in `.env`, so
+run it inside whichever stack is up (e.g. `ddev exec vendor/bin/phpunit`) against a **migrated and
+seeded development database** — feature tests roll back their fixtures via `DatabaseTransactions`,
+but never point them at production. It covers:
+
+- `tests/Unit/` — pure tests, no DB (the session status id contract and its active/completed/cancelled buckets).
+- `tests/Feature/MentorshipSessionLifecycleTest` — characterization tests for the session state machine:
+  creation paths, the accept/decline email-link flows, cancellation side effects on mentor/mentee
+  availability, the fourth-meeting → evaluation auto-advance, and which notification goes to whom.
+- `tests/Feature/UserAccessManagerTest` — the role checks behind every route middleware, including the
+  documented cache-staleness behavior.
+- `tests/Feature/FilterQueryTest` — the hand-written filter SQL: every filter combination, join/where
+  binding order, apostrophe handling, and SQL injection payloads (formerly `tests/manual/verify_filters.php`).
+- Shared fixtures live in `tests/Support/CreatesMatchingFixtures.php` (classmapped via `autoload-dev`).
+
+The browser suite is the other one to run after touching routes or views:
+
+```bash
+cd e2e && npm test                    # Playwright: opens every route in a browser, registers a
+                                      # mentor/mentee/matcher, clicks every menu option per role
+```
+
+The Playwright suite needs `npm run seed` first (the seeder also removes what previous e2e runs
+registered) and honours `E2E_BASE_URL` (default `http://localhost:89`); see `e2e/README.md`.
 
 ### Frontend assets
 
@@ -149,8 +184,8 @@ for reference CSVs consumed elsewhere are configured via `MENTORS_EXCEL_FILE_PAT
 
 Blade views live under `resources/views`, organized by entity (`mentors/`, `mentees/`,
 `mentorship_session/`, `companies/`, `users/`, `reports/`, `ratings/`, `common/` for shared
-header/menu/search partials). Translations exist for `en` and `gr` under `resources/lang`; app default
-locale is `en` (`config/app.php`). `app/ViewComposers/MenteeAndMentorMenuComposer.php` injects
+header/menu/search partials). Translations exist for `en` and `gr` under `lang/` at the project
+root (moved out of `resources/lang` in Laravel 9); app default locale is `en` (`config/app.php`). `app/ViewComposers/MenteeAndMentorMenuComposer.php` injects
 menu-related data into views without controllers passing it explicitly.
 
 ### Error tracking

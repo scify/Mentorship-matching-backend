@@ -87,7 +87,8 @@ class MentorController extends Controller {
             $mentorViewModelsData = $this->mentorManager->getMentorViewModelsByCriteria($input);
             $mentorViewModels = $this->mentorManager->paginateMentors($mentorViewModelsData)->setPath('#');
         } catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " . $e->getMessage();
+            Log::info('Error on mentors search: ' . $e->getCode() . "  " . $e->getMessage());
+            $errorMessage = 'An error occurred. Please try again later.';
             return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
         }
 
@@ -314,7 +315,7 @@ class MentorController extends Controller {
             $this->mentorManager->createMentor($input,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         } catch (\Exception $e) {
-            Log::info('Error on creating mentor: ' . $e->getCode() . "  " .  $e->getMessage() . implode($input, ","));
+            Log::info('Error on creating mentor: ' . $e->getCode() . "  " .  $e->getMessage() . implode(",", array_keys($input)));
             session()->flash('flash_message_failure', 'An error occurred. Please try again.');
             return back()->withInput();
         }
@@ -459,7 +460,7 @@ class MentorController extends Controller {
                     'message_failure' => Lang::get('messages.mentor_not_found'),
                     'title' => $viewTitle
                 ]);
-            } else if ($resultStatusCode === "ANOTHER_SESSION_ACTIVE") {
+            } else {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.another_session_active'),
                     'title' => $viewTitle

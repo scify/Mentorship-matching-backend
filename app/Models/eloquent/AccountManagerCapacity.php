@@ -17,11 +17,12 @@ class AccountManagerCapacity extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['account_manager_id', 'capacity'];
 
-    public function accountManager() {
+    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this> */
+    public function accountManager(): \Illuminate\Database\Eloquent\Relations\HasOne {
         return $this->hasOne(User::class, 'id', 'account_manager_id');
     }
 

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use League\Flysystem\Exception;
+use Exception;
 
 /**
  * Class UserManager
@@ -162,7 +162,7 @@ class UserManager {
     /**
      * Gets all account managers (users with account manager role)
      *
-     * @return Collection a collection of @see User
+     * @return Collection<int, User>
      */
     public function getAllAccountManagers() {
         $userAccessManager = new UserAccessManager();
@@ -278,9 +278,9 @@ class UserManager {
     /**
      * Queries a users collection for a given name
      *
-     * @param Collection $users a collection of @see Users instances
+     * @param Collection<int, User> $users a collection of @see User instances
      * @param $name string the name to query the collection for
-     * @return Collection the subset of the collection, satisfying the query
+     * @return Collection<int, User> the subset of the collection, satisfying the query
      */
     private function filterUsersByName(Collection $users, $name) {
         $filteredUsers = $users->filter(function ($value, $key) use ($name) {

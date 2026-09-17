@@ -14,10 +14,13 @@ class AlterStringToTextColumnsInMenteeProfileTable extends Migration
     public function up()
     {
         Schema::table('mentee_profile', function ($table) {
-            $table->text('job_description')->change();
-            $table->text('specialty_experience')->change();
-            $table->text('expectations')->change();
-            $table->text('career_goals')->change();
+            // nullable() has to be restated: since Laravel 11 change() drops any
+            // attribute not listed, and these columns are all created as
+            // nullable in 2017_02_07_084832_create_mentee_profile_table.
+            $table->text('job_description')->nullable()->change();
+            $table->text('specialty_experience')->nullable()->change();
+            $table->text('expectations')->nullable()->change();
+            $table->text('career_goals')->nullable()->change();
         });
     }
 
@@ -29,10 +32,10 @@ class AlterStringToTextColumnsInMenteeProfileTable extends Migration
     public function down()
     {
         Schema::table('mentee_profile', function ($table) {
-            $table->string('job_description')->change();
-            $table->string('specialty_experience')->change();
-            $table->string('expectations')->change();
-            $table->string('career_goals')->change();
+            $table->string('job_description')->nullable()->change();
+            $table->string('specialty_experience')->nullable()->change();
+            $table->string('expectations')->nullable()->change();
+            $table->string('career_goals')->nullable()->change();
         });
     }
 }

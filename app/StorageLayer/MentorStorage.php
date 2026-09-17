@@ -68,7 +68,7 @@ class MentorStorage {
     }
 
     public function getDataForExportation() {
-        return DB::select(DB::raw('select mentor.id, mentor.first_name, mentor.last_name, mentor.year_of_birth, 
+        return DB::select(('select mentor.id, mentor.first_name, mentor.last_name, mentor.year_of_birth, 
           mentor.address, mentor.email, mentor.linkedin_url, mentor.phone, mentor.cell_phone, 
           mentor.company_sector, mentor.job_position, mentor.job_experience_years, 
           mentor.skills, company.name as company_name, reference.name as reference_name,

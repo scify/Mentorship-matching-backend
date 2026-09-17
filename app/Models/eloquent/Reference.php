@@ -15,22 +15,22 @@ class Reference extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MenteeProfile, $this>
      */
-    public function mentees()
+    public function mentees(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MenteeProfile::class, 'reference_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MentorProfile, $this>
      */
-    public function mentors()
+    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MentorProfile::class, 'reference_id', 'id');
     }

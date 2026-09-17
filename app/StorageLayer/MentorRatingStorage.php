@@ -14,7 +14,6 @@ class MentorRatingStorage {
     }
 
     public function getAverageRatingForMentor($mentorId) {
-        $avgRating = MentorRating::where('mentor_id', $mentorId)->avg('rating')->first();
-        return $avgRating;
+        return MentorRating::where('mentor_id', $mentorId)->avg('rating');
     }
 }

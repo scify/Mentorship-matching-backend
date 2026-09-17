@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.4-fpm
 
 # Copy configuration files
 COPY php.ini /usr/local/etc/php/
@@ -34,8 +34,8 @@ RUN docker-php-ext-configure zip
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Xdebug
-RUN pecl install xdebug-3.1.5 \
+# Xdebug (3.1.x does not build against PHP 8.4)
+RUN pecl install xdebug \
   && docker-php-ext-enable xdebug \
   && echo ";zend_extension=xdebug" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
@@ -51,7 +51,8 @@ ENV PATH $PATH:/composer/vendor/bin
 RUN composer config --global process-timeout 3600
 RUN composer global require "laravel/installer"
 
-ENV NODE_VERSION=14.21.3
+# Node 14 went EOL in April 2023; select2 >= 4.1 also requires Node >= 24.
+ENV NODE_VERSION=24.19.0
 
 ENV NVM_DIR=/usr/local/.nvm
 RUN mkdir "$NVM_DIR"

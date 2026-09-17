@@ -19,7 +19,7 @@ class DataToCsvExportManager
 
     private $columnsWithPossiblyMultipleValues;
 
-    public function __construct($fileName = 'export.csv', $storageLayerClass, array $columnsWithPossiblyMultipleValues = [], $lang = 'en') {
+    public function __construct($fileName, $storageLayerClass, array $columnsWithPossiblyMultipleValues = [], $lang = 'en') {
         $this->fileName = $fileName;
         $this->storageLayerClass = $storageLayerClass;
         // create fields that will hold the multiple values fetched from DB 'left joins'

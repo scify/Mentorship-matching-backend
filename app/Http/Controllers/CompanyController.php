@@ -25,7 +25,7 @@ class CompanyController extends Controller
     /**
      * Display all companies.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showAllCompanies()
     {
@@ -41,7 +41,7 @@ class CompanyController extends Controller
     /**
      * Show the form for creating a new company.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showCreateForm()
     {
@@ -63,7 +63,7 @@ class CompanyController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showEditForm($id)
     {
@@ -83,7 +83,7 @@ class CompanyController extends Controller
      * Store a newly created company in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function create(Request $request)
     {
@@ -134,7 +134,7 @@ class CompanyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request)
     {

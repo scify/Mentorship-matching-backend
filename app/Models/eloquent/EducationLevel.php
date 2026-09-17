@@ -15,7 +15,7 @@ class EducationLevel extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['name'];
 
@@ -28,9 +28,9 @@ class EducationLevel extends Model
 //    }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MenteeProfile, $this>
      */
-    public function mentees()
+    public function mentees(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MenteeProfile::class, 'education_level_id', 'id');
     }

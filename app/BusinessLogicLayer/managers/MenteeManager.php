@@ -46,6 +46,9 @@ class MenteeManager {
         return $this->getMenteeViewModelsFromCollection($mentees);
     }
 
+    /**
+     * @param Collection<int, MenteeProfile> $mentees
+     */
     private function getMenteeViewModelsFromCollection(Collection $mentees) {
         $menteeViewModels = new Collection();
         foreach ($mentees as $mentee) {
@@ -83,7 +86,7 @@ class MenteeManager {
      * Download a mentee's cv file, streamed directly from the public disk.
      *
      * @param $fileName
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
     public function downloadCvFile($fileName) {
         return \Illuminate\Support\Facades\Storage::disk('public')
@@ -158,7 +161,7 @@ class MenteeManager {
         }
         if ($inputFields['follow_up_date'] != "") {
             $dateArray = explode("/", $inputFields['follow_up_date']);
-            $inputFields['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+            $inputFields['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
@@ -207,7 +210,7 @@ class MenteeManager {
      * Gets all the filters passed and returns the filtered results
      *
      * @param $filters
-     * @return Collection|void|static[]
+     * @return Collection<int, MenteeProfile>
      * @throws \Exception When filters aren't valid
      */
     private function getMenteesByCriteria($filters) {
@@ -228,10 +231,12 @@ class MenteeManager {
             (!isset($filters['displayOnlyAvailableWithCancelledSessions']) || $filters['displayOnlyAvailableWithCancelledSessions'] === 'false')) {
             return $this->menteeStorage->getAllMenteeProfiles();
         }
-        $mentorshipSessionStatuses = null;
-        $whereClauseExists = false;
-        $dbQuery = "select distinct mp.id 
-            from mentee_profile as mp 
+        // Every value taken from $filters is bound as a `?` placeholder, never
+        // interpolated into the SQL string.
+        $bindings = [];
+        $conditions = [];
+        $dbQuery = "select distinct mp.id
+            from mentee_profile as mp
             left outer join mentee_specialty as msp on mp.id = msp.mentee_profile_id
             left outer join mentorship_session as ms on mp.id = ms.mentee_profile_id
             left outer join mentorship_session_history as msh on ms.id = msh.mentorship_session_id ";
@@ -248,147 +253,115 @@ class MenteeManager {
                 as last_sessions on last_sessions.last_session_id = mses.id ";
         }
         if (isset($filters['averageRating']) && $filters['averageRating'] != "") {
-            if (intval($filters['averageRating']) == 0 || intval($filters['averageRating']) < 1 ||
-                intval($filters['averageRating']) > 5) {
+            $averageRating = intval($filters['averageRating']);
+            if ($averageRating < 1 || $averageRating > 5) {
                 throw new \Exception("Filter value is not valid.");
             }
             $dbQuery .= "join (
-                    select round(avg(rating)), mentee_id from mentee_rating group by mentee_id having round(avg(rating)) = " .
-                intval($filters['averageRating']) . ") as mentees_with_avg_rating on mp.id=mentees_with_avg_rating.mentee_id ";
+                    select round(avg(rating)), mentee_id from mentee_rating group by mentee_id having round(avg(rating)) = ?
+                    ) as mentees_with_avg_rating on mp.id=mentees_with_avg_rating.mentee_id ";
+            $bindings[] = $averageRating;
         }
-        $dbQuery .= "where ";
         if (isset($filters['menteeName']) && $filters['menteeName'] != "") {
-            $dbQuery .= "(mp.first_name like '%" . $filters['menteeName'] . "%' or mp.last_name like '%" . $filters['menteeName'] . "%') ";
-            $whereClauseExists = true;
+            $conditions[] = "(mp.first_name like ? or mp.last_name like ?)";
+            $bindings[] = '%' . $filters['menteeName'] . '%';
+            $bindings[] = '%' . $filters['menteeName'] . '%';
         }
         if (isset($filters['educationLevel']) && $filters['educationLevel'] != "") {
-            if (intval($filters['educationLevel']) == 0) {
+            $educationLevel = intval($filters['educationLevel']);
+            if ($educationLevel == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.education_level_id = " . $filters['educationLevel'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "mp.education_level_id = ?";
+            $bindings[] = $educationLevel;
         }
         if (isset($filters['specialty']) && $filters['specialty'] != "") {
-            if (intval($filters['specialty']) == 0) {
+            $specialty = intval($filters['specialty']);
+            if ($specialty == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "msp.specialty_id = " . $filters['specialty'] . " ";
-            $whereClauseExists = true;
+            $conditions[] = "msp.specialty_id = ?";
+            $bindings[] = $specialty;
         }
         if (isset($filters['university']) && $filters['university'] != "") {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
             // if university id is not a number but a string, search university name instead of university id
             if (intval($filters['university']) == 0 || strlen($filters['university']) > 2) {
-                $dbQuery .= "mp.university_name = '" . $filters['university'] . "' ";
+                $conditions[] = "mp.university_name = ?";
+                $bindings[] = $filters['university'];
             } else {
-                $dbQuery .= "mp.university_id = " . $filters['university'] . " ";
+                $conditions[] = "mp.university_id = ?";
+                $bindings[] = intval($filters['university']);
             }
-            $whereClauseExists = true;
         }
         if (isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-            $dbQuery .= "(last_session.session_date is not null and msh.status_id in (" .
-                implode(",", $mentorshipSessionStatuses::getActiveSessionStatuses()) . ")) ";
-            $whereClauseExists = true;
+            $activeStatuses = MentorshipSessionStatuses::getActiveSessionStatuses();
+            $conditions[] = "(last_session.session_date is not null and msh.status_id in (" .
+                RawQueryStorage::placeholdersFor($activeStatuses) . "))";
+            $bindings = array_merge($bindings, $activeStatuses);
         }
         if (isset($filters['ageRange']) && $filters['ageRange'] != "") {
             $ageRange = explode(';', $filters['ageRange']);
-            if (intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
+            if (count($ageRange) !== 2 || intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "(mp.year_of_birth > year(curdate()) - " . $ageRange[1] . " and mp.year_of_birth < year(curdate()) - " . $ageRange[0] . ") ";
-            $whereClauseExists = true;
+            $conditions[] = "(mp.year_of_birth > year(curdate()) - ? and mp.year_of_birth < year(curdate()) - ?)";
+            $bindings[] = intval($ageRange[1]);
+            $bindings[] = intval($ageRange[0]);
         }
         if (isset($filters['skills']) && $filters['skills'] != "") {
             $allSkills = explode(",", $filters['skills']);
             foreach ($allSkills as $skill) {
-                if ($whereClauseExists) {
-                    $dbQuery .= "and ";
-                }
-                $dbQuery .= "mp.skills like '%" . $skill . "%' ";
-                $whereClauseExists = true;
+                $conditions[] = "mp.skills like ?";
+                $bindings[] = '%' . $skill . '%';
             }
         }
         if (isset($filters['signedUpAgo']) && $filters['signedUpAgo'] != "") {
-            if (intval($filters['signedUpAgo']) == 0) {
+            $signedUpAgo = intval($filters['signedUpAgo']);
+            if ($signedUpAgo == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            if ($filters['signedUpAgo'] < 13) {
-                $dbQuery .= "mp.created_at between (now() - interval " . $filters['signedUpAgo'] .
-                    " month) and (now() - interval " . ($filters['signedUpAgo'] - 1) . " month) ";
+            if ($signedUpAgo < 13) {
+                $conditions[] = "mp.created_at between (now() - interval ? month) and (now() - interval ? month)";
+                $bindings[] = $signedUpAgo;
+                $bindings[] = $signedUpAgo - 1;
             } else {
-                $dbQuery .= "mp.created_at < (now() - interval 12 month) ";
+                $conditions[] = "mp.created_at < (now() - interval 12 month)";
             }
-            $whereClauseExists = true;
         }
         if (isset($filters['completedSessionAgo']) && $filters['completedSessionAgo'] != "") {
-            if (intval($filters['completedSessionAgo']) == 0) {
+            $completedSessionAgo = intval($filters['completedSessionAgo']);
+            if ($completedSessionAgo == 0) {
                 throw new \Exception("Filter value is not valid.");
             }
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            if ($mentorshipSessionStatuses == null) {
-                $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-            }
-            $dbQuery .= "msh.status_id in (" . implode(",", $mentorshipSessionStatuses::getCompletedSessionStatuses()) . ") and msh.updated_at between (now() - interval " . $filters['completedSessionAgo'] . " month) 
-                and (now() - interval " . ($filters['completedSessionAgo'] - 1) . " month) ";
-            $whereClauseExists = true;
+            $completedStatuses = MentorshipSessionStatuses::getCompletedSessionStatuses();
+            $conditions[] = "msh.status_id in (" . RawQueryStorage::placeholdersFor($completedStatuses) . ")
+                and msh.updated_at between (now() - interval ? month) and (now() - interval ? month)";
+            $bindings = array_merge($bindings, $completedStatuses);
+            $bindings[] = $completedSessionAgo;
+            $bindings[] = $completedSessionAgo - 1;
         }
         if (isset($filters['displayOnlyUnemployed']) && $filters['displayOnlyUnemployed'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.is_employed = 0 ";
-            $whereClauseExists = true;
+            $conditions[] = "mp.is_employed = 0";
         }
         if (isset($filters['displayOnlyNeverMatched']) && $filters['displayOnlyNeverMatched'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "ms.id is null ";
-            $whereClauseExists = true;
+            $conditions[] = "ms.id is null";
         }
         if (isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.creator_user_id is null ";
-            $whereClauseExists = true;
+            $conditions[] = "mp.creator_user_id is null";
         }
         if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-            $dbQuery .= "mses.status_id in (" . implode(",", $mentorshipSessionStatuses::getCancelledSessionStatuses()) . ") ";
-            $whereClauseExists = true;
+            $cancelledStatuses = MentorshipSessionStatuses::getCancelledSessionStatuses();
+            $conditions[] = "mses.status_id in (" . RawQueryStorage::placeholdersFor($cancelledStatuses) . ")";
+            $bindings = array_merge($bindings, $cancelledStatuses);
         }
         if (isset($filters['displayOnlyAvailable']) && $filters['displayOnlyAvailable'] === 'true') {
-            if ($whereClauseExists) {
-                $dbQuery .= "and ";
-            }
-            $dbQuery .= "mp.status_id = 1 ";
+            $conditions[] = "mp.status_id = 1";
+        }
+        if (!empty($conditions)) {
+            $dbQuery .= "where " . implode(" and ", $conditions);
         }
         $filteredMenteeIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
-            (new RawQueryStorage())->performRawQuery($dbQuery)
+            (new RawQueryStorage())->performRawQuery($dbQuery, $bindings)
         );
         return $this->menteeStorage->getMenteesFromIdsArray($filteredMenteeIds);
     }
@@ -420,7 +393,7 @@ class MenteeManager {
         }
         if ($input['follow_up_date'] != "") {
             $dateArray = explode("/", $input['follow_up_date']);
-            $input['follow_up_date'] = Carbon::createFromDate($dateArray[2], $dateArray[1], $dateArray[0]);
+            $input['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
         }
         $mentee = $this->getMentee($input['mentee_id']);
         unset($mentee->age);

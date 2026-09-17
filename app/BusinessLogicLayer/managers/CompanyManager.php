@@ -14,12 +14,10 @@ use Illuminate\Support\Facades\DB;
 class CompanyManager {
 
     private $companyStorage;
-    private $specialtyManager;
     private $mentorManager;
 
     public function __construct() {
         $this->companyStorage = new CompanyStorage();
-        $this->specialtyManager = new SpecialtyManager();
         $this->mentorManager = new MentorManager();
     }
 
