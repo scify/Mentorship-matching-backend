@@ -1,6 +1,12 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
+// DDEV sets VITE_HMR_HOST to the project hostname (see .ddev/config.yaml). Its router
+// terminates TLS on port 5173 and forwards to the container, so the page (https) must
+// load dev assets over https and open the HMR socket over wss. Docker Compose maps
+// 5173 straight to localhost and needs none of this.
+const hmrHost = process.env.VITE_HMR_HOST;
+
 export default defineConfig({
     plugins: [
         laravel({
@@ -26,9 +32,13 @@ export default defineConfig({
         host: '0.0.0.0',
         port: 5173,
         strictPort: true,
-        // DDEV sets VITE_HMR_HOST to the project hostname (see .ddev/config.yaml);
-        // Docker Compose maps 5173 straight to localhost.
-        hmr: { host: process.env.VITE_HMR_HOST ?? 'localhost' },
+        ...(hmrHost
+            ? {
+                  hmr: { host: hmrHost, protocol: 'wss', clientPort: 5173 },
+                  allowedHosts: [hmrHost],
+                  cors: { origin: `https://${hmrHost}` },
+              }
+            : { hmr: { host: 'localhost' } }),
     },
     css: {
         // The vendored theme and DataTables CSS carry IE-era `*property` hacks.
