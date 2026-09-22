@@ -1,5 +1,5 @@
-const {Pleasure} = require("../../pleasure-admin-panel/js/pleasure");
-const toastr = require('toastr');
+import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
+import toastr from 'toastr';
 
 window.MenteesListController = function () {
 };

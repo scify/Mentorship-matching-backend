@@ -1,4 +1,4 @@
-const toastr = require('toastr');
+import toastr from 'toastr';
 
 window.RatingController = function() {
 };

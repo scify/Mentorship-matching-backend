@@ -1,4 +1,4 @@
-const {Pleasure} = require("./pleasure");
+import { Pleasure } from "./pleasure";
 export let Layout = {
 
     // Layout Theme Settings

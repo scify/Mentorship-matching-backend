@@ -1,4 +1,4 @@
-const {Pleasure} = require("../../pleasure-admin-panel/js/pleasure");
+import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
 
 window.MentorsListController = function () {
 };
