@@ -2,9 +2,9 @@ import './jquery-global';
 import _ from 'lodash';
 import 'jquery-validation/dist/jquery.validate.min.js';
 import 'jquery-ui-dist/jquery-ui.min.js';
-import 'icheck/icheck.min.js';
+import 'icheck/icheck.js';  // the .min build assigns an undeclared variable, which throws in strict-mode ESM
 import 'chosen-js/chosen.jquery.js';
-import 'select2/dist/js/select2.min.js';
+import select2 from 'select2/dist/js/select2.min.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'velocity-animate/velocity.min.js';
 import 'moment';
@@ -15,7 +15,7 @@ import 'bootstrap-select/dist/js/bootstrap-select.min.js';
 import 'fastclick/lib/fastclick.js';
 import 'jasny-bootstrap/dist/js/jasny-bootstrap.min.js';
 import 'sweetalert/dist/sweetalert.min.js';
-import 'datatables/media/js/jquery.dataTables.min.js';
+import dataTables from 'datatables/media/js/jquery.dataTables.min.js';
 import '../pleasure-admin-panel/js/sliders.js';
 import { Layout } from '../pleasure-admin-panel/js/layout.js';
 import { Pleasure } from '../pleasure-admin-panel/js/pleasure.js';
@@ -44,6 +44,12 @@ import './controllers/UsersListController.js';
 
 window._ = _;
 window.Popper = Popper;
+
+// select2 and DataTables ship UMD wrappers that register the plugin from their
+// AMD branch. webpack honoured AMD; Vite does not, so their CommonJS export is a
+// function that has to be called with the jQuery instance to register.
+select2(window, window.jQuery);
+dataTables(window, window.jQuery);
 
 if (import.meta.env.VITE_SENTRY_DSN_PUBLIC) {
     Sentry.init({

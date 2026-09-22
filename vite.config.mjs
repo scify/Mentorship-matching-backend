@@ -15,6 +15,13 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        // moment's package.json points `jsnext:main` at an ESM build and Vite follows
+        // it (webpack did not). The CommonJS `require('moment')` inside
+        // bootstrap-daterangepicker then receives a module namespace instead of the
+        // function. Resolve bare `moment` to its CommonJS entry, as before.
+        alias: [{ find: /^moment$/, replacement: 'moment/moment.js' }],
+    },
     server: {
         host: '0.0.0.0',
         port: 5173,
