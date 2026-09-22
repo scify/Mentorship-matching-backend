@@ -15,7 +15,11 @@ export const test = base.extend({
   page: async ({ page }, use) => {
     const errors: string[] = [];
     jsErrors.set(page, errors);
-    page.on('pageerror', (err) => errors.push(`pageerror: ${err.message}`));
+    page.on('pageerror', (err) => {
+      // Keep the top two frames: enough to name the file and line without flooding the report.
+      const frames = (err.stack ?? '').split('\n').slice(1, 3).map((l) => l.trim()).join(' <- ');
+      errors.push(`pageerror: ${err.message}${frames ? ` (${frames})` : ''}`);
+    });
     page.on('console', (msg) => {
       if (msg.type() === 'error' && !msg.text().startsWith('Failed to load resource')) {
         errors.push(`console.error: ${msg.text()}`);
