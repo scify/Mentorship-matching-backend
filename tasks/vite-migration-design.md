@@ -86,7 +86,6 @@ the first-party helpers, then the controllers. Vendor imports use explicit file 
 
 ```js
 import './jquery-global';
-import _ from 'lodash'; window._ = _;                      // app.js:4 does this today
 import 'jquery-validation/dist/jquery.validate.min.js';
 import 'jquery-ui-dist/jquery-ui.min.js';
 import 'icheck/icheck.js';  // .min assigns an undeclared `_determinate`; strict-mode ESM throws
@@ -298,6 +297,11 @@ Merge blocks on the `npm` CI job (now `npm run build`) and on a green e2e run re
 - `textarea-autosize` has an `exports` map that only exposes the package root; import it bare.
 - Vite 8 minifies CSS with LightningCSS, which rejects IE `*property` hacks in the theme and DataTables CSS.
   `css.lightningcss.errorRecovery: true` strips them, which is what browsers do anyway.
+- **SonarCloud follow-up (after the first review).** `window._` (lodash) had no reader anywhere, so the
+  import and the package are gone. The theme's `data-toggle="reload"` ajax handler in `pleasure.js` had no
+  trigger in any view and referenced the non-existent `ion.sound`; it was the reported DOM-XSS sink
+  (`$(ajax_selector).html(data)`) and is removed. Three unused `toastr` imports and a duplicate `fastclick`
+  import are removed.
 - The config file is `vite.config.mjs`, so Vite loads it as ESM without adding `"type": "module"`.
 
 ## Risks

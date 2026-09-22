@@ -194,4 +194,4 @@ menu-related data into views without controllers passing it explicitly.
 ### Error tracking
 
 Sentry (`sentry/sentry-laravel`) is wired up via `SENTRY_LARAVEL_DSN` for both backend (PHP) and
-frontend (`@sentry/browser`, `MIX_SENTRY_DSN_PUBLIC`) error reporting.
+frontend (`@sentry/browser`, `VITE_SENTRY_DSN_PUBLIC`) error reporting.
