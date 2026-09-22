@@ -7971,8 +7971,8 @@ button.close {
  * -------------------------- */
 @font-face {
     font-family: 'FontAwesome';
-    src: url(/build/fontawesome/fonts/fontawesome-webfont.eot?v=4.3.0);
-    src: url(/build/fontawesome/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0) format('embedded-opentype'), url(/build/fontawesome/fonts/fontawesome-webfont.woff2?v=4.3.0) format('woff2'), url(/build/fontawesome/fonts/fontawesome-webfont.woff?v=4.3.0) format('woff'), url(/build/fontawesome/fonts/fontawesome-webfont.ttf?v=4.3.0) format('truetype'), url(/build/fontawesome/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular) format('svg');
+    src: url(../fontawesome/fonts/fontawesome-webfont.eot?v=4.3.0);
+    src: url(../fontawesome/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0) format('embedded-opentype'), url(../fontawesome/fonts/fontawesome-webfont.woff2?v=4.3.0) format('woff2'), url(../fontawesome/fonts/fontawesome-webfont.woff?v=4.3.0) format('woff'), url(../fontawesome/fonts/fontawesome-webfont.ttf?v=4.3.0) format('truetype'), url(../fontawesome/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular) format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -10327,8 +10327,8 @@ MIT License: https://github.com/driftyco/ionicons
 */
 @font-face {
     font-family: "Ionicons";
-    src: url(/build/ionicons/fonts/ionicons.eot?v=2.0.0);
-    src: url(/build/ionicons/fonts/ionicons.eot?v=2.0.0#iefix) format("embedded-opentype"), url(/build/ionicons/fonts/ionicons.ttf?v=2.0.0) format("truetype"), url(/build/ionicons/fonts/ionicons.woff?v=2.0.0) format("woff"), url(/build/ionicons/fonts/ionicons.svg?v=2.0.0#Ionicons) format("svg");
+    src: url(../ionicons/fonts/ionicons.eot?v=2.0.0);
+    src: url(../ionicons/fonts/ionicons.eot?v=2.0.0#iefix) format("embedded-opentype"), url(../ionicons/fonts/ionicons.ttf?v=2.0.0) format("truetype"), url(../ionicons/fonts/ionicons.woff?v=2.0.0) format("woff"), url(../ionicons/fonts/ionicons.svg?v=2.0.0#Ionicons) format("svg");
     font-weight: normal;
     font-style: normal;
 }
