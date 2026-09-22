@@ -1,5 +1,5 @@
-import { expect, test } from '@playwright/test';
-import { assertPageHealthy, login, makeShotter, Role } from './helpers';
+import { expect } from '@playwright/test';
+import { assertPageHealthy, login, makeShotter, Role, test } from './helpers';
 
 const shot = makeShotter('04-nav');
 
