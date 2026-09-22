@@ -1,5 +1,4 @@
 import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
-import toastr from 'toastr';
 
 window.CompaniesListController = function () {
 };

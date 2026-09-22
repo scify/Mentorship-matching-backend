@@ -2,7 +2,6 @@ import FastClick from 'fastclick';
 
 import 'bootstrap';
 import 'bootstrap-select';
-import 'fastclick';
 import 'velocity-animate';
 export const Pleasure = {
 
@@ -153,68 +152,6 @@ export const Pleasure = {
                     par.find('.refresh-container').remove();
                 });
             }, 2000);
-        });
-
-        $('.panel-action a[data-toggle="reload"]').on('click', function () {
-            // Define the panel variables
-            var $this = $(this),
-                par = $this.parents('.panel:first'),
-                dataToRefresh = par.find('.refresh-data'),
-                ajax_target = $this.data('ajax-target'),
-                ajax_selector = $this.data('ajax-selector'),
-                ajax_notify = $this.data('ajax-notify'),
-                ajax_notify_sound = $this.data('ajax-notify-sound');
-
-            // Loading ajax content
-            if (ajax_target) {
-                var jqxhr = $.ajax({
-                    cache: false,
-                    url: ajax_target,
-                    // Before requesting ajax content trigger spinners and remove the previous alert
-                    beforeSend: function () {
-                        $this.addClass("fa-spin");
-                        par.find('.panel-body').append('<div class="refresh-container"><div class="loading-bar indeterminate"></div></div>');
-                        par.find('.alert').remove();
-                    }
-                }).done(function (data) {
-                    par.find('.refresh-container').fadeOut(500, function () {
-                        par.find('.refresh-container').remove();
-                    });
-                    $this.removeClass('fa-spin');
-
-                    // Handle the ajax selector
-                    if (ajax_selector === 'prepend') {
-                        par.find('.panel-body').prepend(data);
-                    } else if (ajax_selector === 'append') {
-                        par.find('.panel-body').append(data);
-                    } else if (ajax_selector === 'inside') {
-                        par.find('.panel-body').html(data);
-                    } else {
-                        $(ajax_selector).html(data);
-                    }
-
-                    // Handle notification types
-                    if (ajax_notify === 'toastr')
-                        toastr.success('The ' + ajax_target + ' content successfully loaded.');
-                    if (ajax_notify_sound)
-                        ion.sound.play(ajax_notify_sound);
-
-                }).fail(function (jqXHR, textStatus) {
-                    par.find('.refresh-container').fadeOut(500, function () {
-                        par.find('.refresh-container').remove();
-                    });
-                    $this.removeClass('fa-spin');
-
-                    // Handle notification types
-                    if (ajax_notify === 'toastr') {
-                        toastr.error('There was a problem while loading the ' + ajax_target + ' content.');
-                    } else {
-                        par.find('.panel-body').prepend('<div class="alert alert-danger alert-block" role="alert">There was a problem while loading the ' + ajax_target + ' content.</div>');
-                    }
-                    if (ajax_notify_sound)
-                        ion.sound.play(ajax_notify_sound);
-                });
-            }
         });
 
         // Load ajax data on page init
