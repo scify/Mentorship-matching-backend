@@ -10,15 +10,15 @@
   "devDependencies": {
     "laravel-mix": "^6.0.49",
     "modernizr": "^3.13.1",
-    "moment": "^2.30.1",
+    "moment": "^2.31.0",
     "npm-modernizr": "^2.8.3",
     "postcss": "^8.5.28",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.104.0",
+    "sass": "^1.104.1",
     "sass-loader": "^14.2.1",
     "vue": "^2.7.16",
     "vue-resource": "^1.5.3",
-    "webpack": "5.105.0"
+    "webpack": "5.111.0"
   },
   "dependencies": {
     "@sentry/browser": "^8.55.2",
