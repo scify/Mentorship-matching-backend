@@ -26,13 +26,13 @@
 **Files:**
 - Create: `tasks/vite-migration-design.md` (exists, untracked), `tasks/todo.md` (this file)
 
-- [ ] **Step 1: Create the branch**
+- [x] **Step 1: Create the branch**
 
 ```bash
 git checkout -b feat/vite
 ```
 
-- [ ] **Step 2: Commit the spec and plan**
+- [x] **Step 2: Commit the spec and plan**
 
 ```bash
 git add tasks/vite-migration-design.md tasks/todo.md
@@ -50,7 +50,7 @@ git commit -m "docs: add Vite migration design and plan"
 **Interfaces:**
 - Produces: `export const test` from `./helpers` — a Playwright `test` whose `page` fixture records `pageerror` events and `console.error` messages. `assertPageHealthy(page, status, where)` now also fails when any were recorded since the last call, and clears the list.
 
-- [ ] **Step 1: Extend the `page` fixture in `helpers.ts`**
+- [x] **Step 1: Extend the `page` fixture in `helpers.ts`**
 
 Replace line 1 `import { expect, Page } from '@playwright/test';` with:
 
@@ -81,7 +81,7 @@ export const test = base.extend({
 });
 ```
 
-- [ ] **Step 2: Assert on collected errors in `assertPageHealthy`**
+- [x] **Step 2: Assert on collected errors in `assertPageHealthy`**
 
 After the `for (const marker of markers) {...}` loop (line 88), add:
 
@@ -102,21 +102,21 @@ Update the doc comment above the function (lines 68-71) to:
  */
 ```
 
-- [ ] **Step 3: Switch the three specs to the extended `test`**
+- [x] **Step 3: Switch the three specs to the extended `test`**
 
 In `02-matcher-registration.spec.ts`, `03-routes.spec.ts`, `04-navigation.spec.ts` change line 1 from
 `import { expect, test } from '@playwright/test';` to `import { expect } from '@playwright/test';`
 and add `test` to the existing `./helpers` import on line 2, e.g.
 `import { assertPageHealthy, login, makeShotter, Role, test } from './helpers';`.
 
-- [ ] **Step 4: Install the e2e suite and seed fixtures against DDEV**
+- [x] **Step 4: Install the e2e suite and seed fixtures against DDEV**
 
 ```bash
 cd e2e && npm ci && npx playwright install chromium
 ddev exec php e2e/fixtures/seed.php
 ```
 
-- [ ] **Step 5: Run the baseline on master's asset build (Mix)**
+- [x] **Step 5: Run the baseline on master's asset build (Mix)**
 
 ```bash
 cd /home/paul/projects/Mentorship-matching-backend && npm run prod
@@ -127,7 +127,7 @@ Expected: PASS. If a page already raises a JS error on Mix, record the exact mes
 under "Baseline findings" and do not attribute it to the migration later. If the DDEV certificate blocks
 Playwright, add `ignoreHTTPSErrors: true` to `use` in `e2e/playwright.config.ts:17`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add e2e/tests/helpers.ts e2e/tests/02-matcher-registration.spec.ts e2e/tests/03-routes.spec.ts e2e/tests/04-navigation.spec.ts e2e/playwright.config.ts
@@ -139,7 +139,7 @@ git commit -m "test(e2e): fail page checks on JavaScript errors"
 ### Task 2: Vite config and module entries (Vite builds alongside Mix)
 
 **Files:**
-- Create: `vite.config.js`, `resources/assets/js/jquery-global.js`, `resources/assets/css/vendors.css`
+- Create: `vite.config.mjs`, `resources/assets/js/jquery-global.js`, `resources/assets/css/vendors.css`
 - Modify: `resources/assets/js/app.js` (rewrite), `resources/assets/js/auth.js` (rewrite), `resources/assets/js/iframe-contentWindow.js` (new), `resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js:1`
 - Modify: `resources/assets/js/controllers/{Companies,Mentees,Mentors,MentorshipSessions,Rating,Users}ListController.js:1-2`, `RatingController.js:1`
 - Modify: `package.json` (add deps, do not remove yet)
@@ -147,17 +147,23 @@ git commit -m "test(e2e): fail page checks on JavaScript errors"
 **Interfaces:**
 - Produces: six Vite inputs: `resources/assets/css/vendors.css`, `resources/assets/sass/app.scss`, `resources/assets/sass/auth.scss`, `resources/assets/js/app.js`, `resources/assets/js/auth.js`, `resources/assets/js/iframe-contentWindow.js`. Task 4 references these exact paths in `@vite()`.
 
-- [ ] **Step 1: Install Vite**
+- [x] **Step 1: Install Vite**
 
 ```bash
 npm install --save-dev vite@^8 laravel-vite-plugin@^3
 ```
 
-- [ ] **Step 2: Create `vite.config.js`**
+- [x] **Step 2: Create `vite.config.mjs`**
 
 ```js
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+
+// DDEV sets VITE_HMR_HOST to the project hostname (see .ddev/config.yaml). Its router
+// terminates TLS on port 5173 and forwards to the container, so the page (https) must
+// load dev assets over https and open the HMR socket over wss. Docker Compose maps
+// 5173 straight to localhost and needs none of this.
+const hmrHost = process.env.VITE_HMR_HOST;
 
 export default defineConfig({
     plugins: [
@@ -173,19 +179,36 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        // moment's package.json points `jsnext:main` at an ESM build and Vite follows
+        // it (webpack did not). The CommonJS `require('moment')` inside
+        // bootstrap-daterangepicker then receives a module namespace instead of the
+        // function. Resolve bare `moment` to its CommonJS entry, as before.
+        alias: [{ find: /^moment$/, replacement: 'moment/moment.js' }],
+    },
     server: {
         host: '0.0.0.0',
         port: 5173,
         strictPort: true,
-        // DDEV sets VITE_HMR_HOST to the project hostname (see .ddev/config.yaml);
-        // Docker Compose maps 5173 straight to localhost.
-        hmr: { host: process.env.VITE_HMR_HOST ?? 'localhost' },
+        ...(hmrHost
+            ? {
+                  hmr: { host: hmrHost, protocol: 'wss', clientPort: 5173 },
+                  allowedHosts: [hmrHost],
+                  cors: { origin: `https://${hmrHost}` },
+              }
+            : { hmr: { host: 'localhost' } }),
+    },
+    css: {
+        // The vendored theme and DataTables CSS carry IE-era `*property` hacks.
+        // LightningCSS (Vite's minifier) rejects them; recovery strips them,
+        // which is what every current browser does anyway.
+        lightningcss: { errorRecovery: true },
     },
     build: { sourcemap: true },
 });
 ```
 
-- [ ] **Step 3: Create `resources/assets/js/jquery-global.js`**
+- [x] **Step 3: Create `resources/assets/js/jquery-global.js`**
 
 ```js
 // Every entry imports this first. ESM evaluates imports in source order, so
@@ -196,7 +219,7 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 ```
 
-- [ ] **Step 4: Create `resources/assets/css/vendors.css`** (same order as `mix.styles` in `webpack.mix.js`)
+- [x] **Step 4: Create `resources/assets/css/vendors.css`** (same order as `mix.styles` in `webpack.mix.js`)
 
 ```css
 @import 'select2/dist/css/select2.min.css';
@@ -212,7 +235,7 @@ window.$ = window.jQuery = $;
 @import 'ion-rangeslider/css/ion.rangeSlider.min.css';
 ```
 
-- [ ] **Step 5: Rewrite `resources/assets/js/app.js`**
+- [x] **Step 5: Rewrite `resources/assets/js/app.js`**
 
 Replace the whole file. Import order = `libs.js` array order in `webpack.mix.js`, then the old `app.js` body, then the `controllers.js` array order.
 
@@ -221,20 +244,20 @@ import './jquery-global';
 import _ from 'lodash';
 import 'jquery-validation/dist/jquery.validate.min.js';
 import 'jquery-ui-dist/jquery-ui.min.js';
-import 'icheck/icheck.min.js';
+import 'icheck/icheck.js';  // .min assigns an undeclared `_determinate`; strict-mode ESM throws
 import 'chosen-js/chosen.jquery.js';
-import 'select2/dist/js/select2.min.js';
+import select2 from 'select2/dist/js/select2.min.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'velocity-animate/velocity.min.js';
 import 'moment';
 import 'toastr';
 import 'scrollmonitor/dist/module/index.js';
-import 'textarea-autosize/dist/textarea-autosize.js';
+import 'textarea-autosize';  // its exports map only exposes the package root
 import 'bootstrap-select/dist/js/bootstrap-select.min.js';
 import 'fastclick/lib/fastclick.js';
 import 'jasny-bootstrap/dist/js/jasny-bootstrap.min.js';
 import 'sweetalert/dist/sweetalert.min.js';
-import 'datatables/media/js/jquery.dataTables.min.js';
+import dataTables from 'datatables/media/js/jquery.dataTables.min.js';
 import '../pleasure-admin-panel/js/sliders.js';
 import { Layout } from '../pleasure-admin-panel/js/layout.js';
 import { Pleasure } from '../pleasure-admin-panel/js/pleasure.js';
@@ -263,6 +286,12 @@ import './controllers/UsersListController.js';
 
 window._ = _;
 window.Popper = Popper;
+
+// select2 and DataTables ship UMD wrappers that register the plugin from their
+// AMD branch. webpack honoured AMD; Vite does not, so their CommonJS export is a
+// function that has to be called with the jQuery instance to register.
+select2(window, window.jQuery);
+dataTables(window, window.jQuery);
 
 if (import.meta.env.VITE_SENTRY_DSN_PUBLIC) {
     Sentry.init({
@@ -298,7 +327,7 @@ $.ajaxSetup({
 });
 ```
 
-- [ ] **Step 6: Create `resources/assets/js/auth.js` and `resources/assets/js/iframe-contentWindow.js`**
+- [x] **Step 6: Create `resources/assets/js/auth.js` and `resources/assets/js/iframe-contentWindow.js`**
 
 `auth.js`:
 ```js
@@ -311,7 +340,7 @@ import './AuthPage.js';
 import 'iframe-resizer/js/iframeResizer.contentWindow.min.js';
 ```
 
-- [ ] **Step 7: Convert `require()` to `import` in first-party files**
+- [x] **Step 7: Convert `require()` to `import` in first-party files**
 
 In each of `CompaniesListController.js`, `MenteesListController.js`, `MentorsListController.js`,
 `MentorshipSessionsListController.js`, `UsersListController.js`, replace the first two lines
@@ -327,13 +356,27 @@ import toastr from 'toastr';
 (`MentorsListController.js` has only the `Pleasure` line.) In `RatingController.js` line 1:
 `const toastr = require('toastr');` → `import toastr from 'toastr';`.
 
-In `resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js` insert as line 1:
-```js
-import moment from 'moment';
-```
-(lines 46-62 call `moment()` bare; under Mix that resolved to nothing and the picker code path never ran in tests. The import makes it explicit.)
+`resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js` already has `import moment from "moment";` on line 1; leave it.
 
-- [ ] **Step 8: Verify no `require(` remains and the Vite build succeeds**
+In `resources/assets/pleasure-admin-panel/js/pleasure.js` lines 3-7 replace
+```js
+require('bootstrap');
+require('bootstrap-select');
+require('bootstrap-select');
+require('fastclick');
+require('velocity-animate');
+```
+with
+```js
+import 'bootstrap';
+import 'bootstrap-select';
+import 'fastclick';
+import 'velocity-animate';
+```
+(the duplicate `bootstrap-select` line is dropped). In `resources/assets/pleasure-admin-panel/js/layout.js` line 1:
+`const {Pleasure} = require("./pleasure");` → `import { Pleasure } from "./pleasure";`.
+
+- [x] **Step 8: Verify no `require(` remains and the Vite build succeeds**
 
 ```bash
 grep -rn "require(" resources/assets/js resources/assets/pleasure-admin-panel/js || echo "clean"
@@ -344,7 +387,7 @@ ls public/build/manifest.json && node -e "const m=require('./public/build/manife
 Expected: `clean`; build succeeds; the six entry keys print. Warnings about `../../globals/img/...` are
 expected (broken today, see spec Non-goals). Any other warning or error: stop and investigate.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add vite.config.js package.json package-lock.json resources/assets/js resources/assets/css resources/assets/pleasure-admin-panel/js/custom-forms-pickers.js
@@ -360,7 +403,7 @@ git commit -m "build: add Vite config and ESM entry points"
 - Modify: `resources/assets/pleasure-admin-panel/css/plugins.css:93`
 - Modify: `resources/assets/sass/app.scss:1050`
 
-- [ ] **Step 1: Rewrite the 13 absolute URLs**
+- [x] **Step 1: Rewrite the 13 absolute URLs**
 
 ```bash
 sed -i 's#url(/build/fontawesome/fonts/#url(../fontawesome/fonts/#g; s#url(/build/ionicons/fonts/#url(../ionicons/fonts/#g' resources/assets/pleasure-admin-panel/css/admin1.css
@@ -369,7 +412,7 @@ sed -i 's#url(/build/css/orange.png)#url(../../../node_modules/icheck/skins/flat
 grep -rn "url(/build/" resources/assets || echo "no absolute /build/ urls left"
 ```
 
-- [ ] **Step 2: Verify the fonts and images are emitted**
+- [x] **Step 2: Verify the fonts and images are emitted**
 
 ```bash
 npx vite build 2>&1 | grep -iE "error|fontawesome-webfont|ionicons\.(woff|ttf)|orange|chosen-sprite" | head
@@ -378,7 +421,12 @@ ls public/build/assets | grep -cE "fontawesome-webfont|ionicons|orange|chosen-sp
 
 Expected: no `error` line; at least 9 matching files (5 fontawesome formats, 4 ionicons formats, orange.png, chosen-sprite.png).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 2b: Drop the mid-file Google Fonts import**
+
+`admin1.css:40` is `@import url("http://fonts.googleapis.com/css?family=RobotoDraft:300,400,500");`. Delete the
+line. Browsers ignored it mid-file under Mix; Vite hoists it and the browser blocks it as mixed content.
+
+- [x] **Step 3: Commit**
 
 ```bash
 git add resources/assets/pleasure-admin-panel/css/admin1.css resources/assets/pleasure-admin-panel/css/plugins.css resources/assets/sass/app.scss
@@ -396,7 +444,7 @@ git commit -m "style: reference theme fonts and sprites relatively for Vite"
 - Modify: `resources/views/mentors/forms/create_edit.blade.php:601, 603`, `resources/views/mentees/forms/create_edit.blade.php:520, 522`
 - Modify: the 15 other views listed in Step 3
 
-- [ ] **Step 1: Replace the `mix()` calls**
+- [x] **Step 1: Replace the `mix()` calls**
 
 `header.blade.php` lines 13-14 →
 ```blade
@@ -410,13 +458,13 @@ git commit -m "style: reference theme fonts and sprites relatively for Vite"
 `mentors/forms/create_edit.blade.php:601` and `mentees/forms/create_edit.blade.php:520` →
 `@vite('resources/assets/js/iframe-contentWindow.js')` (keep surrounding indentation and any `@if`).
 
-- [ ] **Step 2: Verify no `mix(` remains**
+- [x] **Step 2: Verify no `mix(` remains**
 
 ```bash
 grep -rn "mix(" resources/views || echo "clean"
 ```
 
-- [ ] **Step 3: Add `type="module"` to the 17 inline scripts**
+- [x] **Step 3: Add `type="module"` to the 17 inline scripts**
 
 ```bash
 for f in \
@@ -442,7 +490,7 @@ done
 grep -rnE "<script\s*>" resources/views | grep -v create_edit_old || echo "all inline scripts are modules"
 ```
 
-- [ ] **Step 4: Build, clear compiled views, rename the local env var, run the gate**
+- [x] **Step 4: Build, clear compiled views, rename the local env var, run the gate**
 
 ```bash
 npx vite build 2>&1 | tail -3
@@ -454,7 +502,7 @@ cd e2e && E2E_BASE_URL=https://mentorship-matching-backend.ddev.site npx playwri
 Expected: PASS with zero new failures compared to the Task 1 baseline. A `$ is not defined` or
 `X is not a constructor` failure means an inline script or import order is wrong: fix it, do not skip.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add resources/views
@@ -469,14 +517,14 @@ git commit -m "feat(views): load assets through @vite and defer inline scripts"
 - Delete: `webpack.mix.js`
 - Modify: `package.json` (scripts, devDependencies, dependencies), `.gitignore:11-12, 19, 22`, `.env.example:43`, `.ddev/config.yaml:14`, `.github/workflows/ci.yml:34-37`
 
-- [ ] **Step 1: Remove Mix and unused packages**
+- [x] **Step 1: Remove Mix and unused packages**
 
 ```bash
 npm uninstall laravel-mix webpack sass-loader resolve-url-loader postcss vue vue-resource modernizr npm-modernizr
 git rm webpack.mix.js
 ```
 
-- [ ] **Step 2: Replace the scripts block in `package.json`**
+- [x] **Step 2: Replace the scripts block in `package.json`**
 
 ```json
   "scripts": {
@@ -488,16 +536,16 @@ git rm webpack.mix.js
 ```
 (`prod` is an alias for one release so external deploy scripts keep working.)
 
-- [ ] **Step 3: `.gitignore`**
+- [x] **Step 3: `.gitignore`**
 
 Remove the lines `/public/js`, `/public/css`, `public/fonts`, `public/mix-manifest.json`. Add `/public/hot`
 directly under `/public/build`.
 
-- [ ] **Step 4: `.env.example:43`**
+- [x] **Step 4: `.env.example:43`**
 
 `MIX_SENTRY_DSN_PUBLIC="${SENTRY_LARAVEL_DSN}"` → `VITE_SENTRY_DSN_PUBLIC="${SENTRY_LARAVEL_DSN}"`
 
-- [ ] **Step 5: `.ddev/config.yaml`**
+- [x] **Step 5: `.ddev/config.yaml`**
 
 Replace line 14 `web_environment: []` with:
 ```yaml
@@ -510,7 +558,7 @@ web_extra_exposed_ports:
       https_port: 5173
 ```
 
-- [ ] **Step 6: `.github/workflows/ci.yml:34-37`**
+- [x] **Step 6: `.github/workflows/ci.yml:34-37`**
 
 Replace
 ```yaml
@@ -527,7 +575,7 @@ with
               run: npm run build
 ```
 
-- [ ] **Step 7: Verify a clean install builds**
+- [x] **Step 7: Verify a clean install builds**
 
 ```bash
 rm -rf node_modules && npm ci && npm run build 2>&1 | tail -3
@@ -536,7 +584,7 @@ grep -cE "laravel-mix|webpack|\"vue\"|modernizr" package.json || echo "no Mix le
 
 Expected: build succeeds; `0` / "no Mix leftovers".
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add package.json package-lock.json .gitignore .env.example .ddev/config.yaml .github/workflows/ci.yml
@@ -550,7 +598,7 @@ git commit -m "build: remove Laravel Mix, wire Vite into CI and DDEV"
 **Files:**
 - Modify: `README.md:59, 78, 101, 205-211, 310`, `CLAUDE.md:24, 39-40, 89-94`, `e2e/README.md:26`
 
-- [ ] **Step 1: README.md**
+- [x] **Step 1: README.md**
 
 - Line 59: `ddev npm run prod` → `ddev npm run build`.
 - Line 78: `ddev npm run watch` → `ddev npm run dev          # Vite dev server with HMR on port 5173`.
@@ -564,7 +612,7 @@ git commit -m "build: remove Laravel Mix, wire Vite into CI and DDEV"
 - Lines 210-211 → `The app reads \`public/build/manifest.json\`, which is **not** committed. If you have not built the assets, every page fails with \`ViteManifestNotFoundException\`. Old \`public/js\`, \`public/css\`, \`public/fonts\` and \`public/mix-manifest.json\` from Laravel Mix can be deleted.`
 - Line 310: `**\`MixManifestNotFoundException\`**` → `**\`ViteManifestNotFoundException\`**`, and `npm run prod` → `npm run build`.
 
-- [ ] **Step 2: CLAUDE.md**
+- [x] **Step 2: CLAUDE.md**
 
 - Line 24: `ddev npm run prod` → `ddev npm run build`.
 - Lines 39-40 → `The app reads \`public/build/manifest.json\`, which is gitignored and built at deploy time — without \`npm run build\` every page fails with \`ViteManifestNotFoundException\`.`
@@ -576,9 +624,9 @@ git commit -m "build: remove Laravel Mix, wire Vite into CI and DDEV"
   ```
 - Line 94 onward: rewrite the paragraph to: `Asset pipeline is Vite (\`vite.config.js\`, \`laravel-vite-plugin\`). Entries: \`resources/assets/js/app.js\` (one ordered list of vendor and first-party imports; \`jquery-global.js\` puts jQuery on \`window\` first), \`auth.js\`, \`iframe-contentWindow.js\`, \`resources/assets/css/vendors.css\`, and the two Sass files. Inline Blade scripts are \`type="module"\` so they run after the bundles. There is no Vue/React app — this is jQuery-driven, page-scoped JS.`
 
-- [ ] **Step 3: e2e/README.md:26** — `npm run prod` → `npm run build`.
+- [x] **Step 3: e2e/README.md:26** — `npm run prod` → `npm run build`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add README.md CLAUDE.md e2e/README.md
@@ -589,7 +637,7 @@ git commit -m "docs: describe the Vite asset pipeline"
 
 ### Task 7: Final verification and PR
 
-- [ ] **Step 1: Full e2e run**
+- [x] **Step 1: Full e2e run**
 
 ```bash
 npm run build && ddev exec php artisan view:clear
@@ -597,14 +645,14 @@ cd e2e && E2E_BASE_URL=https://mentorship-matching-backend.ddev.site npx playwri
 ```
 Expected: PASS.
 
-- [ ] **Step 2: PHPUnit**
+- [x] **Step 2: PHPUnit**
 
 ```bash
 ddev exec vendor/bin/phpunit
 ```
 Expected: PASS.
 
-- [ ] **Step 3: Dev server under DDEV**
+- [x] **Step 3: Dev server under DDEV**
 
 ```bash
 ddev restart
@@ -615,13 +663,13 @@ assets from `https://mentorship-matching-backend.ddev.site:5173/`. Edit a colour
 `resources/assets/sass/_variables.scss`; the page updates without reload. Revert the edit. Stop the server.
 Then `npm run build` again so `public/hot` is removed and the built assets serve.
 
-- [ ] **Step 4: Manual smoke test (built assets)**
+- [x] **Step 4: Manual smoke test (built assets)** — done as a Playwright script; results in the Review section.
 
 Log in as `admin@jobpairs.test` / `password123`. Check: users list → open a modal; a mentor profile → switch tabs;
 mentor create form → daterangepicker opens, bootstrap-select opens, iCheck toggles; `/mentor/create?public=1`
 renders inside an iframe with the content-window resizer present (`window.parentIFrame` defined in console).
 
-- [ ] **Step 5: Push and open the PR**
+- [x] **Step 5: Push and open the PR**
 
 ```bash
 git push -u origin feat/vite
@@ -644,14 +692,51 @@ Local: rename `MIX_SENTRY_DSN_PUBLIC` to `VITE_SENTRY_DSN_PUBLIC` in `.env`; del
 EOF
 ```
 
-- [ ] **Step 6: Review section in `tasks/todo.md`**
+- [x] **Step 6: Review section in `tasks/todo.md`**
 
 Append a "Review" section: what was verified, baseline findings, anything left out.
 
 ## Baseline findings
 
-(filled in during Task 1 Step 5)
+Run on 2026-09-22 against the Mix build on DDEV (`E2E_BASE_URL=https://mentorship-matching-backend.ddev.site`):
+17 passed, 1 failed. No page raised a JavaScript error.
 
-## Review
+- `05-exports.spec.ts:18` "sessions export downloads a CSV without erroring" — the response `content-type`
+  does not contain `csv`. Server-side; unrelated to assets. Pre-existing on master.
 
-(filled in during Task 7)
+## Review (2026-09-22)
+
+**Verified**
+
+- `npm ci` from a clean `node_modules` installs 62 packages (Mix stack: ~860) and `npm run build` emits the
+  6 entries plus 13 hashed font/sprite files. No `laravel-mix`, `webpack`, `vue` or `modernizr` in the lock.
+- e2e against the Vite build on DDEV: 17 passed, 1 failed — the same pre-existing `05-exports` sessions CSV
+  failure as the Mix baseline. Zero JavaScript errors on any page, as enforced by the new gate.
+- PHPUnit inside DDEV: 35 tests, 143 assertions, OK.
+- Dev server under DDEV: hot file `https://mentorship-matching-backend.ddev.site:5173`, CORS header for the
+  page origin, 9 asset tags served from `:5173`, public routes pass in Chromium, `[vite] connected` logged.
+- Scripted smoke on built assets (admin login): 5 iCheck boxes on `/login`; `#deleteMentorModal` opens with
+  `.in` and closes; profile tab (`data-href="skills"`) activates and its pane is visible; daterangepicker
+  registered and initialised with a working `moment`; 1 select2 and 6 Chosen widgets on the forms; 2 range
+  sliders on `/mentors/all`; `selectpicker` registered (no view renders a `select.selecter`, so 0 widgets is
+  correct); the public mentor form loads `iframe-contentWindow`. Zero page errors.
+
+**Differences from the plan, all recorded in the spec's "Findings during implementation"**
+
+- `icheck` is imported unminified (the `.min` build breaks strict mode).
+- `select2` and DataTables are registered by an explicit call (Rolldown has no AMD).
+- `moment` is aliased to `moment/moment.js` (Vite follows `jsnext:main`, webpack did not).
+- `admin1.css:40` (`http://` Google Fonts import) is removed; it was ignored mid-file under Mix.
+- `textarea-autosize` is imported bare (its `exports` map); `css.lightningcss.errorRecovery` is on
+  (IE `*property` hacks in vendored CSS); the config is `vite.config.mjs`.
+- The DDEV dev server needs `hmr.protocol: 'wss'`, `allowedHosts` and `cors` for the page origin.
+- `pleasure.js` and `layout.js` also had `require()` calls (missed by the first scan); converted.
+
+**Left out on purpose**
+
+- `resources/views/mentors/forms/create_edit_old.blade.php` (dead) is untouched.
+- The `05-exports` sessions CSV failure is pre-existing and server-side.
+- `pleasure.js:350` calls `.textareaAutoSize()`, which the ESM build of `textarea-autosize` never
+  registers. The caller (`initAutoSizeTextarea`) is commented out at `pleasure.js:563`, so nothing runs it.
+- The smoke script lives in the session scratchpad, not the repo. Turning it into a sixth e2e spec is a
+  reasonable follow-up.

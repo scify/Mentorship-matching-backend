@@ -1,7 +1,7 @@
 # Vite migration — design
 
 Date: 2026-09-22
-Status: approved design, implementation not started
+Status: implemented on branch `feat/vite` (2026-09-22); see `tasks/todo.md` Review
 
 ## Goal
 
@@ -89,20 +89,20 @@ import './jquery-global';
 import _ from 'lodash'; window._ = _;                      // app.js:4 does this today
 import 'jquery-validation/dist/jquery.validate.min.js';
 import 'jquery-ui-dist/jquery-ui.min.js';
-import 'icheck/icheck.min.js';
+import 'icheck/icheck.js';  // .min assigns an undeclared `_determinate`; strict-mode ESM throws
 import 'chosen-js/chosen.jquery.js';
-import 'select2/dist/js/select2.min.js';
+import select2 from 'select2/dist/js/select2.min.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'velocity-animate/velocity.min.js';
 import moment from 'moment';                               // window.moment for daterangepicker
 import toastr from 'toastr';
 import 'scrollmonitor/dist/module/index.js';
-import 'textarea-autosize/dist/textarea-autosize.js';
+import 'textarea-autosize';  // its exports map only exposes the package root
 import 'bootstrap-select/dist/js/bootstrap-select.min.js';
 import 'fastclick/lib/fastclick.js';
 import 'jasny-bootstrap/dist/js/jasny-bootstrap.min.js';
 import 'sweetalert/dist/sweetalert.min.js';
-import 'datatables/media/js/jquery.dataTables.min.js';
+import dataTables from 'datatables/media/js/jquery.dataTables.min.js';
 import '../pleasure-admin-panel/js/sliders.js';
 import { Layout } from '../pleasure-admin-panel/js/layout.js';
 import { Pleasure } from '../pleasure-admin-panel/js/pleasure.js';
@@ -141,11 +141,17 @@ Other entries:
 Dropped: `mix.extract` (Vite splits shared chunks), `hashFunction: 'sha256'` (Rolldown is native, not
 wasm), `mix.autoload` (replaced by `jquery-global.js`), the `iframe.js` entry, all `mix.copy` calls.
 
-### 2. `vite.config.js`
+### 2. `vite.config.mjs`
 
 ```js
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+
+// DDEV sets VITE_HMR_HOST to the project hostname (see .ddev/config.yaml). Its router
+// terminates TLS on port 5173 and forwards to the container, so the page (https) must
+// load dev assets over https and open the HMR socket over wss. Docker Compose maps
+// 5173 straight to localhost and needs none of this.
+const hmrHost = process.env.VITE_HMR_HOST;
 
 export default defineConfig({
     plugins: [
@@ -161,18 +167,38 @@ export default defineConfig({
             refresh: ['resources/views/**'],
         }),
     ],
+    resolve: {
+        // moment's package.json points `jsnext:main` at an ESM build and Vite follows
+        // it (webpack did not). The CommonJS `require('moment')` inside
+        // bootstrap-daterangepicker then receives a module namespace instead of the
+        // function. Resolve bare `moment` to its CommonJS entry, as before.
+        alias: [{ find: /^moment$/, replacement: 'moment/moment.js' }],
+    },
     server: {
         host: '0.0.0.0',
         port: 5173,
         strictPort: true,
-        hmr: { host: process.env.VITE_HMR_HOST ?? 'localhost' },
+        ...(hmrHost
+            ? {
+                  hmr: { host: hmrHost, protocol: 'wss', clientPort: 5173 },
+                  allowedHosts: [hmrHost],
+                  cors: { origin: `https://${hmrHost}` },
+              }
+            : { hmr: { host: 'localhost' } }),
+    },
+    css: {
+        // The vendored theme and DataTables CSS carry IE-era `*property` hacks.
+        // LightningCSS (Vite's minifier) rejects them; recovery strips them,
+        // which is what every current browser does anyway.
+        lightningcss: { errorRecovery: true },
     },
     build: { sourcemap: true },
 });
 ```
 
-`VITE_HMR_HOST` lets DDEV set the router hostname (`mentorship-matching-backend.ddev.site`) while
-Docker Compose uses `localhost`. Sass compiles with the `sass` package already installed.
+`VITE_HMR_HOST` is set by DDEV (`web_environment`). When present, the hot-file URL becomes
+`https://<host>:5173`, HMR uses `wss`, the hostname is allowed, and CORS answers for the page origin —
+the DDEV router terminates TLS on 5173. Docker Compose leaves it unset and uses `localhost`. Sass compiles with the `sass` package already installed.
 
 ### 3. Static assets
 
@@ -250,6 +276,29 @@ Order matters. Step 1 happens before any Vite change so the baseline is known.
 
 Branch `feat/vite`, one PR. Mix and Vite do not coexist; the branch deletes Mix in its last commit.
 Merge blocks on the `npm` CI job (now `npm run build`) and on a green e2e run reported in the PR.
+
+## Findings during implementation
+
+- **ES modules are strict mode; Mix's concatenated scripts were not.** `icheck/icheck.min.js` assigns
+  `_determinate` without `var` (a minifier defect; `icheck.js` declares it). In strict mode that throws at
+  load, aborts the whole `app.js` module graph, and every later symptom (`iCheck is not a function`,
+  `SearchController is not defined`) follows. Fix: import the unminified `icheck/icheck.js`; Vite minifies
+  it anyway.
+- **Vite hoists CSS `@import` to the top of the bundle.** `admin1.css:40` imported
+  `http://fonts.googleapis.com/...RobotoDraft` mid-file. Browsers ignore mid-file `@import`, so under Mix
+  the font never loaded. Hoisted, the request is made and blocked as mixed content. The line is removed to
+  keep today's rendering (RobotoDraft was never applied).
+- **Rolldown has no AMD support.** select2 and DataTables use UMD wrappers that register the plugin in
+  the AMD branch. webpack took that branch; Rolldown falls through to CommonJS, where both export a
+  *registration function* and register nothing on load. `app.js` now calls `select2(window, window.jQuery)`
+  and `dataTables(window, window.jQuery)` explicitly. Symptom before the fix: `$(...).select2 is not a function`.
+- **Vite follows `jsnext:main`; webpack did not.** moment's package.json points it at an ESM build, so the
+  CommonJS `require('moment')` inside bootstrap-daterangepicker received a module namespace
+  (`moment is not a function`). A regex alias resolves bare `moment` to `moment/moment.js`.
+- `textarea-autosize` has an `exports` map that only exposes the package root; import it bare.
+- Vite 8 minifies CSS with LightningCSS, which rejects IE `*property` hacks in the theme and DataTables CSS.
+  `css.lightningcss.errorRecovery: true` strips them, which is what browsers do anyway.
+- The config file is `vite.config.mjs`, so Vite loads it as ESM without adding `"type": "module"`.
 
 ## Risks
 
