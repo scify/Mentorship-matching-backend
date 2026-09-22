@@ -10,7 +10,7 @@ preferences and skills.
 | Laravel | 13.x |
 | Node | 24 (see `.nvmrc`) |
 | Database | MySQL 8 / MariaDB 11 |
-| Assets | Laravel Mix (webpack) |
+| Assets | Vite |
 
 ## Table of Contents
 
@@ -56,7 +56,7 @@ provisions the right PHP, Node and database versions with no further setup.
 ddev start
 ddev composer install
 ddev npm install
-ddev npm run prod          # compile assets - without them every page 500s
+ddev npm run build         # compile assets - without them every page 500s
 ddev exec php artisan key:generate
 ddev exec php artisan migrate --seed
 ```
@@ -75,7 +75,7 @@ Run any backend command through DDEV:
 ```bash
 ddev exec php artisan migrate
 ddev composer install
-ddev npm run watch
+ddev npm run dev           # Vite dev server with HMR on port 5173
 ddev ssh                   # shell inside the web container
 ```
 
@@ -98,7 +98,7 @@ Then enter the container to run `php artisan`, `composer` and `npm` commands:
 ```bash
 docker exec -it mentorship_matching_platform_server bash
 composer install
-npm install && npm run prod
+npm install && npm run build
 php artisan key:generate
 php artisan migrate --seed
 ```
@@ -202,13 +202,14 @@ php artisan migrate:fresh --seed
 When in project root directory, run
 
 ```bash
-npm run dev      # development build
-npm run watch    # rebuild on change
-npm run prod     # production build
+npm run dev      # Vite dev server with HMR (port 5173)
+npm run watch    # rebuild on change, no dev server
+npm run build    # production build
 ```
 
-The app reads `public/mix-manifest.json`, which is **not** committed. If you have not built the assets, every
-page fails with `MixManifestNotFoundException`.
+The app reads `public/build/manifest.json`, which is **not** committed. If you have not built the assets, every
+page fails with `ViteManifestNotFoundException`. Leftover `public/js`, `public/css`, `public/fonts` and
+`public/mix-manifest.json` from Laravel Mix can be deleted.
 
 ## Testing
 
@@ -307,7 +308,7 @@ database; make sure those accounts do not exist with that password anywhere publ
 
 ## Troubleshooting
 
-**`MixManifestNotFoundException`** — the frontend assets have not been built. Run `npm install && npm run prod`.
+**`ViteManifestNotFoundException`** — the frontend assets have not been built. Run `npm install && npm run build`.
 
 **`fopen(...storage/framework/cache/...): Failed to open stream: No such file or directory`** — the cache
 directory is not writable by the user running PHP, and Laravel reports the failed `mkdir` as a missing file.
