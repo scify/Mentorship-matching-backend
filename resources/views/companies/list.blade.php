@@ -9,7 +9,7 @@
 </div>
 @include('companies.modals')
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
             var controller = new window.CompaniesListController();
             controller.init();

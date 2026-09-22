@@ -10,6 +10,5 @@
     <link rel="shortcut icon" href="{{asset("/assets/img/favicon.ico")}}" type="image/x-icon">
     <link rel="icon" href="{{asset("/assets/img/favicon.ico")}}" type="image/x-icon">
 
-    <link rel="stylesheet" href="{{mix('css/vendors.css')}}">
-    <link rel="stylesheet" href="{{mix('css/app.css')}}">
+    @vite(['resources/assets/css/vendors.css', 'resources/assets/sass/app.scss'])
 </head>

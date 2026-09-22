@@ -4,7 +4,7 @@
     @include('reports.exports')
 @endsection
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
         });
     </script>

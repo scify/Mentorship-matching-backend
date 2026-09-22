@@ -163,7 +163,7 @@
     @endif
 @endsection
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
             var controller = new window.TabsHandler();
             controller.init(".profilePage");

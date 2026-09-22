@@ -8,7 +8,7 @@
 @endsection
 
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
             var controller = new window.MenteesListController();
             controller.init("{{Route::currentRouteName()}}");

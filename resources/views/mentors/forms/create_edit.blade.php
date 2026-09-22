@@ -598,9 +598,9 @@
 @endsection
 @section('additionalFooter')
     @if($publicForm)
-        <script src="{{mix('js/iframe-contentWindow.js')}}"></script>
+        @vite('resources/assets/js/iframe-contentWindow.js')
     @endif
-    <script>
+    <script type="module">
         $(document).ready(function () {
             var controller = new FormController();
             controller.init();

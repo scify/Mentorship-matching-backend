@@ -100,7 +100,7 @@
     </div>
 @endsection
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
             var controller = new FormController();
             controller.init();

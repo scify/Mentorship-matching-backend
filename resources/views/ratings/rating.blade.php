@@ -73,7 +73,7 @@
 @endsection
 
 @section('additionalFooter')
-    <script>
+    <script type="module">
         (function() {
             var ratingController = new window.RatingController();
             ratingController.init();
