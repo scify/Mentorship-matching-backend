@@ -18,7 +18,8 @@ export const test = base.extend({
     page.on('pageerror', (err) => {
       // Keep the top two frames: enough to name the file and line without flooding the report.
       const frames = (err.stack ?? '').split('\n').slice(1, 3).map((l) => l.trim()).join(' <- ');
-      errors.push(`pageerror: ${err.message}${frames ? ` (${frames})` : ''}`);
+      const where = frames ? ` (${frames})` : '';
+      errors.push(`pageerror: ${err.message}${where}`);
     });
     page.on('console', (msg) => {
       if (msg.type() === 'error' && !msg.text().startsWith('Failed to load resource')) {

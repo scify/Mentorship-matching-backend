@@ -1,5 +1,4 @@
 import './jquery-global';
-import _ from 'lodash';
 import 'jquery-validation/dist/jquery.validate.min.js';
 import 'jquery-ui-dist/jquery-ui.min.js';
 import 'icheck/icheck.js';  // the .min build assigns an undeclared variable, which throws in strict-mode ESM
@@ -42,7 +41,6 @@ import './controllers/UserFormController.js';
 import './controllers/UserProfileController.js';
 import './controllers/UsersListController.js';
 
-window._ = _;
 window.Popper = Popper;
 
 // select2 and DataTables ship UMD wrappers that register the plugin from their
