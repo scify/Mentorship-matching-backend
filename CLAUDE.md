@@ -21,7 +21,7 @@ DB and mail settings in `.env` to match its own services. Prefix commands:
 ```bash
 ddev exec php artisan migrate
 ddev composer install
-ddev npm run prod
+ddev npm run build
 ```
 
 **Docker Compose** (`docker-compose.yml`) — a `php` service (app code mounted at `/var/www`), `nginx`
@@ -36,8 +36,8 @@ docker exec -it mentorship_matching_platform_server bash
 All `php artisan`, `composer`, and `npm` commands below are meant to be run inside whichever stack is
 up (or an equivalent local PHP 8.3+/Node 24 environment — see `.nvmrc`).
 
-The app reads `public/mix-manifest.json`, which is gitignored and built at deploy time — without
-`npm run prod` every page fails with `MixManifestNotFoundException`.
+The app reads `public/build/manifest.json`, which is gitignored and built at deploy time — without
+`npm run build` every page fails with `ViteManifestNotFoundException`.
 
 ### PHP / Laravel
 
@@ -86,15 +86,18 @@ registered) and honours `E2E_BASE_URL` (default `http://localhost:89`); see `e2e
 
 ```bash
 npm install
-npm run dev     # compile assets for development (Laravel Mix / webpack 5)
-npm run watch   # recompile on change
-npm run prod    # production build
+npm run dev     # Vite dev server with HMR on port 5173
+npm run watch   # rebuild on change without the dev server
+npm run build   # production build
 ```
 
-Asset pipeline is Laravel Mix (`webpack.mix.js`), compiling Sass (`resources/assets/sass`) and a large
-set of vendored JS libraries (jQuery, Select2, DataTables, Chosen, bootstrap-select, icheck, etc.)
-plus first-party page scripts under `resources/assets/js`. There is no Vue/React app despite `vue`
-being present in `package.json` — this is jQuery-driven, page-scoped JS, not a component framework.
+Asset pipeline is Vite (`vite.config.mjs`, `laravel-vite-plugin`). Entries: `resources/assets/js/app.js`
+(one ordered list of vendor and first-party imports — `jquery-global.js` puts jQuery on `window` first,
+then Bootstrap 3, Select2, DataTables, Chosen, bootstrap-select, icheck, the theme scripts, and the
+page controllers), `auth.js`, `iframe-contentWindow.js`, `resources/assets/css/vendors.css`, and the
+two Sass files under `resources/assets/sass`. Blade loads them with `@vite`; inline Blade scripts are
+`type="module"` so they run after the bundles. There is no Vue/React app — this is jQuery-driven,
+page-scoped JS, not a component framework.
 
 ### Artisan commands specific to this app
 

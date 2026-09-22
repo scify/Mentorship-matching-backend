@@ -1,6 +1,33 @@
-import { expect, Page } from '@playwright/test';
+import { expect, Page, test as base } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
+
+/**
+ * JavaScript errors per page, collected from the moment the page is created.
+ * Registering the listeners inside the fixture (not inside a helper called
+ * after `goto`) is what makes load-time errors such as `$ is not defined`
+ * visible. Resource 404s are console errors too, but they are not JS
+ * failures, so they are filtered out.
+ */
+const jsErrors = new WeakMap<Page, string[]>();
+
+export const test = base.extend({
+  page: async ({ page }, use) => {
+    const errors: string[] = [];
+    jsErrors.set(page, errors);
+    page.on('pageerror', (err) => {
+      // Keep the top two frames: enough to name the file and line without flooding the report.
+      const frames = (err.stack ?? '').split('\n').slice(1, 3).map((l) => l.trim()).join(' <- ');
+      errors.push(`pageerror: ${err.message}${frames ? ` (${frames})` : ''}`);
+    });
+    page.on('console', (msg) => {
+      if (msg.type() === 'error' && !msg.text().startsWith('Failed to load resource')) {
+        errors.push(`console.error: ${msg.text()}`);
+      }
+    });
+    await use(page);
+  },
+});
 
 export const SHOTS_DIR = path.join(__dirname, '..', 'screenshots');
 
@@ -66,8 +93,9 @@ export async function logout(page: Page) {
 }
 
 /**
- * A page is "broken" if the server 5xx'd or Laravel rendered its exception
- * page. Checking only the status code misses errors swallowed into a 200.
+ * A page is "broken" if the server 5xx'd, Laravel rendered its exception
+ * page, or the browser logged a JavaScript error while loading it. Checking
+ * only the status code misses errors swallowed into a 200.
  */
 export async function assertPageHealthy(page: Page, status: number | undefined, where: string) {
   expect(status, `${where} returned HTTP ${status}`).toBeLessThan(500);
@@ -82,6 +110,10 @@ export async function assertPageHealthy(page: Page, status: number | undefined, 
   for (const marker of markers) {
     expect(body.includes(marker), `${where} rendered an error page (matched "${marker}")`).toBe(false);
   }
+  const errors = jsErrors.get(page) ?? [];
+  const seen = [...errors];
+  errors.length = 0;
+  expect(seen, `${where} raised JavaScript errors:\n${seen.join('\n')}`).toEqual([]);
 }
 
 /**

@@ -23,7 +23,7 @@ The stack must be up and the assets built:
 
 ```bash
 docker compose up -d
-docker exec mentorship_matching_platform_server bash -c "cd /var/www && composer install && npm install && npm run prod"
+docker exec mentorship_matching_platform_server bash -c "cd /var/www && composer install && npm install && npm run build"
 docker exec mentorship_matching_platform_server php artisan migrate:fresh --seed --force
 ```
 

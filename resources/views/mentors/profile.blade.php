@@ -320,7 +320,7 @@
     @include('mentorship_session.modals.show', ['isCreatingNewSession' => false])
 @endsection
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
             var tabsHandler = new window.TabsHandler();
             tabsHandler.init(".profilePage");

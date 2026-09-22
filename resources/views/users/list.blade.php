@@ -10,7 +10,7 @@
 </div>
 @include('users.modals')
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
             var controller = new window.UsersListController();
             controller.init();

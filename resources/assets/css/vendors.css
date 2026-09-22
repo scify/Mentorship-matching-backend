@@ -1,0 +1,11 @@
+@import 'select2/dist/css/select2.min.css';
+@import 'jasny-bootstrap/dist/css/jasny-bootstrap.min.css';
+@import 'bootstrap-select/dist/css/bootstrap-select.min.css';
+@import 'datatables/media/css/jquery.dataTables.min.css';
+@import 'chosen-js/chosen.css';
+@import 'icheck/skins/flat/_all.css';
+@import 'bootstrap-daterangepicker/daterangepicker.css';
+@import '../pleasure-admin-panel/css/admin1.css';
+@import '../pleasure-admin-panel/css/elements.css';
+@import '../pleasure-admin-panel/css/plugins.css';
+@import 'ion-rangeslider/css/ion.rangeSlider.min.css';

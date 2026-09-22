@@ -1,10 +1,9 @@
 import FastClick from 'fastclick';
 
-require('bootstrap');
-require('bootstrap-select');
-require('bootstrap-select');
-require('fastclick');
-require('velocity-animate');
+import 'bootstrap';
+import 'bootstrap-select';
+import 'fastclick';
+import 'velocity-animate';
 export const Pleasure = {
 
     // Pleasure Theme Settings

@@ -134,7 +134,7 @@
     </div>
 @endsection
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $(document).ready(function () {
             $("input[type='checkbox'], input[type='radio']").iCheck({
                 checkboxClass: 'icheckbox_flat-orange',

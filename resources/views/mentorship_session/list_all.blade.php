@@ -13,7 +13,7 @@
 
 
 @section('additionalFooter')
-    <script>
+    <script type="module">
         $( document ).ready(function() {
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();
             mentorshipSessionsListController.init("#mentorship_session_list");

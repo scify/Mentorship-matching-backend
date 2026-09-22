@@ -2,7 +2,7 @@
 <html>
 <!-- Header -->
 @include('common.header.header')
-<link rel="stylesheet" href="{{mix('css/auth.css')}}">
+@vite('resources/assets/sass/auth.scss')
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
 <div class="content-wrapper">
     <!-- Main content -->
@@ -39,7 +39,7 @@
 
     </div>
 </div>
-<script src="{{mix('js/auth.js')}}"></script>
+@vite('resources/assets/js/auth.js')
 @include('common.footer')
 </body>
 </html>

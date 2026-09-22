@@ -1,31 +1,60 @@
-const {Pleasure} = require("../pleasure-admin-panel/js/pleasure");
-const {Layout} = require("../pleasure-admin-panel/js/layout");
-const {CustomFormsPickers} = require("../pleasure-admin-panel/js/custom-forms-pickers");
-window._ = require('lodash');
-let $ = require("jquery");
-require('icheck');
-require('bootstrap');
-require('bootstrap-select');
+import './jquery-global';
+import _ from 'lodash';
+import 'jquery-validation/dist/jquery.validate.min.js';
+import 'jquery-ui-dist/jquery-ui.min.js';
+import 'icheck/icheck.js';  // the .min build assigns an undeclared variable, which throws in strict-mode ESM
+import 'chosen-js/chosen.jquery.js';
+import select2 from 'select2/dist/js/select2.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'velocity-animate/velocity.min.js';
+import 'moment';
+import 'toastr';
+import 'scrollmonitor/dist/module/index.js';
+import 'textarea-autosize';
+import 'bootstrap-select/dist/js/bootstrap-select.min.js';
+import 'fastclick/lib/fastclick.js';
+import 'jasny-bootstrap/dist/js/jasny-bootstrap.min.js';
+import 'sweetalert/dist/sweetalert.min.js';
+import dataTables from 'datatables/media/js/jquery.dataTables.min.js';
+import '../pleasure-admin-panel/js/sliders.js';
+import { Layout } from '../pleasure-admin-panel/js/layout.js';
+import { Pleasure } from '../pleasure-admin-panel/js/pleasure.js';
+import 'bootstrap-daterangepicker/daterangepicker.js';
+import { CustomFormsPickers } from '../pleasure-admin-panel/js/custom-forms-pickers.js';
+import './FormController.js';
+import './AvailabilityStatusChangeViewHandler.js';
+import 'ion-rangeslider/js/ion.rangeSlider.min.js';
+import './MentorsAndMenteesListsCssCorrector.js';
+import './TabsHandler.js';
+import './UniversityHandler.js';
+import './ResidenceHandler.js';
+import './ReferenceHandler.js';
+import Popper from 'popper.js';
+import * as Sentry from '@sentry/browser';
+import './controllers/CompaniesListController.js';
+import './controllers/MatchingController.js';
+import './controllers/MenteesListController.js';
+import './controllers/MentorshipSessionsListController.js';
+import './controllers/MentorsListController.js';
+import './controllers/RatingController.js';
+import './controllers/SearchController.js';
+import './controllers/UserFormController.js';
+import './controllers/UserProfileController.js';
+import './controllers/UsersListController.js';
 
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
+window._ = _;
+window.Popper = Popper;
 
-import * as Sentry from "@sentry/browser";
+// select2 and DataTables ship UMD wrappers that register the plugin from their
+// AMD branch. webpack honoured AMD; Vite does not, so their CommonJS export is a
+// function that has to be called with the jQuery instance to register.
+select2(window, window.jQuery);
+dataTables(window, window.jQuery);
 
-if (process.env.MIX_SENTRY_DSN_PUBLIC) {
+if (import.meta.env.VITE_SENTRY_DSN_PUBLIC) {
     Sentry.init({
-        dsn: process.env.MIX_SENTRY_DSN_PUBLIC,
+        dsn: import.meta.env.VITE_SENTRY_DSN_PUBLIC,
     });
-}
-
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = $ = require('jquery');
-} catch (e) {
-    console.error(e);
 }
 
 $(document).ready(function () {

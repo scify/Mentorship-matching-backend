@@ -1,5 +1,5 @@
-import { expect, test } from '@playwright/test';
-import { assertPageHealthy, login, logout, makeShotter, RUN_ID, setMultiSelect } from './helpers';
+import { expect } from '@playwright/test';
+import { assertPageHealthy, login, logout, makeShotter, RUN_ID, setMultiSelect, test } from './helpers';
 
 const shot = makeShotter('02-matcher');
 

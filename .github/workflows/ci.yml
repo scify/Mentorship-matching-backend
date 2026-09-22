@@ -31,10 +31,10 @@ jobs:
             - name: Install npm dependencies
               run: npm ci
 
-            # laravel-mix 6 depends on webpack internals; a webpack bump can pass
-            # npm ci and still break the build. Assets are built at deploy time.
+            # Assets are built at deploy time; this catches a build that npm ci
+            # alone would not.
             - name: Build assets
-              run: npm run prod
+              run: npm run build
 
     larastan:
         runs-on: ubuntu-latest
