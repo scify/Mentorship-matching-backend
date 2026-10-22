@@ -79,7 +79,7 @@ registered) and honours `E2E_BASE_URL` (default `https://mentorship-matching-bac
 ### Frontend assets
 
 ```bash
-npm install
+npm ci          # exact lockfile install (.npmrc: ignore-scripts, engine-strict, min-release-age=7)
 npm run dev     # Vite dev server with HMR on port 5173
 npm run watch   # rebuild on change without the dev server
 npm run build   # production build
@@ -92,6 +92,11 @@ page controllers), `auth.js`, `iframe-contentWindow.js`, `resources/assets/css/v
 two Sass files under `resources/assets/sass`. Blade loads them with `@vite`; inline Blade scripts are
 `type="module"` so they run after the bundles. There is no Vue/React app — this is jQuery-driven,
 page-scoped JS, not a component framework.
+
+Bootstrap stays at 3.4.1 (no patched 3.x release; `npm audit` reports one moderate finding). Its advisories
+affect the button `data-loading-text` attribute and the tooltip/popover plugins, which no view uses today, but
+`pleasure.js` binds tooltips and popovers to `[data-toggle="tooltip"|"popover"]`. Never put user data in those
+attributes or in `data-loading-text`. See README "Known npm advisories".
 
 ### Artisan commands specific to this app
 
