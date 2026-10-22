@@ -56,13 +56,17 @@ vendor/bin/phpunit --filter testMethodName  # run a single test
 vendor/bin/phpunit tests/ExampleTest.php    # run a single test file
 ```
 
-`phpunit.xml` points the test suite at `./tests` and forces `APP_ENV=testing`, `CACHE_DRIVER=array`,
-`SESSION_DRIVER=array`, `QUEUE_DRIVER=sync`. The suite talks to the database configured in `.env`, so
-run it inside whichever stack is up (e.g. `ddev exec vendor/bin/phpunit`) against a **migrated and
-seeded development database** — feature tests roll back their fixtures via `DatabaseTransactions`,
-but never point them at production. It covers:
+`phpunit.xml` points the test suite at `./tests` and sets (as `<server>` lines) `APP_ENV=testing`,
+`DB_CONNECTION=mysql`, `DB_DATABASE=testing`, array cache/session/mail and an empty Sentry DSN. The
+suite runs on a dedicated MariaDB database `testing` (the DDEV post-start hook creates it; CI names its
+service database the same). Feature tests use `RefreshDatabase`, and `TestCase::$seed = true` seeds the
+lookup tables. `TestCase` refuses any database except `testing` and refuses a cached config — never
+weaken these guards, because `RefreshDatabase` wipes the database it runs on. Run it with
+`ddev exec env COLUMNS=120 vendor/bin/phpunit`. SQLite does not work: migration
+`2017_03_22_152036` drops a primary key column, and the filter SQL is MySQL-only. It covers:
 
-- `tests/Unit/` — pure tests, no DB (the session status id contract and its active/completed/cancelled buckets).
+- `tests/Unit/` — no fixtures: the session status id contract and its active/completed/cancelled buckets, and
+  the test-database and config-cache guards (`*GuardTest`, which boot the app and must stay in the suite).
 - `tests/Feature/MentorshipSessionLifecycleTest` — characterization tests for the session state machine:
   creation paths, the accept/decline email-link flows, cancellation side effects on mentor/mentee
   availability, the fourth-meeting → evaluation auto-advance, and which notification goes to whom.

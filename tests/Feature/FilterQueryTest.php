@@ -3,7 +3,7 @@
 use App\BusinessLogicLayer\managers\MenteeManager;
 use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Schema;
 class FilterQueryTest extends TestCase
 {
     use CreatesMatchingFixtures;
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     /** @var array<array{sql: string, bindings: array}> */
     private array $queryLog = [];

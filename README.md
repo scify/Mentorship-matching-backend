@@ -234,11 +234,16 @@ docker exec mentorship_matching_platform_server bash -c "cd /var/www && vendor/b
 
 ### PHPUnit
 
-`phpunit.xml` forces `APP_ENV=testing` with array cache/session drivers, but the database connection is
-whatever `.env` points at. Feature tests wrap themselves in `DatabaseTransactions`, so their fixtures roll
-back and the suite is safe to re-run against a **migrated and seeded development database** — never point
-it at production. The seeded lookup tables (references, residences, statuses, ...) are a prerequisite;
-tests fail fast with a pointer to `php artisan db:seed` when they are missing.
+The suite runs on a dedicated MariaDB/MySQL database named `testing`, never on the development database.
+`phpunit.xml` sets `DB_DATABASE=testing` (host and credentials still come from `.env`), and `TestCase`
+refuses any other database and a cached config. Feature tests use `RefreshDatabase`: each run migrates
+`testing` fresh and seeds the lookup tables (references, residences, statuses, ...).
+
+The DDEV post-start hook creates the `testing` database. With Docker Compose, create it once:
+
+```bash
+docker exec -it mentorship_matching_platform_db mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS testing; GRANT ALL PRIVILEGES ON testing.* TO '<DB_USERNAME>'@'%';"
+```
 
 ```bash
 ddev exec vendor/bin/phpunit --filter testMethodName        # a single test
