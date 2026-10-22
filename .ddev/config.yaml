@@ -26,6 +26,21 @@ hooks:
         # PHPUnit runs on its own database; the TestCase guard refuses `db`.
         - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS testing; GRANT ALL PRIVILEGES ON testing.* TO 'db'@'%';"
           service: db
+        # Create directories if they don't exist
+        - exec: mkdir -p storage/framework/{cache,sessions,views} storage/logs bootstrap/cache
+        # Set permissions
+        - exec: chmod -R ugo+rw storage bootstrap/cache
+        # composer setup is safe to re-run: it keeps .env and APP_KEY, installs exactly the
+        # lock files (npm ci only when package-lock.json changed) and builds the frontend.
+        - exec: composer setup --no-interaction
+        # Clear caches
+        - exec: php artisan config:clear
+        - exec: php artisan cache:clear
+        - exec: php artisan view:clear
+        # Only pending migrations: never fresh, never seed.
+        - exec: php artisan migrate --no-interaction
+    post-import-db:
+        - exec: php artisan migrate --no-interaction
 
 # Key features of DDEV's config.yaml:
 

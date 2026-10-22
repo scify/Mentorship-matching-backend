@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+## Description: Run the tests with a coverage report in coverage/ (turns Xdebug on for the run)
+## Usage: coverage
+## Example: "ddev coverage"
+
+# Remember whether Xdebug was on, so that the run leaves it as it was, also when the tests fail.
+was_enabled=false
+ddev xdebug status 2>/dev/null | grep -q 'xdebug enabled' && was_enabled=true
+
+# Without a terminal, DDEV passes COLUMNS=0 and the coverage summary fails to render.
+columns=$(tput cols 2>/dev/null)
+[ "${columns:-0}" -gt 0 ] 2>/dev/null || columns=120
+
+ddev xdebug on >/dev/null
+ddev exec env COLUMNS="$columns" composer test:coverage
+status=$?
+[ "$was_enabled" = true ] || ddev xdebug off >/dev/null
+
+exit $status

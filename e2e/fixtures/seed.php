@@ -1,11 +1,11 @@
 <?php
 /**
- * Seeds the minimum reference data the end-to-end suite needs on top of
- * `php artisan migrate:fresh --seed`:
+ * Seeds the minimum reference data the end-to-end suite needs on top of a
+ * migrated and seeded database:
  *   - a company (the public mentor form requires a non-empty company list)
  *   - one backoffice user per role, all with the password below
  *
- * Run: docker exec mentorship_matching_platform_server php /var/www/e2e/fixtures/seed.php
+ * Run: ddev exec php e2e/fixtures/seed.php (or `npm run seed` in e2e/)
  */
 
 require __DIR__ . '/../../vendor/autoload.php';

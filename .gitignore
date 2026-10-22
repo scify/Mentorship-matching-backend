@@ -19,3 +19,4 @@ public/vendor
 public/.well-known/
 *.bak
 .phpunit.result.cache
+/coverage

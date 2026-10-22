@@ -3,8 +3,8 @@ import laravel from 'laravel-vite-plugin';
 
 // DDEV sets VITE_HMR_HOST to the project hostname (see .ddev/config.yaml). Its router
 // terminates TLS on port 5173 and forwards to the container, so the page (https) must
-// load dev assets over https and open the HMR socket over wss. Docker Compose maps
-// 5173 straight to localhost and needs none of this.
+// load dev assets over https and open the HMR socket over wss. Without VITE_HMR_HOST
+// (Vite run outside DDEV) none of this applies.
 const hmrHost = process.env.VITE_HMR_HOST;
 
 export default defineConfig({

@@ -1,6 +1,6 @@
 # End-to-end suite
 
-Playwright tests that drive the running Docker stack through a real browser.
+Playwright tests that drive the running DDEV site through a real browser.
 They exist because the PHP side has effectively no automated coverage, so the
 only way to know a framework upgrade did not break a screen is to open it.
 
@@ -19,12 +19,14 @@ page — a 200 that happens to contain a stack trace is still a failure.
 
 ## Running
 
-The stack must be up and the assets built:
+DDEV must be up (`ddev start` installs the dependencies, builds the assets and runs
+the migrations). The suite writes to the DDEV database `db`: it registers mentors
+and mentees, and `npm run seed` adds fixture users and removes the rows of earlier
+runs. Take a snapshot first if you want to keep your data:
 
 ```bash
-docker compose up -d
-docker exec mentorship_matching_platform_server bash -c "cd /var/www && composer install && npm install && npm run build"
-docker exec mentorship_matching_platform_server php artisan migrate:fresh --seed --force
+ddev snapshot --name before-e2e      # restore with: ddev snapshot restore before-e2e
+ddev exec php artisan db:seed        # only on an empty database: the lookup tables
 ```
 
 Then seed the fixtures the suite needs (a company plus one user per role) and run:
@@ -42,11 +44,9 @@ than duplicating them.
 
 ### Notes
 
-- The suite talks to `http://localhost:89` (the `nginx` service). Override with
+- The suite talks to `https://mentorship-matching-backend.ddev.site`. Override with
   `E2E_BASE_URL`.
-- Emails are sent on registration, so the `mailhog` service must be running and
-  `MAIL_HOST` must be `mailhog` — not `localhost`, which resolves to the PHP
-  container itself.
+- Emails are sent on registration. DDEV catches them in Mailpit (`ddev mailpit`).
 - Set `DEBUGBAR_ENABLED=false` in `.env`. The debugbar overlay intercepts clicks
   and appears in every screenshot.
 - Screenshots land in `e2e/screenshots/`, numbered in capture order
