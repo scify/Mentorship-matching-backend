@@ -21,6 +21,7 @@ preferences and skills.
   - [Setup the Database](#setup-the-database)
     - [Add seed data to DB](#add-seed-data-to-db)
   - [Compiling assets](#compiling-assets)
+    - [Known npm advisories: Bootstrap 3](#known-npm-advisories-bootstrap-3)
   - [Testing](#testing)
     - [PHPUnit](#phpunit)
     - [Filter query regression check](#filter-query-regression-check)
@@ -102,6 +103,22 @@ ddev npm run build    # production build
 The app reads `public/build/manifest.json`, which is **not** committed. If you have not built the assets, every
 page fails with `ViteManifestNotFoundException`. Leftover `public/js`, `public/css`, `public/fonts` and
 `public/mix-manifest.json` from Laravel Mix can be deleted.
+
+### Known npm advisories: Bootstrap 3
+
+`npm audit` reports one moderate finding: `bootstrap` 3.4.1, the last Bootstrap 3 release, with no patched
+version. The markup and the Pleasure admin theme are Bootstrap 3, so an upgrade to Bootstrap 5 rewrites every
+view. The two advisories affect plugins that no page uses today:
+
+- [GHSA-vxmc-5x29-h64v](https://github.com/advisories/GHSA-vxmc-5x29-h64v): the button plugin's
+  `data-loading-text` attribute.
+- [GHSA-q58r-hwc8-rm9j](https://github.com/advisories/GHSA-q58r-hwc8-rm9j): the tooltip and popover plugins.
+
+The code still activates these plugins on three selectors: `pleasure.js` binds tooltips and popovers to
+`[data-toggle="tooltip"]` and `[data-toggle="popover"]` and the loading button to `.demo-btn-loading`, and
+`app.js` binds a tooltip to `[id^=tooltip-]`. Do not put user data in the `title`, `data-*` or
+`data-loading-text` attributes of elements that match these selectors.
+`bootstrap-sass` ships the same 3.4.1 JavaScript, so importing it instead only hides the warning.
 
 ## Testing
 

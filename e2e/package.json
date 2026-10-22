@@ -2,6 +2,10 @@
   "name": "jobpairs-e2e",
   "private": true,
   "description": "Playwright end-to-end suite for the JobPairs backoffice",
+  "engines": {
+    "node": "^22.23.4 || ^24.22.1 || ^26.12.1",
+    "npm": ">=11.19.1"
+  },
   "scripts": {
     "seed": "ddev exec php e2e/fixtures/seed.php",
     "test": "playwright test",

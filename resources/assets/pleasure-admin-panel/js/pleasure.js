@@ -1,4 +1,5 @@
-import FastClick from 'fastclick';
+// The CommonJS module exports FastClick.attach itself, not the FastClick class.
+import attachFastClick from 'fastclick';
 
 import 'bootstrap';
 import 'bootstrap-select';
@@ -273,7 +274,7 @@ export const Pleasure = {
 
     handleFastClick: function () {
         window.addEventListener('load', function () {
-            FastClick.attach(document.body);
+            attachFastClick(document.body);
         }, false);
     },
 
