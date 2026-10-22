@@ -52,7 +52,7 @@ RUN composer config --global process-timeout 3600
 RUN composer global require "laravel/installer"
 
 # Node 14 went EOL in April 2023; select2 >= 4.1 also requires Node >= 24.
-ENV NODE_VERSION=24.19.0
+ENV NODE_VERSION=24.22.1
 
 ENV NVM_DIR=/usr/local/.nvm
 RUN mkdir "$NVM_DIR"
