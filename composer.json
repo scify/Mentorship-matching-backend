@@ -38,6 +38,24 @@
     ]
   },
   "scripts": {
+    "setup": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+      "@composer install",
+      "@php -r \"require 'vendor/autoload.php'; empty(Dotenv\\Dotenv::parse(file_get_contents('.env'))['APP_KEY'] ?? null) && exit(pclose(popen(escapeshellarg(PHP_BINARY) . ' artisan key:generate --ansi', 'w')));\"",
+      "@php -r \"file_exists('node_modules/.package-lock.json') && filemtime('node_modules/.package-lock.json') >= filemtime('package-lock.json') || exit(pclose(popen('npm ci', 'w')));\"",
+      "npm run build"
+    ],
+    "test": [
+      "@php artisan config:clear --ansi",
+      "phpunit"
+    ],
+    "test:coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "@putenv XDEBUG_MODE=coverage",
+      "@php artisan config:clear --ansi",
+      "phpunit --coverage-text --coverage-html=coverage"
+    ],
     "analyse": "phpstan analyse --memory-limit=1G",
     "post-root-package-install": [
       "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -55,6 +73,12 @@
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
       "@php artisan package:discover"
     ]
+  },
+  "scripts-descriptions": {
+    "setup": "Create .env if missing, install PHP dependencies and (when package-lock.json changed) npm dependencies, generate APP_KEY if empty and build the frontend.",
+    "test": "Run the test suite on the dedicated `testing` database.",
+    "test:coverage": "Run the test suite with a coverage summary and an HTML report in coverage/ (needs Xdebug or PCOV).",
+    "analyse": "Run static analysis (Larastan)."
   },
   "config": {
     "preferred-install": "dist",
