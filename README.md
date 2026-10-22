@@ -114,8 +114,10 @@ view. The two advisories affect plugins that no page uses today:
   `data-loading-text` attribute.
 - [GHSA-q58r-hwc8-rm9j](https://github.com/advisories/GHSA-q58r-hwc8-rm9j): the tooltip and popover plugins.
 
-The theme (`pleasure.js`) still binds tooltips and popovers to `[data-toggle="tooltip"]` and
-`[data-toggle="popover"]`. Do not add these attributes or `data-loading-text` to markup that contains user data.
+The code still activates these plugins on three selectors: `pleasure.js` binds tooltips and popovers to
+`[data-toggle="tooltip"]` and `[data-toggle="popover"]` and the loading button to `.demo-btn-loading`, and
+`app.js` binds a tooltip to `[id^=tooltip-]`. Do not put user data in the `title`, `data-*` or
+`data-loading-text` attributes of elements that match these selectors.
 `bootstrap-sass` ships the same 3.4.1 JavaScript, so importing it instead only hides the warning.
 
 ## Testing

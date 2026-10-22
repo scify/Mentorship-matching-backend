@@ -94,9 +94,10 @@ two Sass files under `resources/assets/sass`. Blade loads them with `@vite`; inl
 page-scoped JS, not a component framework.
 
 Bootstrap stays at 3.4.1 (no patched 3.x release; `npm audit` reports one moderate finding). Its advisories
-affect the button `data-loading-text` attribute and the tooltip/popover plugins, which no view uses today, but
-`pleasure.js` binds tooltips and popovers to `[data-toggle="tooltip"|"popover"]`. Never put user data in those
-attributes or in `data-loading-text`. See README "Known npm advisories".
+affect the button `data-loading-text` attribute and the tooltip/popover plugins, which no view uses today. The
+plugins are still bound to `[data-toggle="tooltip"|"popover"]` and `.demo-btn-loading` (`pleasure.js`) and to
+`[id^=tooltip-]` (`app.js`). Never put user data in the `title`, `data-*` or `data-loading-text` attributes of
+elements that match these selectors. See README "Known npm advisories".
 
 ### Artisan commands specific to this app
 
