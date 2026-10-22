@@ -1,7 +1,7 @@
 <?php
 
 use App\BusinessLogicLayer\managers\UserAccessManager;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 class UserAccessManagerTest extends TestCase
 {
     use CreatesMatchingFixtures;
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     private UserAccessManager $accessManager;
 

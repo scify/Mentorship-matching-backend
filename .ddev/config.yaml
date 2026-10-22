@@ -23,6 +23,9 @@ corepack_enable: false
 hooks:
     post-start:
         - exec: bash .ddev/scripts/sync-node-version.sh
+        # PHPUnit runs on its own database; the TestCase guard refuses `db`.
+        - exec: mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS testing; GRANT ALL PRIVILEGES ON testing.* TO 'db'@'%';"
+          service: db
 
 # Key features of DDEV's config.yaml:
 

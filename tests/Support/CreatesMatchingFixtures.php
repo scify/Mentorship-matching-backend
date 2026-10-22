@@ -8,18 +8,18 @@ use Illuminate\Support\Facades\DB;
 /**
  * Builds the users, profiles and sessions the feature tests exercise.
  *
- * Every row is created inside the test's transaction (DatabaseTransactions),
- * so nothing leaks into the database between tests or runs. Lookup tables
+ * Every row is created inside the test's transaction (RefreshDatabase), so
+ * nothing leaks into the database between tests or runs. Lookup tables
  * (reference, residence, ...) are the app's seeded reference data and are a
- * hard prerequisite — the trait fails fast with a pointer to the seeder
- * instead of silently picking wrong rows.
+ * hard prerequisite — the trait fails fast instead of silently picking wrong
+ * rows.
  */
 trait CreatesMatchingFixtures
 {
     protected function lookupId(string $table): int {
         $id = DB::table($table)->value('id');
         if (!$id) {
-            $this->fail("Lookup table '$table' is empty — run `php artisan migrate` and `php artisan db:seed` before the test suite.");
+            $this->fail("Lookup table '$table' is empty — the test class must use RefreshDatabase with \$seed = true (see TestCase).");
         }
         return (int)$id;
     }

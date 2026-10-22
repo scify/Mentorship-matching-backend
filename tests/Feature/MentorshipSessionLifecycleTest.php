@@ -11,7 +11,7 @@ use App\Notifications\MentorSendRating;
 use App\Notifications\MentorSessionInvitation;
 use App\Notifications\MentorStatusReactivation;
 use App\Utils\MentorshipSessionStatuses;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Notification;
 class MentorshipSessionLifecycleTest extends TestCase
 {
     use CreatesMatchingFixtures;
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     private MentorshipSessionManager $manager;
     private User $matcher;
