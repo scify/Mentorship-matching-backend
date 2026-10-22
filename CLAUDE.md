@@ -12,11 +12,12 @@ server-rendered (Blade + jQuery) application — there is no SPA framework and n
 
 ### Environment
 
-There are two supported local stacks; check which one is running before assuming a command works.
-
-**DDEV** (`.ddev/config.yaml`, committed) — PHP 8.4, Node 24, MariaDB 11.8, docroot `public`, served at
-`https://mentorship-matching-backend.ddev.site`, mail captured by Mailpit. `ddev start` rewrites the
-DB and mail settings in `.env` to match its own services. Prefix commands:
+Local development runs on **DDEV** only (`.ddev/config.yaml`, committed) — PHP 8.4, Node 24, MariaDB
+11.8, docroot `public`, served at `https://mentorship-matching-backend.ddev.site`, mail captured by
+Mailpit. `ddev start` rewrites the DB and mail settings in `.env` to match its own services, and its
+post-start hook runs `composer setup` (dependencies, `APP_KEY` if empty, frontend build), clears the
+caches, runs pending migrations on the `db` database and creates the `testing` database. Ask before
+`ddev start`/`restart`: the hook migrates the developer's database. Run every command through DDEV:
 
 ```bash
 ddev exec php artisan migrate
@@ -24,17 +25,7 @@ ddev composer install
 ddev npm run build
 ```
 
-**Docker Compose** (`docker-compose.yml`) — a `php` service (app code mounted at `/var/www`), `nginx`
-(host port `89`), `db` (MySQL, host port `3316`), Redis, and MailHog (host port `8100`). With this
-stack `MAIL_HOST` must be `mailhog`; `localhost` is the PHP container itself and registration mail
-fails. Enter the container to run backend commands:
-
-```bash
-docker exec -it mentorship_matching_platform_server bash
-```
-
-All `php artisan`, `composer`, and `npm` commands below are meant to be run inside whichever stack is
-up (or an equivalent local PHP 8.3+/Node 24 environment — see `.nvmrc`).
+All `php artisan`, `composer`, and `npm` commands below are meant to be run inside DDEV.
 
 The app reads `public/build/manifest.json`, which is gitignored and built at deploy time — without
 `npm run build` every page fails with `ViteManifestNotFoundException`.

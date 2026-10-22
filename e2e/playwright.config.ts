@@ -1,8 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * The suite drives the Dockerised stack (`docker compose up -d`), which nginx
- * exposes on port 89. Override with E2E_BASE_URL to point somewhere else.
+ * The suite drives the DDEV site (`ddev start`). Override with E2E_BASE_URL to
+ * point somewhere else.
  */
 export default defineConfig({
   testDir: './tests',
@@ -15,7 +15,7 @@ export default defineConfig({
   timeout: 60_000,
   expect: { timeout: 10_000 },
   use: {
-    baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:89',
+    baseURL: process.env.E2E_BASE_URL ?? 'https://mentorship-matching-backend.ddev.site',
     viewport: { width: 1440, height: 900 },
     ignoreHTTPSErrors: true,
     trace: 'retain-on-failure',
