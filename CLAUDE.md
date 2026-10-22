@@ -36,7 +36,6 @@ The app reads `public/build/manifest.json`, which is gitignored and built at dep
 composer install                 # install PHP dependencies
 php artisan migrate               # run DB migrations
 php artisan db:seed               # seed lookup/reference data (roles, statuses, specialties, etc.)
-php artisan serve                 # run local dev server
 ```
 
 ### Tests
@@ -75,7 +74,7 @@ cd e2e && npm test                    # Playwright: opens every route in a brows
 ```
 
 The Playwright suite needs `npm run seed` first (the seeder also removes what previous e2e runs
-registered) and honours `E2E_BASE_URL` (default `http://localhost:89`); see `e2e/README.md`.
+registered) and honours `E2E_BASE_URL` (default `https://mentorship-matching-backend.ddev.site`); see `e2e/README.md`.
 
 ### Frontend assets
 

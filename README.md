@@ -67,7 +67,8 @@ ddev ssh                   # shell inside the web container
 
 > **Note:** DDEV uses MariaDB, while production uses MySQL. The two are compatible for everything this app
 > does, but because parts of the app use hand-written SQL you may prefer to match production exactly with
-> `ddev config --database=mysql:8.0 && ddev restart`.
+> `ddev debug migrate-database mysql:8.0` (it converts the existing data; `ddev config --database` alone
+> refuses to change the type of an existing database).
 
 ## Setup the Database
 
