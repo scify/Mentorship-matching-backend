@@ -20,6 +20,9 @@ web_extra_exposed_ports:
       https_port: 5173
 nodejs_version: "24.22.1"
 corepack_enable: false
+hooks:
+    post-start:
+        - exec: bash .ddev/scripts/sync-node-version.sh
 
 # Key features of DDEV's config.yaml:
 
