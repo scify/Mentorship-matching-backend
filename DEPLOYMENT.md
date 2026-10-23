@@ -360,6 +360,65 @@ PHP to 8.4; `master` from before 2026-09-22 (PR #122) also moves the asset build
   limit.
 - The `/register` page is gone. Administrators create staff accounts.
 
+#### Production: from 1.0.0 to 2.0.0
+
+Production was deployed by hand and runs code from before this release. This part lists what changes on that
+server. Use it together with the numbered steps above.
+
+**Find out what runs.** In the application directory:
+
+```bash
+git log -1 --format='%h %ad %s' --date=short   # 1.0.0 is a09a086 (2026-08-11) or older
+php -v                                        # 1.0.0 runs on PHP 7.3 or newer, Laravel 8
+crontab -l; sudo crontab -l -u www-data       # the schedule:run line of 1.0.0
+grep -E '^(QUEUE_CONNECTION|MIX_SENTRY_DSN_PUBLIC|APP_LOG_LEVEL|APP_URL|APP_DEBUG)=' .env
+ls storage/app/public/uploads/cv_files | wc -l   # the number of uploaded CVs (plus .gitignore)
+```
+
+**PHP 8.4.** Install `php8.4-fpm` and `php8.4-cli` with the extensions of the old version, and check `pcntl` in the
+CLI (`php8.4 -m | grep pcntl`). Copy the upload limits into the 8.4 `php.ini` files, point nginx `fastcgi_pass` to
+the 8.4 socket, and make `php` on the command line PHP 8.4, because Composer and Supervisor call it.
+
+**Uploaded files.** The CVs are the only files that people upload to the app.
+- 1.0.0 stores them in `storage/app/public/uploads/cv_files/`. The `public/storage` link makes that folder public:
+  anyone who knows a file name can download the CV without logging in.
+- 2.0.0 stores them in `storage/app/private/cv_files/` and serves them only to logged-in staff.
+- Before the update, back up `storage/app/` together with the database. It holds the CVs.
+- After the update, run `php artisan cv:move-to-private`. It moves every CV to the new folder with the same file
+  name, so the database needs no change, and it prints the number of moved files. Compare that number with the
+  count from "Find out what runs". The command is safe to run again. Until it runs, staff downloads still read the
+  old folder.
+- Then run `php artisan storage:unlink`. It removes `public/storage`, and the old public CV addresses answer 404.
+- Check: `ls -A storage/app/public/uploads/cv_files` shows only `.gitignore`, and the CV of a mentor or mentee
+  downloads from their profile page.
+
+**Scheduler and queue.** 1.0.0 needs the cron line `* * * * * php artisan schedule:run`, and its scheduler also
+starts `queue:work --stop-when-empty` every two minutes. In 2.0.0 Supervisor runs both. Remove the cron line when
+the Supervisor programs run, or the daily mails go out twice.
+
+**`.env`.** Compared with the 1.0.0 `.env.example`:
+- Rename `MIX_SENTRY_DSN_PUBLIC` to `VITE_SENTRY_DSN_PUBLIC`, before `npm run build`.
+- Replace `APP_LOG_LEVEL` with `LOG_LEVEL`. The old key had no effect.
+- Set `QUEUE_CONNECTION=database`. With `sync`, as in the 1.0.0 example, mails go out during the request.
+- `APP_NAME`, `EMAIL_FOR_CC`, `MENTORS_EXCEL_FILE_PATH` and `MENTEES_EXCEL_FILE_PATH` can go: nothing reads them.
+
+**Old build output.** 1.0.0 builds with Laravel Mix into `public/js`, `public/css`, `public/fonts` and
+`public/mix-manifest.json`. Git does not track these, so they stay after the checkout; 2.0.0 builds into
+`public/build` and does not use them. After the update, delete them:
+
+```bash
+git ls-files public/js public/css public/fonts public/mix-manifest.json   # must print nothing
+rm -rf public/js public/css public/fonts public/mix-manifest.json
+```
+
+**Logs.** Unchanged: one file per day, `storage/logs/laravel-YYYY-MM-DD.log`.
+
+**Rollback.** 2.0.0 adds no migration and does not change the schema, so the 1.0.0 code works with the updated
+database. To go back: check out the 1.0.0 commit, switch nginx and the CLI back to the old PHP version, build its
+assets as before (`npm ci && npm run prod`), restore the cron line and stop the Supervisor programs. If `cv:move-to-private` has run, move the
+files back first (`mv storage/app/private/cv_files/* storage/app/public/uploads/cv_files/`) and run
+`php artisan storage:link`: 1.0.0 reads only the old folder.
+
 ## Troubleshooting
 
 **Mails do not go out.** Run `sudo supervisorctl status`. If `jobpairs-worker` runs, list the failed jobs with
