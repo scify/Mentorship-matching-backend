@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -10,8 +11,7 @@ namespace App\StorageLayer;
 
 use App\Models\eloquent\EducationLevel;
 
-class EducationLevelStorage
-{
+class EducationLevelStorage {
     public function getAllEducationLevels() {
         return EducationLevel::all();
     }

@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateMentorRatingTable extends Migration
-{
+class CreateMentorRatingTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('mentor_rating', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('rating');
@@ -24,7 +22,7 @@ class CreateMentorRatingTable extends Migration
             $table->foreign('session_id')->references('id')->on('mentorship_session');
             $table->integer('rated_by_id')->unsigned();
             $table->foreign('rated_by_id')->references('id')->on('mentee_profile');
-            $table->unique(array('mentor_id', 'session_id'));
+            $table->unique(['mentor_id', 'session_id']);
         });
     }
 
@@ -33,8 +31,7 @@ class CreateMentorRatingTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('mentor_rating');
     }
 }

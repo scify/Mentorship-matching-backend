@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateMentorStatusLookupTable extends Migration
-{
+class CreateMentorStatusLookupTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('mentor_status_lookup', function (Blueprint $table) {
             $table->integer('id')->unsigned();
             $table->primary('id');
@@ -27,8 +25,7 @@ class CreateMentorStatusLookupTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('mentor_status_lookup');
     }
 }

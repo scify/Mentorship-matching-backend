@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -8,25 +9,20 @@
 
 namespace App\BusinessLogicLayer\managers;
 
-
 use App\StorageLayer\UserIconStorage;
 
-class UserIconManager
-{
+class UserIconManager {
     private $userIconStorage;
 
-    public function __construct()
-    {
-        $this->userIconStorage = new UserIconStorage();
+    public function __construct() {
+        $this->userIconStorage = new UserIconStorage;
     }
 
-    public function getAllUserIcons()
-    {
+    public function getAllUserIcons() {
         return $this->userIconStorage->getUserIcons();
     }
 
-    public function getIconIdFromTitle($title)
-    {
+    public function getIconIdFromTitle($title) {
         return $this->userIconStorage->getIdFromTitle($title);
     }
 }

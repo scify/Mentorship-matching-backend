@@ -3,9 +3,9 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MentorStatus extends Model
-{
+class MentorStatus extends Model {
     /**
      * The table associated with the model.
      *
@@ -16,11 +16,9 @@ class MentorStatus extends Model
     protected $fillable = ['status', 'description'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MentorProfile, $this>
+     * @return BelongsTo<MentorProfile, $this>
      */
-    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
+    public function mentors(): BelongsTo {
         return $this->belongsTo(MentorProfile::class, 'status_id', 'id');
     }
-
 }

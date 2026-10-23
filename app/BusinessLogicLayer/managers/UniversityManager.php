@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -10,12 +11,11 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\StorageLayer\UniversityStorage;
 
-class UniversityManager
-{
+class UniversityManager {
     private $universityStorage;
 
     public function __construct() {
-        $this->universityStorage = new UniversityStorage();
+        $this->universityStorage = new UniversityStorage;
     }
 
     public function getAllUniversities() {

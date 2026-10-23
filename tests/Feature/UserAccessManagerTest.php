@@ -10,22 +10,20 @@ use Illuminate\Support\Facades\DB;
  * The cache-staleness test captures documented current behavior (role
  * changes are invisible until the cache is cleared), not desired behavior.
  */
-class UserAccessManagerTest extends TestCase
-{
+class UserAccessManagerTest extends TestCase {
     use CreatesMatchingFixtures;
+
     use RefreshDatabase;
 
     private UserAccessManager $accessManager;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
-        $this->accessManager = new UserAccessManager();
+        $this->accessManager = new UserAccessManager;
         Cache::flush(); // role checks are cached per user id — isolate each test
     }
 
-    public function testAdminHasEveryAdminOnlyAccess()
-    {
+    public function test_admin_has_every_admin_only_access() {
         $admin = $this->makeBackofficeUser($this->accessManager->ADMINISTRATOR_ROLE_ID, 'Admin');
 
         $this->assertTrue($this->accessManager->userIsAdmin($admin));
@@ -38,8 +36,7 @@ class UserAccessManagerTest extends TestCase
         $this->assertFalse($this->accessManager->userIsAccountManager($admin));
     }
 
-    public function testMatcherHasNoAdminOrAccountManagerAccess()
-    {
+    public function test_matcher_has_no_admin_or_account_manager_access() {
         $matcher = $this->makeBackofficeUser($this->accessManager->MATCHER_ROLE_ID, 'Matcher');
 
         $this->assertTrue($this->accessManager->userIsMatcher($matcher));
@@ -49,8 +46,7 @@ class UserAccessManagerTest extends TestCase
         $this->assertFalse($this->accessManager->userHasAccessToOnlyEditStatusForMentorshipSessions($matcher));
     }
 
-    public function testAccountManagerCanEditProfilesAndSessionStatusButIsNotAdmin()
-    {
+    public function test_account_manager_can_edit_profiles_and_session_status_but_is_not_admin() {
         $accountManager = $this->makeBackofficeUser($this->accessManager->ACCOUNT_MANAGER_ROLE_ID, 'Accman');
 
         $this->assertTrue($this->accessManager->userIsAccountManager($accountManager));
@@ -61,8 +57,7 @@ class UserAccessManagerTest extends TestCase
         $this->assertFalse($this->accessManager->userHasAccessToCRUDMentorshipSessions($accountManager));
     }
 
-    public function testRevokedRoleStaysGrantedUntilTheCacheIsCleared()
-    {
+    public function test_revoked_role_stays_granted_until_the_cache_is_cleared() {
         // This captures current behavior, not necessarily correct behavior:
         // checkCacheOrDBForRoleAndStore caches positive checks with no TTL or
         // invalidation, so a revoked admin keeps admin access until the cache

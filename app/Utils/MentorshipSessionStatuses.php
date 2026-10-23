@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -8,10 +9,8 @@
 
 namespace App\Utils;
 
-
-class MentorshipSessionStatuses
-{
-    public static $statuses = array(
+class MentorshipSessionStatuses {
+    public static $statuses = [
         'pending' => 1,
         'introduction_sent' => 2,
         'available_mentee' => 3,
@@ -25,33 +24,33 @@ class MentorshipSessionStatuses
         'follow_up_sent' => 11,
         'cancelled_mentee' => 12,
         'cancelled_mentor' => 13,
-        'cancelled_acc_man' => 14
-    );
+        'cancelled_acc_man' => 14,
+    ];
 
     public static function getActiveSessionStatuses(): array {
-        return array(
+        return [
             self::$statuses['pending'], self::$statuses['introduction_sent'], self::$statuses['available_mentee'],
             self::$statuses['available_mentor'], self::$statuses['started'], self::$statuses['first_meeting'],
-            self::$statuses['second_meeting'], self::$statuses['third_meeting'], self::$statuses['fourth_meeting']
-        );
+            self::$statuses['second_meeting'], self::$statuses['third_meeting'], self::$statuses['fourth_meeting'],
+        ];
     }
 
     public static function getCompletedSessionStatuses(): array {
-        return array(
-            self::$statuses['evaluation_sent'], self::$statuses['follow_up_sent']
-        );
+        return [
+            self::$statuses['evaluation_sent'], self::$statuses['follow_up_sent'],
+        ];
     }
 
     public static function getPendingSessionStatuses(): array {
-        return array(
-            self::$statuses['pending']
-        );
+        return [
+            self::$statuses['pending'],
+        ];
     }
 
     public static function getCancelledSessionStatuses(): array {
-        return array(
-            self::$statuses['cancelled_mentee'], self::$statuses['cancelled_mentor'], self::$statuses['cancelled_acc_man']
-        );
+        return [
+            self::$statuses['cancelled_mentee'], self::$statuses['cancelled_mentor'], self::$statuses['cancelled_acc_man'],
+        ];
     }
 
     public static function getIntroductionSentSessionStatus(): int {

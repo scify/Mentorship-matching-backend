@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -12,24 +13,24 @@ use App\Models\eloquent\MenteeProfile;
 use App\Models\eloquent\University;
 use Illuminate\Support\Collection;
 
-class UniversityStorage
-{
+class UniversityStorage {
     public function getAllUniversities() {
         $universities = University::where('name', '<>', 'Άλλο')->orderBy('name')->get();
         $otherUniversity = University::where('name', 'Άλλο')->first();
         $universities->push($otherUniversity);
+
         return $universities;
     }
 
     public function getAllUniversitiesIncludingOtherUniversities() {
         $universities = University::select('id', 'name')->where('name', '<>', 'Άλλο')->get();
-        $allUniversities = new Collection();
+        $allUniversities = new Collection;
         // get all university names declared by mentees
         $menteesWithOtherUniversities = MenteeProfile::select('university_name')->distinct()->where('university_name', '<>', null)->get();
         foreach ($menteesWithOtherUniversities as $menteeWithOtherUniversities) {
             $allUniversities->push(new University([
                 'id' => $menteeWithOtherUniversities->university_name,
-                'name' => $menteeWithOtherUniversities->university_name
+                'name' => $menteeWithOtherUniversities->university_name,
             ]));
         }
         // push all DB universities to the same collection
@@ -40,6 +41,7 @@ class UniversityStorage
         $allUniversities = $allUniversities->sortBy('name');
         $otherUniversity = University::select('id', 'name')->where('name', 'Άλλο')->first();
         $allUniversities->push($otherUniversity);
+
         return $allUniversities;
     }
 }

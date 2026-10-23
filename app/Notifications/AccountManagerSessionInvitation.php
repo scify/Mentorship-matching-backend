@@ -13,13 +13,14 @@ class AccountManagerSessionInvitation extends Notification implements ShouldQueu
     use Queueable;
 
     private $mentorshipSession;
+
     private $accountManager;
 
     /**
      * Create a new notification instance.
      *
-     * @param MentorshipSession $mentorshipSession
-     * @param User $accountManager
+     * @param  MentorshipSession  $mentorshipSession
+     * @param  User  $accountManager
      */
     public function __construct(MentorshipSession $mentorshipSession, User $accountManager) {
         $this->mentorshipSession = $mentorshipSession;
@@ -29,7 +30,7 @@ class AccountManagerSessionInvitation extends Notification implements ShouldQueu
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable) {
@@ -39,14 +40,14 @@ class AccountManagerSessionInvitation extends Notification implements ShouldQueu
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
             ->subject('Job Pairs | You have been invited to manage a new mentorship session | Session: ' . $this->mentorshipSession->id)
             ->greeting('Dear account manager,')
-            ->line("You have been invited to manage a new mentorship session!")
+            ->line('You have been invited to manage a new mentorship session!')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Choose whether to accept or decline the invitation:</span>')
             ->action('Accept', route('acceptToManageMentorshipSession', ['id' => $this->accountManager->id, 'email' => $this->accountManager->email, 'mentorshipSessionId' => $this->mentorshipSession->id]))
             ->line('<p style="text-align: center; margin-top: 10px; margin-bottom: 10px;"><a href="' . route('declineToManageMentorshipSession', ['id' => $this->accountManager->id, 'email' => $this->accountManager->email, 'mentorshipSessionId' => $this->mentorshipSession->id]) . '">Decline</a></p>')
@@ -59,7 +60,7 @@ class AccountManagerSessionInvitation extends Notification implements ShouldQueu
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable): array {

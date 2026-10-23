@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: pisaris
@@ -8,11 +9,9 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\Residence;
 
 class ResidenceStorage {
-
     public function getAllResidences() {
         return Residence::all();
     }

@@ -8,17 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Class MenteeStorage
- * @package App\StorageLayer
- *
- * Contains the eloquent queries methods for the MenteeProfiles.
  */
 class MenteeStorage {
-
     public function saveMentee(MenteeProfile $mentee) {
         if ($mentee->id) {
             $attributes = ['id' => $mentee->id];
-        } else
+        } else {
             $attributes = ['email' => $mentee->email];
+        }
         $values = $mentee->getAttributes();
 
         return MenteeProfile::updateOrCreate($attributes, $values);

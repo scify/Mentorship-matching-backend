@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 class CreateSpecialtyStatusTable extends Migration {
     /**
@@ -12,8 +12,9 @@ class CreateSpecialtyStatusTable extends Migration {
      * @return void
      */
     public function up() {
-        if (Schema::hasTable('specialty_status'))
+        if (Schema::hasTable('specialty_status')) {
             return;
+        }
 
         Schema::create('specialty_status', function (Blueprint $table) {
             $table->increments('id');
@@ -24,10 +25,10 @@ class CreateSpecialtyStatusTable extends Migration {
         // BE CAREFUL!!! If you remove this seed from here, the `migrate` action will fail
         // as the next migration is going to use it
         DB::table('specialty_status')->delete();
-        DB::table('specialty_status')->insert(array(
-            array('id' => 1, 'status' => 'public'),
-            array('id' => 2, 'status' => 'private'),
-        ));
+        DB::table('specialty_status')->insert([
+            ['id' => 1, 'status' => 'public'],
+            ['id' => 2, 'status' => 'private'],
+        ]);
     }
 
     /**

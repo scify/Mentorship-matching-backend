@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -10,12 +11,11 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\StorageLayer\EducationLevelStorage;
 
-class EducationLevelManager
-{
+class EducationLevelManager {
     private $educationLevelStorage;
 
     public function __construct() {
-        $this->educationLevelStorage = new EducationLevelStorage();
+        $this->educationLevelStorage = new EducationLevelStorage;
     }
 
     public function getAllEducationLevels() {

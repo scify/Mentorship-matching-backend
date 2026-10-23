@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -8,22 +9,20 @@
 
 namespace App\BusinessLogicLayer\managers;
 
-
 use App\Models\eloquent\MentorshipSession;
 use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
 use App\StorageLayer\MentorshipSessionHistoryStorage;
 
-class MentorshipSessionHistoryManager
-{
+class MentorshipSessionHistoryManager {
     private $mentorshipSessionHistoryStorage;
 
     public function __construct() {
-        $this->mentorshipSessionHistoryStorage = new MentorshipSessionHistoryStorage();
+        $this->mentorshipSessionHistoryStorage = new MentorshipSessionHistoryStorage;
     }
 
     public function createMentorshipSessionStatusHistory(MentorshipSession $mentorshipSession, $statusId, ?User $loggedInUser, $comment) {
-        $mentorshipSessionHistory = new MentorshipSessionHistory();
+        $mentorshipSessionHistory = new MentorshipSessionHistory;
         $mentorshipSessionHistory->mentorship_session_id = $mentorshipSession->id;
         $mentorshipSessionHistory->user_id = $loggedInUser != null ? $loggedInUser->id : null;
         $mentorshipSessionHistory->status_id = $statusId;

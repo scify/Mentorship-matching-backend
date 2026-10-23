@@ -2,18 +2,17 @@
 
 namespace App\BusinessLogicLayer\managers;
 
-
 use App\Models\eloquent\MenteeProfile;
+use App\Models\eloquent\MenteeSpecialty;
 use App\Models\eloquent\MentorProfile;
 use App\Models\eloquent\MentorSpecialty;
-use App\Models\eloquent\MenteeSpecialty;
 use App\StorageLayer\SpecialtyStorage;
 
 class SpecialtyManager {
     private $specialtyStorage;
 
     public function __construct() {
-        $this->specialtyStorage = new SpecialtyStorage();
+        $this->specialtyStorage = new SpecialtyStorage;
     }
 
     public function getSpecialty($id) {
@@ -57,76 +56,78 @@ class SpecialtyManager {
     }
 
     private function createNewSpecialtyForMentor(MentorProfile $mentor, $specialtyId) {
-        $newMentorSpecialty = new MentorSpecialty();
+        $newMentorSpecialty = new MentorSpecialty;
         $newMentorSpecialty->mentor_profile_id = $mentor->id;
         $newMentorSpecialty->specialty_id = $specialtyId;
         $this->specialtyStorage->saveMentorSpecialty($newMentorSpecialty);
     }
 
     private function createNewSpecialtyForMentee(MenteeProfile $mentee, $specialtyId) {
-        $newMenteeSpecialty = new MenteeSpecialty();
+        $newMenteeSpecialty = new MenteeSpecialty;
         $newMenteeSpecialty->mentee_profile_id = $mentee->id;
         $newMenteeSpecialty->specialty_id = $specialtyId;
         $this->specialtyStorage->saveMenteeSpecialty($newMenteeSpecialty);
     }
 
     public function getMentorSpecialtiesIds(MentorProfile $mentor) {
-        $mentorSpecialtiesIdsArray = array();
+        $mentorSpecialtiesIdsArray = [];
         foreach ($mentor->specialties as $specialty) {
             array_push($mentorSpecialtiesIdsArray, $specialty->id);
         }
+
         return $mentorSpecialtiesIdsArray;
     }
 
     public function getMenteeSpecialtiesIds(MenteeProfile $mentee) {
-        $menteeSpecialtiesIdsArray = array();
+        $menteeSpecialtiesIdsArray = [];
         foreach ($mentee->specialties as $specialty) {
             array_push($menteeSpecialtiesIdsArray, $specialty->id);
         }
+
         return $menteeSpecialtiesIdsArray;
     }
 
     public function editMentorSpecialties(MentorProfile $mentor, array $newMentorSpecialties) {
-        //we get an array of this mentor's specialties
+        // we get an array of this mentor's specialties
         $mentorSpecialtiesIds = $this->getMentorSpecialtiesIds($mentor);
-        $newMentorSpecialtiesIds = array();
-        //every new specialty as a specialty id not included
+        $newMentorSpecialtiesIds = [];
+        // every new specialty as a specialty id not included
         // in the existing specialties of the mentor
         foreach ($newMentorSpecialties as $newSpecialty) {
-            if(!in_array($newSpecialty['id'], $mentorSpecialtiesIds)) {
-                //create new role
+            if (!in_array($newSpecialty['id'], $mentorSpecialtiesIds)) {
+                // create new role
                 $this->createNewSpecialtyForMentor($mentor, $newSpecialty['id']);
             }
             array_push($newMentorSpecialtiesIds, $newSpecialty['id']);
         }
-        //every role that was deleted i a role id in the existing roles
+        // every role that was deleted i a role id in the existing roles
         // not included in the new roles
         foreach ($mentorSpecialtiesIds as $mentorSpecialtyId) {
-            if(!in_array($mentorSpecialtyId, $newMentorSpecialtiesIds)) {
-                //delete role that was removed
+            if (!in_array($mentorSpecialtyId, $newMentorSpecialtiesIds)) {
+                // delete role that was removed
                 $this->deleteSpecialtyFromMentor($mentor, $mentorSpecialtyId);
             }
         }
     }
 
     public function editMenteeSpecialties(MenteeProfile $mentee, array $newMenteeSpecialties) {
-        //we get an array of this mentor's specialties
+        // we get an array of this mentor's specialties
         $menteeSpecialtiesIds = $this->getMenteeSpecialtiesIds($mentee);
-        $newMenteeSpecialtiesIds = array();
-        //every new specialty as a specialty id not included
+        $newMenteeSpecialtiesIds = [];
+        // every new specialty as a specialty id not included
         // in the existing specialties of the mentor
         foreach ($newMenteeSpecialties as $newSpecialty) {
-            if(!in_array($newSpecialty['id'], $menteeSpecialtiesIds)) {
-                //create new role
+            if (!in_array($newSpecialty['id'], $menteeSpecialtiesIds)) {
+                // create new role
                 $this->createNewSpecialtyForMentee($mentee, $newSpecialty['id']);
             }
             array_push($newMenteeSpecialtiesIds, $newSpecialty['id']);
         }
-        //every role that was deleted i a role id in the existing roles
+        // every role that was deleted i a role id in the existing roles
         // not included in the new roles
         foreach ($menteeSpecialtiesIds as $mentorSpecialtyId) {
-            if(!in_array($mentorSpecialtyId, $newMenteeSpecialtiesIds)) {
-                //delete role that was removed
+            if (!in_array($mentorSpecialtyId, $newMenteeSpecialtiesIds)) {
+                // delete role that was removed
                 $this->deleteSpecialtyFromMentee($mentee, $mentorSpecialtyId);
             }
         }
@@ -141,6 +142,4 @@ class SpecialtyManager {
         $menteeSpecialty = $this->specialtyStorage->getSpecialtyForMentee($mentee->id, $specialtyId);
         $menteeSpecialty->delete();
     }
-
-
 }

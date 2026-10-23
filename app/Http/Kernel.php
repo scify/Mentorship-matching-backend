@@ -2,10 +2,29 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CanCreateMentorshipSession;
+use App\Http\Middleware\CanEditMentorsAndMentees;
+use App\Http\Middleware\CanEditUserProfile;
+use App\Http\Middleware\CanInviteMentee;
+use App\Http\Middleware\CanOnlyChangeStatus;
+use App\Http\Middleware\CanUpdateMentorshipSession;
+use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\IsAccountManager;
+use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\PreventRequestForgery;
+use App\Http\Middleware\RedirectIfAuthenticated;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
+use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class Kernel extends HttpKernel
-{
+class Kernel extends HttpKernel {
     /**
      * The application's global HTTP middleware stack.
      *
@@ -14,7 +33,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        PreventRequestsDuringMaintenance::class,
     ];
 
     /**
@@ -24,12 +43,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\PreventRequestForgery::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            ShareErrorsFromSession::class,
+            PreventRequestForgery::class,
+            SubstituteBindings::class,
         ],
 
         'api' => [
@@ -38,33 +57,33 @@ class Kernel extends HttpKernel
         ],
 
         'admin' => [
-            \App\Http\Middleware\IsAdmin::class
+            IsAdmin::class,
         ],
 
         'status-changer' => [
-            \App\Http\Middleware\CanOnlyChangeStatus::class
+            CanOnlyChangeStatus::class,
         ],
 
         'can-create-mentorship-session' => [
-            \App\Http\Middleware\CanCreateMentorshipSession::class
+            CanCreateMentorshipSession::class,
         ],
 
         'account-manager' => [
-            \App\Http\Middleware\IsAccountManager::class
+            IsAccountManager::class,
         ],
 
         'can-update-sessions' => [
-            \App\Http\Middleware\CanUpdateMentorshipSession::class
+            CanUpdateMentorshipSession::class,
         ],
 
         'can-invite-mentee' => [
-            \App\Http\Middleware\CanInviteMentee::class
+            CanInviteMentee::class,
         ],
         'can-edit-mentors-and-mentees' => [
-            \App\Http\Middleware\CanEditMentorsAndMentees::class
+            CanEditMentorsAndMentees::class,
         ],
         'can-edit-user-profile' => [
-            \App\Http\Middleware\CanEditUserProfile::class
+            CanEditUserProfile::class,
         ],
     ];
 
@@ -76,11 +95,11 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-        'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'auth' => Authenticate::class,
+        'auth.basic' => AuthenticateWithBasicAuth::class,
+        'bindings' => SubstituteBindings::class,
+        'can' => Authorize::class,
+        'guest' => RedirectIfAuthenticated::class,
+        'throttle' => ThrottleRequests::class,
     ];
 }

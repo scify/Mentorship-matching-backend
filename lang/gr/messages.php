@@ -159,5 +159,5 @@ return [
     'decline_session_invitation_title' => 'Πρόκειται να απορρίψετε την έναρξη των συναντήσεων. <br> <b>Είστε σίγουρος;</b>',
     'decline_session_invitation_second_title' => 'Σε περίπτωση λάθους μπορείτε να κάνετε αποδοχή παρακάτω:',
     'decline_session_invitation_title_button' => 'Ναι, απόρριψη συνάντησης',
-    'accept_session_invitation_title_button' => 'Αποδοχή συναντήσεων'
+    'accept_session_invitation_title_button' => 'Αποδοχή συναντήσεων',
 ];

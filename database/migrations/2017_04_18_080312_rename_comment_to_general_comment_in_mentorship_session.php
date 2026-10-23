@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class RenameCommentToGeneralCommentInMentorshipSession extends Migration
-{
+class RenameCommentToGeneralCommentInMentorshipSession extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentorship_session', function (Blueprint $table) {
             $table->renameColumn('comment', 'general_comment');
         });
@@ -23,8 +21,7 @@ class RenameCommentToGeneralCommentInMentorshipSession extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('mentorship_session', function (Blueprint $table) {
             $table->renameColumn('general_comment', 'comment');
         });

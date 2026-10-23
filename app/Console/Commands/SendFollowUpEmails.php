@@ -32,7 +32,7 @@ class SendFollowUpEmails extends Command {
      */
     public function __construct() {
         parent::__construct();
-        $this->sessionManager = new MentorshipSessionManager();
+        $this->sessionManager = new MentorshipSessionManager;
     }
 
     /**
@@ -43,21 +43,22 @@ class SendFollowUpEmails extends Command {
     public function handle(): int {
         $sessions = $this->sessionManager->getSessionsForFollowUp();
         if (count($sessions) > 0) {
-            $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+            $mentorshipSessionStatuses = new MentorshipSessionStatuses;
             $sessionIdsForInfoMsg = [];
             foreach ($sessions as $session) {
                 $session->mentee->notify(new MenteeFollowUp($session));
                 // set to 'follow up sent' status
-                $sessionEditInfo = array('mentorship_session_id' => $session->id,
-                    'status_id' => $mentorshipSessionStatuses::getCompletedSessionStatuses()[1]
-                );
+                $sessionEditInfo = ['mentorship_session_id' => $session->id,
+                    'status_id' => $mentorshipSessionStatuses::getCompletedSessionStatuses()[1],
+                ];
                 $this->sessionManager->editMentorshipSession($sessionEditInfo);
                 $sessionIdsForInfoMsg[] = $session->id;
             }
-            Log::info(now()->toDateString() . ": Follow ups were sent for sessions with ids: " . implode(", ", $sessionIdsForInfoMsg));
+            Log::info(now()->toDateString() . ': Follow ups were sent for sessions with ids: ' . implode(', ', $sessionIdsForInfoMsg));
         } else {
-            Log::info(now()->toDateString() . ": No follow ups sent today!");
+            Log::info(now()->toDateString() . ': No follow ups sent today!');
         }
+
         return 0;
     }
 }

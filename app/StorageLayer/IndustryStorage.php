@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: pisaris
@@ -8,12 +9,10 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\Industry;
 use App\Models\eloquent\MentorIndustry;
 
 class IndustryStorage {
-
     public function getAllIndustries() {
         return Industry::all();
     }
@@ -24,6 +23,7 @@ class IndustryStorage {
 
     public function saveAdditionalSpecialty(MentorIndustry $newMentorSpecialty) {
         $newMentorSpecialty->save();
+
         return $newMentorSpecialty;
     }
 

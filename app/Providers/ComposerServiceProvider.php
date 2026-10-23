@@ -5,19 +5,16 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-class ComposerServiceProvider extends ServiceProvider
-{
+class ComposerServiceProvider extends ServiceProvider {
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot() {
         View::composer(
             ['mentors.single-mentor-menu', 'mentees.single-mentee-menu'], '\App\ViewComposers\MenteeAndMentorMenuComposer'
         );
-
     }
 
     /**
@@ -25,8 +22,7 @@ class ComposerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //
     }
 }

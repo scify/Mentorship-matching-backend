@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class AddSoftDeletesToCompanyAndAccountManagerCapacityTable extends Migration
-{
+class AddSoftDeletesToCompanyAndAccountManagerCapacityTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('company', function ($table) {
             $table->softDeletes();
         });
@@ -27,8 +24,7 @@ class AddSoftDeletesToCompanyAndAccountManagerCapacityTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         //
     }
 }

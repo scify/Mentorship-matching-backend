@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -8,11 +9,9 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\MentorshipSessionHistory;
 
-class MentorshipSessionHistoryStorage
-{
+class MentorshipSessionHistoryStorage {
     public function saveMentorshipSessionHistory(MentorshipSessionHistory $mentorshipSessionHistory) {
         return $mentorshipSessionHistory->save();
     }

@@ -1,20 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddSkillsToMenteeProfile extends Migration
-{
+class AddSkillsToMenteeProfile extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentee_profile', function (Blueprint $table) {
-            $table->text("skills")->after("career_goals")->nullable();
+            $table->text('skills')->after('career_goals')->nullable();
         });
     }
 
@@ -23,10 +21,9 @@ class AddSkillsToMenteeProfile extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('mentee_profile', function (Blueprint $table) {
-            $table->dropColumn("skills");
+            $table->dropColumn('skills');
         });
     }
 }

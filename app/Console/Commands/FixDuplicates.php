@@ -42,11 +42,11 @@ class FixDuplicates extends Command {
         })->with('sessions')
             ->get();
         foreach ($mentors as $mentee) {
-            if($mentee->sessions->count() > 0) {
+            if ($mentee->sessions->count() > 0) {
                 continue;
             }
             if (!in_array($mentee->email, $handledEmails)) {
-                echo "Duplicate mentee email found: " . $mentee->email . "\n";
+                echo 'Duplicate mentee email found: ' . $mentee->email . "\n";
                 $handledEmails[] = $mentee->email;
                 $mentee->email = $mentee->email . '_duplicate_' . $mentee->id;
                 $mentee->save();
@@ -54,7 +54,7 @@ class FixDuplicates extends Command {
             }
         }
 
-        echo "Duplicates for mentees fixed successfully: " . count($handledEmails) . " duplicates fixed.\n\n";
+        echo 'Duplicates for mentees fixed successfully: ' . count($handledEmails) . " duplicates fixed.\n\n";
 
         $handledEmails = [];
         $mentors = MentorProfile::withTrashed()->whereIn('email', function ($query) {
@@ -62,11 +62,11 @@ class FixDuplicates extends Command {
         })->with('sessions')
             ->get();
         foreach ($mentors as $mentor) {
-            if($mentor->sessions->count() > 0) {
+            if ($mentor->sessions->count() > 0) {
                 continue;
             }
             if (!in_array($mentor->email, $handledEmails)) {
-                echo "Duplicate mentor email found: " . $mentor->email . "\n";
+                echo 'Duplicate mentor email found: ' . $mentor->email . "\n";
                 $handledEmails[] = $mentor->email;
                 $mentor->email = $mentor->email . '_duplicate_' . $mentor->id;
                 $mentor->save();
@@ -74,7 +74,7 @@ class FixDuplicates extends Command {
             }
         }
 
-        echo "Duplicates for mentors fixed successfully: " . count($handledEmails) . " duplicates fixed.\n\n";
+        echo 'Duplicates for mentors fixed successfully: ' . count($handledEmails) . " duplicates fixed.\n\n";
 
         return 0;
     }

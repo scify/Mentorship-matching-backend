@@ -23,36 +23,46 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class MentorController extends Controller {
-
     private $mentorManager;
+
     private $specialtyManager;
+
     private $industryManager;
+
     private $residenceManager;
+
     private $educationLevelManager;
+
     private $universityManager;
+
     private $companyManager;
+
     private $referenceManager;
+
     private $mentorStatusManager;
+
     private $mentorshipSessionManager;
 
     public function __construct() {
-        $this->specialtyManager = new SpecialtyManager();
-        $this->industryManager = new IndustryManager();
-        $this->mentorManager = new MentorManager();
-        $this->residenceManager = new ResidenceManager();
-        $this->educationLevelManager = new EducationLevelManager();
-        $this->universityManager = new UniversityManager();
-        $this->companyManager = new CompanyManager();
-        $this->referenceManager = new ReferenceManager();
-        $this->mentorStatusManager = new MentorStatusManager();
-        $this->mentorshipSessionManager = new MentorshipSessionManager();
+        $this->specialtyManager = new SpecialtyManager;
+        $this->industryManager = new IndustryManager;
+        $this->mentorManager = new MentorManager;
+        $this->residenceManager = new ResidenceManager;
+        $this->educationLevelManager = new EducationLevelManager;
+        $this->universityManager = new UniversityManager;
+        $this->companyManager = new CompanyManager;
+        $this->referenceManager = new ReferenceManager;
+        $this->mentorStatusManager = new MentorStatusManager;
+        $this->mentorshipSessionManager = new MentorshipSessionManager;
     }
 
     /**
@@ -67,6 +77,7 @@ class MentorController extends Controller {
         $companies = $this->companyManager->getAllCompanies();
         $statuses = $this->mentorStatusManager->getAllMentorStatuses();
         $residences = $this->residenceManager->getAllResidences();
+
         return view('mentors.list_all', [
             'pageTitle' => 'Mentors',
             'pageSubTitle' => 'view all',
@@ -75,10 +86,9 @@ class MentorController extends Controller {
             'specialties' => $specialties,
             'companies' => $companies,
             'statuses' => $statuses,
-            'residences' => $residences
+            'residences' => $residences,
         ]);
     }
-
 
     public function showMentorsByCriteria(Request $request) {
         $input = $request->all();
@@ -87,17 +97,20 @@ class MentorController extends Controller {
             $mentorViewModelsData = $this->mentorManager->getMentorViewModelsByCriteria($input);
             $mentorViewModels = $this->mentorManager->paginateMentors($mentorViewModelsData)->setPath('#');
         } catch (\Exception $e) {
-            Log::info('Error on mentors search: ' . $e->getCode() . "  " . $e->getMessage());
+            Log::info('Error on mentors search: ' . $e->getCode() . '  ' . $e->getMessage());
             $errorMessage = 'An error occurred. Please try again later.';
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
+
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
         if ($mentorViewModels && $mentorViewModels->count() == 0) {
-            $errorMessage = "No mentors found";
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
+            $errorMessage = 'No mentors found';
+
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (string)view('mentors.list', compact('mentorViewModels', 'loggedInUser'))));
+
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (string) view('mentors.list', compact('mentorViewModels', 'loggedInUser'))));
         }
     }
 
@@ -107,23 +120,24 @@ class MentorController extends Controller {
      * @return Application|Factory|\Illuminate\View\View|View
      */
     public function showProfile($id) {
-        $menteeManager = new MenteeManager();
-        $userManager = new UserManager();
+        $menteeManager = new MenteeManager;
+        $userManager = new UserManager;
         $mentorViewModel = $this->mentorManager->getMentorViewModel($this->mentorManager->getMentor($id));
         $availableMenteeViewModels = $menteeManager->paginateMentees($menteeManager->getAvailableMenteeViewModels())->setPath('#');
         $universities = $this->universityManager->getAllUniversitiesIncludingOtherUniversities();
         $educationLevels = $this->educationLevelManager->getAllEducationLevels();
         $accountManagers = $userManager->getAccountManagersWithRemainingCapacity();
         $currentSessionViewModel = $this->mentorshipSessionManager
-            ->paginateMentorshipSessions($this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($id))->setPath("#");
+            ->paginateMentorshipSessions($this->mentorshipSessionManager->getCurrentMentorshipSessionViewModelForMentor($id))->setPath('#');
         $mentorshipSessionViewModels = $this->mentorshipSessionManager
             ->paginateMentorshipSessions($this->mentorshipSessionManager
-                ->getMentorshipSessionViewModelsForMentor($id), 100)->setPath("#");
+                ->getMentorshipSessionViewModelsForMentor($id), 100)->setPath('#');
         $specialties = $this->specialtyManager->getAllSpecialties();
         $loggedInUser = Auth::user();
-        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager();
+        $mentorshipSessionStatusManager = new MentorshipSessionStatusManager;
         $statuses = $mentorshipSessionStatusManager->getAllMentorshipSessionStatuses();
         $displayOnlyAvailableMentees = true;
+
         return view('mentors.profile', ['mentorViewModel' => $mentorViewModel,
             'availableMenteeViewModels' => $availableMenteeViewModels, 'universities' => $universities,
             'educationLevels' => $educationLevels,
@@ -133,31 +147,32 @@ class MentorController extends Controller {
             'specialties' => $specialties,
             'mentorshipSessionViewModels' => $mentorshipSessionViewModels,
             'currentSessionViewModel' => $currentSessionViewModel,
-            'displayOnlyAvailableMentees' => $displayOnlyAvailableMentees
+            'displayOnlyAvailableMentees' => $displayOnlyAvailableMentees,
         ]);
     }
 
     /**
      * Download a mentor's CV file.
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @param  $id
+     * @return BinaryFileResponse
      */
     public function downloadCv($id) {
         $mentor = $this->mentorManager->getMentor($id);
         abort_if(empty($mentor->cv_file_name), 404);
+
         return $this->mentorManager->downloadCvFile($mentor->cv_file_name);
     }
 
     /**
      * Show the form for creating a new mentor.
      *
-     * @param Request $request object containing request parameters
+     * @param  Request  $request  object containing request parameters
      * @return Application|Factory|\Illuminate\View\View|View
      */
     public function showCreateForm(Request $request) {
         $input = $request->all();
-        $language = "en";
+        $language = 'en';
         if (isset($input['lang'])) {
             $language = $request['lang'];
             App::setLocale($language);
@@ -175,9 +190,9 @@ class MentorController extends Controller {
             }
         }
 
-        $mentor = new MentorProfile();
-        $mentorSpecialtiesIds = array();
-        $mentorIndustriesIds = array();
+        $mentor = new MentorProfile;
+        $mentorSpecialtiesIds = [];
+        $mentorIndustriesIds = [];
         $formTitle = trans('messages.mentor_registration');
 
         $loggedInUser = Auth::user();
@@ -209,20 +224,19 @@ class MentorController extends Controller {
             'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies, 'references' => $references,
             'mentorStatuses' => $mentorStatuses, 'publicForm' => $publicForm, 'language' => $language,
-            'enableSpecialtiesInsertion' => $enableSpecialtiesInsertion
+            'enableSpecialtiesInsertion' => $enableSpecialtiesInsertion,
         ]);
     }
-
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Application|Factory|\Illuminate\View\View|View
      */
     public function showEditForm($id) {
         $pageTitle = 'Edit mentor';
-        $language = "en";
+        $language = 'en';
         $mentor = $this->mentorManager->getMentor($id);
 
         $loggedInUser = Auth::user();
@@ -246,6 +260,7 @@ class MentorController extends Controller {
         $mentorStatuses = $this->mentorStatusManager->getAllMentorStatuses();
 
         $formTitle = 'Edit mentor';
+
         return view('mentors.forms.create_edit', ['mentor' => $mentor,
             'formTitle' => $formTitle,
             'residences' => $residences, 'references' => $references,
@@ -255,18 +270,17 @@ class MentorController extends Controller {
             'universities' => $universities, 'educationLevels' => $educationLevels,
             'companies' => $companies,
             'mentorStatuses' => $mentorStatuses, 'pageTitle' => $pageTitle, 'publicForm' => false,
-            'language' => $language, 'enableSpecialtiesInsertion' => $enableSpecialtiesInsertion
+            'language' => $language, 'enableSpecialtiesInsertion' => $enableSpecialtiesInsertion,
         ]);
     }
 
     /**
      * Store a newly created mentor in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse|Response
      */
     public function create(Request $request) {
-
         $input = $request->all();
 
         if (isset($input['lang'])) {
@@ -274,7 +288,7 @@ class MentorController extends Controller {
             App::setLocale($language);
         }
         $publicForm = $input['public_form'];
-        if ($publicForm == "true") {
+        if ($publicForm == 'true') {
             $this->validate($request, [
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
@@ -296,7 +310,7 @@ class MentorController extends Controller {
                 'industries' => 'required',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url'
+                'linkedin_url' => 'url',
             ], $this->messages());
         } else {
             $this->validate($request, [
@@ -306,7 +320,7 @@ class MentorController extends Controller {
                 'email' => 'required|max:255|email|unique:mentor_profile',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url'
+                'linkedin_url' => 'url',
             ], $this->messages());
         }
 
@@ -315,22 +329,23 @@ class MentorController extends Controller {
             $this->mentorManager->createMentor($input,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         } catch (\Exception $e) {
-            Log::info('Error on creating mentor: ' . $e->getCode() . "  " .  $e->getMessage() . implode(",", array_keys($input)));
+            Log::info('Error on creating mentor: ' . $e->getCode() . '  ' . $e->getMessage() . implode(',', array_keys($input)));
             session()->flash('flash_message_failure', 'An error occurred. Please try again.');
+
             return back()->withInput();
         }
 
 
-        //if logged in user created the mentor, return to "all mentors" page
-        if (Auth::user() != null && $input['public_form'] !== "true") {
+        // if logged in user created the mentor, return to "all mentors" page
+        if (Auth::user() != null && $input['public_form'] !== 'true') {
             session()->flash('flash_message_success', 'Mentor ' . $input['first_name'] . ' ' . $input['last_name'] . ' created');
+
             return redirect()->route('showAllMentors');
         } else {
-            session()->flash('flash_message_success', trans("messages.mentor_created_public"));
+            session()->flash('flash_message_success', trans('messages.mentor_created_public'));
+
             return back();
         }
-
-
     }
 
     public function messages() {
@@ -357,15 +372,15 @@ class MentorController extends Controller {
             'status_id.required' => trans('messages.status_id.required'),
             'job_experience_years.min' => trans('messages.job_experience_years.min'),
             'cv_file.max' => trans('messages.cv_file.max'),
-            'cv_file.mimes' => trans('messages.cv_file.mimes')
+            'cv_file.mimes' => trans('messages.cv_file.mimes'),
         ];
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return RedirectResponse|Response
      */
     public function edit(Request $request, $id) {
@@ -381,49 +396,54 @@ class MentorController extends Controller {
             'year_of_birth' => 'required|numeric|digits:4',
             'email' => 'required|max:255|email|unique:mentor_profile,email,' . $id,
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
-            'public_form' => 'required'
+            'public_form' => 'required',
         ], $this->messages());
 
         try {
             $this->mentorManager->editMentor($input, $id,
                 ($request->hasFile('cv_file') && $request->file('cv_file')->isValid()) ? true : false);
         } catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . '  ' . $e->getMessage());
+
             return back()->withInput();
         }
 
         session()->flash('flash_message_success', 'Mentor edited');
+
         return back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse
      */
     public function delete(Request $request) {
         $input = $request->all();
         $mentorId = $input['mentor_id'];
-        if ($mentorId == null || $mentorId == "") {
+        if ($mentorId == null || $mentorId == '') {
             session()->flash('flash_message_failure', 'Something went wrong. Please try again.');
+
             return back();
         }
         try {
             $this->mentorManager->deleteMentor($mentorId);
         } catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " . $e->getMessage());
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . '  ' . $e->getMessage());
+
             return back();
         }
         session()->flash('flash_message_success', 'Mentor deleted');
+
         return back();
     }
 
     /**
      * Change mentor availability status if you have the permissions to ONLY change the status
      *
-     * @param Request $request
-     * @return RedirectResponse|\Illuminate\Routing\Redirector|string
+     * @param  Request  $request
+     * @return RedirectResponse|Redirector|string
      */
     public function changeMentorAvailabilityStatus(Request $request) {
         $input = $request->all();
@@ -431,17 +451,19 @@ class MentorController extends Controller {
         try {
             $this->mentorManager->changeMentorAvailabilityStatus($input);
         } catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " . $e->getMessage();
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string)view('common.ajax_error_message', compact('errorMessage'))));
+            $errorMessage = 'Error: ' . $e->getCode() . '  ' . $e->getMessage();
+
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string) view('common.ajax_error_message', compact('errorMessage'))));
         }
-        return redirect(route("showAllMentors"));
+
+        return redirect(route('showAllMentors'));
     }
 
     /**
      * When mentor wants to be available for new sessions after a completed session
      *
-     * @param $id int The mentor's id
-     * @param $email string The mentor's email
+     * @param  $id  int The mentor's id
+     * @param  $email  string The mentor's email
      * @return \Illuminate\View\View
      */
     public function makeMentorAvailableAgain($id, $email, Request $request) {
@@ -450,27 +472,28 @@ class MentorController extends Controller {
         $viewTitle = Lang::get('messages.availability_change_title');
         try {
             $resultStatusCode = $this->mentorManager->makeMentorAvailable($id, $email);
-            if ($resultStatusCode === "SUCCESS") {
+            if ($resultStatusCode === 'SUCCESS') {
                 return view('common.response-to-email')->with([
                     'message_success' => Lang::get('messages.status_change_success'),
-                    'title' => $viewTitle
+                    'title' => $viewTitle,
                 ]);
-            } else if ($resultStatusCode === "NOT_FOUND") {
+            } elseif ($resultStatusCode === 'NOT_FOUND') {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.mentor_not_found'),
-                    'title' => $viewTitle
+                    'title' => $viewTitle,
                 ]);
             } else {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.another_session_active'),
-                    'title' => $viewTitle
+                    'title' => $viewTitle,
                 ]);
             }
         } catch (\Exception $e) {
-            Log::info('Error on making mentor available after completion of session: ' . $e->getCode() . "  " . $e->getMessage());
+            Log::info('Error on making mentor available after completion of session: ' . $e->getCode() . '  ' . $e->getMessage());
+
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.error_occurred'),
-                'title' => $viewTitle
+                'title' => $viewTitle,
             ]);
         }
     }

@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddResidenceNameAndReferenceTextToMentorProfile extends Migration
-{
+class AddResidenceNameAndReferenceTextToMentorProfile extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentor_profile', function (Blueprint $table) {
             $table->string('residence_name')->after('residence_id')->nullable()->default(null);
             $table->text('reference_text')->after('reference_id')->nullable()->default(null);
@@ -24,8 +22,7 @@ class AddResidenceNameAndReferenceTextToMentorProfile extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('mentor_profile', function (Blueprint $table) {
             $table->dropColumn('reference_text');
             $table->dropColumn('residence_name');

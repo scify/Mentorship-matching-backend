@@ -3,15 +3,16 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Role extends Model
-{
+class Role extends Model {
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'role';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,10 +22,10 @@ class Role extends Model
 
     /**
      * Get the @see User instances for this role
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\User, $this>
+     *
+     * @return BelongsToMany<User, $this>
      */
-    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function users(): BelongsToMany {
         return $this->belongsToMany(User::class, 'user_role')->wherePivot('deleted_at', null);
     }
 }

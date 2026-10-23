@@ -9,21 +9,23 @@ use App\StorageLayer\MenteeStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MenteeManager {
-
     private $menteeStorage;
+
     private $specialtyManager;
 
     public function __construct() {
-        $this->menteeStorage = new MenteeStorage();
-        $this->specialtyManager = new SpecialtyManager();
+        $this->menteeStorage = new MenteeStorage;
+        $this->specialtyManager = new SpecialtyManager;
     }
 
     public function getAllMentees() {
@@ -37,30 +39,33 @@ class MenteeManager {
      */
     public function getAllMenteeViewModels() {
         $mentees = $this->menteeStorage->getAllMenteeProfiles();
+
         return $this->getMenteeViewModelsFromCollection($mentees);
     }
 
     public function getAvailableMenteeViewModels() {
-        $menteeStatusManager = new MenteeStatusManager();
+        $menteeStatusManager = new MenteeStatusManager;
         $mentees = $this->menteeStorage->getMenteeProfilesWithStatusId($menteeStatusManager->MENTEE_AVAILABLE_ID);
+
         return $this->getMenteeViewModelsFromCollection($mentees);
     }
 
     /**
-     * @param Collection<int, MenteeProfile> $mentees
+     * @param  Collection<int, MenteeProfile>  $mentees
      */
     private function getMenteeViewModelsFromCollection(Collection $mentees) {
-        $menteeViewModels = new Collection();
+        $menteeViewModels = new Collection;
         foreach ($mentees as $mentee) {
             $menteeViewModels->add($this->getMenteeViewModel($mentee));
         }
+
         return $menteeViewModels;
     }
 
     /**
      * Trandform a mentee to the according view model
      *
-     * @param MenteeProfile $mentee
+     * @param  MenteeProfile  $mentee
      * @return MenteeViewModel
      */
     public function getMenteeViewModel(MenteeProfile $mentee) {
@@ -70,26 +75,27 @@ class MenteeManager {
     /**
      * Store a cv file with hashed file name
      *
-     * @param UploadedFile $cvFile
-     * @param $menteeEmail
+     * @param  UploadedFile  $cvFile
+     * @param  $menteeEmail
      * @return string
      */
     private function saveCVFile(UploadedFile $cvFile, $menteeEmail) {
         $fileName = md5($menteeEmail . Carbon::now());
         $originalFileExtension = $cvFile->extension();
-        $fullFileName = $fileName . "." . $originalFileExtension;
-        $cvFile->move(storage_path("app/public/uploads/cv_files"), $fullFileName);
+        $fullFileName = $fileName . '.' . $originalFileExtension;
+        $cvFile->move(storage_path('app/public/uploads/cv_files'), $fullFileName);
+
         return $fullFileName;
     }
 
     /**
      * Download a mentee's cv file, streamed directly from the public disk.
      *
-     * @param $fileName
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @param  $fileName
+     * @return StreamedResponse
      */
     public function downloadCvFile($fileName) {
-        return \Illuminate\Support\Facades\Storage::disk('public')
+        return Storage::disk('public')
             ->download('uploads/cv_files/' . $fileName);
     }
 
@@ -105,63 +111,73 @@ class MenteeManager {
         }
         $menteeProfile = $this->menteeStorage->getMenteeProfileByEmail($inputFields['email']);
         if (!$menteeProfile) {
-            $menteeProfile = new MenteeProfile();
+            $menteeProfile = new MenteeProfile;
             $menteeProfile = $this->assignInputFieldsToMenteeProfile($menteeProfile, $inputFields);
 
             DB::transaction(function () use ($menteeProfile, $inputFields) {
                 $newMentee = $this->menteeStorage->saveMentee($menteeProfile);
-                if (isset($inputFields['specialties']))
+                if (isset($inputFields['specialties'])) {
                     $this->specialtyManager->assignSpecialtiesToMentee($newMentee, $inputFields['specialties']);
-                if ($inputFields['public_form'] == "true")
-                    $newMentee->notify(new MenteeRegistered());
+                }
+                if ($inputFields['public_form'] == 'true') {
+                    $newMentee->notify(new MenteeRegistered);
+                }
             });
         } else {
             $this->editMentee($inputFields, $menteeProfile->id, $isCvFileExistent);
         }
-
     }
 
     /**
-     * @param MenteeProfile $menteeProfile the instance
-     * @param array $inputFields the array of input fields
+     * @param  MenteeProfile  $menteeProfile  the instance
+     * @param  array  $inputFields  the array of input fields
      * @return MenteeProfile the instance with the fields assigned
      */
     private function assignInputFieldsToMenteeProfile(MenteeProfile $menteeProfile, array $inputFields) {
-        if (isset($inputFields['is_employed']))
+        if (isset($inputFields['is_employed'])) {
             $inputFields['is_employed'] = true;
-        else
+        } else {
             $inputFields['is_employed'] = false;
+        }
         $menteeProfile->fill($inputFields);
-        if (isset($inputFields['residence_id']))
+        if (isset($inputFields['residence_id'])) {
             $menteeProfile->residence_id = $inputFields['residence_id'] != '' ? $inputFields['residence_id'] : null;
-        if (isset($inputFields['reference_id']))
+        }
+        if (isset($inputFields['reference_id'])) {
             $menteeProfile->reference_id = $inputFields['reference_id'] != '' ? $inputFields['reference_id'] : null;
-        if (isset($inputFields['education_level_id']))
+        }
+        if (isset($inputFields['education_level_id'])) {
             $menteeProfile->education_level_id = $inputFields['education_level_id'] != '' ? $inputFields['education_level_id'] : null;
-        if (isset($inputFields['university_id']))
+        }
+        if (isset($inputFields['university_id'])) {
             $menteeProfile->university_id = $inputFields['university_id'] != '' ? $inputFields['university_id'] : null;
-//        if(isset($inputFields['specialty_id']))
-//            $menteeProfile->specialty_id = $inputFields['specialty_id'] != '' ? $inputFields['specialty_id'] : null;
-        if (isset($inputFields['year_of_birth']))
+        }
+        //        if(isset($inputFields['specialty_id']))
+        //            $menteeProfile->specialty_id = $inputFields['specialty_id'] != '' ? $inputFields['specialty_id'] : null;
+        if (isset($inputFields['year_of_birth'])) {
             $menteeProfile->year_of_birth = $inputFields['year_of_birth'] != '' ? $inputFields['year_of_birth'] : null;
-        if (isset($inputFields['university_graduation_year']))
+        }
+        if (isset($inputFields['university_graduation_year'])) {
             $menteeProfile->university_graduation_year = $inputFields['university_graduation_year'] != '' ? $inputFields['university_graduation_year'] : null;
+        }
+
         return $menteeProfile;
     }
 
     public function getMentee($id) {
         $mentee = $this->menteeStorage->getMenteeProfileById($id);
-        $mentee->age = intval(date("Y")) - intval($mentee->year_of_birth);
+        $mentee->age = intval(date('Y')) - intval($mentee->year_of_birth);
+
         return $mentee;
     }
 
     public function editMentee(array $inputFields, $id, $isCvFileExistent = false) {
         if (isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
-            $inputFields['follow_up_date'] = "";
+            $inputFields['follow_up_date'] = '';
         }
-        if ($inputFields['follow_up_date'] != "") {
-            $dateArray = explode("/", $inputFields['follow_up_date']);
-            $inputFields['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
+        if ($inputFields['follow_up_date'] != '') {
+            $dateArray = explode('/', $inputFields['follow_up_date']);
+            $inputFields['follow_up_date'] = Carbon::createFromDate((int) $dateArray[2], (int) $dateArray[1], (int) $dateArray[0]);
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
@@ -172,7 +188,7 @@ class MenteeManager {
         $oldStatusId = $mentee->status_id;
         unset($mentee->age);
         $mentee = $this->assignInputFieldsToMenteeProfile($mentee, $inputFields);
-        $menteeStatusHistoryManager = new MenteeStatusHistoryManager();
+        $menteeStatusHistoryManager = new MenteeStatusHistoryManager;
         $loggedInUser = Auth::user();
 
         DB::transaction(function () use ($mentee, $oldStatusId, $inputFields, $menteeStatusHistoryManager, $loggedInUser) {
@@ -182,8 +198,8 @@ class MenteeManager {
             }
             if ($oldStatusId != $inputFields['status_id']) {
                 $menteeStatusHistoryManager->createMenteeStatusHistory($mentee, $inputFields['status_id'],
-                    (isset($inputFields['status_history_comment'])) ? $inputFields['status_history_comment'] : "",
-                    ($inputFields['follow_up_date'] != "") ?
+                    (isset($inputFields['status_history_comment'])) ? $inputFields['status_history_comment'] : '',
+                    ($inputFields['follow_up_date'] != '') ?
                         $inputFields['follow_up_date'] : null, $loggedInUser);
             }
         });
@@ -199,7 +215,7 @@ class MenteeManager {
     /**
      * Queries the mentees DB table to find string in name or email
      *
-     * @param $searchQuery string the name or email that we need to check for
+     * @param  $searchQuery  string the name or email that we need to check for
      * @return Collection the mentees that match
      */
     public function filterMenteesByNameAndEmail($searchQuery) {
@@ -209,20 +225,21 @@ class MenteeManager {
     /**
      * Gets all the filters passed and returns the filtered results
      *
-     * @param $filters
+     * @param  $filters
      * @return Collection<int, MenteeProfile>
+     *
      * @throws \Exception When filters aren't valid
      */
     private function getMenteesByCriteria($filters) {
-        if ((!isset($filters['menteeName']) || $filters['menteeName'] === "") &&
-            (!isset($filters['ageRange']) || $filters['ageRange'] === "") &&
-            (!isset($filters['educationLevel']) || $filters['educationLevel'] === "") &&
-            (!isset($filters['university']) || $filters['university'] === "") &&
-            (!isset($filters['skills']) || $filters['skills'] === "") &&
-            (!isset($filters['signedUpAgo']) || $filters['signedUpAgo'] === "") &&
-            (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === "") &&
-            (!isset($filters['specialty']) || $filters['specialty'] === "") &&
-            (!isset($filters['averageRating']) || $filters['averageRating'] === "") &&
+        if ((!isset($filters['menteeName']) || $filters['menteeName'] === '') &&
+            (!isset($filters['ageRange']) || $filters['ageRange'] === '') &&
+            (!isset($filters['educationLevel']) || $filters['educationLevel'] === '') &&
+            (!isset($filters['university']) || $filters['university'] === '') &&
+            (!isset($filters['skills']) || $filters['skills'] === '') &&
+            (!isset($filters['signedUpAgo']) || $filters['signedUpAgo'] === '') &&
+            (!isset($filters['completedSessionAgo']) || $filters['completedSessionAgo'] === '') &&
+            (!isset($filters['specialty']) || $filters['specialty'] === '') &&
+            (!isset($filters['averageRating']) || $filters['averageRating'] === '') &&
             (!isset($filters['displayOnlyUnemployed']) || $filters['displayOnlyUnemployed'] === 'false') &&
             (!isset($filters['displayOnlyAvailable']) || $filters['displayOnlyAvailable'] === 'false') &&
             (!isset($filters['displayOnlyActiveSession']) || $filters['displayOnlyActiveSession'] === 'false') &&
@@ -235,199 +252,203 @@ class MenteeManager {
         // interpolated into the SQL string.
         $bindings = [];
         $conditions = [];
-        $dbQuery = "select distinct mp.id
+        $dbQuery = 'select distinct mp.id
             from mentee_profile as mp
             left outer join mentee_specialty as msp on mp.id = msp.mentee_profile_id
             left outer join mentorship_session as ms on mp.id = ms.mentee_profile_id
-            left outer join mentorship_session_history as msh on ms.id = msh.mentorship_session_id ";
+            left outer join mentorship_session_history as msh on ms.id = msh.mentorship_session_id ';
         if (isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {
-            $dbQuery .= "left outer join (select ms.id, max(msh.updated_at) as session_date 
+            $dbQuery .= 'left outer join (select ms.id, max(msh.updated_at) as session_date 
 	            from mentorship_session_history as msh join mentorship_session as ms on 
 	            msh.mentorship_session_id = ms.id join mentee_profile as mp on mp.id = ms.mentee_profile_id 
-	            group by mp.id, ms.id)	as last_session on (last_session.id = ms.id and last_session.session_date = msh.updated_at) ";
+	            group by mp.id, ms.id)	as last_session on (last_session.id = ms.id and last_session.session_date = msh.updated_at) ';
         }
-        if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === "true") {
-            $dbQuery .= "left outer join mentorship_session as mses on mses.mentee_profile_id = mp.id
+        if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
+            $dbQuery .= 'left outer join mentorship_session as mses on mses.mentee_profile_id = mp.id
                 left outer join
                 (select max(id) as last_session_id from mentorship_session group by mentee_profile_id) 
-                as last_sessions on last_sessions.last_session_id = mses.id ";
+                as last_sessions on last_sessions.last_session_id = mses.id ';
         }
-        if (isset($filters['averageRating']) && $filters['averageRating'] != "") {
+        if (isset($filters['averageRating']) && $filters['averageRating'] != '') {
             $averageRating = intval($filters['averageRating']);
             if ($averageRating < 1 || $averageRating > 5) {
-                throw new \Exception("Filter value is not valid.");
+                throw new \Exception('Filter value is not valid.');
             }
-            $dbQuery .= "join (
+            $dbQuery .= 'join (
                     select round(avg(rating)), mentee_id from mentee_rating group by mentee_id having round(avg(rating)) = ?
-                    ) as mentees_with_avg_rating on mp.id=mentees_with_avg_rating.mentee_id ";
+                    ) as mentees_with_avg_rating on mp.id=mentees_with_avg_rating.mentee_id ';
             $bindings[] = $averageRating;
         }
-        if (isset($filters['menteeName']) && $filters['menteeName'] != "") {
-            $conditions[] = "(mp.first_name like ? or mp.last_name like ?)";
+        if (isset($filters['menteeName']) && $filters['menteeName'] != '') {
+            $conditions[] = '(mp.first_name like ? or mp.last_name like ?)';
             $bindings[] = '%' . $filters['menteeName'] . '%';
             $bindings[] = '%' . $filters['menteeName'] . '%';
         }
-        if (isset($filters['educationLevel']) && $filters['educationLevel'] != "") {
+        if (isset($filters['educationLevel']) && $filters['educationLevel'] != '') {
             $educationLevel = intval($filters['educationLevel']);
             if ($educationLevel == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new \Exception('Filter value is not valid.');
             }
-            $conditions[] = "mp.education_level_id = ?";
+            $conditions[] = 'mp.education_level_id = ?';
             $bindings[] = $educationLevel;
         }
-        if (isset($filters['specialty']) && $filters['specialty'] != "") {
+        if (isset($filters['specialty']) && $filters['specialty'] != '') {
             $specialty = intval($filters['specialty']);
             if ($specialty == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new \Exception('Filter value is not valid.');
             }
-            $conditions[] = "msp.specialty_id = ?";
+            $conditions[] = 'msp.specialty_id = ?';
             $bindings[] = $specialty;
         }
-        if (isset($filters['university']) && $filters['university'] != "") {
+        if (isset($filters['university']) && $filters['university'] != '') {
             // if university id is not a number but a string, search university name instead of university id
             if (intval($filters['university']) == 0 || strlen($filters['university']) > 2) {
-                $conditions[] = "mp.university_name = ?";
+                $conditions[] = 'mp.university_name = ?';
                 $bindings[] = $filters['university'];
             } else {
-                $conditions[] = "mp.university_id = ?";
+                $conditions[] = 'mp.university_id = ?';
                 $bindings[] = intval($filters['university']);
             }
         }
         if (isset($filters['displayOnlyActiveSession']) && $filters['displayOnlyActiveSession'] === 'true') {
             $activeStatuses = MentorshipSessionStatuses::getActiveSessionStatuses();
-            $conditions[] = "(last_session.session_date is not null and msh.status_id in (" .
-                RawQueryStorage::placeholdersFor($activeStatuses) . "))";
+            $conditions[] = '(last_session.session_date is not null and msh.status_id in (' .
+                RawQueryStorage::placeholdersFor($activeStatuses) . '))';
             $bindings = array_merge($bindings, $activeStatuses);
         }
-        if (isset($filters['ageRange']) && $filters['ageRange'] != "") {
+        if (isset($filters['ageRange']) && $filters['ageRange'] != '') {
             $ageRange = explode(';', $filters['ageRange']);
             if (count($ageRange) !== 2 || intval($ageRange[0]) == 0 || intval($ageRange[1]) == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new \Exception('Filter value is not valid.');
             }
-            $conditions[] = "(mp.year_of_birth > year(curdate()) - ? and mp.year_of_birth < year(curdate()) - ?)";
+            $conditions[] = '(mp.year_of_birth > year(curdate()) - ? and mp.year_of_birth < year(curdate()) - ?)';
             $bindings[] = intval($ageRange[1]);
             $bindings[] = intval($ageRange[0]);
         }
-        if (isset($filters['skills']) && $filters['skills'] != "") {
-            $allSkills = explode(",", $filters['skills']);
+        if (isset($filters['skills']) && $filters['skills'] != '') {
+            $allSkills = explode(',', $filters['skills']);
             foreach ($allSkills as $skill) {
-                $conditions[] = "mp.skills like ?";
+                $conditions[] = 'mp.skills like ?';
                 $bindings[] = '%' . $skill . '%';
             }
         }
-        if (isset($filters['signedUpAgo']) && $filters['signedUpAgo'] != "") {
+        if (isset($filters['signedUpAgo']) && $filters['signedUpAgo'] != '') {
             $signedUpAgo = intval($filters['signedUpAgo']);
             if ($signedUpAgo == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new \Exception('Filter value is not valid.');
             }
             if ($signedUpAgo < 13) {
-                $conditions[] = "mp.created_at between (now() - interval ? month) and (now() - interval ? month)";
+                $conditions[] = 'mp.created_at between (now() - interval ? month) and (now() - interval ? month)';
                 $bindings[] = $signedUpAgo;
                 $bindings[] = $signedUpAgo - 1;
             } else {
-                $conditions[] = "mp.created_at < (now() - interval 12 month)";
+                $conditions[] = 'mp.created_at < (now() - interval 12 month)';
             }
         }
-        if (isset($filters['completedSessionAgo']) && $filters['completedSessionAgo'] != "") {
+        if (isset($filters['completedSessionAgo']) && $filters['completedSessionAgo'] != '') {
             $completedSessionAgo = intval($filters['completedSessionAgo']);
             if ($completedSessionAgo == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new \Exception('Filter value is not valid.');
             }
             $completedStatuses = MentorshipSessionStatuses::getCompletedSessionStatuses();
-            $conditions[] = "msh.status_id in (" . RawQueryStorage::placeholdersFor($completedStatuses) . ")
-                and msh.updated_at between (now() - interval ? month) and (now() - interval ? month)";
+            $conditions[] = 'msh.status_id in (' . RawQueryStorage::placeholdersFor($completedStatuses) . ')
+                and msh.updated_at between (now() - interval ? month) and (now() - interval ? month)';
             $bindings = array_merge($bindings, $completedStatuses);
             $bindings[] = $completedSessionAgo;
             $bindings[] = $completedSessionAgo - 1;
         }
         if (isset($filters['displayOnlyUnemployed']) && $filters['displayOnlyUnemployed'] === 'true') {
-            $conditions[] = "mp.is_employed = 0";
+            $conditions[] = 'mp.is_employed = 0';
         }
         if (isset($filters['displayOnlyNeverMatched']) && $filters['displayOnlyNeverMatched'] === 'true') {
-            $conditions[] = "ms.id is null";
+            $conditions[] = 'ms.id is null';
         }
         if (isset($filters['displayOnlyExternallySubscribed']) && $filters['displayOnlyExternallySubscribed'] === 'true') {
-            $conditions[] = "mp.creator_user_id is null";
+            $conditions[] = 'mp.creator_user_id is null';
         }
         if (isset($filters['displayOnlyAvailableWithCancelledSessions']) && $filters['displayOnlyAvailableWithCancelledSessions'] === 'true') {
             $cancelledStatuses = MentorshipSessionStatuses::getCancelledSessionStatuses();
-            $conditions[] = "mses.status_id in (" . RawQueryStorage::placeholdersFor($cancelledStatuses) . ")";
+            $conditions[] = 'mses.status_id in (' . RawQueryStorage::placeholdersFor($cancelledStatuses) . ')';
             $bindings = array_merge($bindings, $cancelledStatuses);
         }
         if (isset($filters['displayOnlyAvailable']) && $filters['displayOnlyAvailable'] === 'true') {
-            $conditions[] = "mp.status_id = 1";
+            $conditions[] = 'mp.status_id = 1';
         }
         if (!empty($conditions)) {
-            $dbQuery .= "where " . implode(" and ", $conditions);
+            $dbQuery .= 'where ' . implode(' and ', $conditions);
         }
         $filteredMenteeIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
-            (new RawQueryStorage())->performRawQuery($dbQuery, $bindings)
+            (new RawQueryStorage)->performRawQuery($dbQuery, $bindings)
         );
+
         return $this->menteeStorage->getMenteesFromIdsArray($filteredMenteeIds);
     }
 
     /**
      * Gets all the filters passed and returns the filtered results as their according view model
      *
-     * @param $filters
+     * @param  $filters
      * @return Collection MenteeViewModel
      */
     public function getMenteeViewModelsByCriteria($filters) {
         $mentees = $this->getMenteesByCriteria($filters);
-        $menteeViewModels = new Collection();
+        $menteeViewModels = new Collection;
         foreach ($mentees as $mentee) {
             $menteeViewModels->add($this->getMenteeViewModel($mentee));
         }
+
         return $menteeViewModels;
     }
 
     /**
      * Change the mentee's availability status
      *
-     * @param array $input parameters passed by user
+     * @param  array  $input  parameters passed by user
+     *
      * @throws \Exception When something weird happens with the parameters passed
      */
     public function changeMenteeAvailabilityStatus(array $input) {
         if (isset($input['do_not_contact'])) {
-            $input['follow_up_date'] = "";
+            $input['follow_up_date'] = '';
         }
-        if ($input['follow_up_date'] != "") {
-            $dateArray = explode("/", $input['follow_up_date']);
-            $input['follow_up_date'] = Carbon::createFromDate((int)$dateArray[2], (int)$dateArray[1], (int)$dateArray[0]);
+        if ($input['follow_up_date'] != '') {
+            $dateArray = explode('/', $input['follow_up_date']);
+            $input['follow_up_date'] = Carbon::createFromDate((int) $dateArray[2], (int) $dateArray[1], (int) $dateArray[0]);
         }
         $mentee = $this->getMentee($input['mentee_id']);
         unset($mentee->age);
         // if something wrong passed
         if ($mentee == null || intval($input['status_id']) == 0) {
-            throw new \Exception("Wrong parameters passed.");
+            throw new \Exception('Wrong parameters passed.');
         }
         $mentee->status_id = $input['status_id'];
         $loggedInUser = Auth::user();
         DB::transaction(function () use ($mentee, $input, $loggedInUser) {
             $mentee = $this->menteeStorage->saveMentee($mentee);
-            $menteeStatusHistoryManager = new MenteeStatusHistoryManager();
+            $menteeStatusHistoryManager = new MenteeStatusHistoryManager;
             $menteeStatusHistoryManager->createMenteeStatusHistory($mentee, $input['status_id'], $input['status_history_comment'],
-                ($input['follow_up_date'] != "") ? $input['follow_up_date'] : null, $loggedInUser);
+                ($input['follow_up_date'] != '') ? $input['follow_up_date'] : null, $loggedInUser);
         });
     }
 
     public function paginateMentees($items, $perPage = 10) {
-        //Get current page form url e.g. &page=1
+        // Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $itemsCount = $items ? count($items) : 0;
         // FIX for searching with page number, when search has fetched less results
         // (fix: go to the first page!)
-        if ($currentPage > ceil($itemsCount / $perPage))
-            $currentPage = "1";
-
-        if (!empty($items)) {
-            //Slice the collection to get the items to display in current page
-            $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
-        } else {
-            $currentPageItems = new Collection();
+        if ($currentPage > ceil($itemsCount / $perPage)) {
+            $currentPage = '1';
         }
 
-        //Create our paginator and pass it to the view
+        if (!empty($items)) {
+            // Slice the collection to get the items to display in current page
+            $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+        } else {
+            $currentPageItems = new Collection;
+        }
+
+        // Create our paginator and pass it to the view
         return new LengthAwarePaginator($currentPageItems, $itemsCount, $perPage);
     }
 }

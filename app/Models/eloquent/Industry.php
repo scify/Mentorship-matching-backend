@@ -3,15 +3,16 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Industry extends Model
-{
+class Industry extends Model {
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'industry';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,10 +21,9 @@ class Industry extends Model
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\MentorProfile, $this>
+     * @return BelongsToMany<MentorProfile, $this>
      */
-    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function mentors(): BelongsToMany {
         return $this->belongsToMany(MentorProfile::class, 'mentor_industry')->wherePivot('deleted_at', null);
     }
 }

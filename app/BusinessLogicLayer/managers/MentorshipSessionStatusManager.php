@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -10,12 +11,11 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\StorageLayer\MentorshipSessionStatusStorage;
 
-class MentorshipSessionStatusManager
-{
+class MentorshipSessionStatusManager {
     private $mentorshipSessionStatusStorage;
 
     public function __construct() {
-        $this->mentorshipSessionStatusStorage = new MentorshipSessionStatusStorage();
+        $this->mentorshipSessionStatusStorage = new MentorshipSessionStatusStorage;
     }
 
     public function getAllMentorshipSessionStatuses() {

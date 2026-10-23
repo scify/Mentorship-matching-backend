@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class DropNameFromUsersTable extends Migration
-{
+class DropNameFromUsersTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('users', function ($table) {
             $table->dropColumn('name');
         });
@@ -23,8 +20,7 @@ class DropNameFromUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('users', function ($table) {
             $table->string('name');
         });

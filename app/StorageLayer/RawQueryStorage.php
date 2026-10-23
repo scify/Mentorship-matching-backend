@@ -5,7 +5,6 @@ namespace App\StorageLayer;
 use Illuminate\Support\Facades\DB;
 
 class RawQueryStorage {
-
     /**
      * Runs a hand-written SELECT statement.
      *
@@ -14,8 +13,8 @@ class RawQueryStorage {
      * $query with its value in $bindings, so PDO sends it out-of-band
      * instead of it being parsed as SQL.
      *
-     * @param string $query SQL with `?` placeholders for all values
-     * @param array $bindings values for the placeholders, in order
+     * @param  string  $query  SQL with `?` placeholders for all values
+     * @param  array  $bindings  values for the placeholders, in order
      * @return array
      */
     public function performRawQuery(string $query, array $bindings = []) {
@@ -25,7 +24,7 @@ class RawQueryStorage {
     /**
      * Builds a comma separated placeholder list (`?, ?, ?`) for an IN clause.
      *
-     * @param array $values
+     * @param  array  $values
      * @return string
      */
     public static function placeholdersFor(array $values): string {

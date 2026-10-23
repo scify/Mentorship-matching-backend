@@ -7,14 +7,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  * runs migrate:fresh. Nothing listens on 127.0.0.1:1, so without the guard the
  * migration fails with a QueryException instead of the guard's message.
  */
-class TestDatabaseGuardSetUpTest extends TestCase
-{
+class TestDatabaseGuardSetUpTest extends TestCase {
     use RefreshDatabase;
 
     private ?RuntimeException $setUpException = null;
 
-    public function createApplication()
-    {
+    public function createApplication() {
         $app = parent::createApplication();
 
         $app['config']->set([
@@ -26,8 +24,7 @@ class TestDatabaseGuardSetUpTest extends TestCase
         return $app;
     }
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         try {
             parent::setUp();
         } catch (RuntimeException $exception) {
@@ -35,8 +32,7 @@ class TestDatabaseGuardSetUpTest extends TestCase
         }
     }
 
-    public function testSetUpRefusesTheDevelopmentDatabaseBeforeMigrating()
-    {
+    public function test_set_up_refuses_the_development_database_before_migrating() {
         $this->assertNotNull($this->setUpException);
         $this->assertStringStartsWith(
             'Tests must use the MariaDB database [testing], not [mysql] database [db]',

@@ -2,14 +2,15 @@
 
 namespace App\Models\viewmodels;
 
-
 use App\BusinessLogicLayer\managers\MentorStatusManager;
 
 class CompanyViewModel {
-
     public $company;
+
     public $totalMentorsNum;
+
     public $availableMentorsNum;
+
     public $matchedMentorsNum;
 
     public function __construct($company) {
@@ -17,18 +18,20 @@ class CompanyViewModel {
         $allCompanyMentors = $this->company->mentors;
         $this->totalMentorsNum = $allCompanyMentors ? $allCompanyMentors->count() : 0;
 
-        $mentorStatusManager = new MentorStatusManager();
+        $mentorStatusManager = new MentorStatusManager;
 
-        $availableMentors = $allCompanyMentors->filter(function ($mentor, $key)  use ($mentorStatusManager) {
-            if($mentor->status != null) {
+        $availableMentors = $allCompanyMentors->filter(function ($mentor, $key) use ($mentorStatusManager) {
+            if ($mentor->status != null) {
                 return $mentor->status->id == $mentorStatusManager->MENTOR_AVAILABLE_ID;
             }
+
             return false;
         });
-        $matchedMentors = $allCompanyMentors->filter(function ($mentor, $key)  use ($mentorStatusManager) {
-            if($mentor->status != null) {
+        $matchedMentors = $allCompanyMentors->filter(function ($mentor, $key) use ($mentorStatusManager) {
+            if ($mentor->status != null) {
                 return $mentor->status->id == $mentorStatusManager->MENTOR_MATCHED_ID;
             }
+
             return false;
         });
         $this->availableMentorsNum = $availableMentors ? $availableMentors->count() : 0;

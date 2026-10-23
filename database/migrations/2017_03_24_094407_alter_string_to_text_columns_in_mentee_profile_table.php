@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class AlterStringToTextColumnsInMenteeProfileTable extends Migration
-{
+class AlterStringToTextColumnsInMenteeProfileTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentee_profile', function ($table) {
             // nullable() has to be restated: since Laravel 11 change() drops any
             // attribute not listed, and these columns are all created as
@@ -29,8 +26,7 @@ class AlterStringToTextColumnsInMenteeProfileTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('mentee_profile', function ($table) {
             $table->string('job_description')->nullable()->change();
             $table->string('specialty_experience')->nullable()->change();

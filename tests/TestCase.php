@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
-{
+abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
     /**
      * The base URL to use while testing the application.
      *
@@ -19,8 +20,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $seed = true;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
 
         // Views render without public/build/manifest.json.
@@ -30,18 +30,17 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
     /**
      * Creates the application.
      *
-     * @return \Illuminate\Foundation\Application
+     * @return Application
      */
-    public function createApplication()
-    {
-        $app = require __DIR__.'/../bootstrap/app.php';
+    public function createApplication() {
+        $app = require __DIR__ . '/../bootstrap/app.php';
 
         // A cached config replaces every <server> line in phpunit.xml.
         if (file_exists($app->getCachedConfigPath())) {
             throw new RuntimeException('Tests cannot run with a cached config. Run "php artisan config:clear".');
         }
 
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(Kernel::class)->bootstrap();
 
         return $app;
     }
@@ -51,15 +50,13 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      * refuse everything except the dedicated `testing` database before the
      * traits run.
      */
-    protected function setUpTraits()
-    {
+    protected function setUpTraits() {
         $this->ensureTestDatabaseIsTheTestingDatabase();
 
         return parent::setUpTraits();
     }
 
-    protected function ensureTestDatabaseIsTheTestingDatabase(): void
-    {
+    protected function ensureTestDatabaseIsTheTestingDatabase(): void {
         $connection = DB::connection();
         $driver = $connection->getConfig('driver');
         $database = $connection->getConfig('database');
@@ -67,7 +64,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
         if (!in_array($driver, ['mysql', 'mariadb'], true) || $database !== 'testing') {
             throw new RuntimeException(
                 "Tests must use the MariaDB database [testing], not [{$driver}] database [{$database}]. "
-                .'Check the DB_* lines in phpunit.xml.'
+                . 'Check the DB_* lines in phpunit.xml.'
             );
         }
     }

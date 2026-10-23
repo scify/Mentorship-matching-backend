@@ -40,7 +40,6 @@ Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@sho
 Route::post('rateMentor', 'RatingController@rateMentor')->name('rateMentor');
 
 Route::group(['middleware' => 'auth'], function () {
-
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
     Route::get('/dashboard', 'UserController@showDashboardForUser')->name('dashboard');
 
@@ -107,7 +106,6 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 Route::group(['middleware' => ['auth', 'status-changer']], function () {
     Route::post('mentor/changeStatus', 'MentorController@changeMentorAvailabilityStatus')->name('changeMentorStatus');
     Route::post('mentee/changeStatus', 'MenteeController@changeMenteeAvailabilityStatus')->name('changeMenteeStatus');
-
 });
 
 Route::group(['middleware' => ['auth', 'can-edit-mentors-and-mentees']], function () {
@@ -115,7 +113,6 @@ Route::group(['middleware' => ['auth', 'can-edit-mentors-and-mentees']], functio
     Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');
     Route::get('mentee/{id}/edit', 'MenteeController@showEditForm')->name('showEditMenteeForm');
     Route::post('mentee/{id}/edit', 'MenteeController@edit')->name('editMentee');
-
 });
 
 Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], function () {

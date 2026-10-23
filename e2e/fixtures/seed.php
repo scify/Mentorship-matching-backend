@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Seeds the minimum reference data the end-to-end suite needs on top of a
  * migrated and seeded database:
@@ -10,12 +11,13 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 $app = require_once __DIR__ . '/../../bootstrap/app.php';
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$app->make(Kernel::class)->bootstrap();
 
 use App\Models\eloquent\AccountManagerCapacity;
 use App\Models\eloquent\Company;
 use App\Models\eloquent\User;
 use App\Models\eloquent\UserRole;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\DB;
 
 const PASSWORD = 'password123';
@@ -53,7 +55,7 @@ const ROLE_ACCOUNT_MANAGER = 3;
 function makeUser(string $email, string $first, string $last, int $roleId): User {
     $user = User::withTrashed()->where('email', $email)->first();
     if (!$user) {
-        $user = new User();
+        $user = new User;
         $user->email = $email;
     }
     $user->first_name = $first;
@@ -65,11 +67,12 @@ function makeUser(string $email, string $first, string $last, int $roleId): User
     $user->save();
 
     UserRole::firstOrCreate(['user_id' => $user->id, 'role_id' => $roleId]);
+
     return $user;
 }
 
-$admin      = makeUser('admin@jobpairs.test', 'Ada', 'Admin', ROLE_ADMINISTRATOR);
-$matcher    = makeUser('matcher@jobpairs.test', 'Mat', 'Matcher', ROLE_MATCHER);
+$admin = makeUser('admin@jobpairs.test', 'Ada', 'Admin', ROLE_ADMINISTRATOR);
+$matcher = makeUser('matcher@jobpairs.test', 'Mat', 'Matcher', ROLE_MATCHER);
 $accManager = makeUser('accman@jobpairs.test', 'Alex', 'Manager', ROLE_ACCOUNT_MANAGER);
 
 // account managers need capacity or they cannot be assigned to a session

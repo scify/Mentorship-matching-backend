@@ -3,18 +3,22 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
-class MentorProfile extends Model
-{
-    use SoftDeletes, Notifiable;
+class MentorProfile extends Model {
+    use Notifiable, SoftDeletes;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'mentor_profile';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,105 +29,98 @@ class MentorProfile extends Model
         'company_name', 'company_sector', 'job_position', 'job_experience_years',
         'education_level_id', 'university_id',
         'university_name', 'university_department_name', 'skills', 'cv_file_name', 'reference_id',
-        'reference_text', 'status_id', 'company_id', 'creator_user_id'
+        'reference_text', 'status_id', 'company_id', 'creator_user_id',
     ];
 
     protected $with = ['ratings'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\Company, $this>
+     * @return HasOne<Company, $this>
      */
-    public function company(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function company(): HasOne {
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this>
+     * @return HasOne<User, $this>
      */
-    public function creator(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function creator(): HasOne {
         return $this->hasOne(User::class, 'id', 'creator_user_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\Reference, $this>
+     * @return HasOne<Reference, $this>
      */
-    public function reference(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function reference(): HasOne {
         return $this->hasOne(Reference::class, 'id', 'reference_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\Residence, $this>
+     * @return HasOne<Residence, $this>
      */
-    public function residence(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function residence(): HasOne {
         return $this->hasOne(Residence::class, 'id', 'residence_id');
     }
 
     /**
      * Get the mentor's specialties
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\Specialty, $this>
+     *
+     * @return BelongsToMany<Specialty, $this>
      */
-    public function specialties(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function specialties(): BelongsToMany {
         return $this->belongsToMany(Specialty::class, 'mentor_specialty')->wherePivot('deleted_at', null);
     }
 
     /**
      * Get the mentor's additional specialties
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\Industry, $this>
+     *
+     * @return BelongsToMany<Industry, $this>
      */
-    public function industries(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function industries(): BelongsToMany {
         return $this->belongsToMany(Industry::class, 'mentor_industry')->wherePivot('deleted_at', null);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MentorStatus, $this>
+     * @return HasOne<MentorStatus, $this>
      */
-    public function status(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
+    public function status(): HasOne {
         return $this->hasOne(MentorStatus::class, 'id', 'status_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\eloquent\MentorStatusHistory, $this>
+     * @return HasMany<MentorStatusHistory, $this>
      */
-    public function statusHistory(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
+    public function statusHistory(): HasMany {
         return $this->hasMany(MentorStatusHistory::class, 'mentor_profile_id', 'id')->orderBy('created_at', 'desc');
     }
 
-    public function hasCompany(){
-
+    public function hasCompany() {
         return (bool) $this->company()->first();
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\eloquent\MentorshipSession, $this> */
-    public function sessions(): \Illuminate\Database\Eloquent\Relations\HasMany {
+    /** @return HasMany<MentorshipSession, $this> */
+    public function sessions(): HasMany {
         return $this->hasMany(MentorshipSession::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\University, $this>
+     * @return HasOne<University, $this>
      */
-    public function university(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function university(): HasOne {
         return $this->hasOne(University::class, 'id', 'university_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\EducationLevel, $this>
+     * @return HasOne<EducationLevel, $this>
      */
-    public function educationLevel(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function educationLevel(): HasOne {
         return $this->hasOne(EducationLevel::class, 'id', 'education_level_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\eloquent\MentorRating, $this>
+     * @return HasMany<MentorRating, $this>
      */
-    public function ratings(): \Illuminate\Database\Eloquent\Relations\HasMany {
+    public function ratings(): HasMany {
         return $this->hasMany(MentorRating::class, 'mentor_id', 'id');
     }
 }

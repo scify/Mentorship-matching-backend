@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: pisaris
@@ -8,15 +9,13 @@
 
 namespace App\BusinessLogicLayer\managers;
 
-
 use App\StorageLayer\ReferenceStorage;
 
 class ReferenceManager {
-
     private $referenceStorage;
 
     public function __construct() {
-        $this->referenceStorage = new ReferenceStorage();
+        $this->referenceStorage = new ReferenceStorage;
     }
 
     public function getReference($id) {
@@ -26,5 +25,4 @@ class ReferenceManager {
     public function getAllReferences() {
         return $this->referenceStorage->getAllReferences();
     }
-
 }

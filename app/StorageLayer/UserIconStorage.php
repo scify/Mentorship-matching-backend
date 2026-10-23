@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -8,14 +9,10 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\UserIcon;
 
-class UserIconStorage
-{
-
-    public function getUserIcons()
-    {
+class UserIconStorage {
+    public function getUserIcons() {
         return UserIcon::all();
     }
 
