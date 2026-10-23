@@ -92,6 +92,7 @@ class CompanyController extends Controller {
     public function create(Request $request) {
         $this->validate($request, [
             'name' => 'required',
+            'website' => 'nullable|url:http,https',
         ]);
 
         $input = $request->all();
@@ -119,6 +120,7 @@ class CompanyController extends Controller {
     public function edit(Request $request, $id) {
         $this->validate($request, [
             'name' => 'required',
+            'website' => 'nullable|url:http,https',
         ]);
 
         $input = $request->all();

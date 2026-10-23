@@ -309,7 +309,7 @@ class MentorController extends Controller {
                 'industries' => 'required',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url',
+                'linkedin_url' => 'nullable|url:http,https',
             ], $this->messages());
         } else {
             $this->validate($request, [
@@ -319,7 +319,7 @@ class MentorController extends Controller {
                 'email' => 'required|max:255|email|unique:mentor_profile',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url',
+                'linkedin_url' => 'nullable|url:http,https',
             ], $this->messages());
         }
 
@@ -391,6 +391,7 @@ class MentorController extends Controller {
             'last_name' => 'required|max:255',
             'year_of_birth' => 'required|numeric|digits:4',
             'email' => 'required|max:255|email|unique:mentor_profile,email,' . $id,
+            'linkedin_url' => 'nullable|url:http,https',
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
             'public_form' => 'required',
         ], $this->messages());
