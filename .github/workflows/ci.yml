@@ -31,6 +31,9 @@ jobs:
             - name: Install npm dependencies
               run: npm ci
 
+            - name: Lint JavaScript
+              run: npm run lint
+
             # Assets are built at deploy time; this catches a build that npm ci
             # alone would not.
             - name: Build assets

@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 /**
  * Created by snik on 4/12/17.
  */

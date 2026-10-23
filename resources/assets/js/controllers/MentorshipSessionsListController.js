@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
 import toastr from 'toastr';
 
@@ -39,7 +41,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.find(".nav-tabs > li").first().addClass("active");
                 $modal.modal("toggle");
                 var $mentorFullName = $modal.find("#mentorFullName");
-                $mentorFullName.html(mentorName);
+                $mentorFullName.text(mentorName);
                 if($mentorFullName.parent("a").length === 1) {
                     if(mentorDeletedAt.length) {
                         $mentorFullName.append('<span class="deletedMsg">(deleted)</span>');
@@ -50,7 +52,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
 
                 var $menteeFullName = $modal.find("#menteeFullName");
-                $menteeFullName.html(menteeName);
+                $menteeFullName.text(menteeName);
                 if($menteeFullName.parent("a").length === 1) {
                     if(menteeDeletedAt.length) {
                         $menteeFullName.append('<span class="deletedMsg">(deleted)</span>');
@@ -62,7 +64,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
 
                 var $accountManagerNameAnchor = $modal.find("#accountManagerName");
-                $accountManagerNameAnchor.html(accountManagerName);
+                $accountManagerNameAnchor.text(accountManagerName);
                 if($accountManagerNameAnchor.length !== 0) {
                     if(accountManagerDeletedAt.length) {
                         $accountManagerNameAnchor.append('<span class="deletedMsg">(deleted)</span>');
@@ -74,7 +76,7 @@ window.MentorshipSessionsListController.prototype = function() {
 
                 }
                 var $matcherNameAnchor = $modal.find("#matcherName");
-                $matcherNameAnchor.html(matcherName);
+                $matcherNameAnchor.text(matcherName);
                 if($matcherNameAnchor.length !== 0) {
                     if(matcherDeletedAt.length) {
                         $matcherNameAnchor.append('<span class="deletedMsg">(deleted)</span>');
@@ -85,10 +87,10 @@ window.MentorshipSessionsListController.prototype = function() {
                     }
 
                 }
-                $modal.find("#sessionStatus").addClass(sessionStatusClass).html(sessionStatus);
-                $modal.find("#sessionComment").html(sessionComment);
-                $modal.find("#createdAt").html(createdAt);
-                $modal.find("#updatedAt").html(updatedAt);
+                $modal.find("#sessionStatus").addClass(sessionStatusClass).text(sessionStatus);
+                $modal.find("#sessionComment").text(sessionComment);
+                $modal.find("#createdAt").text(createdAt);
+                $modal.find("#updatedAt").text(updatedAt);
             });
         },
         fetchSessionHistory = function() {
@@ -116,7 +118,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     });
                     $("#mentorshipSessionShowModal #history #errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
-                    $("#mentorshipSessionShowModal #history #errorMsg").html(errorThrown);
+                    $("#mentorshipSessionShowModal #history #errorMsg").text(errorThrown);
                 }
             });
         },
@@ -182,7 +184,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 $modal.find("input[name=mentorship_session_id]").val(sessionId);
                 if(actionRequired !== undefined && actionRequired !== "") {
                     $modal.find(".actionRequiredWrapper").removeClass("hidden");
-                    $modal.find("#actionRequired").html(actionRequired);
+                    $modal.find("#actionRequired").text(actionRequired);
                 }
 
                 if(sessionStatusId === 1 || sessionStatusId === "1") {
@@ -197,7 +199,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
 
                 var $mentorFullName = $modal.find("#mentorFullName");
-                $mentorFullName.html(mentorName);
+                $mentorFullName.text(mentorName);
                 if($mentorFullName.parent("a")) {
                     if ($mentorFullName.parent("a").length === 1) {
                         if (mentorDeletedAt) {
@@ -209,7 +211,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     }
                 }
                 var $menteeFullName = $modal.find("#menteeFullName");
-                $menteeFullName.html(menteeName);
+                $menteeFullName.text(menteeName);
                 if($menteeFullName.parent("a")) {
                     if ($menteeFullName.parent("a").length === 1) {
                         if (menteeDeletedAt) {
@@ -273,9 +275,9 @@ window.MentorshipSessionsListController.prototype = function() {
             $siblingVisibleAnchor.attr("data-accountmanagerid", values.account_manager_id);
             $siblingVisibleAnchor.attr("data-generalcomment", values.general_comment);
             $siblingVisibleAnchor.attr("data-sessionstatusid", values.status_id);
-            $siblingVisibleAnchor.find("#accountManagerName").html(accountManagerName);
-            $siblingVisibleAnchor.find("#sessionStatus").attr("class", "").addClass(sessionStatusCssClass).html(statusName);
-            $siblingVisibleAnchor.find("#updatedAt").html("1 second ago");
+            $siblingVisibleAnchor.find("#accountManagerName").text(accountManagerName);
+            $siblingVisibleAnchor.find("#sessionStatus").attr("class", "").addClass(sessionStatusCssClass).text(statusName);
+            $siblingVisibleAnchor.find("#updatedAt").text("1 second ago");
         },
         deleteSessionModalHandler = function(parentDiv) {
             $("body").on("click", parentDiv + " .deleteSessionBtn", function () {
@@ -292,11 +294,11 @@ window.MentorshipSessionsListController.prototype = function() {
             // (NOTE: it means that the id is smaller than the id of started status which is 4)
             // omit statuses after started and up to completed_followup
             if(parseInt(sessionStatusId) < 4) {
-                for(var i = 6; i <= 11; i++) {
+                for(let i = 6; i <= 11; i++) {
                     $select.find("option[value=" + i + "]").css("display", "none");
                 }
             } else { // else, omit statuses between pending and mentor_available
-                for(var i = 1; i <= 4; i++) {
+                for(let i = 1; i <= 4; i++) {
                     $select.find("option[value=" + i + "]").css("display", "none");
                 }
             }
@@ -376,7 +378,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
                 dateRange = $('input[name=sessionCompletedDatesRange]').val();
                 if (dateRange !== "" && dateRange !== undefined) {
-                    var dates = dateRange.split(" - ");
+                    dates = dateRange.split(" - ");
                     if(typeof dates === 'object' && dates.length === 2) {
                         mentorshipSessionsCriteria.completedDateRange = dateRange;
                     } else {
@@ -401,7 +403,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 $('select[name=matcherId]').val(0).trigger("chosen:updated");
                 // clear mentorshipSessionsCriteria object from all of its properties
                 for(var prop in mentorshipSessionsCriteria) {
-                    if(mentorshipSessionsCriteria.hasOwnProperty(prop)) {
+                    if(Object.hasOwn(mentorshipSessionsCriteria, prop)) {
                         delete mentorshipSessionsCriteria[prop];
                     }
                 }
@@ -436,7 +438,7 @@ window.MentorshipSessionsListController.prototype = function() {
                     console.log(xhr.responseText);
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
-                    $("#errorMsg").html(errorThrown);
+                    $("#errorMsg").text(errorThrown);
                     $(parentDiv + " #mentorshipSessionsBottomLoader").addClass("invisible");
                 }
             });

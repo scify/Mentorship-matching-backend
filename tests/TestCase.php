@@ -19,6 +19,14 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     protected $seed = true;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Views render without public/build/manifest.json.
+        $this->withoutVite();
+    }
+
     /**
      * Creates the application.
      *

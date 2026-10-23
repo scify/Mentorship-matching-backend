@@ -1,10 +1,12 @@
+import $ from 'jquery';
+
 window.SearchController = function () {
 };
 
 window.SearchController.prototype = function () {
     var $ajaxCall,
         searchBtnHandler = function () {
-            $(".nav-search .search").on("click", function (e) {
+            $(".nav-search .search").on("click", function () {
                 getSearchResults(null);
             });
         },
@@ -41,7 +43,7 @@ window.SearchController.prototype = function () {
                         $(".search-layer .loader").addClass('hidden');
                         $("#search-error-messages").removeClass('hidden');
                         //The message added to Response object in Controller can be retrieved as following.
-                        $("#search-error-messages").html(errorThrown);
+                        $("#search-error-messages").text(errorThrown);
                     }
                 }
             });

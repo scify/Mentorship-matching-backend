@@ -325,7 +325,7 @@
             var tabsHandler = new window.TabsHandler();
             tabsHandler.init(".profilePage");
             var menteesListController = new window.MenteesListController();
-            menteesListController.init("{{Route::currentRouteName()}}");
+            menteesListController.init(@json(Route::currentRouteName()));
             var matchingController = new window.MatchingController();
             matchingController.init();
             var mentorshipSessionsListController = new window.MentorshipSessionsListController();

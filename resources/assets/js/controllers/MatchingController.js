@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 window.MatchingController = function () {
 };
 
@@ -9,7 +11,7 @@ window.MatchingController.prototype = function () {
                 var menteeFullName = $(this).attr("data-userName");
                 $('#matchMentorModal').modal('toggle');
                 $('#matchMentorModal').find('input[name="mentee_profile_id"]').val(menteeId);
-                $('#menteeFullName').html(menteeFullName);
+                $('#menteeFullName').text(menteeFullName);
             });
         },
         matchMenteeButtonHandler = function () {
@@ -19,7 +21,7 @@ window.MatchingController.prototype = function () {
                 var mentorFullName = $(this).attr("data-userName");
                 $('#matchMentorModal').modal('toggle');
                 $('#matchMentorModal').find('input[name="mentor_profile_id"]').val(mentorId);
-                $('#mentorFullName').html(mentorFullName);
+                $('#mentorFullName').text(mentorFullName);
             });
         },
         // TODO: this could lead to a possible bug -> this function is also defined in MentorshipSessionsListController.js and commented here because on ment{or/ee}s' profiles was called twice

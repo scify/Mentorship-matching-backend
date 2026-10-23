@@ -11,7 +11,7 @@
     <script type="module">
         $( document ).ready(function() {
             var controller = new window.MenteesListController();
-            controller.init("{{Route::currentRouteName()}}");
+            controller.init(@json(Route::currentRouteName()));
 
             @if(\Illuminate\Support\Facades\Auth::user()->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees())
             var availabilityStatusChangeHandler = new AvailabilityStatusChangeViewHandler();
