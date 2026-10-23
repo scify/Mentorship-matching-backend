@@ -33,8 +33,9 @@ Route::middleware('throttle:30,1,email-links')->group(function () {
     Route::get('decline-session-confirmation/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSessionConfirmation')->name('declineMentorshipSessionConfirmation');
     Route::get('accept-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@acceptMentorshipSession')->name('acceptMentorshipSession');
     Route::get('decline-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSession')->name('declineMentorshipSession');
-    // Signed links from the rating mails; the form posts back to the same signed URL.
-    Route::middleware('signed')->group(function () {
+    // Signed links from the rating mails; the form posts back to the same signed URL. The
+    // signature covers path and query only, so a TLS proxy or another host name does not break it.
+    Route::middleware('signed:relative')->group(function () {
         Route::get('rateMentee/{sessionId}/{mentorId}/{menteeId}', 'RatingController@showMenteeRatingForm')->name('showMenteeRatingForm');
         Route::post('rateMentee/{sessionId}/{mentorId}/{menteeId}', 'RatingController@rateMentee')->name('rateMentee');
         Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@showMentorRatingForm')->name('showMentorRatingForm');

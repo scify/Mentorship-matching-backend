@@ -62,11 +62,30 @@ class RatingLinkTest extends TestCase {
     public function test_the_rating_mails_carry_signed_links() {
         $session = $this->makeSession();
 
-        foreach ([new MentorSendRating($session), new MenteeSendRating($session)] as $notification) {
-            $actionUrl = $notification->toMail($session->mentor)->actionUrl;
-            $this->assertStringContainsString('signature=', $actionUrl);
-            $this->assertStringContainsString('expires=', $actionUrl);
-        }
+        $mentorMail = (new MentorSendRating($session))->toMail($session->mentor)->actionUrl;
+        $menteeMail = (new MenteeSendRating($session))->toMail($session->mentee)->actionUrl;
+
+        $this->assertStringStartsWith(rtrim(config('app.url'), '/') . "/rateMentee/{$session->id}/{$session->mentor_profile_id}/{$session->mentee_profile_id}?", $mentorMail);
+        $this->assertStringStartsWith(rtrim(config('app.url'), '/') . "/rateMentor/{$session->id}/{$session->mentee_profile_id}/{$session->mentor_profile_id}?", $menteeMail);
+        $this->get($mentorMail)->assertOk()->assertSee('ratingForm', false);
+        $this->get($menteeMail)->assertOk()->assertSee('ratingForm', false);
+    }
+
+    public function test_the_mentee_rates_the_mentor_through_the_link_in_their_mail() {
+        $session = $this->makeSession();
+        $url = (new MenteeSendRating($session))->toMail($session->mentee)->actionUrl;
+
+        $this->post($url, ['rating' => 5, 'rating_description' => 'great'])->assertOk();
+
+        $this->assertSame(5, (int) DB::table('mentor_rating')->where('session_id', $session->id)->value('rating'));
+    }
+
+    public function test_the_link_works_on_another_host_name_or_scheme() {
+        $session = $this->makeSession();
+        $path = parse_url((new MentorSendRating($session))->toMail($session->mentor)->actionUrl);
+
+        // Behind a TLS proxy the app may see http and another host; the signature covers path and query only.
+        $this->get('http://internal.example' . $path['path'] . '?' . $path['query'])->assertOk();
     }
 
     private function makeSession(): MentorshipSession {
@@ -80,8 +99,8 @@ class RatingLinkTest extends TestCase {
     }
 
     private function menteeRatingUrl(MentorshipSession $session): string {
-        return URL::temporarySignedRoute('showMenteeRatingForm', now()->addDays(30), [
+        return rtrim(config('app.url'), '/') . URL::temporarySignedRoute('showMenteeRatingForm', now()->addDays(30), [
             'sessionId' => $session->id, 'mentorId' => $session->mentor_profile_id, 'menteeId' => $session->mentee_profile_id, 'lang' => 'gr',
-        ]);
+        ], false);
     }
 }
