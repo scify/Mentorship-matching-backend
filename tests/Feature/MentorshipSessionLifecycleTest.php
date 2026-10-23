@@ -14,6 +14,7 @@ use App\Notifications\MentorStatusReactivation;
 use App\Utils\MentorshipSessionStatuses;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 /**
@@ -161,10 +162,17 @@ class MentorshipSessionLifecycleTest extends TestCase {
         $session = $this->makeSessionAtStatus($this->mentorId, $this->menteeId,
             $this->accountManager, $this->matcher, MentorshipSessionStatuses::$statuses['introduction_sent']);
 
+        Log::spy();
         $accepted = $this->manager->acceptMentorshipSession($session->id, 'mentee', $this->menteeId, 'wrong@example.test');
 
         $this->assertFalse($accepted);
         $this->assertSame(MentorshipSessionStatuses::$statuses['introduction_sent'], (int) $session->fresh()->status_id);
+        // The log names the session, never the guessed or the real email address.
+        $menteeEmail = MenteeProfile::find($this->menteeId)->email;
+        Log::shouldHaveReceived('warning')->once()->withArgs(
+            fn (string $message) => str_contains($message, (string) $session->id)
+                && !str_contains($message, $menteeEmail) && !str_contains($message, 'wrong@example.test')
+        );
     }
 
     public function test_mentee_declining_cancels_the_session_and_marks_them_rejected() {

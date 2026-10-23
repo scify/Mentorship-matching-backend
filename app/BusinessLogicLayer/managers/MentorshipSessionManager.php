@@ -28,7 +28,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Sentry;
 
 class MentorshipSessionManager {
     private $mentorshipSessionStorage;
@@ -698,8 +697,9 @@ class MentorshipSessionManager {
 
             return true;
         } else {
-            Log::error('Mentorship session could not be accepted. ' . $role . ' ' . $id . ' ' . $email . ' ' . $statusToSet . ' ' . $invitedPerson->id . ' ' . $invitedPerson->email);
-            Sentry::captureException(new Exception('Mentorship session could not be accepted. ' . $role . ' ' . $id . ' ' . $email . ' ' . $statusToSet . ' ' . $invitedPerson->id . ' ' . $invitedPerson->email));
+            // The link did not match the invitee: a guess or an old link, not an application
+            // error, so it goes to the log only. Sentry would attach the URL with the email.
+            Log::warning('Mentorship session ' . $mentorshipSessionId . ' could not be accepted by the ' . $role . ' link (status to set: ' . $statusToSet . ').');
 
             return false;
         }

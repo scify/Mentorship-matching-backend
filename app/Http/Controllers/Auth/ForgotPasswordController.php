@@ -26,5 +26,7 @@ class ForgotPasswordController extends Controller {
      */
     public function __construct() {
         $this->middleware('guest');
+        // The broker limits one mail per address a minute; this limits one client across addresses.
+        $this->middleware('throttle:5,10,password-email')->only('sendResetLinkEmail');
     }
 }

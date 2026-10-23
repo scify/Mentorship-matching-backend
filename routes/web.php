@@ -14,30 +14,30 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
-Route::post('mentor/create', 'MentorController@create')->name('createMentor');
-
 Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
-Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
 
-Route::get('set-status-available/{id}/{email}', 'MentorController@makeMentorAvailableAgain')->name('setMentorStatusAvailable');
+// Public POSTs that create profiles and send mail (limiter in RouteServiceProvider).
+Route::middleware('throttle:public-forms')->group(function () {
+    Route::post('mentor/create', 'MentorController@create')->name('createMentor');
+    Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
+});
 
-Route::get('accept-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@acceptToManageMentorshipSession')->name('acceptToManageMentorshipSession');
-
-Route::get('decline-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@declineToManageMentorshipSession')->name('declineToManageMentorshipSession');
-
-Route::get('decline-session-confirmation/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSessionConfirmation')->name('declineMentorshipSessionConfirmation');
-
-Route::get('accept-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@acceptMentorshipSession')->name('acceptMentorshipSession');
-
-Route::get('decline-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSession')->name('declineMentorshipSession');
-
-Route::get('rateMentee/{sessionId}/{mentorId}/{menteeId}', 'RatingController@showMenteeRatingForm')->name('showMenteeRatingForm');
-Route::post('rateMentee', 'RatingController@rateMentee')->name('rateMentee');
-Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@showMentorRatingForm')->name('showMentorRatingForm');
-Route::post('rateMentor', 'RatingController@rateMentor')->name('rateMentor');
+// Email-link and rating pages: ids and emails in the URL, so limit guessing.
+Route::middleware('throttle:30,1,email-links')->group(function () {
+    Route::get('set-status-available/{id}/{email}', 'MentorController@makeMentorAvailableAgain')->name('setMentorStatusAvailable');
+    Route::get('accept-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@acceptToManageMentorshipSession')->name('acceptToManageMentorshipSession');
+    Route::get('decline-session-management/{mentorshipSessionId}/{id}/{email}', 'MentorshipSessionController@declineToManageMentorshipSession')->name('declineToManageMentorshipSession');
+    Route::get('decline-session-confirmation/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSessionConfirmation')->name('declineMentorshipSessionConfirmation');
+    Route::get('accept-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@acceptMentorshipSession')->name('acceptMentorshipSession');
+    Route::get('decline-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSession')->name('declineMentorshipSession');
+    Route::get('rateMentee/{sessionId}/{mentorId}/{menteeId}', 'RatingController@showMenteeRatingForm')->name('showMenteeRatingForm');
+    Route::post('rateMentee', 'RatingController@rateMentee')->name('rateMentee');
+    Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@showMentorRatingForm')->name('showMentorRatingForm');
+    Route::post('rateMentor', 'RatingController@rateMentor')->name('rateMentor');
+});
 
 Route::group(['middleware' => ['auth', 'staff']], function () {
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
@@ -97,10 +97,6 @@ Route::group(['middleware' => ['auth', 'staff', 'admin']], function () {
     Route::get('search', 'SearchController@filterResultsByString')->name('search');
 
     Route::post('session/delete', 'MentorshipSessionController@destroy')->name('deleteMentorshipSession');
-
-    Route::get('/testemail', 'HomeController@testEmail')->name('testEmail');
-
-    Route::get('/testexception', 'HomeController@testException')->name('testException');
 });
 
 Route::group(['middleware' => ['auth', 'staff', 'status-changer']], function () {
