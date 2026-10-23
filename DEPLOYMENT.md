@@ -164,7 +164,7 @@ Run the commands as `www-data` ([File ownership](#file-ownership)).
    git checkout <release>
    ```
 
-   `<release>` is a release tag. Until the first tag exists, use a commit of `master`.
+   `<release>` is a release tag, for example `v2.0.0` (see [CHANGELOG.md](CHANGELOG.md)).
 2. Create `.env` from `.env.example` and set the values from [Production `.env`](#production-env).
 3. Install the PHP dependencies and create the key:
 
@@ -280,10 +280,14 @@ If a step fails, read the newest `storage/logs/laravel-*.log`, fix the cause and
 
 ## Upgrade notes
 
-Each section lists what an operator must do for one version, in order. The CHANGELOG (from the first tagged
-release) lists the changes that need no action.
+Each section lists what an operator must do for one version, in order. [CHANGELOG.md](CHANGELOG.md) lists all
+changes of each version.
 
 ### Unreleased
+
+No steps yet.
+
+### 2.0.0
 
 This release hardens access control and the public pages, and moves the mail queue and the scheduler to
 Supervisor. If the server runs code from before 2026-08-15, the release also upgrades Laravel to 13 and PHP to
@@ -305,6 +309,7 @@ Supervisor. If the server runs code from before 2026-08-15, the release also upg
    - `SESSION_SECURE_COOKIE=true`.
    - `LOG_LEVEL=warning`.
    - `SENTRY_SQL_BINDINGS=false`, unless you want SQL values in Sentry.
+   - Rename `MIX_SENTRY_DSN_PUBLIC` to `VITE_SENTRY_DSN_PUBLIC`, if it is set.
 5. Run these read-only checks:
 
    ```sql

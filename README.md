@@ -17,6 +17,7 @@ export reports.
 - [Tests](#tests)
 - [Code quality](#code-quality)
 - [Continuous integration](#continuous-integration)
+- [Releasing](#releasing)
 - [Troubleshooting](#troubleshooting)
 - [Deployment](#deployment)
 - [Contributing](#contributing)
@@ -245,6 +246,56 @@ GitHub Actions run the shared [SciFY workflows](https://github.com/scify/.github
   Gitleaks, committed environment files and dev tool configs, once for the root and once for `e2e/`
 
 The `master` branch requires the check `ci / CI`; `dependabot_auto_merge.yml` relies on it.
+
+## Releasing
+
+Releases follow [Semantic Versioning](https://semver.org/): increase the **major** version for changes that break
+users or deployments without a migration path, the **minor** version for new features and compatible changes, and the
+**patch** version for bug fixes only. The version is defined only in `package.json`; `config('app.version')` reads
+it, and the staff sidebar shows it. Releases are tagged `vX.Y.Z`. All changes are recorded in
+[CHANGELOG.md](CHANGELOG.md), and the operator steps of each version in the upgrade notes of
+[DEPLOYMENT.md](DEPLOYMENT.md#upgrade-notes).
+
+Changes reach `master` through pull requests with a passing `ci / CI` check, so a release goes through a pull request
+too. To release version `X.Y.Z` from an up-to-date `master` with green CI:
+
+1. Create a branch, for example `git switch -c chore/release-vX.Y.Z`.
+   - In `CHANGELOG.md`, rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD`, add a new empty `## [Unreleased]`
+     above it, and update the compare links at the end of the file. Write links in the section as absolute URLs:
+     the section becomes the GitHub release notes, which do not resolve relative links.
+   - In `DEPLOYMENT.md`, rename `### Unreleased` to `### X.Y.Z` and add a new `### Unreleased` above it.
+2. Set the version (this updates `package.json` and `package-lock.json`, without a commit or tag):
+
+   ```bash
+   ddev npm version X.Y.Z --no-git-tag-version
+   ```
+
+3. Commit, push and open a pull request; merge it with a merge commit when CI passes:
+
+   ```bash
+   git add CHANGELOG.md DEPLOYMENT.md package.json package-lock.json
+   git commit -m "chore: release vX.Y.Z"
+   git push -u origin chore/release-vX.Y.Z
+   gh pr create --title "chore: release vX.Y.Z" --body "Release vX.Y.Z. See CHANGELOG.md."
+   ```
+
+4. Tag the merge commit on `master` and push the tag:
+
+   ```bash
+   git switch master && git pull --ff-only
+   git tag -a vX.Y.Z -m "vX.Y.Z"
+   git push origin vX.Y.Z
+   ```
+
+5. Create the GitHub release, with the changelog section as the release notes:
+
+   ```bash
+   awk '/^## \[X.Y.Z\]/{found=1; next} /^## \[/{found=0} found' CHANGELOG.md > release-notes.md
+   gh release create vX.Y.Z --title "vX.Y.Z" --notes-file release-notes.md --verify-tag
+   rm release-notes.md
+   ```
+
+6. Deploy the tag, not the branch ([DEPLOYMENT.md](DEPLOYMENT.md#update-procedure)).
 
 ## Troubleshooting
 
