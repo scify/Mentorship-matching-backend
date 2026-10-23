@@ -15,12 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
  * their roles. Such a user is logged out here.
  */
 class EnsureActiveStaff {
-    private const ACTIVE_STATE_ID = 1;
-
     public function handle(Request $request, Closure $next): Response {
         $user = $request->user();
 
-        if ($user instanceof User && $user->state_id == self::ACTIVE_STATE_ID && $user->roles()->exists()) {
+        if ($user instanceof User && $user->isActiveStaff()) {
             return $next($request);
         }
 

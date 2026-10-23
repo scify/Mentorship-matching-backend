@@ -16,6 +16,7 @@ use App\BusinessLogicLayer\managers\UniversityManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
+use App\Models\eloquent\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -176,7 +177,8 @@ class MenteeController extends Controller {
         App::setLocale($this->localeFromRequest($request));
 
         // A guest always gets the public form and its validation, whatever the request says.
-        if ($request->user() === null) {
+        $user = $request->user();
+        if (!($user instanceof User && $user->isActiveStaff())) {
             $request->merge(['public_form' => 'true']);
             $input['public_form'] = 'true';
         }

@@ -84,6 +84,13 @@ class User extends Authenticatable {
         return $userAccessManager->userIsAdmin($this);
     }
 
+    /**
+     * Staff who may use the backoffice: an active account (state 1) with at least one role.
+     */
+    public function isActiveStaff(): bool {
+        return $this->state_id == 1 && $this->roles()->exists();
+    }
+
     public function hasCompany() {
         return (bool) $this->company()->first();
     }

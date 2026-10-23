@@ -51,6 +51,29 @@ class PublicProfileFormsTest extends TestCase {
         $this->assertFalse(DB::table('mentee_profile')->where('email', 'skip.mentee@example.test')->exists());
     }
 
+    public function test_a_guest_cannot_create_or_pick_a_private_specialty() {
+        $publicId = (int) DB::table('specialty')->where('status_id', 1)->value('id');
+        $privateId = (int) DB::table('specialty')->insertGetId(['name' => 'Private', 'status_id' => 2, 'created_at' => now(), 'updated_at' => now()]);
+        $before = DB::table('specialty')->count();
+
+        $this->post('/mentee/create', ['specialties' => [['id' => $publicId], ['id' => $privateId], ['id' => 'new-specialty-Spam']]] + $this->mentee())
+            ->assertSessionHasNoErrors();
+
+        $menteeId = DB::table('mentee_profile')->where('email', 'guest.mentee@example.test')->value('id');
+        $this->assertSame([$publicId], DB::table('mentee_specialty')->where('mentee_profile_id', $menteeId)->pluck('specialty_id')->map(fn ($id) => (int) $id)->all());
+        $this->assertSame($before, DB::table('specialty')->count());
+    }
+
+    public function test_a_deactivated_user_counts_as_a_guest() {
+        $accountManager = $this->makeBackofficeUser(3, 'Deactivated');
+        $accountManager->state_id = 2;
+        $accountManager->save();
+
+        $this->actingAs($accountManager)->post('/mentee/create', [
+            'first_name' => 'A', 'last_name' => 'B', 'year_of_birth' => '1990', 'email' => 'inactive.mentee@example.test', 'public_form' => 'false',
+        ])->assertSessionHasErrors('career_goals');
+    }
+
     public function test_staff_still_set_the_status_and_become_the_creator() {
         $accountManager = $this->makeBackofficeUser(3, 'AccMan');
 

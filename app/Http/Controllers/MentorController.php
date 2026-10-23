@@ -17,6 +17,7 @@ use App\BusinessLogicLayer\managers\UniversityManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
+use App\Models\eloquent\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -283,7 +284,8 @@ class MentorController extends Controller {
 
         App::setLocale($this->localeFromRequest($request));
         // A guest always gets the public form and its validation, whatever the request says.
-        if ($request->user() === null) {
+        $user = $request->user();
+        if (!($user instanceof User && $user->isActiveStaff())) {
             $request->merge(['public_form' => 'true']);
             $input['public_form'] = 'true';
         }
