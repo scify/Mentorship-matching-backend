@@ -71,7 +71,7 @@ class MenteeStorage {
     public function getUnmatchedMenteesCreatedSince($months) {
         return MenteeProfile::where('status_id', MenteeStatuses::$statuses['available'])
             ->whereDoesntHave('sessions')
-            ->whereRaw('created_at < DATE_SUB(NOW(), INTERVAL ' . $months . ' MONTH)')
+            ->whereRaw('created_at < DATE_SUB(NOW(), INTERVAL ? MONTH)', [$months])
             ->orderBy('created_at')->get();
     }
 }
