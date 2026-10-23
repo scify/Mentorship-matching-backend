@@ -8,7 +8,7 @@ return [
     'mentors' => 'Mentors',
     'details' => 'Details',
     'mentor' => 'Mentor',
-    'matcher' => "Matcher",
+    'matcher' => 'Matcher',
     'account_manager' => 'Account Manager',
     'company_account_manager' => 'Account Manager',
     'company_no_mentors' => 'There are no mentors working in this company.',
@@ -165,5 +165,5 @@ return [
     'decline_session_invitation_title' => 'You are going to decline the mentorship sessions. <br> <b>Are you sure?</b>',
     'decline_session_invitation_second_title' => 'In case you made a mistake, you can accept the session:',
     'decline_session_invitation_title_button' => 'Yes, decline session',
-    'accept_session_invitation_title_button' => 'Accept session'
+    'accept_session_invitation_title_button' => 'Accept session',
 ];

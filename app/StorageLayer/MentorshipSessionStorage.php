@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -13,10 +14,10 @@ use App\Utils\MentorshipSessionStatuses;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class MentorshipSessionStorage
-{
+class MentorshipSessionStorage {
     public function saveMentorshipSession(MentorshipSession $mentorshipSession): MentorshipSession {
         $mentorshipSession->save();
+
         return $mentorshipSession;
     }
 
@@ -65,22 +66,26 @@ class MentorshipSessionStorage
     }
 
     public function getAllActiveMentorshipSessions() {
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses;
+
         return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getActiveSessionStatuses())->get();
     }
 
     public function getAllCompletedMentorshipSessions() {
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses;
+
         return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getCompletedSessionStatuses())->get();
     }
 
     public function getAllActiveMentorshipSessionsNum() {
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses;
+
         return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getActiveSessionStatuses())->count();
     }
 
     public function getAllCompletedMentorshipSessionsNum() {
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses;
+
         return MentorshipSession::whereIn('status_id', $mentorshipSessionStatuses::getCompletedSessionStatuses())->count();
     }
 
@@ -107,6 +112,7 @@ class MentorshipSessionStorage
     public function getMentorshipSessionsForFollowUp() {
         // get mentorship sessions updated in the last 3 months and status 'evaluation_sent'
         $threeMonthsAgo = Carbon::now()->subMonths(3);
+
         return MentorshipSession::where(['status_id' => MentorshipSessionStatuses::$statuses['evaluation_sent']])
             ->where('updated_at', '>=', $threeMonthsAgo)
             ->get();

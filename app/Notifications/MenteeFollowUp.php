@@ -20,7 +20,7 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
     /**
      * Create a new notification instance.
      *
-     * @param $mentorshipSession MentorshipSession
+     * @param  $mentorshipSession  MentorshipSession
      */
     public function __construct(MentorshipSession $mentorshipSession) {
         $this->mentorshipSession = $mentorshipSession;
@@ -29,7 +29,7 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable): array {
@@ -39,14 +39,14 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
-            ->subject("Job-Pairs | Μοιραστείτε μαζί μας τα επαγγελματικά σας νέα")
+            ->subject('Job-Pairs | Μοιραστείτε μαζί μας τα επαγγελματικά σας νέα')
             ->greeting('Αγαπητή/έ mentee,')
-            ->line("Θα ήταν χαρά μας να μοιραστείτε μαζί μας τα επαγγελματικά σας νέα και τις αλλαγές που έχουν γίνει στη ζωή σας. ")
+            ->line('Θα ήταν χαρά μας να μοιραστείτε μαζί μας τα επαγγελματικά σας νέα και τις αλλαγές που έχουν γίνει στη ζωή σας. ')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλώ, συμπληρώστε το ερωτηματολόγιο πατώντας εδώ:</span>')
             ->action('Συμπληρώστε το ερωτηματολόγιο', 'https://forms.gle/phq1T1ksArKzHBVTA')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εκτίμηση,</div>')
@@ -58,7 +58,7 @@ class MenteeFollowUp extends Notification implements ShouldQueue {
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable): array {

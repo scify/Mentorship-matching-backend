@@ -3,15 +3,16 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Reference extends Model
-{
+class Reference extends Model {
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'reference';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,18 +21,16 @@ class Reference extends Model
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MenteeProfile, $this>
+     * @return BelongsTo<MenteeProfile, $this>
      */
-    public function mentees(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
+    public function mentees(): BelongsTo {
         return $this->belongsTo(MenteeProfile::class, 'reference_id', 'id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\MentorProfile, $this>
+     * @return BelongsTo<MentorProfile, $this>
      */
-    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
+    public function mentors(): BelongsTo {
         return $this->belongsTo(MentorProfile::class, 'reference_id', 'id');
     }
 }

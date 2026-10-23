@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: pisaris
@@ -8,13 +9,11 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\MenteeSpecialty;
 use App\Models\eloquent\MentorSpecialty;
 use App\Models\eloquent\Specialty;
 
 class SpecialtyStorage {
-
     public function getAllSpecialties() {
         return Specialty::orderBy('name')->get();
     }
@@ -29,11 +28,13 @@ class SpecialtyStorage {
 
     public function saveMentorSpecialty(MentorSpecialty $newMentorSpecialty) {
         $newMentorSpecialty->save();
+
         return $newMentorSpecialty;
     }
 
     public function saveMenteeSpecialty(MenteeSpecialty $newMenteeSpecialty) {
         $newMenteeSpecialty->save();
+
         return $newMenteeSpecialty;
     }
 
@@ -46,10 +47,11 @@ class SpecialtyStorage {
     }
 
     public function createSpecialty($specialtyName) {
-        $specialty = new Specialty();
+        $specialty = new Specialty;
         $specialty->name = $specialtyName;
         $specialty->status_id = 2; // all newly created specialties will be private
         $specialty->save();
+
         return $specialty;
     }
 }

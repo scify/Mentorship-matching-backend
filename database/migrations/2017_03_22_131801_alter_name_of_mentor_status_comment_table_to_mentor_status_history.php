@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class AlterNameOfMentorStatusCommentTableToMentorStatusHistory extends Migration
-{
+class AlterNameOfMentorStatusCommentTableToMentorStatusHistory extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::rename('mentor_status_comment', 'mentor_status_history');
     }
 
@@ -21,8 +18,7 @@ class AlterNameOfMentorStatusCommentTableToMentorStatusHistory extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::rename('mentor_status_history', 'mentor_status_comment');
     }
 }

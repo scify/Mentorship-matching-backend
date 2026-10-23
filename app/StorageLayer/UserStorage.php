@@ -4,20 +4,16 @@ namespace App\StorageLayer;
 
 use App\BusinessLogicLayer\managers\UserAccessManager;
 use App\Models\eloquent\AccountManagerCapacity;
-use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
 use App\Utils\MentorshipSessionStatuses;
 
 /**
  * Class UserStorage
- * @package app\StorageLayer
- *
- * Contains the eloquent queries methods for the Users.
  */
 class UserStorage {
-
     public function saveUser(User $user) {
         $user->save();
+
         return $user;
     }
 
@@ -31,6 +27,7 @@ class UserStorage {
 
     public function saveAccountManagerCapacity(AccountManagerCapacity $accountManagerCapacity) {
         $accountManagerCapacity->save();
+
         return $accountManagerCapacity;
     }
 
@@ -45,10 +42,10 @@ class UserStorage {
     }
 
     public function getAccountManagersWithRemainingCapacity() {
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
-        $userAccessManager = new UserAccessManager();
-        $rawQueryStorage = new RawQueryStorage();
-        $result = $rawQueryStorage->performRawQuery("
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses;
+        $userAccessManager = new UserAccessManager;
+        $rawQueryStorage = new RawQueryStorage;
+        $result = $rawQueryStorage->performRawQuery('
            select u.*, ur.user_id, capacity, (capacity - IFNULL(total_active_sessions,0)) as remainingCapacity from 
                 user_role ur
                 inner join account_manager_capacity amc on amc.account_manager_id = ur.user_id
@@ -67,14 +64,15 @@ class UserStorage {
 										from mentorship_session_history as msh
 										group by mentorship_session_id
 								   ) LastSessionHistoryRecord on LastSessionHistoryRecord.last_mentorship_session_history_id = msh.id
-									where msh.status_id  in (" . implode(",", $mentorshipSessionStatuses::getActiveSessionStatuses()) . ")
+									where msh.status_id  in (' . implode(',', $mentorshipSessionStatuses::getActiveSessionStatuses()) . ")
 
                                 ) as NonCompletedSessions on ms.id = NonCompletedSessions.mentorship_session_id
                             where ms.deleted_at is null 
                             group by ms.account_manager_id 
                          ) as activeAccountManagerSessions on activeAccountManagerSessions.account_manager_id = ur.user_id
-            where ur.role_id = $userAccessManager->ACCOUNT_MANAGER_ROLE_ID and u.deleted_at is null and u.state_id = 1
+            where ur.role_id = {$userAccessManager->ACCOUNT_MANAGER_ROLE_ID} and u.deleted_at is null and u.state_id = 1
         ");
+
         return $result;
     }
 

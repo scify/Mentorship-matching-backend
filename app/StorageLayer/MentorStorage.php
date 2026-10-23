@@ -2,23 +2,19 @@
 
 namespace App\StorageLayer;
 
-use App\Models\eloquent\MenteeProfile;
 use App\Models\eloquent\MentorProfile;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Class MentorProfileStorage
- * @package app\StorageLayer
- *
- * Contains the eloquent queries methods for the MentorProfiles.
  */
 class MentorStorage {
-
     public function saveMentor(MentorProfile $mentor) {
         if ($mentor->id) {
             $attributes = ['id' => $mentor->id];
-        } else
+        } else {
             $attributes = ['email' => $mentor->email];
+        }
         $values = $mentor->getAttributes();
 
         return MentorProfile::updateOrCreate($attributes, $values);

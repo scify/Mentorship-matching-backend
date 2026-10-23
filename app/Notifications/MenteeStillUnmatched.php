@@ -17,13 +17,12 @@ class MenteeStillUnmatched extends Notification implements ShouldQueue {
      *
      * @return void
      */
-    public function __construct() {
-    }
+    public function __construct() {}
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable) {
@@ -33,12 +32,12 @@ class MenteeStillUnmatched extends Notification implements ShouldQueue {
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable) {
         return (new MailMessage)
-            ->subject("Job-Pairs |  απενεργοποίηση της αίτησης Mentee")
+            ->subject('Job-Pairs |  απενεργοποίηση της αίτησης Mentee')
             ->greeting('Αγαπητή/έ mentee,')
             ->line('Επικοινωνούμε μαζί σου σχετικά με την αίτηση που έκανες πριν πριν λίγους μήνες μέσω του site μας <a href="https://job-pairs.gr/" target="_blank">www.job-pairs.gr</a> ώστε να ενταχθείς στο πρόγραμμα mentoring του οργανισμού μας.')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Λαμβάνοντας υπόψη πως δεν έχουμε καταφέρει μέχρι σήμερα να βρούμε διαθέσιμο μέντορα που να ταιριάζει στο προφίλ σου, σε ενημερώνουμε πως η αίτηση σου θα απενεργοποιηθεί. Σε περίπτωση που εξακολουθείς να ενδιαφέρεσαι, μπορείς να επικοινωνήσεις μαζί μας στο <a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a></div>')
@@ -51,7 +50,7 @@ class MenteeStillUnmatched extends Notification implements ShouldQueue {
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable) {

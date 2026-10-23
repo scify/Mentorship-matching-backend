@@ -2,7 +2,6 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\MentorRating;
 
 class MentorRatingStorage {

@@ -50,12 +50,13 @@ class HandleUnmatchedMentees extends Command {
             $num_of_mentees_rejected += 1;
             // if the mentee was created after 1/1/2024, then also send the email
             if ($mentee->created_at > '2024-01-01') {
-                echo "Sending email to " . $mentee->email . "\n";
-                $mentee->notify(new MenteeStillUnmatched());
+                echo 'Sending email to ' . $mentee->email . "\n";
+                $mentee->notify(new MenteeStillUnmatched);
                 $num_of_mentees_notified += 1;
             }
         }
-        Log::info("Ran HandleUnmatchedMentees on:" . now()->toDateString() . ". Rejected " . $num_of_mentees_rejected . ", Notified: " . $num_of_mentees_notified . "\n");
+        Log::info('Ran HandleUnmatchedMentees on:' . now()->toDateString() . '. Rejected ' . $num_of_mentees_rejected . ', Notified: ' . $num_of_mentees_notified . "\n");
+
         return 0;
     }
 }

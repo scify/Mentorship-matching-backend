@@ -16,11 +16,11 @@ use Sentry\Laravel\Integration;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
-class   Handler extends ExceptionHandler {
+class Handler extends ExceptionHandler {
     /**
      * A list of the exception types that should not be reported.
      *
-     * @var array<int, class-string<\Throwable>>
+     * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
         AuthenticationException::class,
@@ -40,8 +40,8 @@ class   Handler extends ExceptionHandler {
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param Request $request
-     * @param AuthenticationException $exception
+     * @param  Request  $request
+     * @param  AuthenticationException  $exception
      * @return JsonResponse|RedirectResponse
      */
     protected function unauthenticated($request, AuthenticationException $exception) {

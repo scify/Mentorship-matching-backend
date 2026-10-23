@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -8,29 +9,18 @@
 
 namespace App\ViewComposers;
 
-
-use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 
-class MenteeAndMentorMenuComposer
-{
-
-    public function __construct() {
-
-    }
+class MenteeAndMentorMenuComposer {
+    public function __construct() {}
 
     public function compose(View $view) {
-
-        $routeName =  request()->has('currentRouteName') ? request()->get('currentRouteName') : Route::currentRouteName();
+        $routeName = request()->has('currentRouteName') ? request()->get('currentRouteName') : Route::currentRouteName();
 
         $routesInMatchingMode = ['showMentorProfilePage', 'showMenteeProfilePage'];
         $matchingMode = false;
-        if(in_array($routeName, $routesInMatchingMode)) {
+        if (in_array($routeName, $routesInMatchingMode)) {
             $matchingMode = true;
         }
         $view->with(['matchingMode' => $matchingMode]);

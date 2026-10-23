@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
 class SimpleTestCommand extends Command {
-
     /**
      * The name and signature of the console command.
      *
@@ -30,7 +29,7 @@ class SimpleTestCommand extends Command {
         $message = now()->toDateTimeString() . ': Hello, this is a simple test command!';
         $this->info($message);
         Log::info($message);
+
         return 0;
     }
-
 }

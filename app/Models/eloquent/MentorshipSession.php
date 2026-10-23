@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -9,17 +10,20 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MentorshipSession extends Model
-{
+class MentorshipSession extends Model {
     use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'mentorship_session';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -30,44 +34,44 @@ class MentorshipSession extends Model
     protected $with = ['mentor', 'mentee', 'account_manager', 'matcher', 'status'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MentorProfile, $this>
+     * @return HasOne<MentorProfile, $this>
      */
-    public function mentor(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function mentor(): HasOne {
         return $this->hasOne(MentorProfile::class, 'id', 'mentor_profile_id')->withTrashed();
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MenteeProfile, $this>
+     * @return HasOne<MenteeProfile, $this>
      */
-    public function mentee(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function mentee(): HasOne {
         return $this->hasOne(MenteeProfile::class, 'id', 'mentee_profile_id')->withTrashed();
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this>
+     * @return HasOne<User, $this>
      */
-    public function account_manager(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function account_manager(): HasOne {
         return $this->hasOne(User::class, 'id', 'account_manager_id')->withTrashed();
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this>
+     * @return HasOne<User, $this>
      */
-    public function matcher(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function matcher(): HasOne {
         return $this->hasOne(User::class, 'id', 'matcher_id')->withTrashed();
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MentorshipSessionStatus, $this>
+     * @return HasOne<MentorshipSessionStatus, $this>
      */
-    public function status(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function status(): HasOne {
         return $this->hasOne(MentorshipSessionStatus::class, 'id', 'status_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\eloquent\MentorshipSessionHistory, $this>
+     * @return HasMany<MentorshipSessionHistory, $this>
      */
-    public function history(): \Illuminate\Database\Eloquent\Relations\HasMany {
+    public function history(): HasMany {
         return $this->hasMany(MentorshipSessionHistory::class, 'mentorship_session_id', 'id')->orderBy('updated_at', 'desc');
     }
 }

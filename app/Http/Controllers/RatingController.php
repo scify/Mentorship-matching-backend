@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -7,7 +8,6 @@
  */
 
 namespace App\Http\Controllers;
-
 
 use App\BusinessLogicLayer\managers\MentorshipSessionManager;
 use App\BusinessLogicLayer\managers\RatingManager;
@@ -19,14 +19,12 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 
-class RatingController extends Controller
-{
-    public function showMenteeRatingForm($sessionId, $mentorId, $menteeId, Request $request)
-    {
+class RatingController extends Controller {
+    public function showMenteeRatingForm($sessionId, $mentorId, $menteeId, Request $request) {
         $ratedRole = 'mentee';
         $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
-        $mentorshipSessionManager = new MentorshipSessionManager();
+        $mentorshipSessionManager = new MentorshipSessionManager;
         $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
         if (!empty($session)) {
             if ($session->status_id === MentorshipSessionStatuses::getCompletedSessionStatuses()[0] &&
@@ -34,113 +32,113 @@ class RatingController extends Controller
                 $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
                     $session
                 );
+
                 return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel', 'lang'));
             } else {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.rate_mentee_permission'),
-                    'title' => Lang::get('messages.rate_mentee')
+                    'title' => Lang::get('messages.rate_mentee'),
                 ]);
             }
         } else {
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.invalid_operation'),
-                'title' => Lang::get('messages.rate_mentee')
+                'title' => Lang::get('messages.rate_mentee'),
             ]);
         }
     }
 
-    public function rateMentee(Request $request)
-    {
+    public function rateMentee(Request $request) {
         $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
         $this->validate($request, [
-            'rating' => 'required|min:1|max:5|numeric'
+            'rating' => 'required|min:1|max:5|numeric',
         ], $this->messages());
         $input = $request->all();
-        $ratingManager = new RatingManager();
+        $ratingManager = new RatingManager;
         try {
             $result = $ratingManager->rateMentee($input);
-        } catch(Exception $e) {
-            Log::info("Error while rating mentee: " . $e);
+        } catch (Exception $e) {
+            Log::info('Error while rating mentee: ' . $e);
+
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.rate_mentee_more_than_once'),
-                'title' => Lang::get('messages.rate_mentee')
+                'title' => Lang::get('messages.rate_mentee'),
             ]);
         }
         if ($result === 'SUCCESS') {
             return view('common.response-to-email')->with([
                 'message_success' => Lang::get('messages.thank_you_for_rating'),
-                'title' => Lang::get('messages.rate_mentee')
+                'title' => Lang::get('messages.rate_mentee'),
             ]);
         } else {
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.rate_mentee_permission_denied'),
-                'title' => Lang::get('messages.rate_mentee')
+                'title' => Lang::get('messages.rate_mentee'),
             ]);
         }
     }
 
-    public function showMentorRatingForm($sessionId, $menteeId, $mentorId, Request $request)
-    {
+    public function showMentorRatingForm($sessionId, $menteeId, $mentorId, Request $request) {
         $ratedRole = 'mentor';
         $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
-        $mentorshipSessionManager = new MentorshipSessionManager();
+        $mentorshipSessionManager = new MentorshipSessionManager;
         $session = $mentorshipSessionManager->getMentorshipSession($sessionId);
-        if(!empty($session)) {
+        if (!empty($session)) {
             if ($session->status_id === MentorshipSessionStatuses::getCompletedSessionStatuses()[0] &&
                 $session->mentor_profile_id == $mentorId && $session->mentee_profile_id == $menteeId) {
                 $sessionViewModel = $mentorshipSessionManager->getMentorshipSessionViewModel(
                     $session
                 );
+
                 return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel', 'lang'));
             } else {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.rate_mentor_permission'),
-                    'title' => Lang::get('messages.rate_mentor')
+                    'title' => Lang::get('messages.rate_mentor'),
                 ]);
             }
         } else {
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.invalid_operation'),
-                'title' => Lang::get('messages.rate_mentor')
+                'title' => Lang::get('messages.rate_mentor'),
             ]);
         }
     }
 
-    public function rateMentor(Request $request)
-    {
+    public function rateMentor(Request $request) {
         $lang = $request->has('lang') ? $request->get('lang') : 'en';
         App::setLocale($lang);
         $this->validate($request, [
-            'rating' => 'required|min:1|max:5|numeric'
+            'rating' => 'required|min:1|max:5|numeric',
         ], $this->messages());
         $input = $request->all();
-        $ratingManager = new RatingManager();
+        $ratingManager = new RatingManager;
         try {
             $result = $ratingManager->rateMentor($input);
-        } catch(Exception $e) {
-            Log::info("Error while rating mentor: " . $e);
+        } catch (Exception $e) {
+            Log::info('Error while rating mentor: ' . $e);
+
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.rate_mentor_more_than_once'),
-                'title' => Lang::get('messages.rate_mentor')
+                'title' => Lang::get('messages.rate_mentor'),
             ]);
         }
         if ($result === 'SUCCESS') {
             return view('common.response-to-email')->with([
                 'message_success' => Lang::get('messages.thank_you_for_rating'),
-                'title' => Lang::get('messages.rate_mentor')
+                'title' => Lang::get('messages.rate_mentor'),
             ]);
         } else {
             return view('common.response-to-email')->with([
                 'message_failure' => Lang::get('messages.rate_mentor_permission_denied'),
-                'title' => Lang::get('messages.rate_mentor')
+                'title' => Lang::get('messages.rate_mentor'),
             ]);
         }
     }
 
-    private function messages()
-    {
+    private function messages() {
         return [
             'rating.required' => trans('messages.rating.required'),
             'rating.min' => trans('messages.rating.error'),

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: pisaris
@@ -8,21 +9,19 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\Reference;
 
 class ReferenceStorage {
-
     public function getAllReferences() {
-        $ids = [6,5,3,1,2,8,4,7];
-        $sorted = Reference::all()->sortBy(function($model) use ($ids) {
+        $ids = [6, 5, 3, 1, 2, 8, 4, 7];
+        $sorted = Reference::all()->sortBy(function ($model) use ($ids) {
             return array_search($model->id, $ids);
         });
-        return $sorted ;
+
+        return $sorted;
     }
 
     public function getReferenceById($id) {
         return Reference::find($id);
     }
-
 }

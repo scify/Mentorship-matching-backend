@@ -3,14 +3,18 @@
 namespace App\Models\eloquent;
 
 use App\BusinessLogicLayer\managers\UserAccessManager;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use Notifiable;
+
     use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -24,7 +28,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'email', 'password', 'first_name', 'last_name', 'state_id', 'user_icon_id'
+        'email', 'password', 'first_name', 'last_name', 'state_id', 'user_icon_id',
     ];
 
     /**
@@ -36,32 +40,32 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\UserState, $this> */
-    public function state(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    /** @return HasOne<UserState, $this> */
+    public function state(): HasOne {
         return $this->hasOne(UserState::class, 'id', 'state_id');
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\eloquent\Company, $this> */
-    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
+    /** @return BelongsTo<Company, $this> */
+    public function company(): BelongsTo {
         return $this->belongsTo(Company::class, 'id', 'account_manager_id');
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\AccountManagerCapacity, $this> */
-    public function capacity(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    /** @return HasOne<AccountManagerCapacity, $this> */
+    public function capacity(): HasOne {
         return $this->hasOne(AccountManagerCapacity::class, 'account_manager_id', 'id');
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\UserIcon, $this> */
-    public function icon(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    /** @return HasOne<UserIcon, $this> */
+    public function icon(): HasOne {
         return $this->hasOne(UserIcon::class, 'id', 'user_icon_id');
     }
 
     /**
      * Get @see Role instances this user has
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\Role, $this>
+     *
+     * @return BelongsToMany<Role, $this>
      */
-    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function roles(): BelongsToMany {
         return $this->belongsToMany(Role::class, 'user_role')->wherePivot('deleted_at', null);
     }
 
@@ -70,18 +74,17 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isActivated()
-    {
+    public function isActivated() {
         return $this->state !== null && $this->state->id == 1;
     }
 
     public function isAdmin() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userIsAdmin($this);
     }
 
-    public function hasCompany(){
-
+    public function hasCompany() {
         return (bool) $this->company()->first();
     }
 
@@ -90,48 +93,56 @@ class User extends Authenticatable
     }
 
     public function isAccountManager() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userIsAccountManager($this);
     }
 
     public function isMatcher() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userIsMatcher($this);
     }
 
     public function userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userHasAccessOnlyToChangeAvailabilityStatusForMentorsAndMentees($this);
     }
 
     public function userHasAccessToEditMentorsAndMentees() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userHasAccessToEditMentorsAndMentees($this);
     }
 
-
     public function userHasAccessToCRUDSystemUsers() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userHasAccessToCRUDSystemUsers($this);
     }
 
     public function userHasAccessToCRUDMentorsAndMentees() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userHasAccessToCRUDMentorsAndMentees($this);
     }
 
     public function userHasAccessToCRUDCompanies() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userHasAccessToCRUDCompanies($this);
     }
 
     public function userHasAccessToOnlyEditStatusForMentorshipSessions() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userHasAccessToOnlyEditStatusForMentorshipSessions($this);
     }
 
     public function userHasAccessToCRUDMentorshipSessions() {
-        $userAccessManager = new UserAccessManager();
+        $userAccessManager = new UserAccessManager;
+
         return $userAccessManager->userHasAccessToCRUDMentorshipSessions($this);
     }
 }

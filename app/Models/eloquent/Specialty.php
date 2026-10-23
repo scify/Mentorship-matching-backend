@@ -3,15 +3,16 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Specialty extends Model
-{
+class Specialty extends Model {
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'specialty';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,18 +21,16 @@ class Specialty extends Model
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\MentorProfile, $this>
+     * @return BelongsToMany<MentorProfile, $this>
      */
-    public function mentors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function mentors(): BelongsToMany {
         return $this->belongsToMany(MentorProfile::class, 'mentor_specialty')->wherePivot('deleted_at', null);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\MenteeProfile, $this>
+     * @return BelongsToMany<MenteeProfile, $this>
      */
-    public function mentees(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function mentees(): BelongsToMany {
         return $this->belongsToMany(MenteeProfile::class, 'mentor_specialty', 'id')->wherePivot('deleted_at', null);
     }
 }

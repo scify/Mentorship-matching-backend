@@ -22,7 +22,7 @@ class MentorStatusReactivation extends Notification implements ShouldQueue {
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable): array {
@@ -32,12 +32,12 @@ class MentorStatusReactivation extends Notification implements ShouldQueue {
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
-            ->subject("Job-Pairs | Θα θέλατε να συμμετέχετε ξανά;")
+            ->subject('Job-Pairs | Θα θέλατε να συμμετέχετε ξανά;')
             ->greeting('Αγαπητή/έ mentor,')
             ->line('Συγχαρητήρια για την ολοκλήρωση των συναντήσεων σας!')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Θα ήταν μεγάλη μας χαρά να λάβετε ξανά μέρος και να σας φέρουμε σε επαφή με νέο mentee.</span>')
@@ -51,7 +51,7 @@ class MentorStatusReactivation extends Notification implements ShouldQueue {
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable): array {

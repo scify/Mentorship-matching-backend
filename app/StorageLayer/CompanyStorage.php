@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: pisaris
@@ -13,6 +14,7 @@ use App\Models\eloquent\Company;
 class CompanyStorage {
     public function saveCompany(Company $company) {
         $company->save();
+
         return $company;
     }
 

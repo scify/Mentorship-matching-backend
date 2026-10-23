@@ -4,12 +4,10 @@
  * A cached config replaces every <server> line in phpunit.xml, so the tests
  * would use the .env database, mailer and Sentry DSN.
  */
-class ConfigCacheGuardTest extends TestCase
-{
+class ConfigCacheGuardTest extends TestCase {
     private string $cachedConfigPath;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
 
         $this->cachedConfigPath = tempnam(sys_get_temp_dir(), 'config-cache');
@@ -17,16 +15,14 @@ class ConfigCacheGuardTest extends TestCase
         $_SERVER['APP_CONFIG_CACHE'] = $this->cachedConfigPath;
     }
 
-    protected function tearDown(): void
-    {
+    protected function tearDown(): void {
         unset($_SERVER['APP_CONFIG_CACHE']);
         unlink($this->cachedConfigPath);
 
         parent::tearDown();
     }
 
-    public function testACachedConfigIsRefused()
-    {
+    public function test_a_cached_config_is_refused() {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Tests cannot run with a cached config');
 

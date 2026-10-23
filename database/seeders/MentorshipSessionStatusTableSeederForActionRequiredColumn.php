@@ -19,6 +19,5 @@ class MentorshipSessionStatusTableSeederForActionRequiredColumn extends Seeder {
         DB::table('mentorship_session_status_lookup')
             ->where('id', 4)
             ->update(['action_required' => 'Both mentor and mentee are available. You should send an introduction email between the 2 parties. If you have already done it, update the status below to "Introduction email & related info"']);
-
     }
 }

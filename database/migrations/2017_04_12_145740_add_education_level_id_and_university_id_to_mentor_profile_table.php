@@ -1,21 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddEducationLevelIdAndUniversityIdToMentorProfileTable extends Migration
-{
+class AddEducationLevelIdAndUniversityIdToMentorProfileTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentor_profile', function (Blueprint $table) {
-            $table->integer("education_level_id")->after('job_experience_years')->nullable()->unsigned();
-            $table->integer("university_id")->after('education_level_id')->nullable()->unsigned();
+            $table->integer('education_level_id')->after('job_experience_years')->nullable()->unsigned();
+            $table->integer('university_id')->after('education_level_id')->nullable()->unsigned();
             $table->foreign('education_level_id')->references('id')->on('education_level');
             $table->foreign('university_id')->references('id')->on('university');
         });
@@ -26,8 +24,7 @@ class AddEducationLevelIdAndUniversityIdToMentorProfileTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('mentor_profile', function (Blueprint $table) {
             $table->dropForeign('mentor_profile_university_id_foreign');
             $table->dropForeign('mentor_profile_education_level_id_foreign');

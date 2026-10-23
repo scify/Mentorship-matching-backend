@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddCompanyIdToMentorProfileTable extends Migration
-{
+class AddCompanyIdToMentorProfileTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentor_profile', function ($table) {
             $table->integer('company_id')->unsigned()->nullable();
         });
@@ -27,9 +25,8 @@ class AddCompanyIdToMentorProfileTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::table('mentor_profile', function(Blueprint $table){
+    public function down() {
+        Schema::table('mentor_profile', function (Blueprint $table) {
             $table->dropForeign('mentor_profile_company_id_foreign');
             $table->dropColumn('company_id');
         });

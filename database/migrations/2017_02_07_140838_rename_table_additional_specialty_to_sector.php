@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class RenameTableAdditionalSpecialtyToSector extends Migration
-{
+class RenameTableAdditionalSpecialtyToSector extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::rename('additional_specialty', 'industry');
     }
 
@@ -21,8 +18,7 @@ class RenameTableAdditionalSpecialtyToSector extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::rename('industry', 'additional_specialty');
     }
 }

@@ -19,13 +19,13 @@ class MenteeRegistered extends Notification implements ShouldQueue {
      * @return void
      */
     public function __construct() {
-        $this->userManager = new UserManager();
+        $this->userManager = new UserManager;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable): array {
@@ -35,12 +35,12 @@ class MenteeRegistered extends Notification implements ShouldQueue {
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
-            ->subject("Καλώς ήλθατε στο JobPairs!")
+            ->subject('Καλώς ήλθατε στο JobPairs!')
             ->greeting('Αγαπητή/έ mentee,')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Θα θέλαμε να σας ενημερώσουμε πως έχουμε λάβει επιτυχώς την αίτηση σας.</div>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Το Job-Pairs σας βοηθά να δημιουργήσετε τις δικές σας ευκαιρίες και να μεταβείτε επιτυχημένα στο χώρο εργασίας. Μέσα από 4 συναντήσεις με τον μέντορα σας, θα ανακαλύψετε τις ευκαιρίες του κλάδου που επιθυμείτε να εργαστείτε, τα δυνατά και τα αδύνατα σας σημεία, θα ενεργοποιηθείτε σε μια πραγματική διαδικασία εύρεσης εργασίας και θα έχετε την ευκαιρία να μάθετε και να βελτιωθείτε.</div>')
@@ -56,7 +56,7 @@ class MenteeRegistered extends Notification implements ShouldQueue {
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable): array {

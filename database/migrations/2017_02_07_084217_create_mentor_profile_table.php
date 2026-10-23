@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class CreateMentorProfileTable extends Migration
-{
+class CreateMentorProfileTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('mentor_profile', function ($table) {
             $table->increments('id');
             $table->string('first_name');
@@ -43,8 +40,7 @@ class CreateMentorProfileTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('mentor_profile');
     }
 }

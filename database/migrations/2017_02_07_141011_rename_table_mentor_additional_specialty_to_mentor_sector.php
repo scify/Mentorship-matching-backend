@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class RenameTableMentorAdditionalSpecialtyToMentorSector extends Migration
-{
+class RenameTableMentorAdditionalSpecialtyToMentorSector extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::rename('mentor_additional_specialty', 'mentor_industry');
     }
 
@@ -21,8 +18,7 @@ class RenameTableMentorAdditionalSpecialtyToMentorSector extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::rename('mentor_industry', 'mentor_additional_specialty');
     }
 }

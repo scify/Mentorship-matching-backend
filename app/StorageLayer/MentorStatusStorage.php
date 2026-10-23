@@ -2,11 +2,9 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\MentorStatus;
 
 class MentorStatusStorage {
-
     public function getMentorStatuses() {
         return MentorStatus::all();
     }
@@ -14,5 +12,4 @@ class MentorStatusStorage {
     public function getMentorStatusesWhereIn(array $mentorStatusIds) {
         return MentorStatus::whereIn('id', $mentorStatusIds)->get();
     }
-
 }

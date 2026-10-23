@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -11,21 +12,21 @@ namespace App\BusinessLogicLayer\managers;
 use App\Models\eloquent\MentorshipSession;
 use App\Models\viewmodels\MentorshipSessionViewModel;
 use App\Notifications\AccountManagerSessionInvitation;
+use App\Notifications\MenteeSendRating;
 use App\Notifications\MenteeSessionInvitation;
+use App\Notifications\MentorSendRating;
 use App\Notifications\MentorSessionInvitation;
 use App\Notifications\MentorStatusReactivation;
 use App\StorageLayer\MentorshipSessionStorage;
-use App\Notifications\MentorSendRating;
-use App\Notifications\MenteeSendRating;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Exception;
 use Sentry;
 
 class MentorshipSessionManager {
@@ -34,26 +35,26 @@ class MentorshipSessionManager {
     private $mentorshipSessionHistoryManager;
 
     public function __construct(?MentorshipSessionStorage $mentorshipSessionStorage = null,
-                                ?MentorshipSessionHistoryManager $mentorshipSessionHistoryManager = null) {
-        $this->mentorshipSessionStorage = $mentorshipSessionStorage ?? new MentorshipSessionStorage();
-        $this->mentorshipSessionHistoryManager = $mentorshipSessionHistoryManager ?? new MentorshipSessionHistoryManager();
+        ?MentorshipSessionHistoryManager $mentorshipSessionHistoryManager = null) {
+        $this->mentorshipSessionStorage = $mentorshipSessionStorage ?? new MentorshipSessionStorage;
+        $this->mentorshipSessionHistoryManager = $mentorshipSessionHistoryManager ?? new MentorshipSessionHistoryManager;
     }
 
     /**
      * Sets mentor's and mentee's status id to not available and matched correspondingly.
      * Used when a new session is created.
      *
-     * @param $mentorProfileId @see MentorProfile's id
-     * @param $menteeProfileId @see MenteeProfile's id
+     * @param  $mentorProfileId  @see MentorProfile's id
+     * @param  $menteeProfileId  @see MenteeProfile's id
      */
     private function setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($mentorProfileId, $menteeProfileId) {
-        $mentorManager = new MentorManager();
-        $menteeManager = new MenteeManager();
+        $mentorManager = new MentorManager;
+        $menteeManager = new MenteeManager;
         DB::transaction(function () use ($mentorManager, $mentorProfileId, $menteeManager, $menteeProfileId) {
             // INFO: mentor status id 2 means NOT available for mentorship
-            $mentorManager->editMentor(array('status_id' => 2), $mentorProfileId);
+            $mentorManager->editMentor(['status_id' => 2], $mentorProfileId);
             // INFO: mentee status id 2 means matched
-            $menteeManager->editMentee(array('status_id' => 2), $menteeProfileId);
+            $menteeManager->editMentee(['status_id' => 2], $menteeProfileId);
         });
     }
 
@@ -61,17 +62,17 @@ class MentorshipSessionManager {
      * Sets mentor's and mentee's status id to available.
      * Used when a session is cancelled (except from the case that the session is cancelled by the mentee).
      *
-     * @param $mentorProfileId @see MentorProfile's id
-     * @param $menteeProfileId @see MenteeProfile's id
+     * @param  $mentorProfileId  @see MentorProfile's id
+     * @param  $menteeProfileId  @see MenteeProfile's id
      */
     private function setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorProfileId, $menteeProfileId) {
-        $mentorManager = new MentorManager();
-        $menteeManager = new MenteeManager();
+        $mentorManager = new MentorManager;
+        $menteeManager = new MenteeManager;
         DB::transaction(function () use ($mentorManager, $mentorProfileId, $menteeManager, $menteeProfileId) {
             // INFO: mentor status id 1 means available for mentorship
-            $mentorManager->editMentor(array('status_id' => 1), $mentorProfileId);
+            $mentorManager->editMentor(['status_id' => 1], $mentorProfileId);
             // INFO: mentee status id 1 means available
-            $menteeManager->editMentee(array('status_id' => 1), $menteeProfileId);
+            $menteeManager->editMentee(['status_id' => 1], $menteeProfileId);
         });
     }
 
@@ -79,78 +80,80 @@ class MentorshipSessionManager {
      * Sets mentor's status id to available.
      * Used when a session is cancelled by mentee.
      *
-     * @param $mentorProfileId @see MentorProfile's id
+     * @param  $mentorProfileId  @see MentorProfile's id
      */
     private function setMentorshipSessionMentorStatusToAvailable($mentorProfileId) {
-        $mentorManager = new MentorManager();
+        $mentorManager = new MentorManager;
         // INFO: mentor status id 1 means available
-        $mentorManager->editMentor(array('status_id' => 1), $mentorProfileId);
+        $mentorManager->editMentor(['status_id' => 1], $mentorProfileId);
     }
 
     /**
      * Sets mentor's status id to not available.
      * Used when a session is cancelled by mentee.
      *
-     * @param $mentorProfileId @see MentorProfile's id
+     * @param  $mentorProfileId  @see MentorProfile's id
      */
     private function setMentorshipSessionMentorStatusToNotAvailable($mentorProfileId) {
-        $mentorManager = new MentorManager();
+        $mentorManager = new MentorManager;
         // INFO: mentor status id 1 means available
-        $mentorManager->editMentor(array('status_id' => 2), $mentorProfileId);
+        $mentorManager->editMentor(['status_id' => 2], $mentorProfileId);
     }
 
     /**
      * Sets mentor's status id to not available.
      * Used when a session is cancelled by mentee.
      *
-     * @param $menteeProfileId @see MentorProfile's id
+     * @param  $menteeProfileId  @see MentorProfile's id
      */
     private function setMentorshipSessionMenteeStatusToAvailable($menteeProfileId) {
-        $menteeManager = new MenteeManager();
+        $menteeManager = new MenteeManager;
         // INFO: mentee status id 1 means available
-        $menteeManager->editMentee(array('status_id' => 1), $menteeProfileId);
+        $menteeManager->editMentee(['status_id' => 1], $menteeProfileId);
     }
 
     /**
      * Sets mentee's status id to rejected.
      * Used when a session is cancelled by mentee.
      *
-     * @param $menteeProfileId @see MenteeProfile's id
+     * @param  $menteeProfileId  @see MenteeProfile's id
      */
     private function setMentorshipSessionMenteeStatusToRejected($menteeProfileId) {
-        $menteeManager = new MenteeManager();
+        $menteeManager = new MenteeManager;
         // INFO: mentee status id 4 means rejected
-        $menteeManager->editMentee(array('status_id' => 4), $menteeProfileId);
+        $menteeManager->editMentee(['status_id' => 4], $menteeProfileId);
     }
 
     /**
      * Sets mentee's status id to completed.
      * Used when a session is completed.
      *
-     * @param $menteeProfileId @see MenteeProfile's id
+     * @param  $menteeProfileId  @see MenteeProfile's id
      */
     private function setMentorshipSessionMenteeStatusToCompleted($menteeProfileId) {
-        $menteeManager = new MenteeManager();
+        $menteeManager = new MenteeManager;
         // INFO: mentee status id 3 means completed
-        $menteeManager->editMentee(array('status_id' => 3), $menteeProfileId);
+        $menteeManager->editMentee(['status_id' => 3], $menteeProfileId);
     }
 
     /**
      * Returns a mentorship session object filled with input passed as array
      *
-     * @param MentorshipSession $mentorshipSession
-     * @param array $input
+     * @param  MentorshipSession  $mentorshipSession
+     * @param  array  $input
      * @return MentorshipSession
      */
     private function assignInputFieldsToMentorshipSession(MentorshipSession $mentorshipSession, array $input) {
         $mentorshipSession->fill($input);
+
         return $mentorshipSession;
     }
 
     /**
      * Creates a new mentorship session in DB
      *
-     * @param array $input
+     * @param  array  $input
+     *
      * @throws Exception
      */
     public function createMentorshipSession(array $input) {
@@ -158,7 +161,7 @@ class MentorshipSessionManager {
         if ($loggedInUser != null) {
             $input['matcher_id'] = $loggedInUser->id;
         } else {
-            throw new Exception("Not logged in user");
+            throw new Exception('Not logged in user');
         }
         // set the current (most recent) status id for the mentorship session
         // if matcher id same as account manager id, the most recent is "invitation to mentee and mentor sent"
@@ -169,27 +172,25 @@ class MentorshipSessionManager {
             $input['status_id'] = MentorshipSessionStatuses::$statuses['pending'];
         }
 
-        $mentorshipSession = new MentorshipSession();
+        $mentorshipSession = new MentorshipSession;
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
 
         DB::transaction(function () use ($mentorshipSession, $loggedInUser, $input) {
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
-            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['pending'], $loggedInUser, "");
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['pending'], $loggedInUser, '');
             $this->setMentorshipSessionMentorAndMenteeStatusesToNotAvailable($input['mentor_profile_id'], $input['mentee_profile_id']);
             // if matcher id same as account manager id, pass both "assigned to acc manager"
             // and "emailed mentee and mentor to confirm availability" statuses
             // and then send first email to mentee
             if ($input['account_manager_id'] == $input['matcher_id']) {
-                $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, "");
+                $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, '');
                 $this->inviteMenteeToMentorshipSession($mentorshipSession);
             } else {
                 // else email account manager
                 $this->inviteAccountManagerToMentorshipSession($mentorshipSession);
             }
-
         });
     }
-
 
     private function inviteAccountManagerToMentorshipSession(MentorshipSession $mentorshipSession) {
         $accountManager = $mentorshipSession->account_manager;
@@ -228,19 +229,21 @@ class MentorshipSessionManager {
      */
     public function shouldSendRating($mentorshipSession) {
         // Peek in MentorshipSessionStatuses for the lookup table
-        $sessionStatusKey = "fourth_meeting";
+        $sessionStatusKey = 'fourth_meeting';
 
         if ($mentorshipSession->status_id == MentorshipSessionStatuses::$statuses[$sessionStatusKey]) {
             $this->sendRatingEmails($mentorshipSession);
+
             return true;
         }
+
         return false;
     }
 
     /**
      * Updates an existing mentorship session in DB
      *
-     * @param array $input
+     * @param  array  $input
      * @return string Message to display to user performing session update on view
      */
     public function editMentorshipSession(array $input) {
@@ -250,7 +253,7 @@ class MentorshipSessionManager {
         $input['mentor_profile_id'] = $mentorshipSession->mentor_profile_id;
         $input['mentee_profile_id'] = $mentorshipSession->mentee_profile_id;
         $mentorshipSession = $this->assignInputFieldsToMentorshipSession($mentorshipSession, $input);
-        $comment = isset($input['comment']) ? $input['comment'] : "";
+        $comment = isset($input['comment']) ? $input['comment'] : '';
 
         $shouldSetSessionStatusToSentEvaluation = $this->shouldSendRating($mentorshipSession);
         $numberOfNecessarySessionUpdates = $shouldSetSessionStatusToSentEvaluation ? 2 : 1;
@@ -271,9 +274,8 @@ class MentorshipSessionManager {
         return $messageToShow;
     }
 
-
     private function handleMentorshipSessionStatusUpdate(MentorshipSession $mentorshipSession, array $input) {
-        $mentorshipSessionStatuses = new MentorshipSessionStatuses();
+        $mentorshipSessionStatuses = new MentorshipSessionStatuses;
         // if status is a completed status, send email to the mentor to ask if should be available for a new session
         if ($mentorshipSession->status_id == $mentorshipSessionStatuses::getCompletedSessionStatuses()[0]) {
             $mentor = $mentorshipSession->mentor;
@@ -289,7 +291,7 @@ class MentorshipSessionManager {
                 // set mentee's status back to rejected
                 $this->setMentorshipSessionMenteeStatusToRejected($input['mentee_profile_id']);
             } // status 13 is status "Cancelled by mentor"
-            else if ($mentorshipSession->status_id == 13) {
+            elseif ($mentorshipSession->status_id == 13) {
                 // set mentor's status to not available
                 $this->setMentorshipSessionMentorStatusToNotAvailable($input['mentor_profile_id']);
                 // set mentee's status back to available
@@ -324,9 +326,10 @@ class MentorshipSessionManager {
 
     /**
      * Returns a @param $id
-     * @return mixed
-     * @see MentorshipSession with corresponding id
      *
+     * @return mixed
+     *
+     * @see MentorshipSession with corresponding id
      */
     public function getMentorshipSession($id) {
         return $this->mentorshipSessionStorage->findMentorshipSessionById($id);
@@ -335,11 +338,12 @@ class MentorshipSessionManager {
     /**
      * Returns a mentorship session view model containing the mentorship session that is passed as a parameter
      *
-     * @param MentorshipSession $mentorshipSession
+     * @param  MentorshipSession  $mentorshipSession
      * @return MentorshipSessionViewModel
      */
     public function getMentorshipSessionViewModel(MentorshipSession $mentorshipSession) {
         $mentorshipSessionViewModel = new MentorshipSessionViewModel($mentorshipSession);
+
         return $mentorshipSessionViewModel;
     }
 
@@ -350,6 +354,7 @@ class MentorshipSessionManager {
      */
     public function getAllMentorshipSessionsViewModel() {
         $mentorshipSessions = $this->getAllMentorshipSessions();
+
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
@@ -363,38 +368,44 @@ class MentorshipSessionManager {
 
     public function getMentorshipSessionViewModelsForMentor($mentorProfileId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionsForMentor($mentorProfileId);
+
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getMentorshipSessionViewModelsForMentee($menteeProfileId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionsForMentee($menteeProfileId);
+
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getMentorshipSessionViewModelsForAccountManager($accountManagerId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForAccountManager($accountManagerId);
+
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getPendingMentorshipSessionViewModelsForAccountManager($accountManagerId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->
         getMentorshipSessionViewModelsForAccountManagerByStatusId($accountManagerId, MentorshipSessionStatuses::getPendingSessionStatuses());
+
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     public function getMentorshipSessionViewModelsForMatcher($matcherId) {
         $mentorshipSessions = $this->mentorshipSessionStorage->getMentorshipSessionViewModelsForMatcher($matcherId);
+
         return $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
     }
 
     /**
-     * @param Collection<int, MentorshipSession> $mentorshipSessions
+     * @param  Collection<int, MentorshipSession>  $mentorshipSessions
      */
     private function getMentorshipSessionsViewModelsFromCollection(Collection $mentorshipSessions) {
-        $mentorshipSessionViewModels = new Collection();
+        $mentorshipSessionViewModels = new Collection;
         foreach ($mentorshipSessions as $mentorshipSession) {
             $mentorshipSessionViewModels->add($this->getMentorshipSessionViewModel($mentorshipSession));
         }
+
         return $mentorshipSessionViewModels;
     }
 
@@ -405,26 +416,28 @@ class MentorshipSessionManager {
     /**
      * Delete a mentorship session from the DB
      *
-     * @param array $input
+     * @param  array  $input
      */
     public function deleteMentorshipSession(array $input) {
         DB::transaction(function () use ($input) {
             $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
             $this->mentorshipSessionStorage->deleteMentorshipSession($mentorshipSession);
-            //mentor and mentee should become available again
+            // mentor and mentee should become available again
             $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorshipSession->mentor->id, $mentorshipSession->mentee->id);
         });
     }
 
     /**
      * Filters @param array $filters
-     * @return Collection
-     * @see MentorshipSession and returns a collection of the filtered sessions view models
      *
+     * @return Collection
+     *
+     * @see MentorshipSession and returns a collection of the filtered sessions view models
      */
     public function getMentorshipSessionViewModelsByCriteria(array $filters) {
         $mentorshipSessions = $this->getMentorshipSessionsByCriteria($filters);
         $mentorshipSessionViewModels = $this->getMentorshipSessionsViewModelsFromCollection($mentorshipSessions);
+
         return $mentorshipSessionViewModels;
     }
 
@@ -432,60 +445,63 @@ class MentorshipSessionManager {
      * Parses a "dd/mm/yyyy - dd/mm/yyyy" range as sent by the date range picker
      * into a pair of yyyy-mm-dd strings.
      *
-     * @param string $dateRangeFilter
+     * @param  string  $dateRangeFilter
      * @return array [$start, $end]
-     * @throws \Exception When the range is not in the expected format
+     *
+     * @throws Exception When the range is not in the expected format
      */
     private function parseDateRangeFilter($dateRangeFilter): array {
-        $dateRange = explode(" - ", $dateRangeFilter);
+        $dateRange = explode(' - ', $dateRangeFilter);
         if (count($dateRange) !== 2) {
-            throw new \Exception("Filter value is not valid.");
+            throw new Exception('Filter value is not valid.');
         }
         $parsedDates = [];
         foreach ($dateRange as $date) {
-            $dateParts = explode("/", trim($date));
+            $dateParts = explode('/', trim($date));
             if (count($dateParts) !== 3) {
-                throw new \Exception("Filter value is not valid.");
+                throw new Exception('Filter value is not valid.');
             }
-            list($day, $month, $year) = array_map('intval', $dateParts);
+            [$day, $month, $year] = array_map('intval', $dateParts);
             if (!checkdate($month, $day, $year)) {
-                throw new \Exception("Filter value is not valid.");
+                throw new Exception('Filter value is not valid.');
             }
             $parsedDates[] = sprintf('%04d-%02d-%02d', $year, $month, $day);
         }
+
         return $parsedDates;
     }
 
     /**
      * Creates the DB query necessary to filter sessions and returns its results
      *
-     * @param array $filters
+     * @param  array  $filters
      * @return mixed
-     * @throws \Exception
+     *
+     * @throws Exception
      */
     private function getMentorshipSessionsByCriteria(array $filters) {
-        if ((!isset($filters['mentorName']) || $filters['mentorName'] === "") &&
-            (!isset($filters['menteeName']) || $filters['menteeName'] === "") &&
-            (!isset($filters['startStatusId']) || $filters['startStatusId'] === "") &&
-            (!isset($filters['endStatusId']) || $filters['endStatusId'] === "") &&
-            (!isset($filters['startedDateRange']) || $filters['startedDateRange'] === "") &&
-            (!isset($filters['completedDateRange']) || $filters['completedDateRange'] === "") &&
-            (!isset($filters['accountManagerId']) || $filters['accountManagerId'] === "") &&
-            (!isset($filters['matcherId']) || $filters['matcherId'] === "") &&
-            (!isset($filters['userRole']) || $filters['userRole'] === "")) {
+        if ((!isset($filters['mentorName']) || $filters['mentorName'] === '') &&
+            (!isset($filters['menteeName']) || $filters['menteeName'] === '') &&
+            (!isset($filters['startStatusId']) || $filters['startStatusId'] === '') &&
+            (!isset($filters['endStatusId']) || $filters['endStatusId'] === '') &&
+            (!isset($filters['startedDateRange']) || $filters['startedDateRange'] === '') &&
+            (!isset($filters['completedDateRange']) || $filters['completedDateRange'] === '') &&
+            (!isset($filters['accountManagerId']) || $filters['accountManagerId'] === '') &&
+            (!isset($filters['matcherId']) || $filters['matcherId'] === '') &&
+            (!isset($filters['userRole']) || $filters['userRole'] === '')) {
             return $this->mentorshipSessionStorage->getAllMentorshipSessions();
         }
         // Every value taken from $filters is bound as a `?` placeholder, never
         // interpolated into the SQL string.
         $bindings = [];
         $conditions = [];
-        $dbQuery = "select distinct ms.id from mentorship_session as ms left outer join mentor_profile as
+        $dbQuery = 'select distinct ms.id from mentorship_session as ms left outer join mentor_profile as
           mentor on mentor.id = ms.mentor_profile_id left outer join mentee_profile as mentee on
-          mentee.id = ms.mentee_profile_id ";
-        if (isset($filters['completedDateRange']) && $filters['completedDateRange'] != "") {
-            list($start, $end) = $this->parseDateRangeFilter($filters['completedDateRange']);
+          mentee.id = ms.mentee_profile_id ';
+        if (isset($filters['completedDateRange']) && $filters['completedDateRange'] != '') {
+            [$start, $end] = $this->parseDateRangeFilter($filters['completedDateRange']);
             $completedStatuses = MentorshipSessionStatuses::getCompletedSessionStatuses();
-            $dbQuery .= "inner join
+            $dbQuery .= 'inner join
             (select msh.mentorship_session_id ,
                     msh.status_id, msh.created_at as LastSessionStatus from
                 mentorship_session_history msh inner join
@@ -495,85 +511,86 @@ class MentorshipSessionManager {
                     from mentorship_session_history as msh
                     group by mentorship_session_id
                ) LastSessionHistoryRecord on LastSessionHistoryRecord.last_mentorship_session_history_id = msh.id
-                where msh.status_id  in (" . RawQueryStorage::placeholdersFor($completedStatuses) . ")
+                where msh.status_id  in (' . RawQueryStorage::placeholdersFor($completedStatuses) . ')
             and (msh.created_at >= date(?) and msh.created_at <= date(?))
-            ) as completed_sessions on ms.id = completed_sessions.mentorship_session_id ";
+            ) as completed_sessions on ms.id = completed_sessions.mentorship_session_id ';
             $bindings = array_merge($bindings, $completedStatuses);
             $bindings[] = $start;
             $bindings[] = $end;
         }
-        if (isset($filters['mentorName']) && $filters['mentorName'] != "") {
-            $conditions[] = "(mentor.first_name like ? or mentor.last_name like ?)";
+        if (isset($filters['mentorName']) && $filters['mentorName'] != '') {
+            $conditions[] = '(mentor.first_name like ? or mentor.last_name like ?)';
             $bindings[] = '%' . $filters['mentorName'] . '%';
             $bindings[] = '%' . $filters['mentorName'] . '%';
         }
-        if (isset($filters['menteeName']) && $filters['menteeName'] != "") {
-            $conditions[] = "(mentee.first_name like ? or mentee.last_name like ?)";
+        if (isset($filters['menteeName']) && $filters['menteeName'] != '') {
+            $conditions[] = '(mentee.first_name like ? or mentee.last_name like ?)';
             $bindings[] = '%' . $filters['menteeName'] . '%';
             $bindings[] = '%' . $filters['menteeName'] . '%';
         }
-        if (isset($filters['startStatusId']) && $filters['startStatusId'] != "") {
+        if (isset($filters['startStatusId']) && $filters['startStatusId'] != '') {
             $startStatusId = intval($filters['startStatusId']);
             if ($startStatusId == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new Exception('Filter value is not valid.');
             }
-            $conditions[] = "ms.status_id >= ?";
+            $conditions[] = 'ms.status_id >= ?';
             $bindings[] = $startStatusId;
         }
-        if (isset($filters['endStatusId']) && $filters['endStatusId'] != "") {
+        if (isset($filters['endStatusId']) && $filters['endStatusId'] != '') {
             $endStatusId = intval($filters['endStatusId']);
             if ($endStatusId == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new Exception('Filter value is not valid.');
             }
-            $conditions[] = "ms.status_id <= ?";
+            $conditions[] = 'ms.status_id <= ?';
             $bindings[] = $endStatusId;
         }
-        if (isset($filters['startedDateRange']) && $filters['startedDateRange'] != "") {
-            list($start, $end) = $this->parseDateRangeFilter($filters['startedDateRange']);
-            $conditions[] = "(ms.created_at >= date(?) and ms.created_at <= date(?))";
+        if (isset($filters['startedDateRange']) && $filters['startedDateRange'] != '') {
+            [$start, $end] = $this->parseDateRangeFilter($filters['startedDateRange']);
+            $conditions[] = '(ms.created_at >= date(?) and ms.created_at <= date(?))';
             $bindings[] = $start;
             $bindings[] = $end;
         }
-        if (isset($filters['accountManagerId']) && $filters['accountManagerId'] != "") {
+        if (isset($filters['accountManagerId']) && $filters['accountManagerId'] != '') {
             $accountManagerId = intval($filters['accountManagerId']);
             if ($accountManagerId == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new Exception('Filter value is not valid.');
             }
-            $conditions[] = "ms.account_manager_id = ?";
+            $conditions[] = 'ms.account_manager_id = ?';
             $bindings[] = $accountManagerId;
         }
-        if (isset($filters['matcherId']) && $filters['matcherId'] != "") {
+        if (isset($filters['matcherId']) && $filters['matcherId'] != '') {
             $matcherId = intval($filters['matcherId']);
             if ($matcherId == 0) {
-                throw new \Exception("Filter value is not valid.");
+                throw new Exception('Filter value is not valid.');
             }
-            $conditions[] = "ms.matcher_id = ?";
+            $conditions[] = 'ms.matcher_id = ?';
             $bindings[] = $matcherId;
         }
         // check user role
-        if (isset($filters['userRole']) && $filters['userRole'] != "") {
+        if (isset($filters['userRole']) && $filters['userRole'] != '') {
             if ($filters['userRole'] == 'account_manager') {
-                $conditions[] = "ms.account_manager_id = ?";
+                $conditions[] = 'ms.account_manager_id = ?';
             } else {
-                $conditions[] = "ms.matcher_id = ?";
+                $conditions[] = 'ms.matcher_id = ?';
             }
             $bindings[] = Auth::id();
         }
         if (!empty($conditions)) {
-            $dbQuery .= "where " . implode(" and ", $conditions);
+            $dbQuery .= 'where ' . implode(' and ', $conditions);
         }
         $filteredMentorshipSessionsIds = RawQueriesResultsModifier::transformRawQueryStorageResultsToOneDimensionalArray(
-            (new RawQueryStorage())->performRawQuery($dbQuery, $bindings)
+            (new RawQueryStorage)->performRawQuery($dbQuery, $bindings)
         );
+
         return $this->mentorshipSessionStorage->getMentorshipSessionsFromIdsArray($filteredMentorshipSessionsIds);
     }
 
     /**
      * An account manager is accepting an invitation to manage a new session
      *
-     * @param $mentorshipSessionId int The session's id that will be accepted
-     * @param $id int The session's account manager id
-     * @param $email string The account manager's email
+     * @param  $mentorshipSessionId  int The session's id that will be accepted
+     * @param  $id  int The session's account manager id
+     * @param  $email  string The account manager's email
      * @return bool Whether succeeded or not
      */
     public function acceptToManageMentorshipSession($mentorshipSessionId, $id, $email) {
@@ -581,8 +598,9 @@ class MentorshipSessionManager {
         $accountManager = $mentorshipSession->account_manager;
         if ($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
             $this->editMentorshipSession([
-                'status_id' => 2, 'mentorship_session_id' => $mentorshipSessionId
+                'status_id' => 2, 'mentorship_session_id' => $mentorshipSessionId,
             ]);
+
             return true;
         } else {
             return false;
@@ -592,9 +610,9 @@ class MentorshipSessionManager {
     /**
      * An account manager is declining an invitation to manage a new session
      *
-     * @param $mentorshipSessionId int The session's id that will be accepted
-     * @param $id int The session's account manager id
-     * @param $email string The account manager's email
+     * @param  $mentorshipSessionId  int The session's id that will be accepted
+     * @param  $id  int The session's account manager id
+     * @param  $email  string The account manager's email
      * @return bool Whether succeeded or not
      */
     public function declineToManageMentorshipSession($mentorshipSessionId, $id, $email) {
@@ -602,10 +620,11 @@ class MentorshipSessionManager {
         $accountManager = $mentorshipSession->account_manager;
         if ($accountManager->id == $id && $accountManager->email == $email && $mentorshipSession->status_id == 1) {
             $this->editMentorshipSession([
-                'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId
+                'status_id' => 14, 'mentorship_session_id' => $mentorshipSessionId,
             ]);
-            //mentor and mentee should become available again
+            // mentor and mentee should become available again
             $this->setMentorshipSessionMentorAndMenteeStatusesToAvailable($mentorshipSession->mentor->id, $mentorshipSession->mentee->id);
+
             return true;
         } else {
             return false;
@@ -615,10 +634,10 @@ class MentorshipSessionManager {
     /**
      * A mentor or a mentee accepts a new session invitation
      *
-     * @param $mentorshipSessionId string The @see MentorshipSession id
-     * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
-     * @param $id string The id of the person that responded
-     * @param $email string The email address of the person responded
+     * @param  $mentorshipSessionId  string The @see MentorshipSession id
+     * @param  $role  string The role of the person that responded. It could be 'mentor' or 'mentee'
+     * @param  $id  string The id of the person that responded
+     * @param  $email  string The email address of the person responded
      * @return bool Whether succeeded or not
      */
     public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email) {
@@ -627,12 +646,14 @@ class MentorshipSessionManager {
         $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
         if ($role === 'mentee') {
             $invitedPerson = $mentorshipSession->mentee;
-            if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['introduction_sent'])
+            if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['introduction_sent']) {
                 $statusToSet = MentorshipSessionStatuses::$statuses['available_mentee'];
-        } else if ($role === 'mentor') {
+            }
+        } elseif ($role === 'mentor') {
             $invitedPerson = $mentorshipSession->mentor;
-            if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['available_mentee'])
+            if ($mentorshipSession->status_id === MentorshipSessionStatuses::$statuses['available_mentee']) {
                 $statusToSet = MentorshipSessionStatuses::$statuses['available_mentor'];
+            }
         }
         if ($statusToSet === -1) {
             // Action already processed (stale link re-click) — treat as success, do nothing
@@ -640,12 +661,14 @@ class MentorshipSessionManager {
         }
         if ($invitedPerson->id == $id && $invitedPerson->email === $email) {
             $this->editMentorshipSession([
-                'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId
+                'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId,
             ]);
+
             return true;
         } else {
-            Log::error("Mentorship session could not be accepted. " . $role . " " . $id . " " . $email . " " . $statusToSet . " " . $invitedPerson->id . " " . $invitedPerson->email);
-            Sentry::captureException(new Exception("Mentorship session could not be accepted. " . $role . " " . $id . " " . $email . " " . $statusToSet . " " . $invitedPerson->id . " " . $invitedPerson->email));
+            Log::error('Mentorship session could not be accepted. ' . $role . ' ' . $id . ' ' . $email . ' ' . $statusToSet . ' ' . $invitedPerson->id . ' ' . $invitedPerson->email);
+            Sentry::captureException(new Exception('Mentorship session could not be accepted. ' . $role . ' ' . $id . ' ' . $email . ' ' . $statusToSet . ' ' . $invitedPerson->id . ' ' . $invitedPerson->email));
+
             return false;
         }
     }
@@ -653,10 +676,10 @@ class MentorshipSessionManager {
     /**
      * A mentor or a mentee declines a new session invitation
      *
-     * @param $mentorshipSessionId string The @see MentorshipSession id
-     * @param $role string The role of the person that responded. It could be 'mentor' or 'mentee'
-     * @param $id string The id of the person that responded
-     * @param $email string The email address of the person responded
+     * @param  $mentorshipSessionId  string The @see MentorshipSession id
+     * @param  $role  string The role of the person that responded. It could be 'mentor' or 'mentee'
+     * @param  $id  string The id of the person that responded
+     * @param  $email  string The email address of the person responded
      * @return bool Whether succeeded or not
      */
     public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email) {
@@ -666,17 +689,19 @@ class MentorshipSessionManager {
         if ($role === 'mentee') {
             $invitedPerson = $mentorshipSession->mentee;
             // set to cancelled by mentee if mentor has accepted or not responded yet
-            if (in_array($mentorshipSession->status_id, [2, 4]) !== false)
+            if (in_array($mentorshipSession->status_id, [2, 4]) !== false) {
                 $statusToSet = 12;
-        } else if ($role === 'mentor') {
+            }
+        } elseif ($role === 'mentor') {
             $invitedPerson = $mentorshipSession->mentor;
             // set to cancelled by mentor if mentee has accepted or not responded yet
-            if (in_array($mentorshipSession->status_id, [2, 3]) !== false)
+            if (in_array($mentorshipSession->status_id, [2, 3]) !== false) {
                 $statusToSet = 13;
+            }
         }
         if ($statusToSet !== -1 && $invitedPerson->id == $id && $invitedPerson->email === $email) {
             $this->editMentorshipSession([
-                'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId
+                'status_id' => $statusToSet, 'mentorship_session_id' => $mentorshipSessionId,
             ]);
             // if session is cancelled by mentee make available only the mentor and set the mentee's status to rejected,
             // else the session was cancelled by the mentor: make the mentor unavailable
@@ -687,6 +712,7 @@ class MentorshipSessionManager {
                 $this->setMentorshipSessionMentorStatusToNotAvailable($mentorshipSession->mentor->id);
                 $this->setMentorshipSessionMenteeStatusToAvailable($mentorshipSession->mentee->id);
             }
+
             return true;
         } else {
             return false;
@@ -732,22 +758,23 @@ class MentorshipSessionManager {
     /**
      * Returns the last session view model
      *
-     * @param $id integer The mentor's profile id
+     * @param  $id  integer The mentor's profile id
      * @return mixed
      */
     public function getCurrentMentorshipSessionViewModelForMentor($id) {
-        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentor_profile_id
+        $dbQuery = 'select last_session_id from (select max(id) as last_session_id, mentor_profile_id
                         from mentorship_session group by mentor_profile_id)
-                        as last_session where mentor_profile_id = ?";
-        $rawQueryStorage = new RawQueryStorage();
+                        as last_session where mentor_profile_id = ?';
+        $rawQueryStorage = new RawQueryStorage;
         $results = $rawQueryStorage->performRawQuery($dbQuery, [intval($id)]);
         if (!empty($results)) {
             $lastSessionId = $results[0]->last_session_id;
             $lastMentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId);
-            if ($lastMentorshipSession != null)
+            if ($lastMentorshipSession != null) {
                 return collect([new MentorshipSessionViewModel($lastMentorshipSession)]);
-            else
+            } else {
                 return null;
+            }
         } else {
             return null;
         }
@@ -756,22 +783,23 @@ class MentorshipSessionManager {
     /**
      * Returns the last session view model
      *
-     * @param $id integer The mentee's profile id
+     * @param  $id  integer The mentee's profile id
      * @return mixed
      */
     public function getCurrentMentorshipSessionViewModelForMentee($id) {
-        $dbQuery = "select last_session_id from (select max(id) as last_session_id, mentee_profile_id
+        $dbQuery = 'select last_session_id from (select max(id) as last_session_id, mentee_profile_id
                         from mentorship_session group by mentee_profile_id)
-                        as last_session where mentee_profile_id = ?";
-        $rawQueryStorage = new RawQueryStorage();
+                        as last_session where mentee_profile_id = ?';
+        $rawQueryStorage = new RawQueryStorage;
         $results = $rawQueryStorage->performRawQuery($dbQuery, [intval($id)]);
         if (!empty($results)) {
             $lastSessionId = $results[0]->last_session_id;
             $lastMentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($lastSessionId);
-            if ($lastMentorshipSession != null)
+            if ($lastMentorshipSession != null) {
                 return collect([new MentorshipSessionViewModel($lastMentorshipSession)]);
-            else
+            } else {
                 return null;
+            }
         } else {
             return null;
         }
@@ -781,7 +809,7 @@ class MentorshipSessionManager {
         $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
         $loggedInUser = Auth::user();
         DB::transaction(function () use ($mentorshipSession, $loggedInUser) {
-            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, "Mentee invited from account manager");
+            $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, 'Mentee invited from account manager');
             $mentorshipSession->status_id = MentorshipSessionStatuses::$statuses['introduction_sent'];
             $this->mentorshipSessionStorage->saveMentorshipSession($mentorshipSession);
             $this->inviteMenteeToMentorshipSession($mentorshipSession);
@@ -793,22 +821,23 @@ class MentorshipSessionManager {
     }
 
     public function paginateMentorshipSessions($items, $perPage = 10) {
-        //Get current page form url e.g. &page=1
+        // Get current page form url e.g. &page=1
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $itemsCount = $items ? count($items) : 0;
         // FIX for searching with page number, when search has fetched less results
         // (fix: go to the first page!)
-        if ($currentPage > ceil($itemsCount / $perPage))
-            $currentPage = "1";
-
-        if (!empty($items)) {
-            //Slice the collection to get the items to display in current page
-            $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
-        } else {
-            $currentPageItems = new Collection();
+        if ($currentPage > ceil($itemsCount / $perPage)) {
+            $currentPage = '1';
         }
 
-        //Create our paginator and pass it to the view
+        if (!empty($items)) {
+            // Slice the collection to get the items to display in current page
+            $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+        } else {
+            $currentPageItems = new Collection;
+        }
+
+        // Create our paginator and pass it to the view
         return new LengthAwarePaginator($currentPageItems, $itemsCount, $perPage);
     }
 }

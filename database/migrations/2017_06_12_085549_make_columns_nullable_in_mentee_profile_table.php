@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class MakeColumnsNullableInMenteeProfileTable extends Migration
-{
+class MakeColumnsNullableInMenteeProfileTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentee_profile', function ($table) {
             $table->integer('university_graduation_year')->nullable()->unsigned()->change();
             $table->integer('year_of_birth')->nullable()->unsigned()->change();
@@ -24,8 +21,7 @@ class MakeColumnsNullableInMenteeProfileTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('mentee_profile', function ($table) {
             $table->integer('university_graduation_year')->nullable(false)->unsigned()->change();
             $table->integer('year_of_birth')->nullable(false)->unsigned()->change();

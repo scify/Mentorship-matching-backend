@@ -7,55 +7,59 @@ use App\BusinessLogicLayer\managers\MentorManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\Company;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class CompanyController extends Controller
-{
+class CompanyController extends Controller {
     private $companyManager;
+
     private $mentorManager;
+
     private $userManager;
 
     public function __construct() {
-        $this->companyManager = new CompanyManager();
-        $this->mentorManager = new MentorManager();
-        $this->userManager = new UserManager();
+        $this->companyManager = new CompanyManager;
+        $this->mentorManager = new MentorManager;
+        $this->userManager = new UserManager;
     }
 
     /**
      * Display all companies.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function showAllCompanies()
-    {
+    public function showAllCompanies() {
         $companyViewModels = $this->companyManager->getAllCompanyViewModels();
         $loggedInUser = Auth::user();
+
         return view('companies.list_all', [
             'pageTitle'=>'All Companies',
             'viewModel' => $companyViewModels,
-            'loggedInUser' => $loggedInUser
+            'loggedInUser' => $loggedInUser,
         ]);
     }
 
     /**
      * Show the form for creating a new company.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function showCreateForm()
-    {
-        $company = new Company();
+    public function showCreateForm() {
+        $company = new Company;
         $formTitle = 'FILL IN THE FORM TO REGISTER A NEW COMPANY';
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssigned();
-        $companyMentorsIds = array();
+        $companyMentorsIds = [];
         $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssigned();
+
         return view('companies.forms.create_edit', [
             'pageTitle' => 'Company',
             'pageSubTitle' => 'create new company',
             'company' => $company,
             'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
-            'accountManagers' => $accountManagers
+            'accountManagers' => $accountManagers,
         ]);
     }
 
@@ -63,30 +67,29 @@ class CompanyController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function showEditForm($id)
-    {
+    public function showEditForm($id) {
         $company = $this->companyManager->getCompany($id);
         $mentors = $this->mentorManager->getMentorsWithNoCompanyAssignedExceptCompany($company);
         $companyMentorsIds = $this->companyManager->getCompanyMentorsIds($company);
         $accountManagers = $this->userManager->getAccountManagersWithNoCompanyAssignedExceptCurrent($company);
         $formTitle = 'EDIT COMPANY';
+
         return view('companies.forms.create_edit', [
             'pageTitle' => 'Company', 'pageSubTitle' => 'edit company', 'company' => $company,
             'formTitle' => $formTitle, 'mentors' => $mentors, 'companyMentorsIds' => $companyMentorsIds,
-            'accountManagers' => $accountManagers
+            'accountManagers' => $accountManagers,
         ]);
     }
 
     /**
      * Store a newly created company in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @param  Request  $request
+     * @return RedirectResponse|View
      */
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         $this->validate($request, [
             'name' => 'required',
         ]);
@@ -95,66 +98,71 @@ class CompanyController extends Controller
 
         try {
             $this->companyManager->createCompany($input);
-        }  catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . '  ' . $e->getMessage());
+
             return back()->withInput();
         }
 
         session()->flash('flash_message_success', 'Company created');
-        return $this->showAllCompanies();
 
+        return $this->showAllCompanies();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return RedirectResponse|Response
      */
-    public function edit(Request $request, $id)
-    {
+    public function edit(Request $request, $id) {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
         $input = $request->all();
         try {
             $this->companyManager->editCompany($input, $id);
-        }  catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . '  ' . $e->getMessage());
+
             return back()->withInput();
         }
 
         session()->flash('flash_message_success', 'Company edited');
+
         return back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  Request  $request
+     * @return RedirectResponse
      */
-    public function delete(Request $request)
-    {
+    public function delete(Request $request) {
         $input = $request->all();
         $companyId = $input['company_id'];
-        if($companyId == null || $companyId == "") {
+        if ($companyId == null || $companyId == '') {
             session()->flash('flash_message_failure', 'Something went wrong. Please try again.');
+
             return back();
         }
         try {
             $result = $this->companyManager->deleteCompany($companyId);
-            if ($result === "_FAIL") {
+            if ($result === '_FAIL') {
                 session()->flash('flash_message_failure', 'You cannot delete this company.');
+
                 return back();
             }
-        }  catch (\Exception $e) {
-            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . "  " .  $e->getMessage());
+        } catch (\Exception $e) {
+            session()->flash('flash_message_failure', 'Error: ' . $e->getCode() . '  ' . $e->getMessage());
+
             return back();
         }
         session()->flash('flash_message_success', 'Company deleted');
+
         return back();
     }
 
@@ -162,17 +170,20 @@ class CompanyController extends Controller
         $input = $request->all();
         try {
             $companyViewModels = $this->companyManager->getCompanyViewModelsByCriteria($input);
-        }  catch (\Exception $e) {
-            $errorMessage = 'Error: ' . $e->getCode() . "  " .  $e->getMessage();
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        } catch (\Exception $e) {
+            $errorMessage = 'Error: ' . $e->getCode() . '  ' . $e->getMessage();
+
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string) view('common.ajax_error_message', compact('errorMessage'))));
         }
 
-        if($companyViewModels && $companyViewModels->count() == 0) {
-            $errorMessage = "No companies found";
-            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (String) view('common.ajax_error_message', compact('errorMessage'))));
+        if ($companyViewModels && $companyViewModels->count() == 0) {
+            $errorMessage = 'No companies found';
+
+            return json_encode(new OperationResponse(config('app.OPERATION_FAIL'), (string) view('common.ajax_error_message', compact('errorMessage'))));
         } else {
             $loggedInUser = Auth::user();
-            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (String) view('companies.list', compact('companyViewModels', 'loggedInUser'))));
+
+            return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), (string) view('companies.list', compact('companyViewModels', 'loggedInUser'))));
         }
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMenteeSpecialtyTable extends Migration {
     /**
@@ -11,8 +11,9 @@ class CreateMenteeSpecialtyTable extends Migration {
      * @return void
      */
     public function up() {
-        if (Schema::hasTable('mentee_specialty'))
+        if (Schema::hasTable('mentee_specialty')) {
             return;
+        }
         Schema::create('mentee_specialty', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('mentee_profile_id')->unsigned();

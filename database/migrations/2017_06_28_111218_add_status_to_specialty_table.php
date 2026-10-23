@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddStatusToSpecialtyTable extends Migration {
     /**
@@ -11,8 +11,9 @@ class AddStatusToSpecialtyTable extends Migration {
      * @return void
      */
     public function up() {
-        if (Schema::hasColumn('specialty', 'status_id'))
+        if (Schema::hasColumn('specialty', 'status_id')) {
             return;
+        }
 
         Schema::table('specialty', function (Blueprint $table) {
             $table->integer('status_id')->unsigned()->after('name')->default(1);

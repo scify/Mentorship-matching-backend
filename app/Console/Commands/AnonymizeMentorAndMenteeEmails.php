@@ -7,7 +7,6 @@ use App\Models\eloquent\MentorProfile;
 use Illuminate\Console\Command;
 
 class AnonymizeMentorAndMenteeEmails extends Command {
-
     /**
      * The name and signature of the console command.
      *
@@ -37,14 +36,15 @@ class AnonymizeMentorAndMenteeEmails extends Command {
      * @return int
      */
     public function handle(): int {
-
         // this command is to be used only in the local environment (for development purposes).
         if (app()->environment() !== 'local') {
-            $this->error("This command can only be used in the local environment.");
+            $this->error('This command can only be used in the local environment.');
+
             return 1;
         }
         $this->anonymizeMentors();
         $this->anonymizeMentees();
+
         return 0;
     }
 
@@ -53,7 +53,7 @@ class AnonymizeMentorAndMenteeEmails extends Command {
         foreach ($mentors as $mentor) {
             $this->anonymizeEmail($mentor);
         }
-        $this->info("Anonymized emails for " . count($mentors) . " mentors.");
+        $this->info('Anonymized emails for ' . count($mentors) . ' mentors.');
     }
 
     private function anonymizeMentees() {
@@ -61,7 +61,7 @@ class AnonymizeMentorAndMenteeEmails extends Command {
         foreach ($mentees as $mentee) {
             $this->anonymizeEmail($mentee);
         }
-        $this->info("Anonymized emails for " . count($mentees) . " mentees.");
+        $this->info('Anonymized emails for ' . count($mentees) . ' mentees.');
     }
 
     private function anonymizeEmail($profile) {
@@ -71,5 +71,4 @@ class AnonymizeMentorAndMenteeEmails extends Command {
         $profile->email = uniqid() . '@' . $emailParts[1];
         $profile->save();
     }
-
 }

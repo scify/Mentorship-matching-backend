@@ -7,10 +7,8 @@ use App\Utils\MentorshipSessionStatuses;
  * managers, the seeders and several raw queries — renumbering any of them is a
  * data migration, not a refactor, and this test is the tripwire for that.
  */
-class MentorshipSessionStatusesTest extends TestCase
-{
-    public function testStatusIdsMatchTheSeededLookupTable()
-    {
+class MentorshipSessionStatusesTest extends TestCase {
+    public function test_status_ids_match_the_seeded_lookup_table() {
         $this->assertSame([
             'pending' => 1,
             'introduction_sent' => 2,
@@ -29,30 +27,25 @@ class MentorshipSessionStatusesTest extends TestCase
         ], MentorshipSessionStatuses::$statuses);
     }
 
-    public function testActiveBucketCoversPendingThroughFourthMeeting()
-    {
+    public function test_active_bucket_covers_pending_through_fourth_meeting() {
         $this->assertSame([1, 2, 3, 4, 5, 6, 7, 8, 9], MentorshipSessionStatuses::getActiveSessionStatuses());
     }
 
-    public function testCompletedBucketIsEvaluationAndFollowUp()
-    {
+    public function test_completed_bucket_is_evaluation_and_follow_up() {
         $this->assertSame([10, 11], MentorshipSessionStatuses::getCompletedSessionStatuses());
     }
 
-    public function testCancelledBucketCoversAllThreeCancellationRoles()
-    {
+    public function test_cancelled_bucket_covers_all_three_cancellation_roles() {
         $this->assertSame([12, 13, 14], MentorshipSessionStatuses::getCancelledSessionStatuses());
     }
 
-    public function testPendingBucketIsASubsetOfActive()
-    {
+    public function test_pending_bucket_is_a_subset_of_active() {
         foreach (MentorshipSessionStatuses::getPendingSessionStatuses() as $statusId) {
             $this->assertContains($statusId, MentorshipSessionStatuses::getActiveSessionStatuses());
         }
     }
 
-    public function testEveryStatusBelongsToExactlyOneOfActiveCompletedCancelled()
-    {
+    public function test_every_status_belongs_to_exactly_one_of_active_completed_cancelled() {
         $active = MentorshipSessionStatuses::getActiveSessionStatuses();
         $completed = MentorshipSessionStatuses::getCompletedSessionStatuses();
         $cancelled = MentorshipSessionStatuses::getCancelledSessionStatuses();

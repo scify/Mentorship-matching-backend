@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -9,11 +10,12 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MentorshipSessionHistory extends Model
-{
+class MentorshipSessionHistory extends Model {
     use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -29,37 +31,37 @@ class MentorshipSessionHistory extends Model
     protected $fillable = ['mentorship_session_id', 'user_id', 'status_id', 'comment'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MentorProfile, $this>
+     * @return HasOne<MentorProfile, $this>
      */
-    public function mentor(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function mentor(): HasOne {
         return $this->hasOne(MentorProfile::class, 'id', 'mentor_profile_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MenteeProfile, $this>
+     * @return HasOne<MenteeProfile, $this>
      */
-    public function mentee(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function mentee(): HasOne {
         return $this->hasOne(MenteeProfile::class, 'id', 'mentee_profile_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this>
+     * @return HasOne<User, $this>
      */
-    public function account_manager(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function account_manager(): HasOne {
         return $this->hasOne(User::class, 'id', 'account_manager_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\User, $this>
+     * @return HasOne<User, $this>
      */
-    public function matcher(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function matcher(): HasOne {
         return $this->hasOne(User::class, 'id', 'matcher_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne<\App\Models\eloquent\MentorshipSessionStatus, $this>
+     * @return HasOne<MentorshipSessionStatus, $this>
      */
-    public function status(): \Illuminate\Database\Eloquent\Relations\HasOne {
+    public function status(): HasOne {
         return $this->hasOne(MentorshipSessionStatus::class, 'id', 'status_id');
     }
 }

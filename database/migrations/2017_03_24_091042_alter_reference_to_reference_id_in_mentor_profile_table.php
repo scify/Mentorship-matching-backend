@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AlterReferenceToReferenceIdInMentorProfileTable extends Migration
-{
+class AlterReferenceToReferenceIdInMentorProfileTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::table('mentor_profile', function (Blueprint $table) {
             $table->dropColumn('reference');
             $table->integer('reference_id')->after('creator_user_id')->nullable()->unsigned();
@@ -25,8 +23,7 @@ class AlterReferenceToReferenceIdInMentorProfileTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::table('mentor_profile', function (Blueprint $table) {
             $table->dropForeign('mentor_profile_reference_id_foreign');
             $table->dropColumn('reference_id');

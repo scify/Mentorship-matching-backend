@@ -2,14 +2,12 @@
 
 use Illuminate\Support\Facades\File;
 
-class InlineScriptsTest extends TestCase
-{
+class InlineScriptsTest extends TestCase {
     /**
      * Vite loads jQuery in deferred module scripts. A classic inline script runs
      * while the page parses, before jQuery exists, so it must be a module too.
      */
-    public function testInlineScriptsThatUseJqueryAreModules()
-    {
+    public function test_inline_scripts_that_use_jquery_are_modules() {
         $offenders = [];
 
         foreach (File::allFiles(resource_path('views')) as $file) {

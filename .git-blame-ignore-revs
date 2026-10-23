@@ -1,0 +1,5 @@
+# Format-only commits; git blame skips them.
+# Use: git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style: format the PHP code with Pint
+e61575183e3a82f1bcd12c867a177da3fce23227

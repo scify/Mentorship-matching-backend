@@ -7,15 +7,15 @@
  * Time: 2:40 PM
  */
 
-namespace  App\Utils;
+namespace App\Utils;
 
-class RawQueriesResultsModifier
-{
+class RawQueriesResultsModifier {
     public static function transformRawQueryStorageResultsToOneDimensionalArray($results) {
-        $temp = array();
+        $temp = [];
         foreach ($results as $result) {
             array_push($temp, $result->id);
         }
+
         return $temp;
     }
 }

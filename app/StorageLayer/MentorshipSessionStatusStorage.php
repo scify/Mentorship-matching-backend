@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: snik
@@ -8,11 +9,9 @@
 
 namespace App\StorageLayer;
 
-
 use App\Models\eloquent\MentorshipSessionStatus;
 
-class MentorshipSessionStatusStorage
-{
+class MentorshipSessionStatusStorage {
     public function getAllMentorshipSessionStatuses() {
         return MentorshipSessionStatus::all();
     }

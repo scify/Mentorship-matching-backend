@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: pisaris
@@ -8,14 +9,13 @@
 
 namespace App\BusinessLogicLayer\managers;
 
-
 use App\StorageLayer\ResidenceStorage;
 
 class ResidenceManager {
     private $residenceStorage;
 
     public function __construct() {
-        $this->residenceStorage = new ResidenceStorage();
+        $this->residenceStorage = new ResidenceStorage;
     }
 
     public function getResidence($id) {

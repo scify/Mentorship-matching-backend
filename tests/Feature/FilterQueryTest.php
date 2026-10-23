@@ -17,24 +17,27 @@ use Illuminate\Support\Facades\Schema;
  * Converted from tests/manual/verify_filters.php so `vendor/bin/phpunit` (and
  * CI) runs it; fixtures roll back with the test transaction.
  */
-class FilterQueryTest extends TestCase
-{
+class FilterQueryTest extends TestCase {
     use CreatesMatchingFixtures;
+
     use RefreshDatabase;
 
     /** @var array<array{sql: string, bindings: array}> */
     private array $queryLog = [];
 
     private MentorManager $mentorManager;
+
     private MenteeManager $menteeManager;
+
     private MentorshipSessionManager $sessionManager;
 
     private int $companyId;
+
     private int $otherCompanyId;
+
     private int $mentorId;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
         // The app (and its DB connection) is rebuilt per test, so the listener
         // must be re-registered here rather than once per class.
@@ -42,9 +45,9 @@ class FilterQueryTest extends TestCase
             $this->queryLog[] = ['sql' => $q->sql, 'bindings' => $q->bindings];
         });
 
-        $this->mentorManager = new MentorManager();
-        $this->menteeManager = new MenteeManager();
-        $this->sessionManager = new MentorshipSessionManager();
+        $this->mentorManager = new MentorManager;
+        $this->menteeManager = new MenteeManager;
+        $this->sessionManager = new MentorshipSessionManager;
 
         $user = $this->makeBackofficeUser(3, 'Accman');
         $this->companyId = $this->makeCompany($user, 'Verify Co');
@@ -72,8 +75,7 @@ class FilterQueryTest extends TestCase
      *
      * @return array{sql: string, bindings: array}
      */
-    private function rawFilterQuery(): array
-    {
+    private function rawFilterQuery(): array {
         foreach (array_reverse($this->queryLog) as $q) {
             if (stripos($q['sql'], 'select distinct') === 0) {
                 return $q;
@@ -82,15 +84,14 @@ class FilterQueryTest extends TestCase
         $this->fail('no raw filter query was captured');
     }
 
-    public function testEveryMentorFilterCombinationBuildsARunnableQuery()
-    {
-        $specialtyId = (string)$this->lookupId('specialty');
-        $residenceId = (string)$this->lookupId('residence');
+    public function test_every_mentor_filter_combination_builds_a_runnable_query() {
+        $specialtyId = (string) $this->lookupId('specialty');
+        $residenceId = (string) $this->lookupId('residence');
         $filters = [
             ['mentorName' => 'Verifytester'],
             ['ageRange' => '20;60'],
             ['specialtyId' => $specialtyId],
-            ['companyId' => (string)$this->companyId],
+            ['companyId' => (string) $this->companyId],
             ['availabilityId' => '1'],
             ['residenceId' => $residenceId],
             ['completedSessionsCount' => '2'],
@@ -109,12 +110,11 @@ class FilterQueryTest extends TestCase
         }
     }
 
-    public function testEveryMenteeFilterCombinationBuildsARunnableQuery()
-    {
+    public function test_every_mentee_filter_combination_builds_a_runnable_query() {
         $filters = [
             ['menteeName' => 'Verifytester'],
-            ['educationLevel' => (string)$this->lookupId('education_level')],
-            ['specialty' => (string)$this->lookupId('specialty')],
+            ['educationLevel' => (string) $this->lookupId('education_level')],
+            ['specialty' => (string) $this->lookupId('specialty')],
             ['university' => '1'],
             ['university' => 'Athens University'],
             ['displayOnlyActiveSession' => 'true'],
@@ -138,8 +138,7 @@ class FilterQueryTest extends TestCase
         }
     }
 
-    public function testEverySessionFilterCombinationBuildsARunnableQuery()
-    {
+    public function test_every_session_filter_combination_builds_a_runnable_query() {
         $filters = [
             ['mentorName' => 'Verifytester'],
             ['menteeName' => 'Verifytester'],
@@ -152,8 +151,8 @@ class FilterQueryTest extends TestCase
             ['userRole' => 'account_manager'],
             ['userRole' => 'matcher'],
             ['completedDateRange' => '01/01/2020 - 31/12/2025', 'mentorName' => 'a', 'menteeName' => 'b',
-             'startStatusId' => '1', 'endStatusId' => '9', 'startedDateRange' => '01/01/2021 - 31/12/2024',
-             'accountManagerId' => '1', 'matcherId' => '1', 'userRole' => 'matcher'],
+                'startStatusId' => '1', 'endStatusId' => '9', 'startedDateRange' => '01/01/2021 - 31/12/2024',
+                'accountManagerId' => '1', 'matcherId' => '1', 'userRole' => 'matcher'],
         ];
         foreach ($filters as $filter) {
             $result = $this->sessionManager->getMentorshipSessionViewModelsByCriteria($filter);
@@ -161,8 +160,7 @@ class FilterQueryTest extends TestCase
         }
     }
 
-    public function testNameFiltersMatchTheSeededProfilesIncludingApostrophes()
-    {
+    public function test_name_filters_match_the_seeded_profiles_including_apostrophes() {
         $this->assertCount(1, $this->mentorManager->getMentorViewModelsByCriteria(['mentorName' => 'Verifytester']));
         // apostrophe: would have produced a broken/injected query under the old string concat
         $this->assertCount(1, $this->mentorManager->getMentorViewModelsByCriteria(['mentorName' => "O'Brien-Verify"]));
@@ -170,13 +168,12 @@ class FilterQueryTest extends TestCase
         $this->assertCount(1, $this->menteeManager->getMenteeViewModelsByCriteria(['university' => "St Verify's John"]));
     }
 
-    public function testIntvalBypassPayloadDoesNotWidenTheResultSet()
-    {
+    public function test_intval_bypass_payload_does_not_widen_the_result_set() {
         // the classic intval() bypass: intval("1 or 1=1") === 1, so the old guard let it through.
         //   injected -> `company_id = 1 or 1=1` matches every mentor
         //   bound    -> `company_id = ?` cast to the clean id matches only the fixture mentor
         $total = count($this->mentorManager->getMentorViewModelsByCriteria([]));
-        $baseline = count($this->mentorManager->getMentorViewModelsByCriteria(['companyId' => (string)$this->companyId]));
+        $baseline = count($this->mentorManager->getMentorViewModelsByCriteria(['companyId' => (string) $this->companyId]));
 
         $injected = count($this->mentorManager->getMentorViewModelsByCriteria(['companyId' => $this->companyId . ' or 1=1']));
 
@@ -186,20 +183,18 @@ class FilterQueryTest extends TestCase
             'payload must never reach the SQL string');
     }
 
-    public function testUnionPayloadInANumericFilterReturnsNothing()
-    {
+    public function test_union_payload_in_a_numeric_filter_returns_nothing() {
         try {
             $result = $this->mentorManager->getMentorViewModelsByCriteria(
                 ['specialtyId' => '1 union select id from users']);
             $this->assertCount(0, $result, 'UNION payload must not exfiltrate rows');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // rejecting the payload outright is equally acceptable
             $this->addToAssertionCount(1);
         }
     }
 
-    public function testQuoteBreakoutStaysInTheBindingsNeverInTheSql()
-    {
+    public function test_quote_breakout_stays_in_the_bindings_never_in_the_sql() {
         $result = $this->mentorManager->getMentorViewModelsByCriteria(
             ['mentorName' => "%' union select id,1,1,1,1,1 from users -- "]);
 
@@ -215,26 +210,23 @@ class FilterQueryTest extends TestCase
         $this->assertTrue($payloadIsBound, 'payload must appear in the bindings, not the SQL');
     }
 
-    public function testDropTablePayloadIsHarmless()
-    {
+    public function test_drop_table_payload_is_harmless() {
         try {
             $this->menteeManager->getMenteeViewModelsByCriteria(['university' => "x'; drop table mentor_rating; -- "]);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // a rejection is fine — as long as nothing was dropped
         }
         $this->assertTrue(Schema::hasTable('mentor_rating'), 'TABLE WAS DROPPED');
     }
 
-    public function testMalformedDateRangeIsRejected()
-    {
-        $this->expectException(\Exception::class);
+    public function test_malformed_date_range_is_rejected() {
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Filter value is not valid.');
         $this->sessionManager->getMentorshipSessionViewModelsByCriteria(
             ['startedDateRange' => "01/01/2020 - 2025') or 1=1 -- /12/31"]);
     }
 
-    public function testSkillsPartsAreBoundSeparately()
-    {
+    public function test_skills_parts_are_bound_separately() {
         // skills is exploded on comma — each part must be bound on its own
         $this->menteeManager->getMenteeViewModelsByCriteria(['skills' => "php,%' or '1'='1"]);
 
@@ -244,10 +236,9 @@ class FilterQueryTest extends TestCase
             'payload must stay in the bindings, never in the SQL');
     }
 
-    public function testGeneratedSqlContainsOnlyPlaceholdersNotValues()
-    {
+    public function test_generated_sql_contains_only_placeholders_not_values() {
         $this->mentorManager->getMentorViewModelsByCriteria([
-            'mentorName' => 'Verifytester', 'companyId' => (string)$this->companyId,
+            'mentorName' => 'Verifytester', 'companyId' => (string) $this->companyId,
             'ageRange' => '20;60', 'averageRating' => '4',
         ]);
 

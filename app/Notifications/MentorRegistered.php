@@ -19,13 +19,13 @@ class MentorRegistered extends Notification implements ShouldQueue {
      * @return void
      */
     public function __construct() {
-        $this->userManager = new UserManager();
+        $this->userManager = new UserManager;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable): array {
@@ -35,14 +35,14 @@ class MentorRegistered extends Notification implements ShouldQueue {
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage {
         return (new MailMessage)
-            ->subject("Καλώς ήλθατε στο JobPairs!")
+            ->subject('Καλώς ήλθατε στο JobPairs!')
             ->greeting('Αγαπητή/έ mentor,')
-            ->line("Η αίτηση σας έχει καταχωρηθεί με επιτυχία.")
+            ->line('Η αίτηση σας έχει καταχωρηθεί με επιτυχία.')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Θα θέλαμε να σας καλωσορίσουμε στο Job-Pairs και να σας ευχαριστήσουμε για τη θετική σας διάθεση να συμμετέχετε στο mentoring πρόγραμμα μας. Oι γνώσεις και η εργασιακή σας εμπειρία θα βοηθήσουν νέους ανθρώπους να βρουν το επαγγελματικό μονοπάτι που τους ταιριάζει, σε μια περίοδο που η ανεργία συνιστά ένα από τα σημαντικότερα προβλήματα στην κοινωνία μας.</div>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Σχετικά με τα επόμενα βήματα, θα θέλαμε να σας ενημερώσουμε πως συνήθως υπάρχει ένας μικρός χρόνος αναμονής μέχρι να βρεθεί mentee κατάλληλος για εσάς. Αμέσως μόλις αντιστοιχηθείτε με κάποιον, ένα μέλος της ομάδας μας θα έρθει σε επικοινωνία μαζί σας και θα σας βοηθήσει να συντονίσετε τις συναντήσεις σας.</div>')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Σας ευχαριστούμε πολύ για την εμπιστοσύνη σας και τη συμμετοχή σας.</div>')
@@ -56,7 +56,7 @@ class MentorRegistered extends Notification implements ShouldQueue {
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
+     * @param  mixed  $notifiable
      * @return array
      */
     public function toArray($notifiable): array {

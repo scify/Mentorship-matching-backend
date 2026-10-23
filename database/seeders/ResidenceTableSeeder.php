@@ -13,11 +13,11 @@ class ResidenceTableSeeder extends Seeder {
      */
     public function run() {
         DB::table('residence')->delete();
-        DB::table('residence')->insert(array(
-            array('id' => 1, 'name' => 'Αθήνα'),
-            array('id' => 2, 'name' => 'Θεσσαλονίκη'),
-            array('id' => 3, 'name' => 'Κύπρος'),
-            array('id' => 4, 'name' => 'Αλλού')
-        ));
+        DB::table('residence')->insert([
+            ['id' => 1, 'name' => 'Αθήνα'],
+            ['id' => 2, 'name' => 'Θεσσαλονίκη'],
+            ['id' => 3, 'name' => 'Κύπρος'],
+            ['id' => 4, 'name' => 'Αλλού'],
+        ]);
     }
 }

@@ -3,9 +3,9 @@
 namespace App\Models\eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class MentorshipSessionStatus extends Model
-{
+class MentorshipSessionStatus extends Model {
     /**
      * The table associated with the model.
      *
@@ -16,11 +16,9 @@ class MentorshipSessionStatus extends Model
     protected $guarded = ['id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<\App\Models\eloquent\MentorshipSessionHistory, $this>
+     * @return BelongsToMany<MentorshipSessionHistory, $this>
      */
-    public function mentorshipSession(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+    public function mentorshipSession(): BelongsToMany {
         return $this->belongsToMany(MentorshipSessionHistory::class, 'status_id', 'id');
     }
-
 }
