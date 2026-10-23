@@ -853,18 +853,6 @@ parameters:
 			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
 
 		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:deleteMentorshipSessionStatusHistory\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:deleteMentorshipSessionStatusHistory\(\) has parameter \$input with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
-
-		-
 			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:\$mentorshipSessionHistoryStorage has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -1173,18 +1161,6 @@ parameters:
 		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteAccountManagerToMentorshipSession\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMentee\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMentee\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
 
@@ -1645,24 +1621,6 @@ parameters:
 			path: app/BusinessLogicLayer/managers/UserAccessManager.php
 
 		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:checkCacheOrDBForRoleAndStore\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserAccessManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:checkCacheOrDBForRoleAndStore\(\) has parameter \$roleId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserAccessManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:checkCacheOrDBForRoleAndStore\(\) has parameter \$roleKey with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserAccessManager.php
-
-		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:userHasRole\(\) has parameter \$userRoles with generic class Illuminate\\Database\\Eloquent\\Collection but does not specify its types\: TKey, TModel$#'
 			identifier: missingType.generics
 			count: 1
@@ -1721,12 +1679,6 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: app/BusinessLogicLayer/managers/UserIconManager.php
-
-		-
-			message: '#^Cannot call method isAdmin\(\) on App\\Models\\eloquent\\User\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserManager.php
 
 		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:accountManagerDetails\(\) has no return type specified\.$#'
@@ -1826,18 +1778,6 @@ parameters:
 
 		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUser\(\) has parameter \$inputFields with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUserCapacity\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUserCapacity\(\) has parameter \$input with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: app/BusinessLogicLayer/managers/UserManager.php
@@ -3713,24 +3653,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: app/StorageLayer/MentorStorage.php
-
-		-
-			message: '#^Cannot call method delete\(\) on App\\Models\\eloquent\\MentorshipSessionHistory\|Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\), App\\Models\\eloquent\\MentorshipSessionHistory\>\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
-
-		-
-			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:deleteMentorshipSessionHistory\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
-
-		-
-			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:deleteMentorshipSessionHistory\(\) has parameter \$mentorshipSessionHistoryId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
 
 		-
 			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:saveMentorshipSessionHistory\(\) has no return type specified\.$#'

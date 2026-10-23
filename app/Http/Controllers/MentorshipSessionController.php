@@ -76,12 +76,11 @@ class MentorshipSessionController extends Controller {
     }
 
     public function sendInviteToMentee(Request $request) {
-        $this->validate($request, [
-            'session_id' => 'required|numeric',
+        $input = $this->validate($request, [
+            'mentorship_session_id' => 'required|integer',
         ]);
-        $input = $request->all();
         try {
-            $this->mentorshipSessionManager->inviteMentee($input['session_id']);
+            $this->mentorshipSessionManager->inviteMentee((int) $input['mentorship_session_id'], $request->user());
         } catch (\Exception $e) {
             Log::info('Error on mentee invitation sent: ' . $e->getCode() . '  ' . $e->getMessage());
             session()->flash('flash_message_failure', 'An error occurred. Please try again later.');
@@ -101,12 +100,13 @@ class MentorshipSessionController extends Controller {
      */
     public function update(Request $request) {
         $this->validate($request, [
+            'mentorship_session_id' => 'required|integer',
             'account_manager_id' => 'numeric',
             'status_id' => 'required|numeric',
         ]);
         $input = $request->all();
         try {
-            $messageToShow = $this->mentorshipSessionManager->editMentorshipSession($input);
+            $messageToShow = $this->mentorshipSessionManager->updateMentorshipSessionAsUser($input, $request->user());
             $typeOfMessage = 'success';
         } catch (\Exception $e) {
             Log::info('Error on session update: ' . $e->getCode() . '  ' . $e->getMessage());

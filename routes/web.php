@@ -39,7 +39,7 @@ Route::post('rateMentee', 'RatingController@rateMentee')->name('rateMentee');
 Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@showMentorRatingForm')->name('showMentorRatingForm');
 Route::post('rateMentor', 'RatingController@rateMentor')->name('rateMentor');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'staff']], function () {
     Route::get('/', 'UserController@showDashboardForUser')->name('home');
     Route::get('/dashboard', 'UserController@showDashboardForUser')->name('dashboard');
 
@@ -55,7 +55,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('user/{id}/profile', 'UserController@showProfile')->name('showUserProfile');
 
-    Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity', 'uses' => 'UserController@editUserCapacity']);
 
     Route::get('session/fetchHistory', 'MentorshipSessionController@getHistoryForMentorshipSession')->name('fetchSessionHistory');
     Route::get('sessions/byCriteria', 'MentorshipSessionController@showMentorshipSessionsByCriteria')->name('filterMentorshipSessions');
@@ -63,12 +62,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('delete-history-item', 'MentorshipSessionHistoryController@deleteSessionHistoryItem')->name('deleteSessionHistoryItem');
 });
 
-Route::group(['middleware' => ['auth', 'can-edit-user-profile']], function () {
+Route::group(['middleware' => ['auth', 'staff', 'can-edit-user-profile']], function () {
+    Route::post('user/{id}/editUserCapacity', 'UserController@editUserCapacity')->name('editUserCapacity');
     Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showEditUserForm');
     Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
 });
 
-Route::group(['middleware' => ['auth', 'admin']], function () {
+Route::group(['middleware' => ['auth', 'staff', 'admin']], function () {
     Route::get('users/all', 'UserController@showAllUsers')->name('showAllUsers');
     Route::get('user/create', 'UserController@showCreateForm')->name('showCreateUserForm');
     Route::post('user/create', 'UserController@create')->name('createUser');
@@ -103,32 +103,32 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
     Route::get('/testexception', 'HomeController@testException')->name('testException');
 });
 
-Route::group(['middleware' => ['auth', 'status-changer']], function () {
+Route::group(['middleware' => ['auth', 'staff', 'status-changer']], function () {
     Route::post('mentor/changeStatus', 'MentorController@changeMentorAvailabilityStatus')->name('changeMentorStatus');
     Route::post('mentee/changeStatus', 'MenteeController@changeMenteeAvailabilityStatus')->name('changeMenteeStatus');
 });
 
-Route::group(['middleware' => ['auth', 'can-edit-mentors-and-mentees']], function () {
+Route::group(['middleware' => ['auth', 'staff', 'can-edit-mentors-and-mentees']], function () {
     Route::get('mentor/{id}/edit', 'MentorController@showEditForm')->name('showEditMentorForm');
     Route::post('mentor/{id}/edit', 'MentorController@edit')->name('editMentor');
     Route::get('mentee/{id}/edit', 'MenteeController@showEditForm')->name('showEditMenteeForm');
     Route::post('mentee/{id}/edit', 'MenteeController@edit')->name('editMentee');
 });
 
-Route::group(['middleware' => ['auth', 'can-create-mentorship-session']], function () {
+Route::group(['middleware' => ['auth', 'staff', 'can-create-mentorship-session']], function () {
     Route::post('session/matchMentorWithMentee', 'MentorshipSessionController@create')->name('matchMentorWithMentee');
     Route::get('sessions/myMatches', ['as' => 'showMatchesForMatcher', 'uses' => 'MentorshipSessionController@showMentorshipSessionsForMatcher']);
 });
 
-Route::group(['middleware' => ['auth', 'can-update-sessions']], function () {
+Route::group(['middleware' => ['auth', 'staff', 'can-update-sessions']], function () {
     Route::get('sessions/all', 'MentorshipSessionController@index')->name('showAllMentorshipSessions');
     Route::post('session/update', 'MentorshipSessionController@update')->name('updateMentorshipSession');
 });
 
-Route::group(['middleware' => ['auth', 'account-manager']], function () {
+Route::group(['middleware' => ['auth', 'staff', 'account-manager']], function () {
     Route::get('sessions/mySessions', 'MentorshipSessionController@showMentorshipSessionsForAccountManager')->name('showMentorshipSessionsForAccountManager');
 });
 
-Route::group(['middleware' => ['auth', 'can-invite-mentee']], function () {
-    Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
+Route::group(['middleware' => ['auth', 'staff', 'can-invite-mentee']], function () {
+    Route::post('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
 });

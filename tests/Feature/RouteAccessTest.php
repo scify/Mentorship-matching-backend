@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\eloquent\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route as Router;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -34,7 +36,7 @@ class RouteAccessTest extends TestCase {
             'can-create-mentorship-session' => ['can-create-mentorship-session', [self::ADMIN, self::MATCHER], ['GET', 'sessions/myMatches']],
             'can-update-sessions' => ['can-update-sessions', [self::ADMIN, self::MATCHER, self::ACCOUNT_MANAGER], ['GET', 'sessions/all']],
             'account-manager' => ['account-manager', [self::ACCOUNT_MANAGER], ['GET', 'sessions/mySessions']],
-            'can-invite-mentee' => ['can-invite-mentee', [self::ADMIN, self::ACCOUNT_MANAGER], ['GET', 'session/sendInviteToMentee']],
+            'can-invite-mentee' => ['can-invite-mentee', [self::ADMIN, self::ACCOUNT_MANAGER], ['POST', 'session/sendInviteToMentee']],
         ];
     }
 
@@ -103,6 +105,33 @@ class RouteAccessTest extends TestCase {
         }
     }
 
+    public function test_every_protected_route_also_requires_an_active_staff_user() {
+        foreach ($this->routesWithMiddleware('auth') as $route) {
+            $this->assertContains('staff', $route->gatherMiddleware(), $route->uri());
+        }
+    }
+
+    public function test_a_user_without_a_role_is_logged_out_from_every_protected_route() {
+        $this->assertLoggedOutEverywhere($this->makeUserWithoutRole());
+    }
+
+    public function test_an_ajax_request_of_a_deactivated_user_gets_401() {
+        $admin = $this->makeBackofficeUser(self::ADMIN, 'Deactivated');
+        $admin->state_id = 2;
+        $admin->save();
+
+        $this->actingAs($admin)->getJson('/session/fetchHistory?mentorship_session_id=1')->assertStatus(401);
+        $this->assertGuest();
+    }
+
+    public function test_a_deactivated_user_is_logged_out_from_every_protected_route() {
+        $admin = $this->makeBackofficeUser(self::ADMIN, 'Deactivated');
+        $admin->state_id = 2;
+        $admin->save();
+
+        $this->assertLoggedOutEverywhere($admin);
+    }
+
     #[DataProvider('roleGroups')]
     public function test_every_route_of_a_role_group_denies_the_other_roles(string $group, array $allowed, array $openedRoute) {
         $routes = $this->routesWithMiddleware($group);
@@ -154,6 +183,23 @@ class RouteAccessTest extends TestCase {
 
         $this->actingAs($admin);
         $this->get("/user/{$matcher->id}/edit")->assertOk();
+    }
+
+    private function makeUserWithoutRole(): User {
+        $user = $this->makeBackofficeUser(self::MATCHER, 'NoRole');
+        DB::table('user_role')->where('user_id', $user->id)->delete();
+
+        return $user->fresh();
+    }
+
+    private function assertLoggedOutEverywhere(User $user): void {
+        $routes = $this->routesWithMiddleware('auth');
+        foreach ($routes as $route) {
+            $this->actingAs($user);
+            [$method, $uri] = $this->request($route, $user->id);
+            $this->call($method, $uri)->assertRedirect('/login');
+            $this->assertGuest();
+        }
     }
 
     /** @return list<Route> */

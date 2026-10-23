@@ -29,7 +29,7 @@ class MentorshipSession extends Model {
      *
      * @var list<string>
      */
-    protected $fillable = ['mentor_profile_id', 'mentee_profile_id', 'account_manager_id', 'matcher_id', 'status_id', 'general_comment', 'deleted_at'];
+    protected $fillable = ['mentor_profile_id', 'mentee_profile_id', 'account_manager_id', 'matcher_id', 'status_id', 'general_comment'];
 
     protected $with = ['mentor', 'mentee', 'account_manager', 'matcher', 'status'];
 

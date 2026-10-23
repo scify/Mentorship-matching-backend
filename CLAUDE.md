@@ -143,9 +143,8 @@ Route (routes/web.php)
 There is no use of Laravel Policies/Gates. Role checks live in `UserAccessManager`
 (`app/BusinessLogicLayer/managers/UserAccessManager.php`), which hardcodes three role IDs
 (`ADMINISTRATOR_ROLE_ID = 1`, `MATCHER_ROLE_ID = 2`, `ACCOUNT_MANAGER_ROLE_ID = 3`) matched against the
-`Role`/`UserRole` pivot, with per-check results cached via the `Cache` facade keyed by
-`<role_key><user_id>` (no TTL/invalidation beyond default cache behavior — be aware role changes may
-not reflect immediately without clearing cache). Route-level enforcement is done through named
+`Role`/`UserRole` pivot. Every check reads the user's roles (no cache), so a revoked role stops at
+once; do not add a cache without invalidation on role changes. Route-level enforcement is done through named
 middleware in `app/Http/Middleware` (`IsAdmin`, `IsAccountManager`, `CanEditMentorsAndMentees`,
 `CanEditUserProfile`, `CanCreateMentorshipSession`, `CanUpdateMentorshipSession`, `CanInviteMentee`,
 `CanOnlyChangeStatus`), each delegating its actual check to `UserAccessManager`. `routes/web.php`

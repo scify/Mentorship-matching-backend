@@ -125,7 +125,7 @@
                     </div>
                     <div class="sendInvitationMailsContainer hidden">
                         <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Cancel</button>
-                        <a href="{{route('sendInviteToMentee')}}" class="confirmAvailabilityBtn btn btn-flat btn-primary btn-success submitLink">Confirm availability</a>
+                        <button type="submit" formaction="{{route('sendInviteToMentee')}}" formmethod="POST" class="confirmAvailabilityBtn btn btn-flat btn-primary btn-success">Confirm availability</button>
                         <div class="manuallyUpdateSessionContainer">or <a href="javascript:void(0)" class="manuallyUpdateSession">manually update status</a></div>
                     </div>
                 </div>

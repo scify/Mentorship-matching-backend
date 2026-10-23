@@ -13,7 +13,6 @@ use App\Models\eloquent\User;
 use App\Models\eloquent\UserRole;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Support\Facades\Cache;
 
 class UserAccessManager {
     public $ADMINISTRATOR_ROLE_ID = 1;
@@ -33,7 +32,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->hasRole($user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -47,7 +46,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->hasRole($user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -61,7 +60,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID) || $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
+        return $this->hasRole($user, $this->ADMINISTRATOR_ROLE_ID) || $this->hasRole($user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -75,7 +74,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->hasRole($user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -89,7 +88,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
+        return $this->hasRole($user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -103,7 +102,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->hasRole($user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -117,7 +116,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
+        return $this->hasRole($user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -131,7 +130,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_matcher', $user, $this->MATCHER_ROLE_ID);
+        return $this->hasRole($user, $this->MATCHER_ROLE_ID);
     }
 
     /**
@@ -145,7 +144,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_account_manager', $user, $this->ACCOUNT_MANAGER_ROLE_ID);
+        return $this->hasRole($user, $this->ACCOUNT_MANAGER_ROLE_ID);
     }
 
     /**
@@ -159,7 +158,7 @@ class UserAccessManager {
             return false;
         }
 
-        return $this->checkCacheOrDBForRoleAndStore('user_is_admin', $user, $this->ADMINISTRATOR_ROLE_ID);
+        return $this->hasRole($user, $this->ADMINISTRATOR_ROLE_ID);
     }
 
     /**
@@ -173,15 +172,12 @@ class UserAccessManager {
         return $userRoles->contains($roleId);
     }
 
-    private function checkCacheOrDBForRoleAndStore($roleKey, User $user, $roleId) {
-        $result = Cache::get($roleKey . $user->id);
-        if ($result == null) {
-            $userRoles = $user->roles;
-            $result = $this->userHasRole($userRoles, $roleId);
-            Cache::put($roleKey . $user->id, $result);
-        }
-
-        return $result;
+    /**
+     * Reads the roles on every check: a cached result would keep a revoked
+     * role working. $user->roles is loaded once per model instance.
+     */
+    private function hasRole(User $user, int $roleId): bool {
+        return $this->userHasRole($user->roles, $roleId);
     }
 
     public function userIsAccessingTheirProfile(HttpRequest $request, $user) {

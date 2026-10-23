@@ -113,10 +113,17 @@ class UserManager {
         unset($inputFields['usericon']);
         $user = $this->assignInputFieldsToUser($user, $inputFields);
 
-        DB::transaction(function () use ($user, $inputFields) {
+        $loggedInUser = Auth::user();
+        if (!$loggedInUser instanceof User) {
+            throw new Exception('Not logged in');
+        }
+        if (!$loggedInUser->isAdmin()) {
+            $this->ensureCompanyIsFreeOrOwn($user, $inputFields['company_id']);
+        }
+
+        DB::transaction(function () use ($user, $inputFields, $loggedInUser) {
             $user = $this->userStorage->saveUser($user);
             $this->handleCompanyAccountManager($user, $inputFields['company_id']);
-            $loggedInUser = Auth::user();
             if ($loggedInUser->isAdmin()) {
                 $this->userRoleManager->editUserRoles($user, $inputFields['user_roles']);
             }
@@ -130,6 +137,25 @@ class UserManager {
                 throw new Exception('Capacity not set for account manager');
             }
             $this->accountManagerDetails($user, $inputFields);
+        }
+    }
+
+    /**
+     * The profile form offers only companies without an account manager. Only an
+     * admin may move a company from one account manager to another.
+     *
+     * @throws Exception
+     */
+    private function ensureCompanyIsFreeOrOwn(User $user, mixed $companyId): void {
+        if ($companyId === null || $companyId === '') {
+            return;
+        }
+        if (!$user->isAccountManager()) {
+            throw new Exception('Only an account manager can be assigned to a company.');
+        }
+        $company = (new CompanyManager)->getCompany($companyId);
+        if ($company === null || ($company->account_manager_id !== null && (int) $company->account_manager_id !== $user->id)) {
+            throw new Exception('Only an administrator can assign a company that has another account manager.');
         }
     }
 
@@ -263,9 +289,7 @@ class UserManager {
         return $users;
     }
 
-    public function editUserCapacity(array $input) {
-        $userId = $input['user_id'];
-        $capacity = $input['capacity'];
+    public function editUserCapacity(int $userId, int $capacity): void {
         $user = $this->getUser($userId);
 
         if (!$user->isAccountManager()) {

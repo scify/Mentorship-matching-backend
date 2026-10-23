@@ -21,9 +21,9 @@ class MentorshipSessionHistoryController extends Controller {
     }
 
     public function deleteSessionHistoryItem(Request $request) {
-        $input = $request->all();
+        $input = $this->validate($request, ['sessionHistoryId' => 'required|integer']);
         try {
-            $this->mentorshipSessionHistoryManager->deleteMentorshipSessionStatusHistory($input);
+            $this->mentorshipSessionHistoryManager->deleteMentorshipSessionStatusHistory((int) $input['sessionHistoryId'], $request->user());
 
             return json_encode(new OperationResponse(config('app.OPERATION_SUCCESS'), 'The session status history item was successfully deleted'));
         } catch (\Exception $e) {

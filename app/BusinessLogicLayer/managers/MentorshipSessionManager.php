@@ -10,6 +10,7 @@
 namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MentorshipSession;
+use App\Models\eloquent\User;
 use App\Models\viewmodels\MentorshipSessionViewModel;
 use App\Notifications\AccountManagerSessionInvitation;
 use App\Notifications\MenteeSendRating;
@@ -241,12 +242,43 @@ class MentorshipSessionManager {
     }
 
     /**
+     * A session update from the session modal. An admin may change the status,
+     * the account manager and the general comment of any session; an account
+     * manager may change the status and the general comment of their own
+     * sessions. Every other field in the request is ignored.
+     *
+     * @param  array<string, mixed>  $input
+     *
+     * @throws Exception when the session does not exist or the user may not update it
+     */
+    public function updateMentorshipSessionAsUser(array $input, User $user): string {
+        $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
+        if ($mentorshipSession === null) {
+            throw new Exception('Mentorship session not found.');
+        }
+
+        $userAccessManager = new UserAccessManager;
+        if ($userAccessManager->userIsAdmin($user)) {
+            $editableFields = ['status_id', 'account_manager_id', 'general_comment', 'comment'];
+        } elseif ($userAccessManager->userIsAccountManager($user) && (int) $mentorshipSession->account_manager_id === $user->id) {
+            $editableFields = ['status_id', 'general_comment', 'comment'];
+        } else {
+            throw new Exception('You can update only the sessions that you manage.');
+        }
+
+        $editableInput = array_intersect_key($input, array_flip($editableFields));
+        $editableInput['mentorship_session_id'] = $mentorshipSession->id;
+
+        return $this->editMentorshipSession($editableInput);
+    }
+
+    /**
      * Updates an existing mentorship session in DB
      *
      * @param  array  $input
      * @return string Message to display to user performing session update on view
      */
-    public function editMentorshipSession(array $input) {
+    public function editMentorshipSession(array $input): string {
         $loggedInUser = Auth::user();
 
         $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
@@ -805,9 +837,21 @@ class MentorshipSessionManager {
         }
     }
 
-    public function inviteMentee($mentorshipSessionId) {
-        $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
-        $loggedInUser = Auth::user();
+    /**
+     * "Confirm availability" in the session modal: an admin or the session's
+     * account manager invites the mentee of a pending session.
+     *
+     * @throws Exception when the session does not exist, is not pending, or the user may not invite
+     */
+    public function inviteMentee(int $mentorshipSessionId, User $loggedInUser): void {
+        $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($mentorshipSessionId);
+        if ($mentorshipSession === null || (int) $mentorshipSession->status_id !== MentorshipSessionStatuses::$statuses['pending']) {
+            throw new Exception('Only a pending mentorship session can invite the mentee.');
+        }
+        $userAccessManager = new UserAccessManager;
+        if (!$userAccessManager->userIsAdmin($loggedInUser) && (int) $mentorshipSession->account_manager_id !== $loggedInUser->id) {
+            throw new Exception('You can invite the mentee only for the sessions that you manage.');
+        }
         DB::transaction(function () use ($mentorshipSession, $loggedInUser) {
             $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, 'Mentee invited from account manager');
             $mentorshipSession->status_id = MentorshipSessionStatuses::$statuses['introduction_sent'];

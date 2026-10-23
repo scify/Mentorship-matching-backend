@@ -379,11 +379,11 @@ class UserController extends Controller {
         }
     }
 
-    public function editUserCapacity(Request $request) {
-        $input = $request->all();
+    public function editUserCapacity(Request $request, string $id) {
+        $input = $this->validate($request, ['capacity' => 'required|integer|min:0']);
 
         try {
-            $this->userManager->editUserCapacity($input);
+            $this->userManager->editUserCapacity((int) $id, (int) $input['capacity']);
         } catch (\Exception $e) {
             $errorMessage = 'Error: ' . $e->getCode() . '  ' . $e->getMessage();
 

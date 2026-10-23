@@ -9,6 +9,7 @@ use App\Http\Middleware\CanInviteMentee;
 use App\Http\Middleware\CanOnlyChangeStatus;
 use App\Http\Middleware\CanUpdateMentorshipSession;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\EnsureActiveStaff;
 use App\Http\Middleware\IsAccountManager;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\PreventRequestForgery;
@@ -96,6 +97,7 @@ class Kernel extends HttpKernel {
      */
     protected $routeMiddleware = [
         'auth' => Authenticate::class,
+        'staff' => EnsureActiveStaff::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
         'bindings' => SubstituteBindings::class,
         'can' => Authorize::class,

@@ -2,13 +2,12 @@
 
 use App\BusinessLogicLayer\managers\UserAccessManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Characterizes the role checks every route middleware delegates to.
- * The cache-staleness test captures documented current behavior (role
- * changes are invisible until the cache is cleared), not desired behavior.
+ * Role checks read the user's roles on every check, so a role change takes
+ * effect at once.
  */
 class UserAccessManagerTest extends TestCase {
     use CreatesMatchingFixtures;
@@ -20,7 +19,6 @@ class UserAccessManagerTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->accessManager = new UserAccessManager;
-        Cache::flush(); // role checks are cached per user id — isolate each test
     }
 
     public function test_admin_has_every_admin_only_access() {
@@ -57,21 +55,12 @@ class UserAccessManagerTest extends TestCase {
         $this->assertFalse($this->accessManager->userHasAccessToCRUDMentorshipSessions($accountManager));
     }
 
-    public function test_revoked_role_stays_granted_until_the_cache_is_cleared() {
-        // This captures current behavior, not necessarily correct behavior:
-        // checkCacheOrDBForRoleAndStore caches positive checks with no TTL or
-        // invalidation, so a revoked admin keeps admin access until the cache
-        // is flushed (see CLAUDE.md, "Authorization model").
+    public function test_a_revoked_role_stops_at_once() {
         $admin = $this->makeBackofficeUser($this->accessManager->ADMINISTRATOR_ROLE_ID, 'Admin');
         $this->assertTrue($this->accessManager->userIsAdmin($admin));
 
         DB::table('user_role')->where('user_id', $admin->id)->update(['deleted_at' => now()]);
 
-        $this->assertTrue($this->accessManager->userIsAdmin($admin->fresh()),
-            'revoked role is still served from cache — if this fails, cache invalidation was added; update CLAUDE.md');
-
-        Cache::flush();
-        $this->assertFalse($this->accessManager->userIsAdmin($admin->fresh()),
-            'after a cache flush the revocation must be visible');
+        $this->assertFalse($this->accessManager->userIsAdmin($admin->fresh()));
     }
 }
