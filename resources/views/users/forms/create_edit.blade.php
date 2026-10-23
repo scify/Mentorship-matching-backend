@@ -57,7 +57,7 @@
                                 <div class="{{ $errors->first('current_password')?'has-error has-feedback':'' }}">
                                     <div class="inputer floating-label margin-top-60">
                                         <div class="input-wrapper">
-                                            <input name="current_password" type="password" class="form-control" autocomplete="current-password">
+                                            <input id="current_password" name="current_password" type="password" class="form-control" autocomplete="current-password">
                                             <label for="current_password" class="control-label">Current password (to change email or password)</label>
                                         </div>
                                     </div>
