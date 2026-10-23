@@ -164,7 +164,7 @@ Run the commands as `www-data` ([File ownership](#file-ownership)).
    git checkout <release>
    ```
 
-   `<release>` is a release tag. Until the first tag exists, use a commit of `master`.
+   `<release>` is a release tag, for example `v2.0.0` (see [CHANGELOG.md](CHANGELOG.md)).
 2. Create `.env` from `.env.example` and set the values from [Production `.env`](#production-env).
 3. Install the PHP dependencies and create the key:
 
@@ -280,20 +280,24 @@ If a step fails, read the newest `storage/logs/laravel-*.log`, fix the cause and
 
 ## Upgrade notes
 
-Each section lists what an operator must do for one version, in order. The CHANGELOG (from the first tagged
-release) lists the changes that need no action.
+Each section lists what an operator must do for one version, in order. [CHANGELOG.md](CHANGELOG.md) lists all
+changes of each version.
 
 ### Unreleased
 
+No steps yet.
+
+### 2.0.0
+
 This release hardens access control and the public pages, and moves the mail queue and the scheduler to
-Supervisor. If the server runs code from before 2026-08-15, the release also upgrades Laravel to 13 and PHP to
-8.4; code from before 2026-09-22 also moves the asset build from Laravel Mix to Vite.
+Supervisor. If the server runs `master` from before 2026-09-17 (PR #120), the release also upgrades Laravel to 13 and
+PHP to 8.4; `master` from before 2026-09-22 (PR #122) also moves the asset build from Laravel Mix to Vite.
 
 **Before the update**
 
 1. Back up the database and `storage/app/`.
 2. Check the runtimes against [Requirements](#requirements): PHP 8.4 with `pcntl` for the CLI, and on the build
-   machine Node.js `>=24.22.1` (or `^22.23.4`, `^26.12.1`) with npm `>=11.19.1`. Set the upload limits from
+   machine Node.js `^22.23.4`, `^24.22.1` or `^26.12.1` with npm `>=11.19.1`. Set the upload limits from
    [Web server](#web-server).
 3. Set up Supervisor ([Supervisor](#supervisor-queue-worker-and-scheduler)) and set `QUEUE_CONNECTION=database`.
    The scheduler no longer starts a queue worker, so without Supervisor the mails wait in the `jobs` table.
@@ -305,6 +309,7 @@ Supervisor. If the server runs code from before 2026-08-15, the release also upg
    - `SESSION_SECURE_COOKIE=true`.
    - `LOG_LEVEL=warning`.
    - `SENTRY_SQL_BINDINGS=false`, unless you want SQL values in Sentry.
+   - Rename `MIX_SENTRY_DSN_PUBLIC` to `VITE_SENTRY_DSN_PUBLIC`, if it is set.
 5. Run these read-only checks:
 
    ```sql

@@ -80,6 +80,9 @@ return [
 
     'name' => 'Job Pairs',
 
+    // The version is defined only in package.json (see "Releasing" in README.md).
+    'version' => json_decode(file_get_contents(base_path('package.json')), true, flags: JSON_THROW_ON_ERROR)['version'],
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

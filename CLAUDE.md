@@ -115,6 +115,7 @@ elements that match these selectors. See README "Known npm advisories".
 
 Deployment, the production `.env` and the upgrade notes per version live in `DEPLOYMENT.md`. A change that needs
 an operator action (an `.env` key, a one-off command, a data check) adds a step to its "Unreleased" upgrade notes.
+Every change also gets a line under `## [Unreleased]` in `CHANGELOG.md`; the version lives only in `package.json`.
 
 ## Architecture
 

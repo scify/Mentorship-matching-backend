@@ -20,8 +20,9 @@ all your interactions with the project.
    After a change to routes or views, also run the browser tests (`cd e2e && npm test`).
 5. Write commit messages as [Conventional Commits](https://www.conventionalcommits.org/), for example
    `fix: keep the rating comment after a validation error`.
-6. If the change needs an action on the server (a new `.env` key, a one-off command, a data check), add it to the
-   "Unreleased" upgrade notes in [DEPLOYMENT.md](DEPLOYMENT.md#upgrade-notes).
+6. Describe the change under `## [Unreleased]` in [CHANGELOG.md](CHANGELOG.md). If it needs an action on the server
+   (a new `.env` key, a one-off command, a data check), also add it to the "Unreleased" upgrade notes in
+   [DEPLOYMENT.md](DEPLOYMENT.md#upgrade-notes).
 7. Push the branch and open a pull request against `master`. Without write access to this repository, fork it and
    open the pull request from your fork. The check `ci / CI` must pass; a maintainer reviews
    and merges the pull request.
