@@ -57,7 +57,7 @@ Start from `.env.example`. These keys need a production value:
 | `QUEUE_CONNECTION` | `database` | The Supervisor worker sends the mails. With `sync`, a slow mail server slows every request that sends mail. |
 | `MAIL_*` | the SMTP server and sender | |
 | `SESSION_SECURE_COOKIE` | `true` | The browser sends the session cookie over HTTPS only. |
-| `LOG_LEVEL` | `warning` or `error` | Add this key: the default is `debug`. `APP_LOG_LEVEL` in `.env.example` has no effect. |
+| `LOG_LEVEL` | `warning` or `error` | `.env.example` has `debug`, which logs every detail. |
 | `SENTRY_LARAVEL_DSN` | the project DSN, or empty | Empty disables Sentry. |
 | `SENTRY_SQL_BINDINGS` | `false` | `true` sends SQL values, including personal data, to Sentry. |
 | `VITE_SENTRY_DSN_PUBLIC` | the public DSN, or empty | Read at build time: set it before `npm run build`. |
@@ -137,7 +137,14 @@ Run every `git`, `composer`, `npm` and `php artisan` command of the installation
 sudo -u www-data php artisan migrate --force
 ```
 
-Only `systemctl` and `supervisorctl` need root. If a command ran as another user by mistake, give the files back:
+Only `systemctl` and `supervisorctl` need root.
+
+The alternative is a deploy user in the `www-data` group with group-writable directories. The staging deployment
+does this: after each deploy it runs `set-laravel-permissions-ci.sh`, which sets 775/664 modes on `storage/` and
+`bootstrap/cache/`, gives the deploy user's files there to the `www-data` group and sets the setgid bit, so new
+files inherit the group.
+
+If a command ran as another user by mistake, give the files back:
 
 ```bash
 sudo chown -R www-data:www-data /var/www/jobpairs/storage /var/www/jobpairs/bootstrap/cache
