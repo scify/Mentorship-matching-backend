@@ -279,11 +279,13 @@ too. To release version `X.Y.Z` from an up-to-date `master` with green CI:
    gh pr create --title "chore: release vX.Y.Z" --body "Release vX.Y.Z. See CHANGELOG.md."
    ```
 
-4. Tag the merge commit on `master` and push the tag:
+4. Tag the merge commit of the release pull request and push the tag. Tag that commit by its hash: another pull
+   request may have been merged after it.
 
    ```bash
    git switch master && git pull --ff-only
-   git tag -a vX.Y.Z -m "vX.Y.Z"
+   gh pr view chore/release-vX.Y.Z --json mergeCommit --jq .mergeCommit.oid   # the merge commit
+   git tag -a vX.Y.Z <merge-commit> -m "vX.Y.Z"
    git push origin vX.Y.Z
    ```
 
@@ -295,7 +297,8 @@ too. To release version `X.Y.Z` from an up-to-date `master` with green CI:
    rm release-notes.md
    ```
 
-6. Deploy the tag, not the branch ([DEPLOYMENT.md](DEPLOYMENT.md#update-procedure)).
+6. Deploy the tag, not the branch ([DEPLOYMENT.md](DEPLOYMENT.md#update-procedure)). For staging, set `DEPLOY_REF`
+   to the tag in the private repository `scify/jobpairs-deploy` and run its workflow.
 
 ## Troubleshooting
 
