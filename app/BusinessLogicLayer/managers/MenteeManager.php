@@ -100,7 +100,12 @@ class MenteeManager {
     }
 
     public function createMentee(array $inputFields, $isCvFileExistent) {
+        // The server sets these, never the request. Only staff choose the status.
+        unset($inputFields['creator_user_id'], $inputFields['cv_file_name']);
         $loggedInUser = Auth::user();
+        if ($loggedInUser === null) {
+            unset($inputFields['status_id']);
+        }
         if ($loggedInUser != null) {
             $inputFields['creator_user_id'] = $loggedInUser->id;
         }
@@ -172,6 +177,8 @@ class MenteeManager {
     }
 
     public function editMentee(array $inputFields, $id, $isCvFileExistent = false) {
+        // The server sets these, never the request.
+        unset($inputFields['creator_user_id'], $inputFields['cv_file_name']);
         if (isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = '';
         }

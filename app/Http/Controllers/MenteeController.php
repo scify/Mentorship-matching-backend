@@ -174,7 +174,12 @@ class MenteeController extends Controller {
         $input = $request->all();
         App::setLocale($this->localeFromRequest($request));
 
-        $publicForm = $input['public_form'];
+        // A guest always gets the public form and its validation, whatever the request says.
+        if ($request->user() === null) {
+            $request->merge(['public_form' => 'true']);
+            $input['public_form'] = 'true';
+        }
+        $publicForm = $input['public_form'] ?? 'false';
         if ($publicForm == 'true') {
             $this->validate($request, [
                 'first_name' => 'required|max:255',
