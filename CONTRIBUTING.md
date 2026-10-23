@@ -1,20 +1,29 @@
 # Contributing
 
-When contributing to this repository, please first discuss the change you wish to make via issue,
-email, or any other method with the owners of this repository before making a change.
+Discuss a change with the maintainers first, in an issue or by email. Please follow the code of conduct below in
+all your interactions with the project.
 
-Please note we have a code of conduct, please follow it in all your interactions with the project.
+## Pull request process
 
-## Pull Request Process
+1. Set up the project as the [README](README.md#getting-started) describes, and create a branch from an
+   up-to-date `master`, for example `fix/short-description`.
+2. Follow the layers of the app: controllers call managers, managers hold the business rules, and only storage
+   classes query the database.
+3. Add or update tests for every behaviour you change (`tests/`; see [Tests](README.md#tests)).
+4. Before every commit, run the checks; each must pass:
 
-1. Ensure any install or build dependencies are removed before the end of the layer when doing a
-   build.
-2. Update the README.md with details of changes to the interface, this includes new environment
-   variables, exposed ports, useful file locations and container parameters.
-3. Increase the version numbers in any examples files and the README.md to the new version that this
-   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
-4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you
-   do not have permission to do that, you may request the second reviewer to merge it for you.
+   ```bash
+   ddev composer lint:check
+   ddev composer test
+   ```
+
+   After a change to routes or views, also run the browser tests (`cd e2e && npm test`).
+5. Write commit messages as [Conventional Commits](https://www.conventionalcommits.org/), for example
+   `fix: keep the rating comment after a validation error`.
+6. If the change needs an action on the server (a new `.env` key, a one-off command, a data check), add it to the
+   "Unreleased" upgrade notes in [DEPLOYMENT.md](DEPLOYMENT.md#upgrade-notes).
+7. Push the branch and open a pull request against `master`. The check `ci / CI` must pass; a maintainer reviews
+   and merges the pull request.
 
 ## Code of Conduct
 
