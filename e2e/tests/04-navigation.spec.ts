@@ -31,10 +31,12 @@ for (const role of ROLES) {
       document.querySelectorAll('.menu-layer a[href], .top-menu a[href]').forEach((a) => {
         const el = a as HTMLAnchorElement;
         const href = el.getAttribute('href') ?? '';
-        if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+        if (!href || href.startsWith('#')) return;
         if (href.includes('/logout')) return; // would end the session mid-sweep
         const url = new URL(href, location.origin);
-        if (url.host !== location.host) return; // external
+        // Same protocol and host only: this skips external links and every
+        // non-http scheme (javascript:, data:, vbscript:, mailto:, ...).
+        if (url.protocol !== location.protocol || url.host !== location.host) return;
         if (seen.has(url.pathname)) return;
         seen.add(url.pathname);
         out.push({ href: url.pathname, label: (el.textContent ?? '').trim() });

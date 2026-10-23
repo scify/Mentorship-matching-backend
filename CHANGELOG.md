@@ -9,6 +9,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Security
+
+- The demo chat of the admin theme (`layout.js`) inserts the typed message as text, not as HTML. No page shows that
+  chat today (code scanning alert #25).
+- The browser test that follows the menu links accepts only links with the page's own protocol and host, not only
+  links without `javascript:` (code scanning alert #32).
+
 ### Added
 
 - DEPLOYMENT.md and AGENTS.md name the pages that embed the public registration forms
