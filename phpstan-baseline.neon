@@ -1693,12 +1693,6 @@ parameters:
 			path: app/BusinessLogicLayer/managers/UserIconManager.php
 
 		-
-			message: '#^Cannot call method isAdmin\(\) on App\\Models\\eloquent\\User\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserManager.php
-
-		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:accountManagerDetails\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
