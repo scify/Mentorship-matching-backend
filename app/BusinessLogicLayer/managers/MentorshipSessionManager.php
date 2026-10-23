@@ -10,6 +10,7 @@
 namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MentorshipSession;
+use App\Models\eloquent\User;
 use App\Models\viewmodels\MentorshipSessionViewModel;
 use App\Notifications\AccountManagerSessionInvitation;
 use App\Notifications\MenteeSendRating;
@@ -246,7 +247,38 @@ class MentorshipSessionManager {
      * @param  array  $input
      * @return string Message to display to user performing session update on view
      */
-    public function editMentorshipSession(array $input) {
+    /**
+     * A session update from the session modal. An admin may change the status,
+     * the account manager and the general comment of any session; an account
+     * manager may change the status and the general comment of their own
+     * sessions. Every other field in the request is ignored.
+     *
+     * @param  array<string, mixed>  $input
+     *
+     * @throws Exception when the session does not exist or the user may not update it
+     */
+    public function updateMentorshipSessionAsUser(array $input, User $user): string {
+        $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
+        if ($mentorshipSession === null) {
+            throw new Exception('Mentorship session not found.');
+        }
+
+        $userAccessManager = new UserAccessManager;
+        if ($userAccessManager->userIsAdmin($user)) {
+            $editableFields = ['status_id', 'account_manager_id', 'general_comment', 'comment'];
+        } elseif ($userAccessManager->userIsAccountManager($user) && (int) $mentorshipSession->account_manager_id === $user->id) {
+            $editableFields = ['status_id', 'general_comment', 'comment'];
+        } else {
+            throw new Exception('You can update only the sessions that you manage.');
+        }
+
+        $editableInput = array_intersect_key($input, array_flip($editableFields));
+        $editableInput['mentorship_session_id'] = $mentorshipSession->id;
+
+        return $this->editMentorshipSession($editableInput);
+    }
+
+    public function editMentorshipSession(array $input): string {
         $loggedInUser = Auth::user();
 
         $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($input['mentorship_session_id']);
