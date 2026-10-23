@@ -62,6 +62,7 @@ class SessionUpdateAccessTest extends TestCase {
         ]);
 
         $fresh = MentorshipSession::withTrashed()->find($session->id);
+        $this->assertSame(self::FIRST_MEETING, (int) $fresh->status_id, 'the allowed fields were applied');
         $this->assertSame($accountManager->id, (int) $fresh->account_manager_id);
         $this->assertNotSame($other->id, (int) $fresh->matcher_id);
         $this->assertNull($fresh->deleted_at);

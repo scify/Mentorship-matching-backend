@@ -44,7 +44,8 @@ class InviteMenteeTest extends TestCase {
     public function test_another_account_manager_cannot_invite() {
         $session = $this->makeSession($this->makeBackofficeUser(3, 'Owner'), self::PENDING);
 
-        $this->actingAs($this->makeBackofficeUser(3, 'Other'))->post('/session/sendInviteToMentee', ['mentorship_session_id' => $session->id]);
+        $this->actingAs($this->makeBackofficeUser(3, 'Other'))->post('/session/sendInviteToMentee', ['mentorship_session_id' => $session->id])
+            ->assertSessionHas('flash_message_failure');
 
         $this->assertSame(self::PENDING, (int) $session->fresh()->status_id);
         Notification::assertNothingSent();

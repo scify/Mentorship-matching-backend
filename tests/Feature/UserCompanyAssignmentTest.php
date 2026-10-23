@@ -32,6 +32,15 @@ class UserCompanyAssignmentTest extends TestCase {
         $this->assertSame($owner->id, $this->accountManagerOf($companyId));
     }
 
+    public function test_a_matcher_cannot_become_the_account_manager_of_a_company() {
+        $matcher = $this->makeBackofficeUser(2, 'Matcher');
+        $companyId = $this->makeFreeCompany('Free');
+
+        $this->actingAs($matcher)->post("/user/{$matcher->id}/edit", $this->profile($matcher, $companyId));
+
+        $this->assertNull($this->accountManagerOf($companyId));
+    }
+
     public function test_an_admin_moves_a_company_to_another_account_manager() {
         $owner = $this->makeBackofficeUser(3, 'Owner');
         $companyId = $this->makeCompany($owner, 'Taken');

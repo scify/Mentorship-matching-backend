@@ -115,6 +115,15 @@ class RouteAccessTest extends TestCase {
         $this->assertLoggedOutEverywhere($this->makeUserWithoutRole());
     }
 
+    public function test_an_ajax_request_of_a_deactivated_user_gets_401() {
+        $admin = $this->makeBackofficeUser(self::ADMIN, 'Deactivated');
+        $admin->state_id = 2;
+        $admin->save();
+
+        $this->actingAs($admin)->getJson('/session/fetchHistory?mentorship_session_id=1')->assertStatus(401);
+        $this->assertGuest();
+    }
+
     public function test_a_deactivated_user_is_logged_out_from_every_protected_route() {
         $admin = $this->makeBackofficeUser(self::ADMIN, 'Deactivated');
         $admin->state_id = 2;

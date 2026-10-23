@@ -28,6 +28,11 @@ class EnsureActiveStaff {
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        // The page scripts parse AJAX responses as JSON; a redirect would hand them the login page.
+        if ($request->ajax() || $request->expectsJson()) {
+            return response()->json(['message' => trans('auth.inactive')], 401);
+        }
+
         return redirect()->route('login')->withErrors(['email_address' => trans('auth.inactive')]);
     }
 }

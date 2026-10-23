@@ -150,6 +150,9 @@ class UserManager {
         if ($companyId === null || $companyId === '') {
             return;
         }
+        if (!$user->isAccountManager()) {
+            throw new Exception('Only an account manager can be assigned to a company.');
+        }
         $company = (new CompanyManager)->getCompany($companyId);
         if ($company === null || ($company->account_manager_id !== null && (int) $company->account_manager_id !== $user->id)) {
             throw new Exception('Only an administrator can assign a company that has another account manager.');

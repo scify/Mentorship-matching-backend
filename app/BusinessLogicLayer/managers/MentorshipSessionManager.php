@@ -242,12 +242,6 @@ class MentorshipSessionManager {
     }
 
     /**
-     * Updates an existing mentorship session in DB
-     *
-     * @param  array  $input
-     * @return string Message to display to user performing session update on view
-     */
-    /**
      * A session update from the session modal. An admin may change the status,
      * the account manager and the general comment of any session; an account
      * manager may change the status and the general comment of their own
@@ -278,6 +272,12 @@ class MentorshipSessionManager {
         return $this->editMentorshipSession($editableInput);
     }
 
+    /**
+     * Updates an existing mentorship session in DB
+     *
+     * @param  array  $input
+     * @return string Message to display to user performing session update on view
+     */
     public function editMentorshipSession(array $input): string {
         $loggedInUser = Auth::user();
 
