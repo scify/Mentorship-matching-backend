@@ -407,17 +407,18 @@ the Supervisor programs run, or the daily mails go out twice.
 
 **Old build output.** 1.0.0 builds with Laravel Mix into `public/js`, `public/css`, `public/fonts` and
 `public/mix-manifest.json`. Git does not track these, so they stay after the checkout; 2.0.0 builds into
-`public/build` and does not use them.
-- `public/js/iframe.js` is the exception to check first. It is the iframe-resizer script for a site that embeds the
-  public registration forms, and 2.0.0 does not build it. If the access log shows requests for it
-  (`sudo grep -c 'GET /js/iframe.js' /var/log/nginx/*access.log*`), keep that one file.
-- Delete the rest after the update:
+`public/build` and does not use them. 1.0.0 also built `public/js/iframe.js` (iframe-resizer) for sites that embed
+the forms; the embedding pages (see below) do not load it. Delete all of it after the update:
 
-  ```bash
-  git ls-files public/js public/css public/fonts public/mix-manifest.json   # must print nothing
-  rm -rf public/css public/fonts public/mix-manifest.json
-  find public/js -type f ! -name iframe.js -delete   # or rm -rf public/js when nothing loads iframe.js
-  ```
+```bash
+git ls-files public/js public/css public/fonts public/mix-manifest.json   # must print nothing
+rm -rf public/js public/css public/fonts public/mix-manifest.json
+```
+
+**Embedded registration forms.** <https://job-pairs.gr/mentor/> and <https://job-pairs.gr/mentee/> show the public
+forms in an `<iframe>` of fixed height (`https://backoffice.job-pairs.gr/mentor/create?public=1&lang=gr`, and the
+same for `mentee`). After the update, open both pages and check that the form appears in Greek. Do not submit it:
+that creates a real registration.
 
 **Logs.** Unchanged, unless `.env` sets `LOG_CHANNEL`: one file per day, `storage/logs/laravel-YYYY-MM-DD.log`.
 2.0.0 adds `storage/logs/worker.log` and `storage/logs/scheduler.log` (Supervisor).
