@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This is a Laravel 13 (PHP >=8.3) backoffice application, internally named **JobPairs**, that manages the
+This is a Laravel 13 (PHP 8.4) backoffice application, internally named **JobPairs**, that manages the
 matching process between mentors and mentees based on preferences and skills. It is a legacy,
 server-rendered (Blade + jQuery) application — there is no SPA framework and no JSON API layer.
 
@@ -206,9 +206,8 @@ Laravel auth or signed URLs. Paul decided to keep them unsigned; they are thrott
 ### Reports & exports
 
 `ReportController` + `app/Utils/DataToCsvExportManager.php` drive CSV export of mentors/mentees/
-sessions (`export/mentors`, `export/mentees`, `export/sessions` routes, admin-only). Export file paths
-for reference CSVs consumed elsewhere are configured via `MENTORS_EXCEL_FILE_PATH`/
-`MENTEES_EXCEL_FILE_PATH` env vars.
+sessions (`export/mentors`, `export/mentees`, `export/sessions` routes, admin-only), sent as file downloads.
+Cells that start with a formula character are escaped (`cell()`).
 
 ### Views & i18n
 

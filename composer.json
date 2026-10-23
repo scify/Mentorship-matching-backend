@@ -5,7 +5,7 @@
     "framework",
     "laravel"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "project",
   "require": {
     "php": "^8.4",
