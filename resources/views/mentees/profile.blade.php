@@ -93,7 +93,7 @@
                                         <div class="formRow row">
                                             <div class="col-md-3 formElementName">{{trans('messages.linkedin')}}</div>
                                             @if($menteeViewModel->mentee->linkedin_url != null)
-                                                <a target="_blank" href="{{$menteeViewModel->mentee->linkedin_url}}"><div class="col-md-9">{{$menteeViewModel->mentee->linkedin_url}}</div></a>
+                                                @if(\App\Utils\WebUrl::orNull($menteeViewModel->mentee->linkedin_url))<a target="_blank" rel="noopener noreferrer" href="{{\App\Utils\WebUrl::orNull($menteeViewModel->mentee->linkedin_url)}}"><div class="col-md-9">{{$menteeViewModel->mentee->linkedin_url}}</div></a>@else<div class="col-md-9">{{$menteeViewModel->mentee->linkedin_url}}</div>@endif
                                             @endif
                                         </div><!--.row-->
                                         @if($menteeViewModel->mentee->created_at != null)

@@ -16,6 +16,7 @@ use App\BusinessLogicLayer\managers\UniversityManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MenteeProfile;
+use App\Models\eloquent\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,6 +24,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -174,7 +176,13 @@ class MenteeController extends Controller {
         $input = $request->all();
         App::setLocale($this->localeFromRequest($request));
 
-        $publicForm = $input['public_form'];
+        // A guest always gets the public form and its validation, whatever the request says.
+        $user = $request->user();
+        if (!($user instanceof User && $user->isActiveStaff())) {
+            $request->merge(['public_form' => 'true']);
+            $input['public_form'] = 'true';
+        }
+        $publicForm = $input['public_form'] ?? 'false';
         if ($publicForm == 'true') {
             $this->validate($request, [
                 'first_name' => 'required|max:255',
@@ -197,7 +205,7 @@ class MenteeController extends Controller {
                 'career_goals' => 'required',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url',
+                'linkedin_url' => 'nullable|url:http,https',
             ], $this->messages());
         } else {
             $this->validate($request, [
@@ -207,7 +215,7 @@ class MenteeController extends Controller {
                 'email' => 'required|max:255|email|unique:mentee_profile',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url',
+                'linkedin_url' => 'nullable|url:http,https',
             ], $this->messages());
         }
         try {
@@ -343,6 +351,7 @@ class MenteeController extends Controller {
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email|unique:mentee_profile,email,' . $id,
             'year_of_birth' => 'required|numeric|digits:4',
+            'linkedin_url' => 'nullable|url:http,https',
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
         ], $this->messages());
 
@@ -416,6 +425,11 @@ class MenteeController extends Controller {
      * @return RedirectResponse|Redirector|string
      */
     public function changeMenteeAvailabilityStatus(Request $request) {
+        $this->validate($request, [
+            'mentee_id' => ['required', 'integer', Rule::exists('mentee_profile', 'id')->whereNull('deleted_at')],
+            'status_id' => 'required|integer|exists:mentee_status_lookup,id',
+            'follow_up_date' => 'nullable|date_format:d/m/Y',
+        ]);
         $input = $request->all();
 
         try {

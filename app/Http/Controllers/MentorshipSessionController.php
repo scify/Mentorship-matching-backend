@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Sentry;
 
@@ -57,9 +58,9 @@ class MentorshipSessionController extends Controller {
      */
     public function create(Request $request) {
         $this->validate($request, [
-            'mentor_profile_id' => 'required|numeric',
-            'mentee_profile_id' => 'required|numeric',
-            'account_manager_id' => 'required|numeric',
+            'mentor_profile_id' => ['required', 'integer', Rule::exists('mentor_profile', 'id')->whereNull('deleted_at')],
+            'mentee_profile_id' => ['required', 'integer', Rule::exists('mentee_profile', 'id')->whereNull('deleted_at')],
+            'account_manager_id' => ['required', ...$this->activeAccountManagerRules()],
         ]);
         $input = $request->all();
         try {
@@ -101,7 +102,7 @@ class MentorshipSessionController extends Controller {
     public function update(Request $request) {
         $this->validate($request, [
             'mentorship_session_id' => 'required|integer',
-            'account_manager_id' => 'numeric',
+            'account_manager_id' => ['sometimes', ...$this->activeAccountManagerRules()],
             'status_id' => 'required|numeric',
         ]);
         $input = $request->all();

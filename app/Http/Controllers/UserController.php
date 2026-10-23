@@ -189,6 +189,7 @@ class UserController extends Controller {
             'password' => 'required|min:8|max:12',
             'passwordconfirm' => 'required|same:password',
             'capacity' => 'numeric|min:1',
+            'usericon' => 'required|exists:user_icon,title',
         ]);
 
         $input = $request->all();
@@ -258,6 +259,7 @@ class UserController extends Controller {
             'password' => 'min:8|max:12',
             'passwordconfirm' => 'same:password',
             'capacity' => 'numeric|min:1',
+            'usericon' => 'required|exists:user_icon,title',
         ];
         $loggedInUser = Auth::user();
         if ($loggedInUser->isAdmin()) {

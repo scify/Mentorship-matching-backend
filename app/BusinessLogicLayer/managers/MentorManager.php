@@ -11,6 +11,7 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
+use App\Models\eloquent\User;
 use App\Models\viewmodels\MentorViewModel;
 use App\Notifications\MentorRegistered;
 use App\StorageLayer\MentorStorage;
@@ -119,9 +120,17 @@ class MentorManager {
      * @see MentorProfile resource
      */
     public function createMentor(array $inputFields, $isCvFileExistent) {
+        // The server sets these, never the request. Only staff choose the status.
+        unset($inputFields['creator_user_id'], $inputFields['cv_file_name']);
         $loggedInUser = Auth::user();
-        if ($loggedInUser != null) {
+        if ($loggedInUser instanceof User && $loggedInUser->isActiveStaff()) {
             $inputFields['creator_user_id'] = $loggedInUser->id;
+        } else {
+            // A guest may not choose the status or add new or private specialties.
+            unset($inputFields['status_id']);
+            if (isset($inputFields['specialties'])) {
+                $inputFields['specialties'] = $this->specialtyManager->onlyPublicSpecialties($inputFields['specialties']);
+            }
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
@@ -163,6 +172,8 @@ class MentorManager {
      * @param  $isCvFileExistent  boolean it defines whether the cv file exists or not
      */
     public function editMentor(array $inputFields, $id, $isCvFileExistent = false) {
+        // The server sets these, never the request.
+        unset($inputFields['creator_user_id'], $inputFields['cv_file_name']);
         if (isset($inputFields['do_not_contact']) || !isset($inputFields['follow_up_date'])) {
             $inputFields['follow_up_date'] = '';
         }

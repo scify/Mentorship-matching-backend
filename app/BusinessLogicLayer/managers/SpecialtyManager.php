@@ -27,6 +27,20 @@ class SpecialtyManager {
         return $this->specialtyStorage->getPublicSpecialties();
     }
 
+    /**
+     * Keeps the public specialties among the submitted ones. The public forms
+     * may neither create a specialty nor pick a private one.
+     *
+     * @param  array<int, array{id?: mixed}>  $specialties
+     * @return list<array{id: int}>
+     */
+    public function onlyPublicSpecialties(array $specialties): array {
+        $ids = array_filter(array_map(fn ($specialty) => $specialty['id'] ?? null, $specialties), 'is_numeric');
+        $publicIds = $this->specialtyStorage->getPublicSpecialties()->pluck('id')->map(fn ($id) => (int) $id)->all();
+
+        return array_values(array_map(fn ($id) => ['id' => (int) $id], array_filter($ids, fn ($id) => in_array((int) $id, $publicIds, true))));
+    }
+
     public function assignSpecialtiesToMentor(MentorProfile $newMentor, $specialties) {
         foreach ($specialties as $specialty) {
             // if specialty id is a string, that means that we need to store it in the DB before using it

@@ -17,6 +17,7 @@ use App\BusinessLogicLayer\managers\UniversityManager;
 use App\BusinessLogicLayer\managers\UserManager;
 use App\Http\OperationResponse;
 use App\Models\eloquent\MentorProfile;
+use App\Models\eloquent\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -25,10 +26,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\App;
-
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class MentorController extends Controller {
@@ -281,7 +283,13 @@ class MentorController extends Controller {
         $input = $request->all();
 
         App::setLocale($this->localeFromRequest($request));
-        $publicForm = $input['public_form'];
+        // A guest always gets the public form and its validation, whatever the request says.
+        $user = $request->user();
+        if (!($user instanceof User && $user->isActiveStaff())) {
+            $request->merge(['public_form' => 'true']);
+            $input['public_form'] = 'true';
+        }
+        $publicForm = $input['public_form'] ?? 'false';
         if ($publicForm == 'true') {
             $this->validate($request, [
                 'first_name' => 'required|max:255',
@@ -304,7 +312,7 @@ class MentorController extends Controller {
                 'industries' => 'required',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url',
+                'linkedin_url' => 'nullable|url:http,https',
             ], $this->messages());
         } else {
             $this->validate($request, [
@@ -314,7 +322,7 @@ class MentorController extends Controller {
                 'email' => 'required|max:255|email|unique:mentor_profile',
                 'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
                 'public_form' => 'required',
-                'linkedin_url' => 'url',
+                'linkedin_url' => 'nullable|url:http,https',
             ], $this->messages());
         }
 
@@ -386,6 +394,7 @@ class MentorController extends Controller {
             'last_name' => 'required|max:255',
             'year_of_birth' => 'required|numeric|digits:4',
             'email' => 'required|max:255|email|unique:mentor_profile,email,' . $id,
+            'linkedin_url' => 'nullable|url:http,https',
             'cv_file' => 'file|mimes:doc,pdf,docx|max:10000',
             'public_form' => 'required',
         ], $this->messages());
@@ -437,6 +446,11 @@ class MentorController extends Controller {
      * @return RedirectResponse|Redirector|string
      */
     public function changeMentorAvailabilityStatus(Request $request) {
+        $this->validate($request, [
+            'mentor_id' => ['required', 'integer', Rule::exists('mentor_profile', 'id')->whereNull('deleted_at')],
+            'status_id' => 'required|integer|exists:mentor_status_lookup,id',
+            'follow_up_date' => 'nullable|date_format:d/m/Y',
+        ]);
         $input = $request->all();
 
         try {
