@@ -10,10 +10,10 @@ use Illuminate\Console\Scheduling\Schedule;
 class ScheduleTest extends TestCase {
     public function test_the_schedule_runs_the_daily_commands_and_no_queue_worker() {
         $commands = array_map(
-            fn (Event $event) => preg_replace("/^.*'artisan' /", '', (string) $event->command),
+            fn (Event $event) => preg_replace("/^.*'artisan' /", '', (string) $event->command) . ' @ ' . $event->expression,
             app(Schedule::class)->events(),
         );
 
-        $this->assertEqualsCanonicalizing(['mentees:notify-unmatched', 'email:follow-up'], $commands);
+        $this->assertEqualsCanonicalizing(['mentees:notify-unmatched @ 0 0 * * *', 'email:follow-up @ 0 0 * * *'], $commands);
     }
 }
