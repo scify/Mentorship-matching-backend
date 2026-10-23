@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+// In maintenance mode, answer before the autoloader loads: during a deploy,
+// vendor/ may be half replaced.
+if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
+    require $maintenance;
+}
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -58,11 +64,3 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
-
-if (!defined('LARAVEL_START')) {
-    define('LARAVEL_START', microtime(true));
-}
-
-if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
-    require $maintenance;
-}
