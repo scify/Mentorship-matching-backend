@@ -1,5 +1,6 @@
 {
   "name": "mentorship-matching-backend",
+  "version": "2.0.0",
   "private": true,
   "engines": {
     "node": "^22.23.4 || ^24.22.1 || ^26.12.1",

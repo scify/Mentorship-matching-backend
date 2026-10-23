@@ -177,6 +177,19 @@
   color: $text-color;
 }
 
+.menu-layer .app-version {
+  // Darker than $form-placeholder-color (#999), which is too faint for small text on white.
+  color: $input-color-placeholder;
+  font-size: 12px;
+  margin-top: 20px;
+  // The same left padding as the menu links of the theme (admin1.css).
+  padding: 0 35px;
+
+  @media (max-width: 767px) {
+    padding: 0 20px;
+  }
+}
+
 .menu-layer li.has-child:before {
   color: $text-color;
 }

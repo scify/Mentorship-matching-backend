@@ -21,6 +21,7 @@
                       style="display: none;">{{ csrf_field() }} </form>
             </li>
         </ul>
+        <p class="app-version">version {{ config('app.version') }}</p>
     </div>
     @include('common.sidebar-search')
     @include('common.sidebar-user-notifications')
