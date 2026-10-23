@@ -108,6 +108,10 @@ them in a **mentorship session** (`MentorshipSession`), account managers follow 
   only) go through `DataToCsvExportManager`. Translations `en` and `gr` in
   `lang/`; `app/ViewComposers/MenteeAndMentorMenuComposer.php` feeds the menus. Sentry reports backend
   (`SENTRY_LARAVEL_DSN`) and browser (`VITE_SENTRY_DSN_PUBLIC`) errors.
+- The public forms are embedded: <https://job-pairs.gr/mentor/> and <https://job-pairs.gr/mentee/> frame
+  `https://backoffice.job-pairs.gr/{mentor,mentee}/create?public=1&lang=gr`. Keep these pages free of
+  `X-Frame-Options` and `frame-ancestors`, and keep the session cookie `SameSite=Lax` (the two hosts are the same
+  site), or the embedded form loses its CSRF session.
 - The servers set the visitor address in nginx (Cloudflare `real_ip`); the app trusts no proxy.
 
 ## Frontend
