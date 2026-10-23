@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Lang;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -8,6 +9,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * links must render in that language.
  */
 class EmailLinkLocaleTest extends TestCase {
+    use RefreshDatabase;
+
     public static function emailLinkPages(): array {
         return [
             'decline confirmation' => ['/decline-session-confirmation/0/mentee/0/nobody@example.test', 'messages.decline_session_invitation_second_title'],
@@ -28,5 +31,26 @@ class EmailLinkLocaleTest extends TestCase {
         $this->get($path)
             ->assertOk()
             ->assertSee(Lang::get($key, [], 'en'), false);
+    }
+
+    public static function forgedLanguages(): array {
+        return [
+            'array' => ['lang[]=gr'],
+            'path' => ['lang=../gr'],
+            'unknown' => ['lang=fr'],
+        ];
+    }
+
+    /**
+     * A forged lang value falls back to English instead of failing.
+     */
+    #[DataProvider('forgedLanguages')]
+    public function test_a_forged_language_falls_back_to_english(string $query) {
+        $this->get('/decline-session-confirmation/0/mentee/0/nobody@example.test?' . $query)
+            ->assertOk()
+            ->assertSee(Lang::get('messages.decline_session_invitation_second_title', [], 'en'), false);
+        $this->get('/mentor/create?' . $query)->assertOk();
+        $this->get('/mentee/create?' . $query)->assertOk();
+        $this->get('/rateMentee/0/0/0?' . $query)->assertOk();
     }
 }

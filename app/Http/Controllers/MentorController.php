@@ -172,11 +172,8 @@ class MentorController extends Controller {
      */
     public function showCreateForm(Request $request) {
         $input = $request->all();
-        $language = 'en';
-        if (isset($input['lang'])) {
-            $language = $request['lang'];
-            App::setLocale($language);
-        }
+        $language = $this->localeFromRequest($request);
+        App::setLocale($language);
 
         $pageTitle = 'Mentors';
         $pageSubTitle = 'create new';
@@ -283,10 +280,7 @@ class MentorController extends Controller {
     public function create(Request $request) {
         $input = $request->all();
 
-        if (isset($input['lang'])) {
-            $language = $request['lang'];
-            App::setLocale($language);
-        }
+        App::setLocale($this->localeFromRequest($request));
         $publicForm = $input['public_form'];
         if ($publicForm == 'true') {
             $this->validate($request, [
@@ -385,10 +379,7 @@ class MentorController extends Controller {
      */
     public function edit(Request $request, $id) {
         $input = $request->all();
-        if (isset($input['lang'])) {
-            $language = $request['lang'];
-            App::setLocale($language);
-        }
+        App::setLocale($this->localeFromRequest($request));
 
         $this->validate($request, [
             'first_name' => 'required|max:255',
@@ -467,7 +458,7 @@ class MentorController extends Controller {
      * @return \Illuminate\View\View
      */
     public function makeMentorAvailableAgain($id, $email, Request $request) {
-        $lang = $request->has('lang') ? $request->get('lang') : 'en';
+        $lang = $this->localeFromRequest($request);
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.availability_change_title');
         try {
