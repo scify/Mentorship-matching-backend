@@ -224,8 +224,6 @@ ddev exec php artisan optimize:clear
 so it needs a reachable mail server. In DDEV, `MAIL_HOST` must be `127.0.0.1` and `MAIL_PORT` `1025`
 (Mailpit); `ddev restart` writes these values into `.env`.
 
-**Role changes do not take effect** — role checks are cached without invalidation. Run `ddev exec php artisan cache:clear`.
-
 **Before deploying**, confirm `APP_DEBUG=false` in the production `.env`. `.env.example` ships `true`, which
 would expose stack traces and configuration to visitors.
 
