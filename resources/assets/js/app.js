@@ -1,4 +1,5 @@
 import './jquery-global';
+import $ from 'jquery';
 import 'jquery-validation/dist/jquery.validate.min.js';
 import 'jquery-ui-dist/jquery-ui.min.js';
 import 'icheck/icheck.js';  // the .min build assigns an undeclared variable, which throws in strict-mode ESM

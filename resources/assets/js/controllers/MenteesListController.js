@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
 
 window.MenteesListController = function () {
@@ -86,7 +88,7 @@ window.MenteesListController.prototype = function () {
                     // remove all properties except of the one containing the current route's name,
                     // needed to display correct buttons next to the card and
                     // the one used to display only available mentees
-                    if(menteesCriteria.hasOwnProperty(prop) && prop !== "currentRouteName" && prop !== "displayOnlyAvailable") {
+                    if(Object.hasOwn(menteesCriteria, prop) && prop !== "currentRouteName" && prop !== "displayOnlyAvailable") {
                         delete menteesCriteria[prop];
                     }
                 }

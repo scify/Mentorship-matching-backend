@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
 import toastr from 'toastr';
 
@@ -292,11 +294,11 @@ window.MentorshipSessionsListController.prototype = function() {
             // (NOTE: it means that the id is smaller than the id of started status which is 4)
             // omit statuses after started and up to completed_followup
             if(parseInt(sessionStatusId) < 4) {
-                for(var i = 6; i <= 11; i++) {
+                for(let i = 6; i <= 11; i++) {
                     $select.find("option[value=" + i + "]").css("display", "none");
                 }
             } else { // else, omit statuses between pending and mentor_available
-                for(var i = 1; i <= 4; i++) {
+                for(let i = 1; i <= 4; i++) {
                     $select.find("option[value=" + i + "]").css("display", "none");
                 }
             }
@@ -376,7 +378,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 }
                 dateRange = $('input[name=sessionCompletedDatesRange]').val();
                 if (dateRange !== "" && dateRange !== undefined) {
-                    var dates = dateRange.split(" - ");
+                    dates = dateRange.split(" - ");
                     if(typeof dates === 'object' && dates.length === 2) {
                         mentorshipSessionsCriteria.completedDateRange = dateRange;
                     } else {
@@ -401,7 +403,7 @@ window.MentorshipSessionsListController.prototype = function() {
                 $('select[name=matcherId]').val(0).trigger("chosen:updated");
                 // clear mentorshipSessionsCriteria object from all of its properties
                 for(var prop in mentorshipSessionsCriteria) {
-                    if(mentorshipSessionsCriteria.hasOwnProperty(prop)) {
+                    if(Object.hasOwn(mentorshipSessionsCriteria, prop)) {
                         delete mentorshipSessionsCriteria[prop];
                     }
                 }

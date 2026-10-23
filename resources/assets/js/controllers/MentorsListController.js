@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
 
 window.MentorsListController = function () {
@@ -85,7 +87,7 @@ window.MentorsListController.prototype = function () {
                 for(var prop in mentorsCriteria) {
                     // remove all properties except of the one containing the current route's name,
                     // needed to display correct buttons next to the card
-                    if(mentorsCriteria.hasOwnProperty(prop) && prop !== "currentRouteName" &&
+                    if(Object.hasOwn(mentorsCriteria, prop) && prop !== "currentRouteName" &&
                         !(prop === "availabilityId" && !shouldRemoveAvailabilityProp)) {
                         delete mentorsCriteria[prop];
                     }

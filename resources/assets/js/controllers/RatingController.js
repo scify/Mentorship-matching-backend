@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import toastr from 'toastr';
 
 window.RatingController = function() {

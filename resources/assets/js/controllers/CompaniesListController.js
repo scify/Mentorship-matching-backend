@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
 
 window.CompaniesListController = function () {
@@ -88,7 +90,7 @@ window.CompaniesListController.prototype = function () {
                 $('select[name=company_id]').val(0).trigger("chosen:updated");
                 // clear companiesCriteria object from all of its properties
                 for(var prop in companiesCriteria) {
-                    if(companiesCriteria.hasOwnProperty(prop)) {
+                    if(Object.hasOwn(companiesCriteria, prop)) {
                         delete companiesCriteria[prop];
                     }
                 }

@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import { Pleasure } from "../../pleasure-admin-panel/js/pleasure";
 
 window.UsersListController = function () {
@@ -13,14 +15,14 @@ window.UsersListController.prototype = function () {
             });
         },
         searchBtnHandler = function () {
-            $("#searchBtn").on("click", function (e) {
+            $("#searchBtn").on("click", function () {
                 var roleId = $('select[name=user_role]').val();
                 var userName = $('input[name=userName]').val();
                 getUsersByFilter(roleId, userName);
             });
         },
         clearSearchBtnHandler = function () {
-            $("#clearSearchBtn").on("click", function (e) {
+            $("#clearSearchBtn").on("click", function () {
                 getUsersByFilter(null, null);
                 $('select[name=user_role]').val(0);
                 $('select[name=user_role]').trigger("chosen:updated");

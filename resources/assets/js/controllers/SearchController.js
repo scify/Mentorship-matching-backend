@@ -1,10 +1,12 @@
+import $ from 'jquery';
+
 window.SearchController = function () {
 };
 
 window.SearchController.prototype = function () {
     var $ajaxCall,
         searchBtnHandler = function () {
-            $(".nav-search .search").on("click", function (e) {
+            $(".nav-search .search").on("click", function () {
                 getSearchResults(null);
             });
         },

@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 window.UserFormController = function () {
     this.ACCOUNT_MANAGER_USER_ROLE_ID = 3;
 };
@@ -17,7 +19,7 @@ window.UserFormController.prototype = function () {
         });
     },
     userIconClickHandler = function() {
-        $('.userIconRadio').on('ifChanged', function(event){
+        $('.userIconRadio').on('ifChanged', function(){
             $(".userIconLabel").addClass("greyscale");
             $(this).parent().next().removeClass("greyscale");
         });
