@@ -19,19 +19,14 @@ window.UserProfileController.prototype = function () {
                     return;
                 }
                 if(userId != undefined && newCapacity != undefined)
-                    editAccountManagerCapacity(newCapacity, userId);
+                    editAccountManagerCapacity(newCapacity);
             });
         },
-        editAccountManagerCapacity = function(newCapacity, userId) {
-            var data = {
-                'user_id': userId,
-                'capacity': newCapacity
-            };
+        editAccountManagerCapacity = function(newCapacity) {
             $.ajax({
-                method: "GET",
+                method: "POST",
                 url: "editUserCapacity",
-                cache: false,
-                data: data,
+                data: {'capacity': newCapacity},
                 beforeSend: function () {
                     $(".loader").removeClass('hidden');
                 },

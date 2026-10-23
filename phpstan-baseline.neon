@@ -1813,18 +1813,6 @@ parameters:
 			path: app/BusinessLogicLayer/managers/UserManager.php
 
 		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUserCapacity\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:editUserCapacity\(\) has parameter \$input with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/BusinessLogicLayer/managers/UserManager.php
-
-		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:filterUsersByName\(\) has parameter \$name with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1

@@ -55,7 +55,6 @@ Route::group(['middleware' => ['auth', 'staff']], function () {
 
     Route::get('user/{id}/profile', 'UserController@showProfile')->name('showUserProfile');
 
-    Route::get('user/{id}/editUserCapacity', ['as' => 'editUserCapacity', 'uses' => 'UserController@editUserCapacity']);
 
     Route::get('session/fetchHistory', 'MentorshipSessionController@getHistoryForMentorshipSession')->name('fetchSessionHistory');
     Route::get('sessions/byCriteria', 'MentorshipSessionController@showMentorshipSessionsByCriteria')->name('filterMentorshipSessions');
@@ -64,6 +63,7 @@ Route::group(['middleware' => ['auth', 'staff']], function () {
 });
 
 Route::group(['middleware' => ['auth', 'staff', 'can-edit-user-profile']], function () {
+    Route::post('user/{id}/editUserCapacity', 'UserController@editUserCapacity')->name('editUserCapacity');
     Route::get('user/{id}/edit', 'UserController@showEditForm')->name('showEditUserForm');
     Route::post('user/{id}/edit', 'UserController@edit')->name('editUser');
 });

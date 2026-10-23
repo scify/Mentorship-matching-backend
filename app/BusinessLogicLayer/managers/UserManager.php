@@ -263,9 +263,7 @@ class UserManager {
         return $users;
     }
 
-    public function editUserCapacity(array $input) {
-        $userId = $input['user_id'];
-        $capacity = $input['capacity'];
+    public function editUserCapacity(int $userId, int $capacity): void {
         $user = $this->getUser($userId);
 
         if (!$user->isAccountManager()) {
