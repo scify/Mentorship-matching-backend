@@ -370,9 +370,10 @@ server. Use it together with the numbered steps above.
 ```bash
 git log -1 --format='%h %ad %s' --date=short   # 1.0.0 is a09a086 (2026-08-11) or older
 php -v                                        # 1.0.0 runs on PHP 7.3 or newer, Laravel 8
-crontab -l; sudo crontab -l -u www-data       # the schedule:run line of 1.0.0
-grep -E '^(QUEUE_CONNECTION|MIX_SENTRY_DSN_PUBLIC|APP_LOG_LEVEL|APP_URL|APP_DEBUG)=' .env
-ls storage/app/public/uploads/cv_files | wc -l   # the number of uploaded CVs (plus .gitignore)
+crontab -l; sudo crontab -l; sudo crontab -l -u www-data; grep -r schedule:run /etc/cron.d   # cron lines
+grep -E '^(QUEUE_CONNECTION|MIX_SENTRY_DSN_PUBLIC|APP_LOG_LEVEL|LOG_CHANNEL|APP_URL|APP_DEBUG)=' .env
+ls storage/app/public/uploads/cv_files | wc -l   # the number of uploaded CVs
+ls -l public/storage                             # a link here makes the CVs public
 ```
 
 **PHP 8.4.** Install `php8.4-fpm` and `php8.4-cli` with the extensions of the old version, and check `pcntl` in the
@@ -380,9 +381,11 @@ CLI (`php8.4 -m | grep pcntl`). Copy the upload limits into the 8.4 `php.ini` fi
 the 8.4 socket, and make `php` on the command line PHP 8.4, because Composer and Supervisor call it.
 
 **Uploaded files.** The CVs are the only files that people upload to the app.
-- 1.0.0 stores them in `storage/app/public/uploads/cv_files/`. The `public/storage` link makes that folder public:
-  anyone who knows a file name can download the CV without logging in.
-- 2.0.0 stores them in `storage/app/private/cv_files/` and serves them only to logged-in staff.
+- 1.0.0 stores them in `storage/app/public/uploads/cv_files/` and serves them to staff through the app. If
+  `public/storage` exists (someone ran `php artisan storage:link`), that folder is also public: anyone who knows a
+  file name can download a CV without logging in.
+- 2.0.0 stores them in `storage/app/private/cv_files/` and serves them only to logged-in staff. New uploads get
+  random names; moved CVs keep their 1.0.0 names.
 - Before the update, back up `storage/app/` together with the database. It holds the CVs.
 - After the update, run `php artisan cv:move-to-private`. It moves every CV to the new folder with the same file
   name, so the database needs no change, and it prints the number of moved files. Compare that number with the
@@ -404,20 +407,41 @@ the Supervisor programs run, or the daily mails go out twice.
 
 **Old build output.** 1.0.0 builds with Laravel Mix into `public/js`, `public/css`, `public/fonts` and
 `public/mix-manifest.json`. Git does not track these, so they stay after the checkout; 2.0.0 builds into
-`public/build` and does not use them. After the update, delete them:
+`public/build` and does not use them.
+- `public/js/iframe.js` is the exception to check first. It is the iframe-resizer script for a site that embeds the
+  public registration forms, and 2.0.0 does not build it. If the access log shows requests for it
+  (`sudo grep -c 'GET /js/iframe.js' /var/log/nginx/*access.log*`), keep that one file.
+- Delete the rest after the update:
 
-```bash
-git ls-files public/js public/css public/fonts public/mix-manifest.json   # must print nothing
-rm -rf public/js public/css public/fonts public/mix-manifest.json
-```
+  ```bash
+  git ls-files public/js public/css public/fonts public/mix-manifest.json   # must print nothing
+  rm -rf public/css public/fonts public/mix-manifest.json
+  find public/js -type f ! -name iframe.js -delete   # or rm -rf public/js when nothing loads iframe.js
+  ```
 
-**Logs.** Unchanged: one file per day, `storage/logs/laravel-YYYY-MM-DD.log`.
+**Logs.** Unchanged, unless `.env` sets `LOG_CHANNEL`: one file per day, `storage/logs/laravel-YYYY-MM-DD.log`.
+2.0.0 adds `storage/logs/worker.log` and `storage/logs/scheduler.log` (Supervisor).
 
 **Rollback.** 2.0.0 adds no migration and does not change the schema, so the 1.0.0 code works with the updated
-database. To go back: check out the 1.0.0 commit, switch nginx and the CLI back to the old PHP version, build its
-assets as before (`npm ci && npm run prod`), restore the cron line and stop the Supervisor programs. If `cv:move-to-private` has run, move the
-files back first (`mv storage/app/private/cv_files/* storage/app/public/uploads/cv_files/`) and run
-`php artisan storage:link`: 1.0.0 reads only the old folder.
+database. To go back:
+
+1. `php artisan down`, and wait until the worker has emptied the `jobs` table (`SELECT COUNT(*) FROM jobs;`):
+   jobs that 2.0.0 queued may fail on 1.0.0.
+2. `php artisan optimize:clear`, while the 2.0.0 code is still in place.
+3. Stop the Supervisor programs (`sudo supervisorctl stop jobpairs-worker jobpairs-scheduler`).
+4. `git checkout a09a086` (or the commit that ran before).
+5. If `cv:move-to-private` has run, move the CVs back; 1.0.0 reads only the old folder. It does not need
+   `public/storage`, so do not run `storage:link`.
+
+   ```bash
+   mv storage/app/private/cv_files/* storage/app/public/uploads/cv_files/   # skip when the folder has no CV
+   ```
+
+6. Switch nginx and the CLI back to the old PHP version.
+7. `composer install --no-dev --optimize-autoloader`, then build the assets as before
+   (`npm ci && npm run prod`).
+8. Restore the cron line and the old `.env` values.
+9. `php artisan up`.
 
 ## Troubleshooting
 

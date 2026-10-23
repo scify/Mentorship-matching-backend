@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `AGENTS.md` with the guidance for AI coding agents; `CLAUDE.md` imports it.
 - DEPLOYMENT.md: the production notes for the move from 1.0.0 to 2.0.0 (the CVs, the old build output, cron,
   `.env`, rollback).
+- `e2e/README.md`: turn the debug bar off for the browser tests; with it on, the empty sessions export fails.
 
 ### Removed
 
