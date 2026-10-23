@@ -25,10 +25,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\App;
-
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class MentorController extends Controller {
@@ -443,6 +444,11 @@ class MentorController extends Controller {
      * @return RedirectResponse|Redirector|string
      */
     public function changeMentorAvailabilityStatus(Request $request) {
+        $this->validate($request, [
+            'mentor_id' => ['required', 'integer', Rule::exists('mentor_profile', 'id')->whereNull('deleted_at')],
+            'status_id' => 'required|integer|exists:mentor_status_lookup,id',
+            'follow_up_date' => 'nullable|date_format:d/m/Y',
+        ]);
         $input = $request->all();
 
         try {

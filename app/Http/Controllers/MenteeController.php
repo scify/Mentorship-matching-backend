@@ -23,6 +23,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -422,6 +423,11 @@ class MenteeController extends Controller {
      * @return RedirectResponse|Redirector|string
      */
     public function changeMenteeAvailabilityStatus(Request $request) {
+        $this->validate($request, [
+            'mentee_id' => ['required', 'integer', Rule::exists('mentee_profile', 'id')->whereNull('deleted_at')],
+            'status_id' => 'required|integer|exists:mentee_status_lookup,id',
+            'follow_up_date' => 'nullable|date_format:d/m/Y',
+        ]);
         $input = $request->all();
 
         try {

@@ -93,6 +93,7 @@ class CompanyController extends Controller {
         $this->validate($request, [
             'name' => 'required',
             'website' => 'nullable|url:http,https',
+            'account_manager_id' => ['nullable', ...$this->activeAccountManagerRules()],
         ]);
 
         $input = $request->all();
@@ -121,6 +122,7 @@ class CompanyController extends Controller {
         $this->validate($request, [
             'name' => 'required',
             'website' => 'nullable|url:http,https',
+            'account_manager_id' => ['nullable', ...$this->activeAccountManagerRules()],
         ]);
 
         $input = $request->all();
