@@ -871,6 +871,24 @@ parameters:
 			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
 
 		-
+			message: '#^Cannot call method notify\(\) on App\\Models\\eloquent\\MenteeProfile\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Cannot call method notify\(\) on App\\Models\\eloquent\\MentorProfile\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
+			message: '#^Cannot call method notify\(\) on App\\Models\\eloquent\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:acceptMentorshipSession\(\) has parameter \$email with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -1351,6 +1369,12 @@ parameters:
 			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
 
 		-
+			message: '#^Parameter \#2 \$accountManager of class App\\Notifications\\AccountManagerSessionInvitation constructor expects App\\Models\\eloquent\\User, App\\Models\\eloquent\\User\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
+
+		-
 			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:\$mentorshipSessionHistoryManager has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -1615,6 +1639,12 @@ parameters:
 			path: app/BusinessLogicLayer/managers/UniversityManager.php
 
 		-
+			message: '#^Cannot call method parameters\(\) on Illuminate\\Routing\\Route\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserAccessManager.php
+
+		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\UserAccessManager\:\:checkCacheOrDBForRoleAndStore\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1691,6 +1721,12 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: app/BusinessLogicLayer/managers/UserIconManager.php
+
+		-
+			message: '#^Cannot call method isAdmin\(\) on App\\Models\\eloquent\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/BusinessLogicLayer/managers/UserManager.php
 
 		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\UserManager\:\:accountManagerDetails\(\) has no return type specified\.$#'
@@ -2161,6 +2197,12 @@ parameters:
 			path: app/Http/Controllers/HomeController.php
 
 		-
+			message: '#^Method App\\Http\\Controllers\\MenteeController\:\:changeMenteeAvailabilityStatus\(\) should return Illuminate\\Http\\RedirectResponse\|Illuminate\\Routing\\Redirector\|string but returns string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MenteeController.php
+
+		-
 			message: '#^Method App\\Http\\Controllers\\MenteeController\:\:downloadCv\(\) has parameter \$id with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -2231,6 +2273,12 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: app/Http/Controllers/MenteeController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\MentorController\:\:changeMentorAvailabilityStatus\(\) should return Illuminate\\Http\\RedirectResponse\|Illuminate\\Routing\\Redirector\|string but returns string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/MentorController.php
 
 		-
 			message: '#^Method App\\Http\\Controllers\\MentorController\:\:downloadCv\(\) has parameter \$id with no type specified\.$#'
@@ -2327,6 +2375,12 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: app/Http/Controllers/MentorController.php
+
+		-
+			message: '#^Cannot access property \$id on App\\Models\\eloquent\\User\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Http/Controllers/MentorshipSessionController.php
 
 		-
 			message: '#^Method App\\Http\\Controllers\\MentorshipSessionController\:\:acceptMentorshipSession\(\) has parameter \$email with no type specified\.$#'
@@ -2609,6 +2663,30 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: app/Http/Controllers/SearchController.php
+
+		-
+			message: '#^Cannot access property \$id on App\\Models\\eloquent\\User\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Cannot call method isAccountManager\(\) on App\\Models\\eloquent\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Cannot call method isAdmin\(\) on App\\Models\\eloquent\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Http/Controllers/UserController.php
+
+		-
+			message: '#^Cannot call method isMatcher\(\) on App\\Models\\eloquent\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/UserController.php
 
 		-
 			message: '#^Method App\\Http\\Controllers\\UserController\:\:editUserCapacity\(\) has no return type specified\.$#'
@@ -2903,6 +2981,18 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: app/Models/viewmodels/MentorViewModel.php
+
+		-
+			message: '#^Parameter \#1 \$mentee of method App\\BusinessLogicLayer\\managers\\MenteeManager\:\:getMenteeViewModel\(\) expects App\\Models\\eloquent\\MenteeProfile, App\\Models\\eloquent\\MenteeProfile\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
+
+		-
+			message: '#^Parameter \#1 \$mentor of method App\\BusinessLogicLayer\\managers\\MentorManager\:\:getMentorViewModel\(\) expects App\\Models\\eloquent\\MentorProfile, App\\Models\\eloquent\\MentorProfile\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Models/viewmodels/MentorshipSessionViewModel.php
 
 		-
 			message: '#^Property App\\Models\\viewmodels\\MentorshipSessionViewModel\:\:\$accountManager has no type specified\.$#'
@@ -3625,6 +3715,12 @@ parameters:
 			path: app/StorageLayer/MentorStorage.php
 
 		-
+			message: '#^Cannot call method delete\(\) on App\\Models\\eloquent\\MentorshipSessionHistory\|Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\), App\\Models\\eloquent\\MentorshipSessionHistory\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
+
+		-
 			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:deleteMentorshipSessionHistory\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -3979,6 +4075,12 @@ parameters:
 			path: app/StorageLayer/UniversityStorage.php
 
 		-
+			message: '#^Cannot access property \$id on App\\Models\\eloquent\\UserIcon\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/StorageLayer/UserIconStorage.php
+
+		-
 			message: '#^Method App\\StorageLayer\\UserIconStorage\:\:getIdFromTitle\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -4109,6 +4211,12 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: app/StorageLayer/UserStorage.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getDataForExportation\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Utils/DataToCsvExportManager.php
 
 		-
 			message: '#^Method App\\Utils\\DataToCsvExportManager\:\:__construct\(\) has parameter \$columnsWithPossiblyMultipleValues with no value type specified in iterable type array\.$#'
