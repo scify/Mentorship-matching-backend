@@ -19,7 +19,7 @@ window.FormController.prototype = function () {
                     e.preventDefault();
                     var inputVal = $(this).val();
                     var $specialtiesSelect = $("[name='specialties[][id]']");
-                    $specialtiesSelect.append("<option value='new-specialty-" + inputVal + "'>" + inputVal + "</option>");
+                    $specialtiesSelect.append($("<option>").val("new-specialty-" + inputVal).text(inputVal));
                     var newChosenValue = $specialtiesSelect.val();
                     newChosenValue.push('new-specialty-' + inputVal);
                     $specialtiesSelect.val(newChosenValue);

@@ -121,7 +121,7 @@ window.MenteesListController.prototype = function () {
                     console.log(xhr.responseText);
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
-                    $("#errorMsg").html(errorThrown);
+                    $("#errorMsg").text(errorThrown);
                     $("#menteesBottomLoader").addClass("invisible");
                 }
             });

@@ -54,7 +54,7 @@ window.UserProfileController.prototype = function () {
                 $("#errorMsg").addClass('hidden');
                 $(".loader").addClass('hidden');
                 //update capacity field
-                $("#accountManagerCapacity").html(newCapacity);
+                $("#accountManagerCapacity").text(newCapacity);
                 //show success div
                 $("#successMsg").removeClass("hidden");
                 $("#successMsg").css("display", "block");
@@ -72,7 +72,7 @@ window.UserProfileController.prototype = function () {
             $(".loader").addClass('hidden');
             $("#errorMsg").removeClass('hidden');
             //The message added to Response object in Controller can be retrieved as following.
-            $("#errorMsg").html(errorThrown);
+            $("#errorMsg").text(errorThrown);
             setTimeout(function(){$("#errorMsg").addClass('hidden'); }, 2000);
         },
         init = function () {

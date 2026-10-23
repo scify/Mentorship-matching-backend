@@ -69,7 +69,7 @@ window.UsersListController.prototype = function () {
                     $(".loader").addClass('hidden');
                     $("#errorMsg").removeClass('hidden');
                     //The message added to Response object in Controller can be retrieved as following.
-                    $("#errorMsg").html(errorThrown);
+                    $("#errorMsg").text(errorThrown);
                 }
             });
         },

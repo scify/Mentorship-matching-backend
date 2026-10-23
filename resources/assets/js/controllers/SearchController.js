@@ -41,7 +41,7 @@ window.SearchController.prototype = function () {
                         $(".search-layer .loader").addClass('hidden');
                         $("#search-error-messages").removeClass('hidden');
                         //The message added to Response object in Controller can be retrieved as following.
-                        $("#search-error-messages").html(errorThrown);
+                        $("#search-error-messages").text(errorThrown);
                     }
                 }
             });
