@@ -17,6 +17,7 @@ class UrlFieldsTest extends TestCase {
             'javascript' => ['javascript:alert(1)'],
             'data' => ['data:text/html,<script>alert(1)</script>'],
             'vbscript' => ['vbscript:msgbox(1)'],
+            'ftp' => ['ftp://files.example.test/cv.pdf'],
         ];
     }
 

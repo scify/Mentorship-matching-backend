@@ -95,11 +95,13 @@ class DataToCsvExportManager {
     /**
      * One quoted CSV cell. A value from the public forms that starts like a
      * formula (=, +, -, @, tab, carriage return) gets a leading apostrophe, so
-     * a spreadsheet shows it as text instead of running it.
+     * a spreadsheet shows it as text instead of running it. Numbers such as
+     * +30 210 1234567 cannot run and stay as they are.
      */
     private function cell(mixed $value): string {
         $text = str_replace('"', "'", (string) $value);
-        if ($text !== '' && in_array($text[0], ['=', '+', '-', '@', "\t", "\r"], true)) {
+        $isNumber = preg_match('/^[+-]?[\d\s().-]+$/', $text) === 1;
+        if ($text !== '' && !$isNumber && in_array($text[0], ['=', '+', '-', '@', "\t", "\r"], true)) {
             $text = "'" . $text;
         }
 

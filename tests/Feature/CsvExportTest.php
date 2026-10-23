@@ -21,4 +21,13 @@ class CsvExportTest extends TestCase {
         $this->assertStringContainsString("\"'@SUM(1)\"", $csv);
         $this->assertStringNotContainsString('";"=', $csv);
     }
+
+    public function test_a_phone_number_with_a_plus_stays_as_it_is() {
+        $admin = $this->makeBackofficeUser(1, 'Admin');
+        $this->makeMenteeProfile($admin, ['phone' => '+30 210 1234567', 'cell_phone' => '-']);
+
+        $csv = $this->actingAs($admin)->get('/export/mentees')->assertOk()->getContent();
+
+        $this->assertStringContainsString('"+30 210 1234567"', $csv);
+    }
 }

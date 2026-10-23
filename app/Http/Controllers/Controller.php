@@ -13,11 +13,6 @@ class Controller extends BaseController {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * The locale that the lang parameter asks for, when the app has its
-     * translations (lang/en, lang/gr). Email links and the public forms pass
-     * lang=gr; any other value, including a forged one, falls back to English.
-     */
-    /**
      * Rules for an id that must belong to an active user with the account
      * manager role (role id 3).
      *
@@ -31,6 +26,11 @@ class Controller extends BaseController {
         ];
     }
 
+    /**
+     * The locale that the lang parameter asks for, when the app has its
+     * translations (lang/en, lang/gr). Email links and the public forms pass
+     * lang=gr; any other value, including a forged one, falls back to English.
+     */
     protected function localeFromRequest(Request $request): string {
         $lang = $request->input('lang');
 

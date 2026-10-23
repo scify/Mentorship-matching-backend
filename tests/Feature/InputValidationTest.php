@@ -71,6 +71,23 @@ class InputValidationTest extends TestCase {
         $this->assertFalse(DB::table('users')->where('email', 'new.user@example.test')->exists());
     }
 
+    public function test_valid_requests_still_succeed() {
+        [$matcher, $mentorId, $menteeId] = $this->matchingParties();
+        $accountManager = $this->makeBackofficeUser(3, 'AccMan');
+
+        $this->actingAs($matcher)->post('/session/matchMentorWithMentee', [
+            'mentor_profile_id' => $mentorId, 'mentee_profile_id' => $menteeId, 'account_manager_id' => $accountManager->id,
+            'general_comment' => '',
+        ])->assertSessionHasNoErrors();
+        $this->assertSame(1, DB::table('mentorship_session')->count());
+
+        $otherMentorId = $this->makeMentorProfile($accountManager, $this->makeCompany($accountManager, 'Other'));
+        $this->actingAs($accountManager)->post('/mentor/changeStatus', [
+            'mentor_id' => $otherMentorId, 'status_id' => 3, 'follow_up_date' => '15/06/2027', 'status_history_comment' => 'later',
+        ])->assertSessionHasNoErrors();
+        $this->assertSame(3, (int) DB::table('mentor_profile')->where('id', $otherMentorId)->value('status_id'));
+    }
+
     private function matchingParties(): array {
         $matcher = $this->makeBackofficeUser(2, 'Matcher');
 
