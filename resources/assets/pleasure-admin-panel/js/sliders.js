@@ -57,8 +57,3 @@
 	}
 })(jQuery);
 
-$(document).ready(function () {
-	$('.bxslider').bxSliderAlt({
-		//pager: false
-	});
-});

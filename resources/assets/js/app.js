@@ -12,7 +12,6 @@ import 'toastr';
 import 'scrollmonitor/dist/module/index.js';
 import 'textarea-autosize';
 import 'bootstrap-select/dist/js/bootstrap-select.min.js';
-import 'fastclick/lib/fastclick.js';
 import 'jasny-bootstrap/dist/js/jasny-bootstrap.min.js';
 import 'sweetalert/dist/sweetalert.min.js';
 import dataTables from 'datatables/media/js/jquery.dataTables.min.js';

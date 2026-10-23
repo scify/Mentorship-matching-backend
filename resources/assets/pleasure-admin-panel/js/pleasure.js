@@ -1,9 +1,7 @@
 // The CommonJS module exports FastClick.attach itself, not the FastClick class.
 import attachFastClick from 'fastclick';
 
-import 'bootstrap';
-import 'bootstrap-select';
-import 'velocity-animate';
+// Bootstrap 3, bootstrap-select and Velocity are loaded once, in order, by app.js.
 export const Pleasure = {
 
     // Pleasure Theme Settings
