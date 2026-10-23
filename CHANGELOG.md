@@ -9,6 +9,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `AGENTS.md` with the guidance for AI coding agents; `CLAUDE.md` imports it.
+- DEPLOYMENT.md: the production notes for the move from 1.0.0 to 2.0.0 (the CVs, the old build output, cron,
+  `.env`, rollback).
+
+### Removed
+
+- The unused `app.log` configuration entry (`APP_LOG`).
+
 ## [2.0.0] - 2026-10-23
 
 ### Upgrade notes
