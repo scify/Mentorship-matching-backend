@@ -837,9 +837,21 @@ class MentorshipSessionManager {
         }
     }
 
-    public function inviteMentee($mentorshipSessionId) {
-        $mentorshipSession = $this->getMentorshipSession($mentorshipSessionId);
-        $loggedInUser = Auth::user();
+    /**
+     * "Confirm availability" in the session modal: an admin or the session's
+     * account manager invites the mentee of a pending session.
+     *
+     * @throws Exception when the session does not exist, is not pending, or the user may not invite
+     */
+    public function inviteMentee(int $mentorshipSessionId, User $loggedInUser): void {
+        $mentorshipSession = $this->mentorshipSessionStorage->findMentorshipSessionById($mentorshipSessionId);
+        if ($mentorshipSession === null || (int) $mentorshipSession->status_id !== MentorshipSessionStatuses::$statuses['pending']) {
+            throw new Exception('Only a pending mentorship session can invite the mentee.');
+        }
+        $userAccessManager = new UserAccessManager;
+        if (!$userAccessManager->userIsAdmin($loggedInUser) && (int) $mentorshipSession->account_manager_id !== $loggedInUser->id) {
+            throw new Exception('You can invite the mentee only for the sessions that you manage.');
+        }
         DB::transaction(function () use ($mentorshipSession, $loggedInUser) {
             $this->mentorshipSessionHistoryManager->createMentorshipSessionStatusHistory($mentorshipSession, MentorshipSessionStatuses::$statuses['introduction_sent'], $loggedInUser, 'Mentee invited from account manager');
             $mentorshipSession->status_id = MentorshipSessionStatuses::$statuses['introduction_sent'];

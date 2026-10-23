@@ -36,7 +36,7 @@ class RouteAccessTest extends TestCase {
             'can-create-mentorship-session' => ['can-create-mentorship-session', [self::ADMIN, self::MATCHER], ['GET', 'sessions/myMatches']],
             'can-update-sessions' => ['can-update-sessions', [self::ADMIN, self::MATCHER, self::ACCOUNT_MANAGER], ['GET', 'sessions/all']],
             'account-manager' => ['account-manager', [self::ACCOUNT_MANAGER], ['GET', 'sessions/mySessions']],
-            'can-invite-mentee' => ['can-invite-mentee', [self::ADMIN, self::ACCOUNT_MANAGER], ['GET', 'session/sendInviteToMentee']],
+            'can-invite-mentee' => ['can-invite-mentee', [self::ADMIN, self::ACCOUNT_MANAGER], ['POST', 'session/sendInviteToMentee']],
         ];
     }
 

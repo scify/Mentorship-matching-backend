@@ -1165,18 +1165,6 @@ parameters:
 			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
 
 		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMentee\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMentee\(\) has parameter \$mentorshipSessionId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionManager.php
-
-		-
 			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionManager\:\:inviteMenteeToMentorshipSession\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1

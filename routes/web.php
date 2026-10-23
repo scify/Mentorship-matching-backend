@@ -130,5 +130,5 @@ Route::group(['middleware' => ['auth', 'staff', 'account-manager']], function ()
 });
 
 Route::group(['middleware' => ['auth', 'staff', 'can-invite-mentee']], function () {
-    Route::get('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
+    Route::post('session/sendInviteToMentee', 'MentorshipSessionController@sendInviteToMentee')->name('sendInviteToMentee');
 });
