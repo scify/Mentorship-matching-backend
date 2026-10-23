@@ -853,18 +853,6 @@ parameters:
 			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
 
 		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:deleteMentorshipSessionStatusHistory\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
-
-		-
-			message: '#^Method App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:deleteMentorshipSessionStatusHistory\(\) has parameter \$input with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: app/BusinessLogicLayer/managers/MentorshipSessionHistoryManager.php
-
-		-
 			message: '#^Property App\\BusinessLogicLayer\\managers\\MentorshipSessionHistoryManager\:\:\$mentorshipSessionHistoryStorage has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -3683,24 +3671,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: app/StorageLayer/MentorStorage.php
-
-		-
-			message: '#^Cannot call method delete\(\) on App\\Models\\eloquent\\MentorshipSessionHistory\|Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\), App\\Models\\eloquent\\MentorshipSessionHistory\>\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
-
-		-
-			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:deleteMentorshipSessionHistory\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
-
-		-
-			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:deleteMentorshipSessionHistory\(\) has parameter \$mentorshipSessionHistoryId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: app/StorageLayer/MentorshipSessionHistoryStorage.php
 
 		-
 			message: '#^Method App\\StorageLayer\\MentorshipSessionHistoryStorage\:\:saveMentorshipSessionHistory\(\) has no return type specified\.$#'

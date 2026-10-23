@@ -13,6 +13,7 @@ use App\Models\eloquent\MentorshipSession;
 use App\Models\eloquent\MentorshipSessionHistory;
 use App\Models\eloquent\User;
 use App\StorageLayer\MentorshipSessionHistoryStorage;
+use Exception;
 
 class MentorshipSessionHistoryManager {
     private $mentorshipSessionHistoryStorage;
@@ -30,7 +31,20 @@ class MentorshipSessionHistoryManager {
         $this->mentorshipSessionHistoryStorage->saveMentorshipSessionHistory($mentorshipSessionHistory);
     }
 
-    public function deleteMentorshipSessionStatusHistory(array $input) {
-        $this->mentorshipSessionHistoryStorage->deleteMentorshipSessionHistory($input['sessionHistoryId']);
+    /**
+     * The author of the history row or an admin may delete it, as the
+     * session modal shows the delete button.
+     *
+     * @throws Exception when the row does not exist or the user may not delete it
+     */
+    public function deleteMentorshipSessionStatusHistory(int $historyId, User $user): void {
+        $history = $this->mentorshipSessionHistoryStorage->getMentorshipSessionHistory($historyId);
+        if ($history === null) {
+            throw new Exception('Session history item not found');
+        }
+        if ((int) $history->user_id !== $user->id && !(new UserAccessManager)->userIsAdmin($user)) {
+            throw new Exception('Only the author or an admin may delete a session history item');
+        }
+        $this->mentorshipSessionHistoryStorage->deleteMentorshipSessionHistory($history);
     }
 }

@@ -16,7 +16,11 @@ class MentorshipSessionHistoryStorage {
         return $mentorshipSessionHistory->save();
     }
 
-    public function deleteMentorshipSessionHistory($mentorshipSessionHistoryId) {
-        MentorshipSessionHistory::find($mentorshipSessionHistoryId)->delete();
+    public function getMentorshipSessionHistory(int $mentorshipSessionHistoryId): ?MentorshipSessionHistory {
+        return MentorshipSessionHistory::find($mentorshipSessionHistoryId);
+    }
+
+    public function deleteMentorshipSessionHistory(MentorshipSessionHistory $mentorshipSessionHistory): void {
+        $mentorshipSessionHistory->delete();
     }
 }
