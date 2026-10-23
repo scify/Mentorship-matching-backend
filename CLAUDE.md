@@ -56,7 +56,8 @@ weaken these guards, because `RefreshDatabase` wipes the database it runs on. Ru
 `2017_03_22_152036` drops a primary key column, and the filter SQL is MySQL-only. It covers:
 
 - `tests/Unit/` — no fixtures: the session status id contract and its active/completed/cancelled buckets, and
-  the test-database and config-cache guards (`*GuardTest`, which boot the app and must stay in the suite).
+  the test-database and config-cache guards (`*GuardTest`, which boot the app and must stay in the suite), and
+  `ScheduleTest` (the scheduled commands; no queue worker).
 - `tests/Feature/MentorshipSessionLifecycleTest` — characterization tests for the session state machine:
   creation paths, the accept/decline email-link flows, cancellation side effects on mentor/mentee
   availability, the fourth-meeting → evaluation auto-advance, and which notification goes to whom.
@@ -107,8 +108,13 @@ elements that match these selectors. See README "Known npm advisories".
 - `mentees:notify-unmatched` (`HandleUnmatchedMentees`) — runs daily via the scheduler.
 - `email:follow-up` (`SendFollowUpEmails`) — runs daily via the scheduler.
 - `AnonymizeMentorAndMenteeEmails`, `FixDuplicates` — one-off data-maintenance commands.
-- The scheduler (`app/Console/Kernel.php`) also runs `queue:work --stop-when-empty` every two minutes
-  (queue driver is DB/sync depending on env — there's no persistent queue worker process).
+- `cv:move-to-private` (`MoveCvFilesToPrivate`) — one-off upgrade step: moves CVs from the old public folder to
+  private storage. Safe to rerun.
+- Every class in `app/Notifications` is `ShouldQueue` (only the framework password reset mail is sent at once). On servers Supervisor runs `queue:work` and `schedule:work`
+  (`DEPLOYMENT.md`); the scheduler starts no worker (`tests/Unit/ScheduleTest`). Locally `QUEUE_CONNECTION=sync`.
+
+Deployment, the production `.env` and the upgrade notes per version live in `DEPLOYMENT.md`. A change that needs
+an operator action (an `.env` key, a one-off command, a data check) adds a step to its "Unreleased" upgrade notes.
 
 ## Architecture
 
@@ -150,6 +156,24 @@ middleware in `app/Http/Middleware` (`IsAdmin`, `IsAccountManager`, `CanEditMent
 `CanOnlyChangeStatus`), each delegating its actual check to `UserAccessManager`. `routes/web.php`
 groups routes by which middleware stack they need — check there first to see who can hit an endpoint.
 
+- Every protected group starts with `'auth', 'staff'`. The `staff` group (`app/Http/Kernel.php`) is
+  `EnsureActiveStaff` (active `state_id` 1 and at least one role: `User::isActiveStaff()`) and `SameOriginFrames`
+  (staff pages cannot be framed; the public forms stay embeddable). A new protected group needs both.
+- A denied role check redirects through the `DeniesAccess` trait: the session's previous URL or home, never the
+  `Referer`.
+- Middleware checks the role; the Manager checks ownership and throws. An account manager updates only sessions
+  they manage (`updateMentorshipSessionAsUser`, admins any) and invites mentees only for them (`inviteMentee`);
+  only the author or an admin deletes a session history item; an account manager claims only a company without
+  another account manager. Exception: the own-capacity rule is the `can-edit-user-profile` middleware (admin or
+  own profile), not a Manager check. Policy (Paul): all staff may read all data.
+- Public surface: `throttle:public-forms` on the guest create forms (staff exempt), `throttle:30,1,email-links`
+  on the email-link and rating routes. The rating routes are also `signed:relative`: the mails send
+  `URL::temporarySignedRoute(..., 30 days, absolute: false)` prefixed with `APP_URL`, and the form posts back to
+  the same signed URL. A new public route goes into `RouteAccessTest`'s public list.
+- Uploaded CVs live on private storage (`CvFileStorage`, `storage/app/private/cv_files`) and download through the
+  app only. Stored profile/company links render through `WebUrl::orNull()` (http/https only).
+- `lang` from a request goes through `Controller::localeFromRequest()` (allow-list `en`, `gr`).
+
 ### Mentorship session lifecycle
 
 `MentorshipSessionManager` and `MentorshipSessionStatus`/`app/Utils/MentorshipSessionStatuses.php`
@@ -162,7 +186,8 @@ trigger email notifications (`app/Notifications`) to mentors/mentees/account man
 of which are accepted/declined via signed-less GET links embedded in emails (see the
 `accept-session*`/`decline-session*`/`accept-session-management`/`decline-session-management` routes in
 `routes/web.php`) — these are unauthenticated routes gated only by matching id/email in the URL, not
-Laravel auth or signed URLs.
+Laravel auth or signed URLs. Paul decided to keep them unsigned; they are throttled. The rating links are signed
+(see Authorization model).
 
 ### Key domain entities
 

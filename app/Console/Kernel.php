@@ -26,9 +26,7 @@ class Kernel extends ConsoleKernel {
         $schedule->command('mentees:notify-unmatched')->daily();
         $schedule->command('email:follow-up')->daily();
         // $schedule->command('command:hello')->everyMinute();
-        $schedule->command('queue:work --stop-when-empty')
-            ->everyTwoMinutes()
-            ->withoutOverlapping();
+        // Supervisor runs the queue worker; see DEPLOYMENT.md.
     }
 
     /**

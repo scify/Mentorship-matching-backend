@@ -28,6 +28,7 @@ preferences and skills.
     - [End-to-end browser tests](#end-to-end-browser-tests)
     - [Test accounts](#test-accounts)
   - [Troubleshooting](#troubleshooting)
+  - [Deployment](#deployment)
   - [Contributing](#contributing)
   - [License](#license)
   - [Credits](#credits)
@@ -224,8 +225,11 @@ ddev exec php artisan optimize:clear
 so it needs a reachable mail server. In DDEV, `MAIL_HOST` must be `127.0.0.1` and `MAIL_PORT` `1025`
 (Mailpit); `ddev restart` writes these values into `.env`.
 
-**Before deploying**, confirm `APP_DEBUG=false` in the production `.env`. `.env.example` ships `true`, which
-would expose stack traces and configuration to visitors.
+## Deployment
+
+[DEPLOYMENT.md](DEPLOYMENT.md) describes the server: the production `.env`, nginx, the Supervisor programs for the
+queue worker and the scheduler, the first installation, the update procedure and the upgrade notes of each
+version.
 
 ## Contributing
 
