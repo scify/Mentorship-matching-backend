@@ -19,8 +19,8 @@ Auth::routes(['register' => false]);
 Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
 Route::get('mentee/create', 'MenteeController@showCreateForm')->name('showCreateMenteeForm');
 
-// Public POSTs that create profiles and send mail: 5 per 10 minutes per client.
-Route::middleware('throttle:5,10,public-forms')->group(function () {
+// Public POSTs that create profiles and send mail (limiter in RouteServiceProvider).
+Route::middleware('throttle:public-forms')->group(function () {
     Route::post('mentor/create', 'MentorController@create')->name('createMentor');
     Route::post('mentee/create', 'MenteeController@create')->name('createMentee');
 });

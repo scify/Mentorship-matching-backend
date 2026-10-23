@@ -9,8 +9,8 @@ return [
 
     'breadcrumbs' => [
 
-        // Capture bindings on SQL queries logged in breadcrumbs
-        'sql_bindings' => true,
+        // SQL bindings hold personal data (names, emails); send them only when a server opts in.
+        'sql_bindings' => env('SENTRY_SQL_BINDINGS', false),
 
     ],
 

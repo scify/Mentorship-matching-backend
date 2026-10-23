@@ -176,4 +176,7 @@ return [
 
     'http_only' => true,
 
+    // Pinned here, not left to the framework default, so that tests catch a change.
+    'same_site' => 'lax',
+
 ];

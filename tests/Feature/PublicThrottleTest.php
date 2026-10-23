@@ -17,13 +17,21 @@ class PublicThrottleTest extends TestCase {
         Notification::fake();
     }
 
-    public function test_the_public_forms_accept_five_posts_in_ten_minutes() {
-        for ($i = 0; $i < 5; $i++) {
+    public function test_the_public_forms_accept_ten_posts_in_ten_minutes_from_a_guest() {
+        for ($i = 0; $i < 10; $i++) {
             $this->post('/mentee/create', [])->assertStatus(302);
         }
 
         $this->post('/mentee/create', [])->assertStatus(429);
         $this->post('/mentor/create', [])->assertStatus(429);
+    }
+
+    public function test_staff_data_entry_is_not_throttled() {
+        $this->actingAs($this->makeBackofficeUser(3, 'AccMan'));
+
+        for ($i = 0; $i < 12; $i++) {
+            $this->post('/mentee/create', [])->assertStatus(302);
+        }
     }
 
     public function test_the_email_links_accept_thirty_requests_a_minute() {
@@ -39,6 +47,14 @@ class PublicThrottleTest extends TestCase {
         $user = $this->makeBackofficeUser(1, 'Admin');
 
         $this->post('/password/email', ['email' => $user->email])->assertSessionHasNoErrors();
-        $this->post('/password/email', ['email' => $user->email])->assertSessionHasErrors('email');
+        $this->post('/password/email', ['email' => $user->email])->assertSessionHasErrors(['email' => trans('passwords.throttled')]);
+    }
+
+    public function test_one_client_sends_at_most_five_reset_requests_in_ten_minutes() {
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/password/email', ['email' => "someone{$i}@example.test"])->assertStatus(302);
+        }
+
+        $this->post('/password/email', ['email' => 'someone9@example.test'])->assertStatus(429);
     }
 }

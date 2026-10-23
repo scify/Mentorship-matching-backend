@@ -6,7 +6,6 @@ const shot = makeShotter('03-routes');
 /** Every GET route that renders a page, with the role that may reach it. */
 const PUBLIC_ROUTES = [
   '/login',
-  '/register',
   '/password/reset',
   '/mentor/create?public=1',
   '/mentee/create?public=1',
