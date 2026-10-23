@@ -11,20 +11,20 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\Company;
 use App\Models\eloquent\MentorProfile;
+
 use App\Models\eloquent\User;
 use App\Models\viewmodels\MentorViewModel;
 use App\Notifications\MentorRegistered;
+use App\StorageLayer\CvFileStorage;
 use App\StorageLayer\MentorStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MentorManager {
@@ -86,30 +86,13 @@ class MentorManager {
     }
 
     /**
-     * Store a cv file with hashed file name
-     *
-     * @param  UploadedFile  $cvFile
-     * @param  $mentorEmail
-     * @return string
-     */
-    private function saveCVFile(UploadedFile $cvFile, $mentorEmail) {
-        $fileName = md5($mentorEmail . Carbon::now());
-        $originalFileExtension = $cvFile->extension();
-        $fullFileName = $fileName . '.' . $originalFileExtension;
-        $cvFile->move(storage_path('app/public/uploads/cv_files'), $fullFileName);
-
-        return $fullFileName;
-    }
-
-    /**
-     * Download a mentor's cv file, streamed directly from the public disk.
+     * Download a mentor's cv file (see CvFileStorage).
      *
      * @param  $fileName
      * @return StreamedResponse
      */
-    public function downloadCvFile($fileName) {
-        return Storage::disk('public')
-            ->download('uploads/cv_files/' . $fileName);
+    public function downloadCvFile(?string $fileName): StreamedResponse {
+        return (new CvFileStorage)->download($fileName);
     }
 
     /**
@@ -134,7 +117,7 @@ class MentorManager {
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+            $fileName = (new CvFileStorage)->save($inputFields['cv_file']);
             $inputFields['cv_file_name'] = $fileName;
         }
         $inputFields['company_id'] = $this->getCompanyIdAndCreateCompanyIfNeeded($inputFields['company_id']);
@@ -183,7 +166,7 @@ class MentorManager {
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+            $fileName = (new CvFileStorage)->save($inputFields['cv_file']);
             $inputFields['cv_file_name'] = $fileName;
         }
         $mentor = $this->getMentor($id);
