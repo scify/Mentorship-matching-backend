@@ -75,9 +75,9 @@ class DataToCsvExportManager {
                     if (!in_array($rowForExportation->$key, $this->$key)) {
                         array_push($this->$key, $rowForExportation->$key);
                     }
-                    $tempExportData .= '"' . str_replace('"', "'", implode(',', $this->$key)) . '";';
+                    $tempExportData .= $this->cell(implode(',', $this->$key));
                 } else {
-                    $tempExportData .= '"' . str_replace('"', "'", $rowForExportation->$key) . '";';
+                    $tempExportData .= $this->cell($rowForExportation->$key);
                 }
             }
             // if it is the last row or the next row's id is different from current row's id concatenate
@@ -90,6 +90,20 @@ class DataToCsvExportManager {
         }
 
         return $exportData;
+    }
+
+    /**
+     * One quoted CSV cell. A value from the public forms that starts like a
+     * formula (=, +, -, @, tab, carriage return) gets a leading apostrophe, so
+     * a spreadsheet shows it as text instead of running it.
+     */
+    private function cell(mixed $value): string {
+        $text = str_replace('"', "'", (string) $value);
+        if ($text !== '' && in_array($text[0], ['=', '+', '-', '@', "\t", "\r"], true)) {
+            $text = "'" . $text;
+        }
+
+        return '"' . $text . '";';
     }
 
     private function hasColumnPossibilityOfMultipleValues($columnName) {
