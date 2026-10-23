@@ -56,7 +56,8 @@ weaken these guards, because `RefreshDatabase` wipes the database it runs on. Ru
 `2017_03_22_152036` drops a primary key column, and the filter SQL is MySQL-only. It covers:
 
 - `tests/Unit/` — no fixtures: the session status id contract and its active/completed/cancelled buckets, and
-  the test-database and config-cache guards (`*GuardTest`, which boot the app and must stay in the suite).
+  the test-database and config-cache guards (`*GuardTest`, which boot the app and must stay in the suite), and
+  `ScheduleTest` (the scheduled commands; no queue worker).
 - `tests/Feature/MentorshipSessionLifecycleTest` — characterization tests for the session state machine:
   creation paths, the accept/decline email-link flows, cancellation side effects on mentor/mentee
   availability, the fourth-meeting → evaluation auto-advance, and which notification goes to whom.
@@ -109,7 +110,7 @@ elements that match these selectors. See README "Known npm advisories".
 - `AnonymizeMentorAndMenteeEmails`, `FixDuplicates` — one-off data-maintenance commands.
 - `cv:move-to-private` (`MoveCvFilesToPrivate`) — one-off upgrade step: moves CVs from the old public folder to
   private storage. Safe to rerun.
-- Most notifications are `ShouldQueue`. On servers Supervisor runs `queue:work` and `schedule:work`
+- Every class in `app/Notifications` is `ShouldQueue` (only the framework password reset mail is sent at once). On servers Supervisor runs `queue:work` and `schedule:work`
   (`DEPLOYMENT.md`); the scheduler starts no worker (`tests/Unit/ScheduleTest`). Locally `QUEUE_CONNECTION=sync`.
 
 Deployment, the production `.env` and the upgrade notes per version live in `DEPLOYMENT.md`. A change that needs
@@ -162,8 +163,9 @@ groups routes by which middleware stack they need — check there first to see w
   `Referer`.
 - Middleware checks the role; the Manager checks ownership and throws. An account manager updates only sessions
   they manage (`updateMentorshipSessionAsUser`, admins any) and invites mentees only for them (`inviteMentee`);
-  only the author or an admin deletes a session history item; an account manager edits only their own capacity
-  and claims only a company without another account manager. Policy (Paul): all staff may read all data.
+  only the author or an admin deletes a session history item; an account manager claims only a company without
+  another account manager. Exception: the own-capacity rule is the `can-edit-user-profile` middleware (admin or
+  own profile), not a Manager check. Policy (Paul): all staff may read all data.
 - Public surface: `throttle:public-forms` on the guest create forms (staff exempt), `throttle:30,1,email-links`
   on the email-link and rating routes. The rating routes are also `signed:relative`: the mails send
   `URL::temporarySignedRoute(..., 30 days, absolute: false)` prefixed with `APP_URL`, and the form posts back to
