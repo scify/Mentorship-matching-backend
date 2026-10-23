@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Vite;
 
 /**
- * CI runs PHPUnit without `npm run build`, so views must render without
- * public/build/manifest.json.
+ * PHPUnit must not depend on a frontend build: views render without
+ * public/build/manifest.json, also on a fresh checkout.
  */
 class WithoutViteTest extends TestCase {
     public function test_a_page_renders_without_a_build_manifest() {

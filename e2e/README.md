@@ -42,6 +42,11 @@ npm test
 `npm run seed` is idempotent — re-running it updates the fixture users rather
 than duplicating them.
 
+Turn the Laravel debug bar off for the run (`DEBUGBAR_ENABLED=false` in `.env`,
+then `ddev artisan config:clear`). The debug bar adds its HTML to the plain
+`NO_DATA_FOUND` answer of an empty CSV export, so `05-exports` fails when the
+database has no sessions.
+
 ### Notes
 
 - The suite talks to `https://mentorship-matching-backend.ddev.site`. Override with
