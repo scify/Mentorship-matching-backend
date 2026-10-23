@@ -19,12 +19,9 @@
                             {{ $sessionViewModel->menteeViewModel->mentee->first_name . " " . $sessionViewModel->menteeViewModel->mentee->last_name }}
                         @endif<br>@lang($p.'.completed_session_rating') {{ $ratedRole }}@if(Lang::getLocale() === 'gr') @lang($p.'.yours').@else.@endif</p>
                     <form id="ratingForm" class="jobPairsForm noInputStyles" method="POST"
-                          action="{{ $ratedRole === 'mentor' ? route('rateMentor', $lang === 'gr' ? ['lang' => $lang] : []) : ($ratedRole === 'mentee' ? route('rateMentee', $lang === 'gr' ? ['lang' => $lang] : []) : '') }}"
+                          action="{{ $formAction }}"
                           enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="session_id" value="{{ $sessionId }}">
-                        <input type="hidden" name="mentor_id" value="{{ $mentorId }}">
-                        <input type="hidden" name="mentee_id" value="{{ $menteeId }}">
                         <input type="hidden" name="rating">
                         <div id="rating-container" class="col-md-12 text-center">
                             <div class="@if ($errors->has('rating')) has-error @endif">

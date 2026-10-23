@@ -33,10 +33,13 @@ Route::middleware('throttle:30,1,email-links')->group(function () {
     Route::get('decline-session-confirmation/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSessionConfirmation')->name('declineMentorshipSessionConfirmation');
     Route::get('accept-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@acceptMentorshipSession')->name('acceptMentorshipSession');
     Route::get('decline-session/{mentorshipSessionId}/{role}/{id}/{email}', 'MentorshipSessionController@declineMentorshipSession')->name('declineMentorshipSession');
-    Route::get('rateMentee/{sessionId}/{mentorId}/{menteeId}', 'RatingController@showMenteeRatingForm')->name('showMenteeRatingForm');
-    Route::post('rateMentee', 'RatingController@rateMentee')->name('rateMentee');
-    Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@showMentorRatingForm')->name('showMentorRatingForm');
-    Route::post('rateMentor', 'RatingController@rateMentor')->name('rateMentor');
+    // Signed links from the rating mails; the form posts back to the same signed URL.
+    Route::middleware('signed')->group(function () {
+        Route::get('rateMentee/{sessionId}/{mentorId}/{menteeId}', 'RatingController@showMenteeRatingForm')->name('showMenteeRatingForm');
+        Route::post('rateMentee/{sessionId}/{mentorId}/{menteeId}', 'RatingController@rateMentee')->name('rateMentee');
+        Route::get('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@showMentorRatingForm')->name('showMentorRatingForm');
+        Route::post('rateMentor/{sessionId}/{menteeId}/{mentorId}', 'RatingController@rateMentor')->name('rateMentor');
+    });
 });
 
 Route::group(['middleware' => ['auth', 'staff']], function () {

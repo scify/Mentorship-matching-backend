@@ -24,35 +24,33 @@ class RatingManager {
         $this->mentorRatingStorage = new MentorRatingStorage;
     }
 
-    public function rateMentee(array $input) {
-        $sessionStorage = new MentorshipSessionStorage;
-        $session = $sessionStorage->findMentorshipSessionById($input['session_id']);
-        $sessionStatuses = new MentorshipSessionStatuses;
-        if ($session->status_id === $sessionStatuses::getCompletedSessionStatuses()[0] &&
-            $session->mentor_profile_id == $input['mentor_id'] && $session->mentee_profile_id == $input['mentee_id']) {
-            $this->menteeRatingStorage->rateMentee(
-                $session->id, $session->mentee_profile_id, $session->mentor_profile_id, $input['rating'], $input['rating_description']
-            );
+    /**
+     * The ids come from the signed rating link, so they belong to the mail's recipient.
+     */
+    public function rateMentee(int $sessionId, int $mentorId, int $menteeId, int $rating, string $ratingDescription): string {
+        $session = (new MentorshipSessionStorage)->findMentorshipSessionById($sessionId);
+        if ($session !== null && $session->status_id === MentorshipSessionStatuses::getCompletedSessionStatuses()[0] &&
+            (int) $session->mentor_profile_id === $mentorId && (int) $session->mentee_profile_id === $menteeId) {
+            $this->menteeRatingStorage->rateMentee($session->id, $session->mentee_profile_id, $session->mentor_profile_id, $rating, $ratingDescription);
 
             return 'SUCCESS';
-        } else {
-            return 'FAIL';
         }
+
+        return 'FAIL';
     }
 
-    public function rateMentor(array $input) {
-        $sessionStorage = new MentorshipSessionStorage;
-        $session = $sessionStorage->findMentorshipSessionById($input['session_id']);
-        $sessionStatuses = new MentorshipSessionStatuses;
-        if ($session->status_id === $sessionStatuses::getCompletedSessionStatuses()[0] &&
-            $session->mentor_profile_id == $input['mentor_id'] && $session->mentee_profile_id == $input['mentee_id']) {
-            $this->mentorRatingStorage->rateMentor(
-                $session->id, $session->mentor_profile_id, $session->mentee_profile_id, $input['rating'], $input['rating_description']
-            );
+    /**
+     * The ids come from the signed rating link, so they belong to the mail's recipient.
+     */
+    public function rateMentor(int $sessionId, int $mentorId, int $menteeId, int $rating, string $ratingDescription): string {
+        $session = (new MentorshipSessionStorage)->findMentorshipSessionById($sessionId);
+        if ($session !== null && $session->status_id === MentorshipSessionStatuses::getCompletedSessionStatuses()[0] &&
+            (int) $session->mentor_profile_id === $mentorId && (int) $session->mentee_profile_id === $menteeId) {
+            $this->mentorRatingStorage->rateMentor($session->id, $session->mentor_profile_id, $session->mentee_profile_id, $rating, $ratingDescription);
 
             return 'SUCCESS';
-        } else {
-            return 'FAIL';
         }
+
+        return 'FAIL';
     }
 }

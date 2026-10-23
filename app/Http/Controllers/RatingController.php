@@ -33,7 +33,10 @@ class RatingController extends Controller {
                     $session
                 );
 
-                return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel', 'lang'));
+                // The form posts back to the signed URL of this page.
+                $formAction = $request->fullUrl();
+
+                return view('ratings.rating', compact('ratedRole', 'sessionViewModel', 'lang', 'formAction'));
             } else {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.rate_mentee_permission'),
@@ -48,16 +51,15 @@ class RatingController extends Controller {
         }
     }
 
-    public function rateMentee(Request $request) {
+    public function rateMentee(string $sessionId, string $mentorId, string $menteeId, Request $request) {
         $lang = $this->localeFromRequest($request);
         App::setLocale($lang);
         $this->validate($request, [
             'rating' => 'required|min:1|max:5|numeric',
         ], $this->messages());
-        $input = $request->all();
         $ratingManager = new RatingManager;
         try {
-            $result = $ratingManager->rateMentee($input);
+            $result = $ratingManager->rateMentee((int) $sessionId, (int) $mentorId, (int) $menteeId, (int) $request->input('rating'), (string) $request->input('rating_description'));
         } catch (Exception $e) {
             Log::info('Error while rating mentee: ' . $e);
 
@@ -92,7 +94,10 @@ class RatingController extends Controller {
                     $session
                 );
 
-                return view('ratings.rating', compact('sessionId', 'mentorId', 'menteeId', 'ratedRole', 'sessionViewModel', 'lang'));
+                // The form posts back to the signed URL of this page.
+                $formAction = $request->fullUrl();
+
+                return view('ratings.rating', compact('ratedRole', 'sessionViewModel', 'lang', 'formAction'));
             } else {
                 return view('common.response-to-email')->with([
                     'message_failure' => Lang::get('messages.rate_mentor_permission'),
@@ -107,16 +112,15 @@ class RatingController extends Controller {
         }
     }
 
-    public function rateMentor(Request $request) {
+    public function rateMentor(string $sessionId, string $menteeId, string $mentorId, Request $request) {
         $lang = $this->localeFromRequest($request);
         App::setLocale($lang);
         $this->validate($request, [
             'rating' => 'required|min:1|max:5|numeric',
         ], $this->messages());
-        $input = $request->all();
         $ratingManager = new RatingManager;
         try {
-            $result = $ratingManager->rateMentor($input);
+            $result = $ratingManager->rateMentor((int) $sessionId, (int) $mentorId, (int) $menteeId, (int) $request->input('rating'), (string) $request->input('rating_description'));
         } catch (Exception $e) {
             Log::info('Error while rating mentor: ' . $e);
 
