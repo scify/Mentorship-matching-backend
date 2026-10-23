@@ -39,7 +39,8 @@
                             <div class="@if ($errors->has('rating_description')) has-error @endif">
                                 <div class="inputer floating-label">
                                     <div class="input-wrapper">
-                                        <textarea class="form-control js-auto-size" rows="2" name="rating_description" placeholder="@lang($p.'.rating_comments_placeholder')">{{ old('rating_description') }}</textarea>
+                                        <label for="rating_description" class="sr-only">@lang($p.'.rating_comments_placeholder')</label>
+                                        <textarea id="rating_description" class="form-control js-auto-size" rows="2" name="rating_description" placeholder="@lang($p.'.rating_comments_placeholder')">{{ old('rating_description') }}</textarea>
                                     </div>
                                 </div>
                                 @if ($errors->has('rating_description'))
