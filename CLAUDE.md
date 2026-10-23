@@ -64,6 +64,9 @@ weaken these guards, because `RefreshDatabase` wipes the database it runs on. Ru
   documented cache-staleness behavior.
 - `tests/Feature/FilterQueryTest` — the hand-written filter SQL: every filter combination, join/where
   binding order, apostrophe handling, and SQL injection payloads (formerly `tests/manual/verify_filters.php`).
+- `tests/Feature/RouteAccessTest` — who may reach each route, read from the router: the explicit list of public
+  routes (a new public route must be added there on purpose), guest → login for every `auth` route, and the role
+  matrix of every middleware group.
 - Shared fixtures live in `tests/Support/CreatesMatchingFixtures.php` (classmapped via `autoload-dev`).
 
 The browser suite is the other one to run after touching routes or views:
