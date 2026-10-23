@@ -206,9 +206,8 @@ Laravel auth or signed URLs. Paul decided to keep them unsigned; they are thrott
 ### Reports & exports
 
 `ReportController` + `app/Utils/DataToCsvExportManager.php` drive CSV export of mentors/mentees/
-sessions (`export/mentors`, `export/mentees`, `export/sessions` routes, admin-only). Export file paths
-for reference CSVs consumed elsewhere are configured via `MENTORS_EXCEL_FILE_PATH`/
-`MENTEES_EXCEL_FILE_PATH` env vars.
+sessions (`export/mentors`, `export/mentees`, `export/sessions` routes, admin-only), sent as file downloads.
+Cells that start with a formula character are escaped (`cell()`).
 
 ### Views & i18n
 
