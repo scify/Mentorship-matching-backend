@@ -17,7 +17,9 @@ class UniversityStorage {
     public function getAllUniversities() {
         $universities = University::where('name', '<>', 'Άλλο')->orderBy('name')->get();
         $otherUniversity = University::where('name', 'Άλλο')->first();
-        $universities->push($otherUniversity);
+        if ($otherUniversity !== null) {
+            $universities->push($otherUniversity);
+        }
 
         return $universities;
     }
@@ -40,7 +42,9 @@ class UniversityStorage {
         // sort by name and add the 'other' choice at the bottom
         $allUniversities = $allUniversities->sortBy('name');
         $otherUniversity = University::select('id', 'name')->where('name', 'Άλλο')->first();
-        $allUniversities->push($otherUniversity);
+        if ($otherUniversity !== null) {
+            $allUniversities->push($otherUniversity);
+        }
 
         return $allUniversities;
     }

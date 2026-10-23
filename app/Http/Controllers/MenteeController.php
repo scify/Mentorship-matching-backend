@@ -83,11 +83,8 @@ class MenteeController extends Controller {
      */
     public function showCreateForm(Request $request) {
         $input = $request->all();
-        $language = 'en';
-        if (isset($input['lang'])) {
-            $language = $request['lang'];
-            App::setLocale($language);
-        }
+        $language = $this->localeFromRequest($request);
+        App::setLocale($language);
 
         $pageTitle = 'Mentees';
         $pageSubTitle = 'create new';
@@ -175,10 +172,7 @@ class MenteeController extends Controller {
      */
     public function create(Request $request) {
         $input = $request->all();
-        if (isset($input['lang'])) {
-            $language = $request['lang'];
-            App::setLocale($language);
-        }
+        App::setLocale($this->localeFromRequest($request));
 
         $publicForm = $input['public_form'];
         if ($publicForm == 'true') {
@@ -318,10 +312,7 @@ class MenteeController extends Controller {
      */
     public function edit(Request $request, $id) {
         $input = $request->all();
-        if (isset($input['lang'])) {
-            $language = $request['lang'];
-            App::setLocale($language);
-        }
+        App::setLocale($this->localeFromRequest($request));
 
         //        $this->validate($request, [
         //            'follow_up_date' => 'max:10|min:8',

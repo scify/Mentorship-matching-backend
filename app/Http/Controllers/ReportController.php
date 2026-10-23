@@ -52,7 +52,7 @@ class ReportController extends Controller {
     }
 
     public function exportMentorsToCsv(Request $request) {
-        $lang = $request->has('lang') ? $request->get('lang') : 'en';
+        $lang = $this->localeFromRequest($request);
         $date = str_replace(' ', '_', Carbon::now('Europe/Athens')->toDateTimeString());
         $fileName = 'mentors_' . $date . '.csv';
         $dataToCsvExportManager = new DataToCsvExportManager($fileName, MentorStorage::class, ['specialty_name', 'industry_name'], $lang);
@@ -61,7 +61,7 @@ class ReportController extends Controller {
     }
 
     public function exportMenteesToCsv(Request $request) {
-        $lang = $request->has('lang') ? $request->get('lang') : 'en';
+        $lang = $this->localeFromRequest($request);
         $date = str_replace(' ', '_', Carbon::now('Europe/Athens')->toDateTimeString());
         $fileName = 'mentees_' . $date . '.csv';
         $dataToCsvExportManager = new DataToCsvExportManager($fileName, MenteeStorage::class, [], $lang);
@@ -70,7 +70,7 @@ class ReportController extends Controller {
     }
 
     public function exportMentorshipSessionsToCsv(Request $request) {
-        $lang = $request->has('lang') ? $request->get('lang') : 'en';
+        $lang = $this->localeFromRequest($request);
         $date = str_replace(' ', '_', Carbon::now('Europe/Athens')->toDateTimeString());
         $fileName = 'mentorship_sessions_' . $date . '.csv';
         $dataToCsvExportManager = new DataToCsvExportManager($fileName, MentorshipSessionStorage::class, [], $lang);

@@ -298,7 +298,7 @@ class MentorshipSessionController extends Controller {
      * @return Factory|View
      */
     public function declineMentorshipSessionConfirmation($mentorshipSessionId, $role, $id, $email, Request $request) {
-        $lang = $request->has('lang ') ? $request->has('lang ') : 'en';
+        $lang = $this->localeFromRequest($request);
         App::setLocale($lang);
 
         return view('common.action-confirmation')->with([
@@ -323,7 +323,7 @@ class MentorshipSessionController extends Controller {
      * @return Factory|View
      */
     public function acceptMentorshipSession($mentorshipSessionId, $role, $id, $email, Request $request) {
-        $lang = $request->has('lang ') ? $request->has('lang ') : 'en';
+        $lang = $this->localeFromRequest($request);
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
@@ -359,7 +359,7 @@ class MentorshipSessionController extends Controller {
      * @return Factory|View
      */
     public function declineMentorshipSession($mentorshipSessionId, $role, $id, $email, Request $request) {
-        $lang = $request->has('lang ') ? $request->has('lang ') : 'en';
+        $lang = $this->localeFromRequest($request);
         App::setLocale($lang);
         $viewTitle = Lang::get('messages.response_to_session_invitation');
         try {
