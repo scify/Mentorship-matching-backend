@@ -698,8 +698,10 @@ class MentorshipSessionManager {
 
             return true;
         } else {
-            Log::error('Mentorship session could not be accepted. ' . $role . ' ' . $id . ' ' . $email . ' ' . $statusToSet . ' ' . $invitedPerson->id . ' ' . $invitedPerson->email);
-            Sentry::captureException(new Exception('Mentorship session could not be accepted. ' . $role . ' ' . $id . ' ' . $email . ' ' . $statusToSet . ' ' . $invitedPerson->id . ' ' . $invitedPerson->email));
+            // The link did not match the invitee. Record the session, not the email addresses.
+            $message = 'Mentorship session ' . $mentorshipSessionId . ' could not be accepted by the ' . $role . ' link (status to set: ' . $statusToSet . ').';
+            Log::warning($message);
+            Sentry::captureException(new Exception($message));
 
             return false;
         }
