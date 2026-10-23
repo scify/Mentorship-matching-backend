@@ -13,7 +13,11 @@ use Illuminate\Http\Request;
 trait DeniesAccess {
     protected function denyAccess(Request $request): RedirectResponse {
         $previousUrl = $request->hasSession() ? $request->session()->previousUrl() : null;
+        // The denied page itself would redirect in a loop.
+        if ($previousUrl === null || $previousUrl === $request->fullUrl()) {
+            $previousUrl = route('home');
+        }
 
-        return redirect()->to($previousUrl ?? route('home'))->withErrors(['You have no access to this page']);
+        return redirect()->to($previousUrl)->withErrors(['You have no access to this page']);
     }
 }

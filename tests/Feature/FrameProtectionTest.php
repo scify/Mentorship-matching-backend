@@ -20,6 +20,8 @@ class FrameProtectionTest extends TestCase {
     }
 
     public function test_the_public_forms_stay_frameable() {
-        $this->get('/mentee/create?public=1')->assertOk()->assertHeaderMissing('X-Frame-Options');
+        $this->get('/mentee/create?public=1')->assertOk()
+            ->assertHeaderMissing('X-Frame-Options')
+            ->assertHeaderMissing('Content-Security-Policy');
     }
 }

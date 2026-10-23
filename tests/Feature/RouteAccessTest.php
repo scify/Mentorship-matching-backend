@@ -181,6 +181,13 @@ class RouteAccessTest extends TestCase {
         $this->assertContains(self::DENIED, $this->errorMessages());
     }
 
+    public function test_a_denial_of_the_page_last_seen_does_not_loop() {
+        $matcher = $this->makeBackofficeUser(self::MATCHER, 'Matcher');
+        $this->actingAs($matcher)->withSession(['_previous' => ['url' => url('/users/all')]]);
+
+        $this->get('/users/all')->assertRedirect(route('home'));
+    }
+
     public function test_a_user_may_edit_only_their_own_profile_unless_admin() {
         $matcher = $this->makeBackofficeUser(self::MATCHER, 'Matcher');
         $accountManager = $this->makeBackofficeUser(self::ACCOUNT_MANAGER, 'AccMan');

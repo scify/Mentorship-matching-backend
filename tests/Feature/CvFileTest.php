@@ -51,10 +51,26 @@ class CvFileTest extends TestCase {
 
     public function test_a_file_name_cannot_leave_the_cv_folders() {
         $admin = $this->makeBackofficeUser(1, 'Admin');
-        Storage::disk('local')->put('secret.txt', 'secret');
-        $menteeId = $this->makeMenteeProfile($admin, ['cv_file_name' => '../secret.txt']);
+        // private/cv_files/../secret.txt would resolve to private/secret.txt without basename().
+        Storage::disk('local')->put('private/secret.txt', 'secret');
+        $this->actingAs($admin);
 
-        $this->actingAs($admin)->get("/mentee/{$menteeId}/cv")->assertNotFound();
+        foreach (['../secret.txt', '..', '.'] as $name) {
+            $menteeId = $this->makeMenteeProfile($admin, ['cv_file_name' => $name]);
+            $this->get("/mentee/{$menteeId}/cv")->assertNotFound();
+        }
+    }
+
+    public function test_the_move_command_moves_old_cvs_to_private_storage() {
+        Storage::disk('public')->put('uploads/cv_files/old.pdf', 'old cv');
+        Storage::disk('public')->put('uploads/cv_files/.gitignore', '*');
+
+        $this->artisan('cv:move-to-private')->assertSuccessful();
+        $this->artisan('cv:move-to-private')->assertSuccessful();
+
+        Storage::disk('public')->assertMissing('uploads/cv_files/old.pdf');
+        Storage::disk('public')->assertExists('uploads/cv_files/.gitignore');
+        $this->assertSame('old cv', Storage::disk('local')->get('private/cv_files/old.pdf'));
     }
 
     private function mentee(): array {

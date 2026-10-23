@@ -27,14 +27,38 @@ class CvFileStorage {
     }
 
     public function download(?string $fileName): StreamedResponse {
+        // basename() keeps the name inside the folder; fileExists() is false for '.' and '..'.
         $fileName = basename((string) $fileName);
-        if ($fileName !== '' && Storage::disk('local')->exists(self::DIRECTORY . '/' . $fileName)) {
+        if ($fileName !== '' && Storage::disk('local')->fileExists(self::DIRECTORY . '/' . $fileName)) {
             return Storage::disk('local')->download(self::DIRECTORY . '/' . $fileName);
         }
-        if ($fileName !== '' && Storage::disk('public')->exists(self::LEGACY_DIRECTORY . '/' . $fileName)) {
+        if ($fileName !== '' && Storage::disk('public')->fileExists(self::LEGACY_DIRECTORY . '/' . $fileName)) {
             return Storage::disk('public')->download(self::LEGACY_DIRECTORY . '/' . $fileName);
         }
 
         throw new NotFoundHttpException('CV file not found.');
+    }
+
+    /**
+     * Moves the CVs of the old public folder to private storage, keeping their
+     * names. Dotfiles such as .gitignore stay. Returns the number moved.
+     */
+    public function moveLegacyFilesToPrivate(): int {
+        $moved = 0;
+        foreach (Storage::disk('public')->files(self::LEGACY_DIRECTORY) as $path) {
+            $fileName = basename($path);
+            if (str_starts_with($fileName, '.')) {
+                continue;
+            }
+            $stream = Storage::disk('public')->readStream($path);
+            if ($stream === null) {
+                continue;
+            }
+            Storage::disk('local')->writeStream(self::DIRECTORY . '/' . $fileName, $stream);
+            Storage::disk('public')->delete($path);
+            $moved++;
+        }
+
+        return $moved;
     }
 }
