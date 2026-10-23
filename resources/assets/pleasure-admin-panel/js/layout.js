@@ -472,11 +472,11 @@ export let Layout = {
             if (messageText.length == 0)
                 messageText = "Take an angled photo of your screen. All the cool kids do it.";
 
-            var html = '<div class="message animate right">' +
-                '<div class="message-text">' + messageText + '</div>' +
-                '<img src="' + Pleasure.settings.paths.images + '/faces/tolga-ergin.jpg" class="user-picture" alt="">' +
-                '</div>';
-            $messages.append(html);
+            // The typed text goes in with .text(), so it never runs as HTML.
+            var $message = $('<div class="message animate right"></div>')
+                .append($('<div class="message-text"></div>').text(messageText))
+                .append($('<img class="user-picture" alt="">').attr('src', Pleasure.settings.paths.images + '/faces/tolga-ergin.jpg'));
+            $messages.append($message);
             this.resetSendMessage();
             $messages.scrollTop($messages.prop('scrollHeight'));
 
