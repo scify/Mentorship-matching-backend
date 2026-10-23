@@ -76,7 +76,6 @@ class RouteAccessTest extends TestCase {
             'GET password/reset/{token}',
             'GET rateMentee/{sessionId}/{mentorId}/{menteeId}',
             'GET rateMentor/{sessionId}/{menteeId}/{mentorId}',
-            'GET register',
             'GET set-status-available/{id}/{email}',
             'POST login',
             'POST logout',
@@ -86,8 +85,16 @@ class RouteAccessTest extends TestCase {
             'POST password/reset',
             'POST rateMentee',
             'POST rateMentor',
-            'POST register',
         ], $public);
+    }
+
+    public function test_registration_the_api_and_the_test_routes_are_gone() {
+        $admin = $this->makeBackofficeUser(self::ADMIN, 'Admin');
+        $this->get('/register')->assertNotFound();
+        $this->post('/register', ['email' => 'x@example.test'])->assertNotFound();
+        $this->get('/api/user')->assertNotFound();
+        $this->actingAs($admin)->get('/testemail?email=' . $admin->email)->assertNotFound();
+        $this->actingAs($admin)->get('/testexception')->assertNotFound();
     }
 
     #[DataProvider('publicPages')]

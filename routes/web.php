@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('mentor/create', 'MentorController@showCreateForm')->name('showCreateMentorForm');
 Route::post('mentor/create', 'MentorController@create')->name('createMentor');
@@ -97,10 +97,6 @@ Route::group(['middleware' => ['auth', 'staff', 'admin']], function () {
     Route::get('search', 'SearchController@filterResultsByString')->name('search');
 
     Route::post('session/delete', 'MentorshipSessionController@destroy')->name('deleteMentorshipSession');
-
-    Route::get('/testemail', 'HomeController@testEmail')->name('testEmail');
-
-    Route::get('/testexception', 'HomeController@testException')->name('testException');
 });
 
 Route::group(['middleware' => ['auth', 'staff', 'status-changer']], function () {
