@@ -2571,7 +2571,7 @@ parameters:
 		-
 			message: '#^Cannot call method isAdmin\(\) on App\\Models\\eloquent\\User\|null\.$#'
 			identifier: method.nonObject
-			count: 3
+			count: 2
 			path: app/Http/Controllers/UserController.php
 
 		-

@@ -52,6 +52,20 @@
                                         <span class="help-block">{{ $errors->first('email') }}</span>
                                     @endif
                                 </div>
+                                @if(!empty($user->id) && $user->id == $loggedInUser->id && !$loggedInUser->isAdmin())
+                                <!-- Current password: needed to change the own email or password -->
+                                <div class="{{ $errors->first('current_password')?'has-error has-feedback':'' }}">
+                                    <div class="inputer floating-label margin-top-60">
+                                        <div class="input-wrapper">
+                                            <input name="current_password" type="password" class="form-control" autocomplete="current-password">
+                                            <label for="current_password" class="control-label">Current password (to change email or password)</label>
+                                        </div>
+                                    </div>
+                                    @if ($errors->first('current_password'))
+                                        <span class="help-block">{{ $errors->first('current_password') }}</span>
+                                    @endif
+                                </div>
+                                @endif
                                 <!-- Password -->
                                 <div class="{{ $errors->first('password')?'has-error has-feedback':'' }}">
 
