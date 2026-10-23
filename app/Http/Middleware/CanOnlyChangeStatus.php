@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CanOnlyChangeStatus {
+    use DeniesAccess;
+
     private $userAccessManager;
 
     public function __construct() {
@@ -27,6 +29,6 @@ class CanOnlyChangeStatus {
             return $next($request);
         }
 
-        return back()->withErrors(['You have no access to this page']);
+        return $this->denyAccess($request);
     }
 }

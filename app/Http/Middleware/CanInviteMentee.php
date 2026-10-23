@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CanInviteMentee {
+    use DeniesAccess;
+
     private $userAccessManager;
 
     public function __construct() {
@@ -28,6 +30,6 @@ class CanInviteMentee {
             return $next($request);
         }
 
-        return back()->withErrors(['You have no access to this page']);
+        return $this->denyAccess($request);
     }
 }

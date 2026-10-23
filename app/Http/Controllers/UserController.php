@@ -186,7 +186,7 @@ class UserController extends Controller {
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email|unique:users',
             'user_roles' => 'required',
-            'password' => 'required|min:8|max:12',
+            'password' => 'required|min:8|max:255',
             'passwordconfirm' => 'required|same:password',
             'capacity' => 'numeric|min:1',
             'usericon' => 'required|exists:user_icon,title',
@@ -256,14 +256,20 @@ class UserController extends Controller {
             'last_name' => 'required|max:255',
             'email' => 'required|max:255|email|unique:users,email,' . $id,
             'user_roles' => '',
-            'password' => 'min:8|max:12',
+            'password' => 'nullable|min:8|max:255',
             'passwordconfirm' => 'same:password',
             'capacity' => 'numeric|min:1',
             'usericon' => 'required|exists:user_icon,title',
         ];
         $loggedInUser = Auth::user();
+        if (!$loggedInUser instanceof User) {
+            abort(403);
+        }
         if ($loggedInUser->isAdmin()) {
             $validationRules['user_roles'] = 'required';
+        } elseif ((string) $request->input('password') !== '' || $request->input('email') !== $loggedInUser->email) {
+            // A non-admin edits only their own account; changing the login needs the current password.
+            $validationRules['current_password'] = 'required|current_password';
         }
         $this->validate($request, $validationRules);
         $input = $request->all();

@@ -4,19 +4,19 @@ namespace App\BusinessLogicLayer\managers;
 
 use App\Models\eloquent\MenteeProfile;
 use App\Models\eloquent\User;
+
 use App\Models\viewmodels\MenteeViewModel;
 use App\Notifications\MenteeRegistered;
+use App\StorageLayer\CvFileStorage;
 use App\StorageLayer\MenteeStorage;
 use App\StorageLayer\RawQueryStorage;
 use App\Utils\MentorshipSessionStatuses;
 use App\Utils\RawQueriesResultsModifier;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MenteeManager {
@@ -74,30 +74,13 @@ class MenteeManager {
     }
 
     /**
-     * Store a cv file with hashed file name
-     *
-     * @param  UploadedFile  $cvFile
-     * @param  $menteeEmail
-     * @return string
-     */
-    private function saveCVFile(UploadedFile $cvFile, $menteeEmail) {
-        $fileName = md5($menteeEmail . Carbon::now());
-        $originalFileExtension = $cvFile->extension();
-        $fullFileName = $fileName . '.' . $originalFileExtension;
-        $cvFile->move(storage_path('app/public/uploads/cv_files'), $fullFileName);
-
-        return $fullFileName;
-    }
-
-    /**
-     * Download a mentee's cv file, streamed directly from the public disk.
+     * Download a mentee's cv file (see CvFileStorage).
      *
      * @param  $fileName
      * @return StreamedResponse
      */
-    public function downloadCvFile($fileName) {
-        return Storage::disk('public')
-            ->download('uploads/cv_files/' . $fileName);
+    public function downloadCvFile(?string $fileName): StreamedResponse {
+        return (new CvFileStorage)->download($fileName);
     }
 
     public function createMentee(array $inputFields, $isCvFileExistent) {
@@ -115,7 +98,7 @@ class MenteeManager {
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+            $fileName = (new CvFileStorage)->save($inputFields['cv_file']);
             $inputFields['cv_file_name'] = $fileName;
         }
         $menteeProfile = $this->menteeStorage->getMenteeProfileByEmail($inputFields['email']);
@@ -192,7 +175,7 @@ class MenteeManager {
         }
         // store the file and put the file's name to the DB
         if ($isCvFileExistent) {
-            $fileName = $this->saveCVFile($inputFields['cv_file'], $inputFields['email']);
+            $fileName = (new CvFileStorage)->save($inputFields['cv_file']);
             $inputFields['cv_file_name'] = $fileName;
         }
         $mentee = $this->getMentee($id);

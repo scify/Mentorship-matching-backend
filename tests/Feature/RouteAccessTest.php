@@ -171,6 +171,23 @@ class RouteAccessTest extends TestCase {
         }
     }
 
+    public function test_a_denial_does_not_follow_a_foreign_referer() {
+        $this->actingAs($this->makeBackofficeUser(self::MATCHER, 'Matcher'));
+
+        $response = $this->get('/users/all', ['Referer' => 'https://evil.example/phish']);
+
+        $response->assertRedirect();
+        $this->assertStringStartsWith(config('app.url'), $response->headers->get('Location'));
+        $this->assertContains(self::DENIED, $this->errorMessages());
+    }
+
+    public function test_a_denial_of_the_page_last_seen_does_not_loop() {
+        $matcher = $this->makeBackofficeUser(self::MATCHER, 'Matcher');
+        $this->actingAs($matcher)->withSession(['_previous' => ['url' => url('/users/all')]]);
+
+        $this->get('/users/all')->assertRedirect(route('home'));
+    }
+
     public function test_a_user_may_edit_only_their_own_profile_unless_admin() {
         $matcher = $this->makeBackofficeUser(self::MATCHER, 'Matcher');
         $accountManager = $this->makeBackofficeUser(self::ACCOUNT_MANAGER, 'AccMan');

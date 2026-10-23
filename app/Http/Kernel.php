@@ -14,6 +14,7 @@ use App\Http\Middleware\IsAccountManager;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\PreventRequestForgery;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\SameOriginFrames;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
@@ -50,6 +51,12 @@ class Kernel extends HttpKernel {
             ShareErrorsFromSession::class,
             PreventRequestForgery::class,
             SubstituteBindings::class,
+        ],
+
+        // Every protected route group starts with 'auth', 'staff'.
+        'staff' => [
+            EnsureActiveStaff::class,
+            SameOriginFrames::class,
         ],
 
         'admin' => [
@@ -92,7 +99,6 @@ class Kernel extends HttpKernel {
      */
     protected $routeMiddleware = [
         'auth' => Authenticate::class,
-        'staff' => EnsureActiveStaff::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
         'bindings' => SubstituteBindings::class,
         'can' => Authorize::class,
