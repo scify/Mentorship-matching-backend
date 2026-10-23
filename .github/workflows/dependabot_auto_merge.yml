@@ -12,8 +12,8 @@
 #
 # Prerequisites (repository settings — without these the workflow is unsafe):
 #   1. "Allow auto-merge" enabled (Settings -> General)
-#   2. Branch protection on `master` with required status checks
-#      `npm`, `larastan` and `tests` (ci.yml).
+#   2. Branch protection on `master` with the required status check
+#      `ci / CI` (ci.yml, the aggregate check of the shared Laravel CI).
 #      WARNING: with no required checks, `gh pr merge --auto` merges
 #      immediately, before CI has run.
 
