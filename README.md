@@ -1,109 +1,34 @@
 # Mentorship matching backend platform
 
-This [Laravel 13](https://laravel.com/docs/13.x/) application is a platform backoffice that manages the matching process
-between mentors with mentees, based on their
-preferences and skills.
+[![CI](https://github.com/scify/Mentorship-matching-backend/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/scify/Mentorship-matching-backend/actions/workflows/ci.yml)
+[![Security](https://github.com/scify/Mentorship-matching-backend/actions/workflows/security.yml/badge.svg)](https://github.com/scify/Mentorship-matching-backend/actions/workflows/security.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENCE.md)
 
-| | |
-|---|---|
-| PHP | 8.3+ (developed and tested on 8.4) |
-| Laravel | 13.x |
-| Node | 24 (see `.nvmrc`) |
-| Database | MySQL 8 / MariaDB 11 |
-| Assets | Vite |
+JobPairs is the backoffice that manages the matching of mentors with mentees, based on their preferences and
+skills. Mentors and mentees register through public forms. Matchers pair them in mentorship sessions, account managers
+follow each session until the evaluation, and administrators manage the staff accounts and the reference data.
 
-## Table of Contents
+## Contents
 
-- [Mentorship matching backend platform](#mentorship-matching-backend-platform)
-  - [Table of Contents](#table-of-contents)
-  - [First time install](#first-time-install)
-    - [Commands](#commands)
-  - [Setup the Database](#setup-the-database)
-    - [Add seed data to DB](#add-seed-data-to-db)
-  - [Compiling assets](#compiling-assets)
-    - [Known npm advisories: Bootstrap 3](#known-npm-advisories-bootstrap-3)
-  - [Testing](#testing)
-    - [PHPUnit](#phpunit)
-    - [Filter query regression check](#filter-query-regression-check)
-    - [End-to-end browser tests](#end-to-end-browser-tests)
-    - [Test accounts](#test-accounts)
-  - [Troubleshooting](#troubleshooting)
-  - [Deployment](#deployment)
-  - [Contributing](#contributing)
-  - [License](#license)
-  - [Credits](#credits)
+- [Tech stack](#tech-stack)
+- [Requirements](#requirements)
+- [Getting started](#getting-started)
+- [Tests](#tests)
+- [Code quality](#code-quality)
+- [Continuous integration](#continuous-integration)
+- [Troubleshooting](#troubleshooting)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-## First time install
+## Tech stack
 
-Local development runs on [DDEV](https://ddev.readthedocs.io/en/stable/#installation) only. It reads the
-committed `.ddev/config.yaml` and provisions PHP 8.4, Node 24, MariaDB 11.8 and Mailpit.
-
-```bash
-git clone git@github.com:scify/Mentorship-matching-backend.git
-cd Mentorship-matching-backend
-ddev start
-ddev exec php artisan db:seed     # first time only: lookup tables and staff accounts
-```
-
-`ddev start` runs the post-start hooks in `.ddev/config.yaml`. They are safe to re-run:
-
-- `composer setup` creates `.env` from `.env.example` when it is missing, installs the PHP dependencies,
-  generates `APP_KEY` only when it is empty, runs `npm ci` only when `package-lock.json` changed, and builds
-  the frontend.
-- The hooks clear the caches and run pending migrations. They never run `migrate:fresh` and never seed.
-- The hooks create the `testing` database for PHPUnit (see [PHPUnit](#phpunit)).
-
-DDEV also rewrites the database and mail settings in `.env` to match its services. The site is served at
-<https://mentorship-matching-backend.ddev.site>, and `ddev mailpit` opens the captured mail.
-
-### Commands
-
-Run every backend command through DDEV:
-
-```bash
-ddev exec php artisan migrate
-ddev composer install
-ddev npm run dev           # Vite dev server with HMR on port 5173
-ddev ssh                   # shell inside the web container
-```
-
-> **Note:** DDEV uses MariaDB, while production uses MySQL. The two are compatible for everything this app
-> does, but because parts of the app use hand-written SQL you may prefer to match production exactly with
-> `ddev debug migrate-database mysql:8.0` (it converts the existing data; `ddev config --database` alone
-> refuses to change the type of an existing database).
-
-## Setup the Database
-
-Laravel provides a simple yet powerful mechanism for creating the DB schema,
-called [Migrations](https://laravel.com/docs/13.x/migrations).
-Simply run `ddev exec php artisan migrate` to create the appropriate DB schema.
-
-### Add seed data to DB
-
-Run `ddev exec php artisan db:seed` in order to insert the starter data to the DB by
-using [Laravel seeder](https://laravel.com/docs/13.x/seeding). This creates the lookup tables (roles,
-statuses, specialties, universities) and a few staff accounts.
-
-To rebuild a local database from scratch:
-
-```bash
-ddev snapshot --name before-reset    # optional: keep a copy
-ddev exec php artisan migrate:fresh --seed
-```
-
-## Compiling assets
-
-When in project root directory, run
-
-```bash
-ddev npm run dev      # Vite dev server with HMR (port 5173)
-ddev npm run watch    # rebuild on change, no dev server
-ddev npm run build    # production build
-```
-
-The app reads `public/build/manifest.json`, which is **not** committed. If you have not built the assets, every
-page fails with `ViteManifestNotFoundException`. Leftover `public/js`, `public/css`, `public/fonts` and
-`public/mix-manifest.json` from Laravel Mix can be deleted.
+- Laravel 13 on PHP 8.4, server-rendered Blade views, `laravel/ui` authentication
+- MySQL in production; MariaDB 11.8 in DDEV and CI
+- Vite 8 with jQuery 3.7, Bootstrap 3.4 and the "Pleasure" admin theme (`resources/assets`)
+- Node 24 (version in `.nvmrc`), npm with supply-chain settings in `.npmrc`
+- Queued mail notifications and a daily scheduler (see [DEPLOYMENT.md](DEPLOYMENT.md))
+- Sentry for backend and browser errors (optional)
 
 ### Known npm advisories: Bootstrap 3
 
@@ -121,40 +46,116 @@ The code still activates these plugins on three selectors: `pleasure.js` binds t
 `data-loading-text` attributes of elements that match these selectors.
 `bootstrap-sass` ships the same 3.4.1 JavaScript, so importing it instead only hides the warning.
 
-## Testing
+## Requirements
+
+- [DDEV](https://ddev.readthedocs.io/en/stable/#installation) with Docker. DDEV provides PHP 8.4, MariaDB 11.8,
+  Node (version from `.nvmrc`), Composer and Mailpit.
+- For the browser tests only: Node on the host, with the version from `.nvmrc`.
+
+## Getting started
+
+1. Clone the repository and start DDEV:
+
+   ```bash
+   git clone git@github.com:scify/Mentorship-matching-backend.git
+   cd Mentorship-matching-backend
+   ddev start
+   ```
+
+   Every `ddev start` runs the post-start hooks in `.ddev/config.yaml`:
+   - `composer setup` creates `.env` from `.env.example` (only if `.env` is missing), installs the PHP
+     dependencies, generates `APP_KEY` (only if it is empty), runs `npm ci` (only when `package-lock.json`
+     changed) and builds the frontend. It is safe to run again at any time, also by hand: `ddev composer setup`.
+   - The hooks clear the caches and run pending migrations on the `db` database. They never run
+     `migrate:fresh` and never seed.
+   - The hooks create the `testing` database for PHPUnit (see [Tests](#tests)).
+
+   DDEV writes its database and mail settings into `.env`.
+
+2. Create the lookup data (roles, statuses, specialties, universities) and the staff accounts:
+
+   ```bash
+   ddev artisan db:seed
+   ```
+
+   `database/seeders/UserTableSeeder.php` creates the staff accounts with a hardcoded default password. That is
+   fine for a local database; make sure those accounts do not exist with that password anywhere public.
+   For one account per role with a known password, see [Test accounts](#test-accounts).
+
+3. For frontend work, start the Vite dev server (hot reload on port 5173):
+
+   ```bash
+   ddev npm run dev
+   ```
+
+   `ddev composer setup` (and every `ddev start`) builds the assets for production with `npm run build`. The app
+   reads `public/build/manifest.json`, which git does not track. `VITE_*` values in `.env` are read at build time,
+   so set them before you build.
+
+4. Open <https://mentorship-matching-backend.ddev.site>.
+
+### Everyday commands
+
+| Task | Command |
+|---|---|
+| Start or stop the environment | `ddev start`, `ddev stop` |
+| Run Artisan, Composer or npm in the container | `ddev artisan ...`, `ddev composer ...`, `ddev npm ...` |
+| Rebuild the assets on every change, without the dev server | `ddev npm run watch` |
+| Open a MariaDB shell | `ddev mysql` |
+| Open Mailpit (all outgoing mail) | `ddev mailpit` |
+| Keep or restore a copy of the database | `ddev snapshot`, `ddev snapshot restore <name>` |
+| Rebuild the local database from scratch | `ddev artisan migrate:fresh --seed` |
+| Show URLs and services | `ddev describe` |
+
+Locally, `QUEUE_CONNECTION=sync` sends the queued notifications during the request, so no queue worker is needed.
+
+> **Note:** DDEV uses MariaDB, while production uses MySQL. The two are compatible for everything this app
+> does, but because parts of the app use hand-written SQL you may prefer to match production exactly with
+> `ddev debug migrate-database mysql:8.0` (it converts the existing data; `ddev config --database` alone
+> refuses to change the type of an existing database).
+
+### npm supply-chain settings
+
+`.npmrc` (and `e2e/.npmrc`) harden npm for this project. CI checks these settings:
+
+- `ignore-scripts=true`: npm does not run install scripts of dependencies
+- `min-release-age=7`: npm installs only package versions that are at least 7 days old
+- `engine-strict=true`: npm refuses to install with a Node or npm version outside `engines` in `package.json`
+
+Use `npm ci` to install exactly what `package-lock.json` specifies (`composer setup` does this).
+
+## Tests
 
 There are two suites. The PHP one runs inside DDEV; the browser suite runs on your host and talks to the
-DDEV site over HTTP.
+DDEV site over HTTPS.
 
 | Suite | Command | What it covers |
 |---|---|---|
-| PHPUnit | `ddev composer test` | The session state machine (creation, accept/decline links, cancellations, notifications), the role checks behind the route middleware, the status id contract, and the hand-written filter SQL — every filter, binding order, and SQL injection payloads. |
-| End-to-end | `cd e2e && npm test` | 15 Playwright tests: every route opens, mentor/mentee/matcher register, every menu option is clicked for all three roles. Captures a screenshot per screen. |
-
-```bash
-ddev composer test     # the whole suite
-ddev coverage          # with a coverage report in coverage/ (turns Xdebug on for the run only)
-```
+| PHPUnit | `ddev composer test` | The session state machine (creation, accept/decline links, cancellations, notifications), the access rules of every route, the role checks, input validation, signed rating links, CV storage, CSV export, the status id contract, and the hand-written filter SQL. |
+| End-to-end | `cd e2e && npm test` | Playwright: every route opens, mentor/mentee/matcher register, every menu option is clicked for all three roles. Captures a screenshot per screen. |
 
 ### PHPUnit
 
-The suite runs on a dedicated MariaDB/MySQL database named `testing`, never on the development database.
-`phpunit.xml` sets `DB_DATABASE=testing` (host and credentials still come from `.env`), and `TestCase`
-refuses any other database and a cached config. Feature tests use `RefreshDatabase`: each run migrates
-`testing` fresh and seeds the lookup tables (references, residences, statuses, ...). The DDEV post-start
-hook creates the `testing` database.
-
 ```bash
+ddev composer test                                          # the whole suite
+ddev coverage                                               # with a coverage report in coverage/
 ddev exec vendor/bin/phpunit --filter testMethodName        # a single test
 ddev exec vendor/bin/phpunit tests/Feature/FilterQueryTest.php   # a single file
 ```
 
-`tests/Feature/FilterQueryTest.php` is the filter-SQL regression check (formerly
-`tests/manual/verify_filters.php`): every filter still returns the right rows, placeholder and binding
-counts line up, apostrophes in names work, and injection payloads (`union select`, quote breakout,
-`or 1=1`, `drop table`) are bound as values rather than parsed as SQL. Run it after any change to the
-`*Manager` filter builders or to `RawQueryStorage`. `tests/Feature/MentorshipSessionLifecycleTest.php`
+The suite runs on a dedicated MariaDB database named `testing`, never on the development database `db`.
+`phpunit.xml` sets `DB_DATABASE=testing` as a `<server>` value, which overrides the database variables that DDEV sets
+in the container. `TestCase` refuses any other database and a cached configuration (`composer test` clears it
+first). Feature tests use `RefreshDatabase`: each run migrates `testing` fresh and seeds the lookup tables. SQLite
+does not work: an early migration drops a primary key column, and the filter SQL is MySQL-only. `ddev coverage`
+turns Xdebug on for the run and then restores its previous state, because Xdebug slows down every request.
+
+`tests/Feature/FilterQueryTest.php` is the filter-SQL regression check: every filter still returns the right
+rows, placeholder and binding counts line up, apostrophes in names work, and injection payloads (`union select`,
+quote breakout, `or 1=1`, `drop table`) are bound as values rather than parsed as SQL. Run it after any change to
+the `*Manager` filter builders or to `RawQueryStorage`. `tests/Feature/MentorshipSessionLifecycleTest.php`
 characterizes the session state machine — run it after touching `MentorshipSessionManager`.
+`tests/Feature/RouteAccessTest.php` lists every public route; a new public route must be added there on purpose.
 
 ### End-to-end browser tests
 
@@ -165,9 +166,9 @@ fails.
 
 ```bash
 cd e2e
-npm install
+npm ci
 npx playwright install chromium   # first run only
-npm run seed                      # a company plus one user per role
+npm run seed                      # a company plus one user per role; removes earlier e2e registrations
 npm test
 ```
 
@@ -203,22 +204,49 @@ The login form field is `email_address`, not `email` — the app overrides Larav
 
 Seeding is idempotent, so re-running it is also how you reset a password you have changed.
 
-Separately, `php artisan db:seed` creates the staff accounts in
-`database/seeders/UserTableSeeder.php` with a hardcoded default password. That is fine for a local
-database; make sure those accounts do not exist with that password anywhere public.
+## Code quality
+
+The project uses three tools:
+
+- [Laravel Pint](https://laravel.com/docs/pint) for the PHP code style (rules in `pint.json`)
+- [Larastan](https://github.com/larastan/larastan) (PHPStan level 8) for static analysis of `app/` (settings in
+  `phpstan.neon`; known errors are in `phpstan-baseline.neon`, and new code must not add entries)
+- [ESLint](https://eslint.org/) for `resources/assets/js`, `vite.config.mjs` and `eslint.config.mjs` (rules in
+  `eslint.config.mjs`; the vendored theme JavaScript is not linted)
+
+```bash
+ddev composer lint:check   # run all three tools; report problems, change nothing
+ddev composer lint:fix     # fix the PHP style and the JavaScript, then report what PHPStan still finds
+ddev composer analyse      # PHPStan only
+```
+
+`.git-blame-ignore-revs` lists the format-only Pint commit; GitHub skips it in blame views, and locally
+`git config blame.ignoreRevsFile .git-blame-ignore-revs` does the same.
+
+## Continuous integration
+
+GitHub Actions run the shared [SciFY workflows](https://github.com/scify/.github):
+
+- `ci.yml` (on pushes to `master` and on pull requests): Pint, PHPStan, ESLint, the Vite build and the PHPUnit suite
+  on PHP 8.4 with a MariaDB 11.8 service. The browser tests do not run in CI.
+- `security.yml` (on pull requests and every Monday): `composer audit`, `npm audit`, the npm supply-chain settings
+  and Gitleaks, once for the root and once for `e2e/`
+
+The `master` branch requires the check `ci / CI`; `dependabot_auto_merge.yml` relies on it.
 
 ## Troubleshooting
 
-**`ViteManifestNotFoundException`** — the frontend assets have not been built. Run `ddev composer setup` (or `ddev npm run build`).
+**`ViteManifestNotFoundException`** — the frontend assets have not been built. Run `ddev composer setup` (or
+`ddev npm run build`).
 
 **`fopen(...storage/framework/cache/...): Failed to open stream: No such file or directory`** — the cache
 directory is not writable by the user running PHP, and Laravel reports the failed `mkdir` as a missing file.
-This usually happens after PHP ran as a different user (for example an old Docker setup). Clear the stale
-files from inside the container and let them be recreated:
+This usually happens after PHP ran as a different user. Clear the stale files from inside the container and let
+them be recreated:
 
 ```bash
 ddev exec sudo rm -rf storage/framework/cache/* storage/framework/views/* storage/framework/sessions/*
-ddev exec php artisan optimize:clear
+ddev artisan optimize:clear
 ```
 
 **Registration fails with "An error occurred. Please try again."** — the app sends a notification on signup,
@@ -233,24 +261,20 @@ version.
 
 ## Contributing
 
-To contribute to this project, follow these steps:
-
-1. Fork this repository.
-2. Read the [CONTRIBUTING](CONTRIBUTING.md) file.
-3. Create a branch: `git checkout -b <branch_name>`.
-4. Make your changes and commit them: `git commit -m '<commit_message>'`
-5. Push to the original branch: `git push origin <project_name>/<location>`
-6. Create the pull request.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
 This project is open-sourced software licensed under
 the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
-## Credits
+JobPairs has been created by [Science For You (SciFY)](https://www.scify.org), a Greek not-for-profit
+organization.
+
+### Credits
 
 Icons used in this project are made by
 
 - [Freepik](http://www.flaticon.com/authors/freepik) from [www.flaticon.com](http://www.flaticon.com)
 - [Vectors Market](http://www.flaticon.com/authors/vectors-market) from [www.flaticon.com](http://www.flaticon.com)
-- [Prosymbols](http://www.flaticon.com/authors/prosymbols)  from [www.flaticon.com](http://www.flaticon.com)
+- [Prosymbols](http://www.flaticon.com/authors/prosymbols) from [www.flaticon.com](http://www.flaticon.com)

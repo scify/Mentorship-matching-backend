@@ -33,7 +33,7 @@ Then seed the fixtures the suite needs (a company plus one user per role) and ru
 
 ```bash
 cd e2e
-npm install
+npm ci
 npx playwright install chromium   # first time only
 npm run seed
 npm test
