@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
 class MenteeSendRating extends Notification implements ShouldQueue {
     use Queueable;
@@ -43,9 +44,9 @@ class MenteeSendRating extends Notification implements ShouldQueue {
             ->greeting('Αγαπητή/έ mentee,')
             ->line('Θα θέλαμε να σας ευχαριστήσουμε θερμά για τη συμμετοχή σας στο Job-Pairs και την ολοκλήρωση των συναντήσεων σας. Ευχόμαστε κάθε επαγγελματική επιτυχία και θα χαρούμε να μαθαίνουμε νέα σας.')
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Παρακαλούμε, επισκεφθείτε τον παρακάτω σύνδεσμο ώστε να αξιολογήσετε τον mentor και το πρόγραμμα μας.</span>')
-            ->action('Αξιολογήστε εδώ', route('showMentorRatingForm', [
+            ->action('Αξιολογήστε εδώ', rtrim((string) config('app.url'), '/') . URL::temporarySignedRoute('showMentorRatingForm', now()->addDays(30), [
                 'sessionId' => $this->mentorshipSession->id, 'menteeId' => $this->mentorshipSession->mentee->id, 'mentorId' => $this->mentorshipSession->mentor->id, 'lang' => 'gr',
-            ]))
+            ], false))
             ->line('<div style="margin-top: 1em; color: #74787E; font-size: 16px; line-height: 1.5em;">Με εκτίμηση,</div>')
             ->line('Η ομάδα του Job-Pairs')
             ->line('<a href="mailto:info@job-pairs.gr">info@job-pairs.gr</a>')

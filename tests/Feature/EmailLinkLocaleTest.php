@@ -51,6 +51,6 @@ class EmailLinkLocaleTest extends TestCase {
             ->assertSee(Lang::get('messages.decline_session_invitation_second_title', [], 'en'), false);
         $this->get('/mentor/create?' . $query)->assertOk();
         $this->get('/mentee/create?' . $query)->assertOk();
-        $this->get('/rateMentee/0/0/0?' . $query)->assertOk();
+        // The rating pages need a signed URL, which covers the query string, so lang cannot be forged there.
     }
 }

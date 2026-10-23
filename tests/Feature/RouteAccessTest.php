@@ -83,8 +83,8 @@ class RouteAccessTest extends TestCase {
             'POST mentor/create',
             'POST password/email',
             'POST password/reset',
-            'POST rateMentee',
-            'POST rateMentor',
+            'POST rateMentee/{sessionId}/{mentorId}/{menteeId}',
+            'POST rateMentor/{sessionId}/{menteeId}/{mentorId}',
         ], $public);
     }
 
