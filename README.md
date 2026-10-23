@@ -6,7 +6,8 @@
 
 JobPairs is the backoffice that manages the matching of mentors with mentees, based on their preferences and
 skills. Mentors and mentees register through public forms. Matchers pair them in mentorship sessions, account managers
-follow each session until the evaluation, and administrators manage the staff accounts and the reference data.
+follow each session until the evaluation, and administrators manage the staff accounts and the companies and
+export reports.
 
 ## Contents
 
@@ -63,20 +64,30 @@ The code still activates these plugins on three selectors: `pleasure.js` binds t
    ```
 
    Every `ddev start` runs the post-start hooks in `.ddev/config.yaml`:
+   - `.ddev/scripts/sync-node-version.sh` sets `nodejs_version` in `.ddev/config.yaml` to the version in `.nvmrc`.
+     After a change to `.nvmrc`, run `ddev restart` to use the new version, and commit the updated
+     `.ddev/config.yaml` too.
+   - The hooks create `storage/` and `bootstrap/cache/` and make them writable.
    - `composer setup` creates `.env` from `.env.example` (only if `.env` is missing), installs the PHP
      dependencies, generates `APP_KEY` (only if it is empty), runs `npm ci` (only when `package-lock.json`
      changed) and builds the frontend. It is safe to run again at any time, also by hand: `ddev composer setup`.
    - The hooks clear the caches and run pending migrations on the `db` database. They never run
      `migrate:fresh` and never seed.
    - The hooks create the `testing` database for PHPUnit (see [Tests](#tests)).
+   - `ddev import-db` also runs the pending migrations afterwards (`post-import-db` hook).
 
    DDEV writes its database and mail settings into `.env`.
 
-2. Create the lookup data (roles, statuses, specialties, universities) and the staff accounts:
+2. On a new, empty database only: create the lookup data (roles, statuses, specialties, universities) and the
+   staff accounts:
 
    ```bash
    ddev artisan db:seed
    ```
+
+   Do not run it again on a database with data: the seeders empty their tables first, so a second run fails on a
+   foreign key or deletes lookup rows, and it resets the staff passwords. To start again, rebuild the database
+   with `ddev artisan migrate:fresh --seed`.
 
    `database/seeders/UserTableSeeder.php` creates the staff accounts with a hardcoded default password. That is
    fine for a local database; make sure those accounts do not exist with that password anywhere public.
@@ -101,6 +112,7 @@ The code still activates these plugins on three selectors: `pleasure.js` binds t
 | Start or stop the environment | `ddev start`, `ddev stop` |
 | Run Artisan, Composer or npm in the container | `ddev artisan ...`, `ddev composer ...`, `ddev npm ...` |
 | Rebuild the assets on every change, without the dev server | `ddev npm run watch` |
+| Open a shell in the web container | `ddev ssh` |
 | Open a MariaDB shell | `ddev mysql` |
 | Open Mailpit (all outgoing mail) | `ddev mailpit` |
 | Keep or restore a copy of the database | `ddev snapshot`, `ddev snapshot restore <name>` |
@@ -116,7 +128,7 @@ Locally, `QUEUE_CONNECTION=sync` sends the queued notifications during the reque
 
 ### npm supply-chain settings
 
-`.npmrc` (and `e2e/.npmrc`) harden npm for this project. CI checks these settings:
+`.npmrc` (and `e2e/.npmrc`) harden npm for this project. The Security workflow checks these settings:
 
 - `ignore-scripts=true`: npm does not run install scripts of dependencies
 - `min-release-age=7`: npm installs only package versions that are at least 7 days old
@@ -132,7 +144,7 @@ DDEV site over HTTPS.
 | Suite | Command | What it covers |
 |---|---|---|
 | PHPUnit | `ddev composer test` | The session state machine (creation, accept/decline links, cancellations, notifications), the access rules of every route, the role checks, input validation, signed rating links, CV storage, CSV export, the status id contract, and the hand-written filter SQL. |
-| End-to-end | `cd e2e && npm test` | Playwright: every route opens, mentor/mentee/matcher register, every menu option is clicked for all three roles. Captures a screenshot per screen. |
+| End-to-end | `cd e2e && npm test` | Playwright: every route opens, mentor/mentee/matcher register, every menu option is clicked for all three roles, the CSV exports download. Captures a screenshot per screen. |
 
 ### PHPUnit
 
@@ -144,8 +156,8 @@ ddev exec vendor/bin/phpunit tests/Feature/FilterQueryTest.php   # a single file
 ```
 
 The suite runs on a dedicated MariaDB database named `testing`, never on the development database `db`.
-`phpunit.xml` sets `DB_DATABASE=testing` as a `<server>` value, which overrides the database variables that DDEV sets
-in the container. `TestCase` refuses any other database and a cached configuration (`composer test` clears it
+`phpunit.xml` sets `DB_DATABASE=testing` as a `<server>` value, which beats `.env` and environment variables; the host
+and credentials still come from `.env`. `TestCase` refuses any other database and a cached configuration (`composer test` clears it
 first). Feature tests use `RefreshDatabase`: each run migrates `testing` fresh and seeds the lookup tables. SQLite
 does not work: an early migration drops a primary key column, and the filter SQL is MySQL-only. `ddev coverage`
 turns Xdebug on for the run and then restores its previous state, because Xdebug slows down every request.
@@ -229,8 +241,8 @@ GitHub Actions run the shared [SciFY workflows](https://github.com/scify/.github
 
 - `ci.yml` (on pushes to `master` and on pull requests): Pint, PHPStan, ESLint, the Vite build and the PHPUnit suite
   on PHP 8.4 with a MariaDB 11.8 service. The browser tests do not run in CI.
-- `security.yml` (on pull requests and every Monday): `composer audit`, `npm audit`, the npm supply-chain settings
-  and Gitleaks, once for the root and once for `e2e/`
+- `security.yml` (on pull requests and every Monday): `composer audit`, `npm audit`, the npm supply-chain settings,
+  Gitleaks, committed environment files and dev tool configs, once for the root and once for `e2e/`
 
 The `master` branch requires the check `ci / CI`; `dependabot_auto_merge.yml` relies on it.
 

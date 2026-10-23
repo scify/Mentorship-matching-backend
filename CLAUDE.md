@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This is a Laravel 13 (PHP >=8.3) backoffice application, internally named **JobPairs**, that manages the
+This is a Laravel 13 (PHP 8.4) backoffice application, internally named **JobPairs**, that manages the
 matching process between mentors and mentees based on preferences and skills. It is a legacy,
 server-rendered (Blade + jQuery) application — there is no SPA framework and no JSON API layer.
 

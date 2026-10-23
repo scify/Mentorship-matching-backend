@@ -140,11 +140,13 @@ sudo -u www-data php artisan migrate --force
 Only `systemctl` and `supervisorctl` need root.
 
 The alternative is a deploy user in the `www-data` group with group-writable directories. The staging deployment
-does this: after each deploy it runs `set-laravel-permissions-ci.sh`, which sets 775/664 modes on `storage/` and
-`bootstrap/cache/`, gives the deploy user's files there to the `www-data` group and sets the setgid bit, so new
-files inherit the group.
+does this: after each deploy it runs `set-laravel-permissions-ci.sh <app-dir>`. The script sets 755/644 on the whole
+project, 775/664 on `storage/` and `bootstrap/cache/`, and 775 on `public/`; it gives the deploy user's files in
+`storage/` and `bootstrap/cache/`, and `public/` itself, to the `www-data` group, and sets the setgid bit on the
+writable directories, so new files inherit the group. The script changes only the deploy user's files; files that
+root created need `sudo chgrp -R www-data` and `sudo chmod -R g+w` on `storage/` and `bootstrap/cache/`.
 
-If a command ran as another user by mistake, give the files back:
+With the `www-data` model, if a command ran as another user by mistake, give the files back:
 
 ```bash
 sudo chown -R www-data:www-data /var/www/jobpairs/storage /var/www/jobpairs/bootstrap/cache
