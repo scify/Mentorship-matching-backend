@@ -6,7 +6,8 @@ parameters:
     # Levels 0-5 are fully clean and must stay clean.
     # phpstan-baseline.neon freezes the pre-existing level 6 missing-type errors
     # and 23 reviewed level 8 findings: false positives (Auth::user() behind the
-    # auth middleware, withTrashed() relations, json_encode()) and missing input
+    # auth middleware, Request::route() in route middleware, withTrashed()
+    # relations, json_encode(), the dynamic export class) and missing input
     # validation, where an unknown id from a request reaches find() or first().
     # New and changed code must pass level 8.
     # Burn down the baseline over time: remove entries as files get typed,
