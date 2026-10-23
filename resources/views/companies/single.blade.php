@@ -9,7 +9,7 @@
                 <div class="tab-pane active" id="tab_1_{{$companyViewModel->company->id}}">
                     <h4 class="userDetail">{{$companyViewModel->company->name}}
                         @if($companyViewModel->company->website != null)
-                            <small><a href="{{$companyViewModel->company->website}}" target="_blank">{{$companyViewModel->company->website}}</a></small>
+                            <small>@if(\App\Utils\WebUrl::orNull($companyViewModel->company->website))<a href="{{\App\Utils\WebUrl::orNull($companyViewModel->company->website)}}" target="_blank" rel="noopener noreferrer">{{$companyViewModel->company->website}}</a>@else{{$companyViewModel->company->website}}@endif</small>
                         @endif
                     </h4>
                     <div class="companyMentorsInfo">
