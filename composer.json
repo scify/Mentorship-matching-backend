@@ -20,6 +20,7 @@
     "fakerphp/faker": "^1.24",
     "filp/whoops": "^2.16",
     "larastan/larastan": "^3.10",
+    "laravel/pint": "^1.32",
     "mockery/mockery": "^1.6",
     "phpunit/phpunit": "^12.0"
   },
@@ -57,6 +58,16 @@
       "phpunit --coverage-text --coverage-html=coverage"
     ],
     "analyse": "phpstan analyse --memory-limit=1G",
+    "lint:check": [
+      "pint --test",
+      "@analyse",
+      "npm run lint"
+    ],
+    "lint:fix": [
+      "pint",
+      "npm run lint:fix",
+      "@analyse"
+    ],
     "post-root-package-install": [
       "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
@@ -78,7 +89,9 @@
     "setup": "Create .env if missing, install PHP dependencies and (when package-lock.json changed) npm dependencies, generate APP_KEY if empty and build the frontend.",
     "test": "Run the test suite on the dedicated `testing` database.",
     "test:coverage": "Run the test suite with a coverage summary and an HTML report in coverage/ (needs Xdebug or PCOV).",
-    "analyse": "Run static analysis (Larastan)."
+    "analyse": "Run static analysis (Larastan).",
+    "lint:check": "Check PHP style (Pint), run static analysis (Larastan) and lint JavaScript (ESLint) without changing files.",
+    "lint:fix": "Fix PHP style (Pint) and JavaScript (ESLint --fix), then report what Larastan still finds."
   },
   "config": {
     "preferred-install": "dist",
