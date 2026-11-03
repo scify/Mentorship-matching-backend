@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Security
 
+- symfony/mime 8.1.7 -> 8.1.10 (CVE-2026-45070, mail header injection through MIME parameter names).
 - The demo chat of the admin theme (`layout.js`) inserts the typed message as text, not as HTML. No page shows that
   chat today (code scanning alert #25).
 - The browser test that follows the menu links accepts only links with the page's own protocol and host, not only
