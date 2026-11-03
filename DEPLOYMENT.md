@@ -12,6 +12,7 @@ The examples use `/var/www/jobpairs` as the application directory, `www-data` as
 - [Production `.env`](#production-env)
 - [Web server](#web-server)
 - [Supervisor: queue worker and scheduler](#supervisor-queue-worker-and-scheduler)
+- [Cron without Supervisor](#cron-without-supervisor)
 - [File ownership](#file-ownership)
 - [First installation](#first-installation)
 - [Update procedure](#update-procedure)
@@ -27,6 +28,9 @@ The examples use `/var/www/jobpairs` as the application directory, `www-data` as
 | Supervisor: `jobpairs-worker` | Runs `php artisan queue:work`. Every app notification is queued (`QUEUE_CONNECTION=database`); the worker sends them. |
 | Supervisor: `jobpairs-scheduler` | Runs `php artisan schedule:work`. It starts `mentees:notify-unmatched` and `email:follow-up` every day at midnight. |
 | SMTP server | Receives the outgoing mail. |
+
+A host without Supervisor runs the scheduler from cron, and the scheduler starts the worker
+([Cron without Supervisor](#cron-without-supervisor)).
 
 Node.js is needed only to build the frontend assets. The build can run on the server or on a build machine that
 copies `public/build/` to the server (the staging deployment in the private repository `scify/jobpairs-deploy`
@@ -55,6 +59,7 @@ Start from `.env.example`. These keys need a production value:
 | `APP_URL` | the public URL, for example `https://backoffice.example.org` | The queue worker has no request, so every link in a mail is built from it. The password reset link is built from it too. |
 | `DB_*` | the production database | |
 | `QUEUE_CONNECTION` | `database` | The Supervisor worker sends the mails. With `sync`, a slow mail server slows every request that sends mail. |
+| `QUEUE_SCHEDULED_WORKER` | `true` on a host without Supervisor, otherwise unset | The scheduler starts the worker ([Cron without Supervisor](#cron-without-supervisor)). |
 | `MAIL_*` | the SMTP server and sender | |
 | `SESSION_SECURE_COOKIE` | `true` | The browser sends the session cookie over HTTPS only. |
 | `LOG_LEVEL` | `warning` or `error` | `.env.example` has `debug`, which logs every detail. |
@@ -124,6 +129,25 @@ sudo supervisorctl status
   run `php artisan queue:restart`; Supervisor then starts a worker with the new code.
 - `--max-time=3600` restarts the worker every hour, which frees memory. `--tries=3` applies to the notifications
   that do not set their own `$tries`.
+
+## Cron without Supervisor
+
+Shared hosting (production runs on SiteGround) has cron but no Supervisor. There, cron runs the scheduler every
+minute:
+
+```
+* * * * * php /path/to/app/artisan schedule:run >> /dev/null 2>&1
+```
+
+Set `QUEUE_SCHEDULED_WORKER=true` in `.env` and run `php artisan optimize`. The scheduler then starts
+`queue:work --stop-when-empty --tries=3 --max-time=60` every two minutes, under a lock that expires after five
+minutes. The worker exits when the queue is empty, so a queued mail waits at most two minutes.
+
+- The host kills a process that passes its limits; cron then mails "Killed" with the command line. A killed worker
+  cannot release its lock, so the five-minute expiry limits the pause. The interrupted job runs again after
+  `retry_after` (90 seconds); after three failed tries it appears in `php artisan queue:failed`.
+- Each run boots the current code, so a deploy needs `php artisan optimize` but no `php artisan queue:restart`.
+- Keep the key unset on a server with Supervisor: a second worker would send the same mails.
 
 ## File ownership
 
@@ -285,7 +309,9 @@ changes of each version.
 
 ### Unreleased
 
-No steps yet.
+1. On a host without Supervisor (production on SiteGround): keep the `schedule:run` cron line, set
+   `QUEUE_SCHEDULED_WORKER=true` and run `php artisan optimize` ([Cron without Supervisor](#cron-without-supervisor)).
+   This replaces the Supervisor steps of 2.0.0 on that host.
 
 ### 2.0.0
 
@@ -448,7 +474,8 @@ database. To go back:
 
 **Mails do not go out.** Run `sudo supervisorctl status`. If `jobpairs-worker` runs, list the failed jobs with
 `php artisan queue:failed`, fix the cause (often the `MAIL_*` values) and retry them with
-`php artisan queue:retry all`.
+`php artisan queue:retry all`. On a host without Supervisor, check `QUEUE_SCHEDULED_WORKER=true` in `.env` and the
+cron line; `php artisan schedule:clear-cache` removes a lock that a killed worker left behind.
 
 **A change in `.env` has no effect.** The configuration is cached. Run `php artisan optimize`, then
 `php artisan queue:restart`.

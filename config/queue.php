@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Queue Worker Started by the Scheduler
+    |--------------------------------------------------------------------------
+    |
+    | Supervisor runs the queue worker (DEPLOYMENT.md). A host without
+    | Supervisor, such as shared hosting with cron only, sets this to true:
+    | the scheduler then starts a short-lived worker every two minutes.
+    |
+    */
+
+    'scheduled_worker' => (bool) env('QUEUE_SCHEDULED_WORKER', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Queue Connections
     |--------------------------------------------------------------------------
     |

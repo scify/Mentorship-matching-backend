@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- `QUEUE_SCHEDULED_WORKER=true` makes the scheduler start a short-lived queue worker every two minutes
+  (`queue:work --stop-when-empty --tries=3 --max-time=60`, lock expiry five minutes), for hosts with cron but no
+  Supervisor. The 1.0.0 scheduler ran its worker with the default 24-hour lock and one try: when the host killed
+  the worker, the queue stood still for a day and the interrupted mail failed.
 - DEPLOYMENT.md and AGENTS.md name the pages that embed the public registration forms
   (job-pairs.gr/mentor/ and /mentee/); the 1.0.0 `public/js/iframe.js` is not needed.
 - `AGENTS.md` with the guidance for AI coding agents; `CLAUDE.md` imports it.
