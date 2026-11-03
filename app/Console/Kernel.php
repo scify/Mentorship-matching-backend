@@ -26,7 +26,16 @@ class Kernel extends ConsoleKernel {
         $schedule->command('mentees:notify-unmatched')->daily();
         $schedule->command('email:follow-up')->daily();
         // $schedule->command('command:hello')->everyMinute();
-        // Supervisor runs the queue worker; see DEPLOYMENT.md.
+        // Supervisor runs the queue worker; see DEPLOYMENT.md. Shared hosting
+        // without Supervisor sets QUEUE_SCHEDULED_WORKER, and cron's
+        // schedule:run starts a worker that exits when the queue is empty.
+        // The host may kill it; the short lock expiry and the retries keep
+        // the queue moving after a kill.
+        if (config('queue.scheduled_worker')) {
+            $schedule->command('queue:work --stop-when-empty --tries=3 --max-time=60')
+                ->everyTwoMinutes()
+                ->withoutOverlapping(5);
+        }
     }
 
     /**

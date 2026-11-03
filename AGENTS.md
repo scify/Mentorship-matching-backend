@@ -88,9 +88,9 @@ them in a **mentorship session** (`MentorshipSession`), account managers follow 
   `signed:relative`: the mails build them with `URL::temporarySignedRoute(…, 30 days, absolute: false)` behind
   `APP_URL`, and the form posts back to the same signed URL.
 - Every class in `app/Notifications` is `ShouldQueue`; only the framework password reset mail goes out at once. On
-  servers Supervisor runs `queue:work` and `schedule:work`; the scheduler starts no worker
-  (`tests/Unit/ScheduleTest.php`). Locally `QUEUE_CONNECTION=sync`. Links in mails come from `APP_URL`, because the
-  worker has no request.
+  servers Supervisor runs `queue:work` and `schedule:work`; the scheduler starts no worker unless
+  `QUEUE_SCHEDULED_WORKER=true` (hosts with cron but no Supervisor; `tests/Unit/ScheduleTest.php`). Locally
+  `QUEUE_CONNECTION=sync`. Links in mails come from `APP_URL`, because the worker has no request.
 - Guests: `throttle:public-forms` (`RouteServiceProvider`, 10 per 10 minutes, active staff exempt) on the public
   create forms. Guests cannot set a mentor's or mentee's status or pick private specialties; the server sets the
   creator and the CV file name.
